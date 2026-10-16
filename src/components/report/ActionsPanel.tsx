@@ -49,7 +49,7 @@ export function ActionsPanel() {
       <SheetContent aria-describedby={undefined} className="flex w-full flex-col border-border bg-background p-0 sm:max-w-md">
         <div className="border-b border-border px-5 py-4">
           <SheetTitle className="font-display text-lg font-semibold">Follow-up actions</SheetTitle>
-          <p className="text-xs text-muted-foreground">Saved from insights, reports and meeting briefs. Stored in this browser.</p>
+          <p className="text-xs text-muted-foreground">Saved from insights and promo reports. Stored in this browser.</p>
         </div>
 
         <div className="flex-1 space-y-4 overflow-y-auto px-5 py-4">
@@ -119,11 +119,7 @@ export function ActionsPanel() {
                           {promoName(a.promoId)}
                         </Link>
                       )}
-                      {!a.promoId && a.operator && (
-                        <Link to="/operators/$operator" params={{ operator: a.operator }} onClick={() => setOpen(false)} className="text-primary hover:underline">
-                          {a.operator}
-                        </Link>
-                      )}
+                      {!a.promoId && a.operator && <span>{a.operator}</span>}
                     </div>
                     {a.notes && <p className="mt-1.5 text-xs text-muted-foreground">{a.notes}</p>}
                     <div className="mt-2 flex gap-1">

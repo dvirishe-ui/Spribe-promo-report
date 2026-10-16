@@ -2,6 +2,8 @@ import { useNavigate } from "@tanstack/react-router";
 import { ArrowRight, BookmarkPlus, CircleAlert, Database, HeartPulse, Lightbulb, Target, TrendingDown, TrendingUp, Users } from "lucide-react";
 import type { Insight, InsightLink } from "@/lib/insights";
 import { useActions } from "@/lib/actions";
+import { useView } from "@/lib/view";
+import { emptyFilters } from "@/lib/filters";
 import { cn } from "@/lib/utils";
 
 const ICON = {
@@ -22,9 +24,14 @@ const TONE = {
 
 export function useOpenLink() {
   const navigate = useNavigate();
+  const { set } = useView();
   return (l: InsightLink) => {
     if (l.kind === "promo") navigate({ to: "/promo/$promoId", params: { promoId: l.id }, search: { tab: l.tab, day: l.day } });
-    else if (l.kind === "operator") navigate({ to: "/operators/$operator", params: { operator: l.operator } });
+    else if (l.kind === "operator") {
+      // An operator's promos: the Promotions list filtered to them.
+      set({ filters: { ...emptyFilters, operator: l.operator } });
+      navigate({ to: "/promotions" });
+    }
     else if (l.kind === "data") navigate({ to: "/data" });
     else navigate({ to: "/promotions" });
   };

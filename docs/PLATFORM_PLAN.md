@@ -3,8 +3,8 @@
 > Simple enough for a CEO to understand in 30 seconds, powerful enough for an
 > Engagement Manager to investigate for 30 minutes.
 
-One experience, three depths: **Overview** (level 1) → **Promotions / Operators /
-Insights / Calendar** (level 2) → **promo report tabs, investigations, tables and
+One experience, three depths: **Overview** (level 1) → **Promotions / Insights /
+Calendar** (level 2) → **promo report tabs, investigations, tables and
 exports** (level 3). No separate dashboards per role.
 
 ## Analysis of the site before this upgrade
@@ -12,9 +12,9 @@ exports** (level 3). No separate dashboards per role.
 | | |
 | --- | --- |
 | **Kept** | SPRIBE design system and orange accent; light/dark; before/during/after method on per-day GGR; adjusted vs raw labelling; plain-language outcomes (`verdict.ts`); filters (market, aggregator, operator, type, game); promo report tabs; partner view; the data layer (manual entry, CSV/Excel import, Back Office contract, currency conversion, demo-data labelling). |
-| **Changed** | Navigation → Overview · Promotions · Operators · Insights · Calendar, with Data/BO/definitions/access in a secondary menu. The homepage became a 30-second Overview; the full list, grouping and before/during/after chart moved to Promotions. Key findings became an insight system (metric, threshold, evidence link, next step). Filters and period are shared across pages, with a date-range option. Status "Complete" → "Completed". |
-| **Added** | Operator profiles with benchmarks (with sample sizes) and a meeting brief (internal + shareable); partner-safe operator report; Insights (all insights, compare with comparability flags, winners & losers by chosen metric, mission analysis, searchable library with "reuse setup"); calendar with same-operator overlap markers; action tracker; one-click mission investigation; executive/operator/engagement exports; data completeness, duplicate detection and time-zone notes; operator-scoped "view as" access preview; responsible-gaming rule. |
-| **Removed** | Nothing that worked. The homepage no longer carries the full list, the grouped chart or the market-results card at full size — they live one click away. |
+| **Changed** | Navigation → Overview · Promotions · Insights · Calendar, with Data/BO/definitions/access in a secondary menu. The homepage became a 30-second Overview; the full list, grouping and before/during/after chart moved to Promotions. Key findings became an insight system (metric, threshold, evidence link, next step). Filters and period are shared across pages, with a date-range option. Status "Complete" → "Completed". |
+| **Added** | Insights (all insights, compare with comparability flags, winners & losers by chosen metric, mission analysis, searchable library with "reuse setup"); calendar with same-operator overlap markers; action tracker; one-click mission investigation; executive and engagement exports; data completeness, duplicate detection and time-zone notes; operator-scoped "view as" access preview; responsible-gaming rule. |
+| **Removed** | The Operators section (operator profiles, meeting brief, shareable operator report) — removed on request; an operator's promos are one filter away in Promotions. Nothing else that worked. The homepage no longer carries the full list, the grouped chart or the market-results card at full size — they live one click away. |
 
 ## What depends on data not available yet
 
@@ -37,11 +37,10 @@ Availability of each field must be verified with the BO team before relying on i
 ## Phases
 
 **Phase 1 — core (done):** Overview, executive insights, improved promo reports,
-operator profiles, navigation and shared filters, BO-ready data model.
+navigation and shared filters, BO-ready data model.
 
 **Phase 2 — advanced analytics (done, on demo data):** comparison with comparability
-flags, mission funnels and day-by-day drop-off, mission analysis, historical library,
-operator meeting briefs.
+flags, mission funnels and day-by-day drop-off, mission analysis, historical library.
 
 **Phase 3 — intelligence & automation (partly done):** rule-based insights & alerts,
 evidence-based next steps, lightweight action tracker, report exports. **Waiting on
@@ -58,4 +57,4 @@ PDF generation beyond print-to-PDF.
 - Insights need minimum sample sizes and state their threshold; benchmarks and rankings show n.
 - Possible explanations in investigations are labelled hypotheses, never causes.
 - Aggregate player data only; engagement far above normal is flagged as a responsible-gaming check.
-- Operator reports and the shareable brief contain only that operator's own data.
+- The partner view of a promo contains only that promo's own data.

@@ -14,7 +14,6 @@ what changed and what still depends on Back Office data.
 | **Overview** (`/`) | CEO, everyone | How the period's promos went in one sentence; four numbers (promotions, GGR vs baseline, players who took part, reward cost); **What you need to know** (top 3 insights with metric, threshold, evidence link and next step); GGR trend; top and bottom; market/operator breakdown; recent promotions. Month, custom dates or all time; collapsible filters. |
 | **Promotions** (`/promotions`) | Everyone | Every promo in the period, before/during/after chart, outcome counts, grouping, sorting, CSV. |
 | **Promo report** (`/promo/:id`) | Everyone → EM | Result first (outcome in words, big numbers, GGR per day, next steps), key findings, then tabs: Overview · Players (eligible → took part → completed → came back) · Missions (completion by day → click a day → evidence, possible explanations, next step) or Rankings · Financials (turnover, margin, cost, history vs same type). Partner view, engagement report, CSV, print. Deep links: `?tab=missions&day=6`. |
-| **Operators** (`/operators`) | AM | Operator list; profiles with history, types used, strongest/weakest, benchmarks with sample sizes, upcoming promos, open follow-ups; **Prepare for operator meeting** (internal or shareable brief, copy/download); partner-safe operator report. |
 | **Insights** (`/insights`) | EM | All insights; Compare (2–4 promos, with comparability warnings); Winners & losers (rank by growth, participation, completion, retention or cost efficiency); Mission analysis (low completion, drop-offs, unusually quick, time distribution, by game/market); Library (search by game, market, operator, type, length, mechanic, result; reuse a setup). |
 | **Calendar** (`/calendar`) | Everyone | The Promo Calendar's network campaigns plus every operator promo, in Month / Week / List views coloured by promo type. Past entries show their result; clicking one opens how it went (per operator for campaigns), similar previous promos with the typical result for that mechanic, and the campaign setup. Same-operator overlaps are marked, not flagged as problems. |
 | Secondary menu | Admin | **Data** (source, freshness, BO status, completeness, duplicates, manual entry, import/export, settings), **How numbers are calculated**, **View as** (operator access preview). **Actions** button: follow-ups with owner, status, due date, linked promo and notes. |
@@ -54,8 +53,7 @@ src/lib/definitions.ts  plain-language definitions shown in the app
 src/lib/insights.ts     insight & alert rules (metric, threshold, evidence link, next step)
 src/lib/explain.ts      mission-day investigation: possible explanations with their evidence
 src/lib/verdict.ts      plain-language outcome per promo
-src/lib/operators.ts    operator summaries and benchmarks (with sample sizes)
-src/lib/reports.ts      executive summary, operator brief (internal / shareable), engagement report
+src/lib/reports.ts      executive summary, engagement report
 src/lib/quality.ts      duplicate detection, freshness
 src/lib/actions.tsx     follow-up action tracker (browser storage)
 src/lib/view.tsx        shared filters and period across pages

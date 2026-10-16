@@ -168,7 +168,7 @@ export function buildInsights(list: PromoMetrics[], allPromos: PromoRecord[], op
         metric: `${pctPlain(last.participationRate)} in ${last.promo.name}`,
         basis: `Their earlier promos: ${pctPlain(prev)} (median of ${sorted.length - 1}); flagged below 70% of that`,
         link: { kind: "operator", operator: op },
-        linkLabel: "Open operator",
+        linkLabel: "See their promos",
         action: `Raise participation with ${op} at the next meeting.`,
         operator: op,
       });
