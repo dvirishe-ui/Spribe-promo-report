@@ -1,4 +1,4 @@
-import { Link, Outlet } from "@tanstack/react-router";
+import { Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { Toaster } from "sonner";
 import { FlaskConical } from "lucide-react";
 import { AppHeader } from "@/components/report/AppHeader";
@@ -48,17 +48,19 @@ function SampleBanner() {
 }
 
 export function RootLayout() {
+  // The partner view is a standalone page: no app header, banners or footer.
+  const bare = useRouterState({ select: (s) => s.location.pathname.startsWith("/share/") });
   return (
     <ThemeProvider>
       <DataProvider>
         <ConfirmProvider>
           <div className="flex min-h-screen flex-col">
-            <AppHeader />
-            <SampleBanner />
+            {!bare && <AppHeader />}
+            {!bare && <SampleBanner />}
             <div className="flex-1">
               <Outlet />
             </div>
-            <footer className="no-print flex flex-wrap items-center justify-center gap-x-3 gap-y-1 border-t border-border px-4 py-5 text-center text-xs text-muted-foreground lg:px-8">
+            <footer hidden={bare} className="no-print flex flex-wrap items-center justify-center gap-x-3 gap-y-1 border-t border-border px-4 py-5 text-center text-xs text-muted-foreground lg:px-8">
               <span>SPRIBE Promo Reports · aggregate data only, no individual players</span>
               <DefinitionsDialog>
                 <button className="text-primary hover:underline">How numbers are calculated</button>

@@ -93,22 +93,9 @@ export function OverviewTab({ m, currency, all }: { m: PromoMetrics; currency: s
     { ...PHASES[1], value: m.ggrDuring, dates: formatRange(p.startDate, p.endDate), change: m.duringVsBefore },
     { ...PHASES[2], value: m.ggrAfter, dates: formatRange(m.afterStart, m.afterEnd), change: m.afterVsBefore },
   ];
-  const extra = m.incrementalGgr == null ? null : m.incrementalGgr + (m.haloGgr ?? 0);
-
   return (
     <div className="space-y-4">
       <NotFinal m={m} />
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <Metric label="GGR change" value={<ChangePill value={m.primaryChange} adjusted={m.isAdjusted} />} hint="per day, during vs before" />
-        <Metric label="Extra GGR" value={moneySigned(extra, currency)} hint="during + after, over the before run-rate" />
-        <Metric label="Unique participants" value={m.participants == null ? "—" : num(m.participants)} hint={m.newShare != null ? `${pctPlain(m.newShare)} new players` : undefined} />
-        <Metric
-          label="Net impact"
-          value={p.prizePool ? moneySigned(m.netImpact, currency) : "—"}
-          hint={p.prizePool ? `after ${money(p.prizePool, currency)} promo cost${m.status !== "complete" ? " · not final" : ""}` : "no promo cost entered"}
-        />
-      </div>
-
       <ImpactNote m={m} />
 
       <div className="grid gap-4 lg:grid-cols-5">

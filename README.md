@@ -6,7 +6,9 @@ without changing anything else.
 
 ## What it shows
 
-**Reports** (`/`), built to be understood in 30 seconds:
+**Reports** (`/`), built to be understood in 30 seconds. It opens with **how the promos went** —
+one sentence for the period ("In September 2026, 3 promos ran") and clickable counts such as
+"2 raised GGR and paid back · 1 didn't pay back its cost" that filter the list.
 - Month arrows or *All*, and a collapsible filter sidebar (market, aggregator, operator, promotion
   type, game, search).
 - Four KPIs: **promotions**, **GGR change**, **unique participants**, **total promo cost**.
@@ -18,8 +20,16 @@ without changing anything else.
   change — marked **adj.** when adjusted for the market trend, **raw** when it isn't.
 - **Share**: copy a text summary, or download the current view's results as CSV.
 
-**Promo report** (`/promo/:id`), one or two clicks deeper. Tabs appear only when the promo has
-the data for them:
+**Promo report** (`/promo/:id`) answers "how did it go?" first: the outcome in plain words
+("GGR went up 24.7% during the promo", "…but it didn't pay back its cost", "Early read…"), three big
+numbers (GGR change, return on rewards, players), a before → during → after picture of GGR per
+day, and rule-based suggested next steps. Outcome wording never overclaims: only a change adjusted
+for the market trend is called "it worked". The rules are in `src/lib/verdict.ts`.
+
+**Partner view** (`/share/:id`): the same result on one clean page with no app menus or editing —
+for screen-sharing, sending as a PDF, or opening with a partner.
+
+Below the result, **Details** tabs appear only when the promo has the data for them:
 - **Overview** — key results, whether the change is incremental or just a before/during
   comparison, before/during/after with daily GGR, a plain summary, and how it compares with past
   promos of the same type.

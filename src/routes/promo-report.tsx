@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Link, useParams } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { ArrowLeft, CalendarDays, ClipboardCopy, Download, Pencil, Printer } from "lucide-react";
+import { ArrowLeft, CalendarDays, ClipboardCopy, Download, Pencil, Presentation, Printer } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PromoEditor } from "@/components/report/PromoEditor";
-import { ChangePill, StatusBadge } from "@/components/report/bits";
+import { StatusBadge } from "@/components/report/bits";
+import { ResultHero } from "@/components/report/ResultHero";
 import {
   FinancialsTab,
   MissionsTab,
@@ -24,6 +25,7 @@ import { marketLabel } from "@/lib/markets";
 import { fxFactor } from "@/lib/fx";
 import { resultsCsv } from "@/lib/export";
 import { downloadText } from "@/lib/csv";
+import { outcomeFor } from "@/lib/verdict";
 
 export function PromoReportPage() {
   const { promoId } = useParams({ from: "/promo/$promoId" });
@@ -45,7 +47,9 @@ export function PromoReportPage() {
       : null;
 
   const copySummary = async () => {
+    const o = outcomeFor(m, cur);
     const text = [
+      `${o.headline}.`,
       `${p.name} (${[p.operator, p.market, formatRange(p.startDate, p.endDate)].filter(Boolean).join(", ")})`,
       `GGR before ${moneyFull(m.ggrBefore, cur)} → during ${moneyFull(m.ggrDuring, cur)} → after ${moneyFull(m.ggrAfter, cur)}`,
       `GGR change ${pct(m.primaryChange)} (${m.isAdjusted ? "adjusted for market trend" : "before vs during, not adjusted"})`,
@@ -68,6 +72,11 @@ export function PromoReportPage() {
           </Link>
         </Button>
         <div className="flex flex-wrap gap-2">
+          <Button asChild size="sm">
+            <Link to="/share/$promoId" params={{ promoId: p.id }}>
+              <Presentation className="size-3.5" /> Partner view
+            </Link>
+          </Button>
           <Button variant="outline" size="sm" onClick={copySummary}>
             <ClipboardCopy className="size-3.5" /> Copy summary
           </Button>
@@ -88,7 +97,6 @@ export function PromoReportPage() {
       <header>
         <div className="flex flex-wrap items-center gap-2">
           <StatusBadge status={m.status} />
-          <ChangePill value={m.primaryChange} adjusted={m.isAdjusted} />
           {hasSample && p.id.startsWith("sample-") && (
             <span className="rounded-full border border-accent/40 bg-accent/10 px-2 py-0.5 text-[11px] font-medium text-accent">Demo data · fictional</span>
           )}
@@ -106,6 +114,13 @@ export function PromoReportPage() {
           {formatRange(p.startDate, p.endDate)} · {m.promoDays} day{m.promoDays === 1 ? "" : "s"} · compared with {m.windowDays} days before and after
         </p>
       </header>
+
+      <ResultHero m={m} currency={cur} />
+
+      <div className="flex flex-wrap items-baseline justify-between gap-2 pt-4">
+        <h2 className="font-display text-xl font-semibold">Details</h2>
+        <p className="text-xs text-muted-foreground">For the full picture — players, {m.missions ? "missions, " : m.leaderboard ? "rankings, " : ""}financials.</p>
+      </div>
 
       <Tabs value={activeTab} onValueChange={(v) => setTab(v as TabKey)}>
         <TabsList className="no-print h-10 max-w-full overflow-x-auto">

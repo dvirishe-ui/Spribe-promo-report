@@ -25,6 +25,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ChangePill, EmptyState, ResultPill, StatCard, StatusBadge } from "@/components/report/bits";
 import { KeyFindings } from "@/components/report/KeyFindings";
 import { DataStatusPill } from "@/components/report/DataStatus";
+import { OutcomeChip } from "@/components/report/ResultHero";
+import { outcomeFor, periodSummary, type OutcomeTone } from "@/lib/verdict";
 import { ReportFilters, applyFilters, emptyFilters, filterCount, type FilterState } from "@/components/report/ReportFilters";
 import { DIMENSION_LABEL, ResultsBy, displayKey, groupBy, type Dimension } from "@/components/report/ResultsBy";
 import { GroupedColumns } from "@/components/charts/GroupedColumns";
@@ -90,6 +92,7 @@ export function DashboardPage() {
 
   const [prefs, setPrefs] = useState<ViewPrefs>(loadPrefs);
   const [showFilters, setShowFilters] = useState(false);
+  const [outcomePick, setOutcome] = useState<OutcomeTone | null>(null);
   const view = prefs.view;
   const month = prefs.month ?? startMonth ?? todayIso().slice(0, 7);
   const setView = (v: "month" | "all") => setPrefs((p) => ({ ...p, view: v }));
@@ -113,6 +116,8 @@ export function DashboardPage() {
   const rows = monthRows(allMonths, dataset.monthly, filtered);
   const monthRow = view === "month" ? rows.find((r) => r.month === month) : [...rows].reverse().find((r) => r.ggr != null);
   const findings = keyFindings(shown, cur);
+  // An outcome filter only applies while that outcome exists in the current view.
+  const outcome = outcomePick && shown.some((m) => outcomeFor(m, cur).tone === outcomePick) ? outcomePick : null;
   const nFilters = filterCount(filters);
   const periodName = view === "month" ? monthLabel(month, "long") : "All months";
 
@@ -241,6 +246,19 @@ export function DashboardPage() {
 
             {nFilters > 0 && <ActiveFilters filters={filters} onChange={setFilters} />}
 
+            {shown.length > 0 && (
+              <PeriodVerdict
+                list={shown}
+                currency={cur}
+                period={periodName}
+                active={outcome}
+                onPick={(t) => {
+                  setOutcome(outcome === t ? null : t);
+                  requestAnimationFrame(() => document.getElementById("promo-list")?.scrollIntoView({ behavior: "smooth", block: "start" }));
+                }}
+              />
+            )}
+
             <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
               <StatCard
                 icon={Layers}
@@ -356,7 +374,9 @@ export function DashboardPage() {
             </section>
 
             <PromoList
-              list={shown}
+              list={outcome ? shown.filter((m) => outcomeFor(m, cur).tone === outcome) : shown}
+              outcome={outcome}
+              onClearOutcome={() => setOutcome(null)}
               currency={cur}
               group={prefs.group}
               sort={prefs.sort}
@@ -475,6 +495,8 @@ function sortList(list: PromoMetrics[], sort: SortKey): PromoMetrics[] {
 
 function PromoList({
   list,
+  outcome,
+  onClearOutcome,
   currency,
   group,
   sort,
@@ -483,6 +505,8 @@ function PromoList({
   onSelect,
 }: {
   list: PromoMetrics[];
+  outcome: OutcomeTone | null;
+  onClearOutcome: () => void;
   currency: string;
   group: GroupKey;
   sort: SortKey;
@@ -498,9 +522,16 @@ function PromoList({
           .map((g) => ({ key: g.key, items: sortList(g.items, sort), agg: g.agg }));
 
   return (
-    <section>
+    <section id="promo-list" className="scroll-mt-24">
       <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
-        <h3 className="font-display text-base font-semibold">Promos</h3>
+        <h3 className="flex items-center gap-2 font-display text-base font-semibold">
+          Promos
+          {outcome && (
+            <button onClick={onClearOutcome} className="inline-flex items-center gap-1 rounded-full border border-primary/40 bg-primary/10 px-2 py-0.5 text-xs font-normal hover:bg-primary/20">
+              only “{OUTCOME_FILTER_LABEL[outcome]}” <X className="size-3" />
+            </button>
+          )}
+        </h3>
         <div className="flex flex-wrap items-center gap-2 text-xs">
           <span className="text-muted-foreground">Group by</span>
           <Select value={group} onValueChange={(v) => onGroup(v as GroupKey)}>
@@ -578,7 +609,7 @@ function PromoRow({ m, currency, onSelect }: { m: PromoMetrics; currency: string
         <div className="flex flex-wrap items-center gap-2">
           <p className="truncate font-display text-sm font-semibold">{p.name}</p>
           <span className="rounded-full border border-border px-2 py-px text-[10.5px] text-muted-foreground">{p.type}</span>
-          <StatusBadge status={m.status} />
+          {m.status === "complete" ? <OutcomeChip m={m} currency={currency} /> : <StatusBadge status={m.status} />}
         </div>
         <p className="mt-0.5 truncate text-xs text-muted-foreground">
           {[p.market && marketLabel(p.market), p.operator, p.aggregator, formatRange(p.startDate, p.endDate)].filter(Boolean).join(" · ")}
@@ -608,5 +639,63 @@ function MenuItem({ icon: Icon, label, hint, onClick }: { icon: typeof Share2; l
         <span className="block text-[11px] text-muted-foreground">{hint}</span>
       </span>
     </button>
+  );
+}
+
+const OUTCOME_FILTER_LABEL: Record<OutcomeTone, string> = {
+  good: "raised GGR and paid back",
+  mixed: "didn't pay back",
+  neutral: "no clear effect",
+  bad: "GGR fell",
+  pending: "still being measured",
+};
+
+const OUTCOME_DOT: Record<OutcomeTone, string> = {
+  good: "bg-good",
+  mixed: "bg-accent",
+  neutral: "bg-muted-foreground",
+  bad: "bg-bad",
+  pending: "bg-primary",
+};
+
+/** The period in one sentence, with each outcome count clickable to filter the list. */
+function PeriodVerdict({
+  list,
+  currency,
+  period,
+  active,
+  onPick,
+}: {
+  list: PromoMetrics[];
+  currency: string;
+  period: string;
+  active: OutcomeTone | null;
+  onPick: (t: OutcomeTone) => void;
+}) {
+  const { total, parts } = periodSummary(list, currency);
+  return (
+    <section className="brand-surface rounded-2xl p-4 sm:p-5">
+      <p className="text-eyebrow">How the promos went</p>
+      <p className="mt-1.5 font-display text-xl font-semibold leading-snug sm:text-2xl">
+        {period === "All months" ? "Overall" : `In ${period}`}, {total} promo{total === 1 ? "" : "s"} ran.
+      </p>
+      <div className="mt-3 flex flex-wrap gap-2">
+        {parts.map((pt) => (
+          <button
+            key={pt.tone}
+            onClick={() => onPick(pt.tone)}
+            className={cn(
+              "inline-flex items-center gap-2 rounded-full border bg-surface px-3 py-1.5 text-sm transition-colors hover:border-primary/60",
+              active === pt.tone ? "border-primary ring-2 ring-primary/30" : "border-border",
+            )}
+          >
+            <span className={cn("size-2.5 rounded-full", OUTCOME_DOT[pt.tone])} />
+            <span>
+              <strong className="font-semibold">{pt.text.split(" ")[0]}</strong> {pt.text.split(" ").slice(1).join(" ")}
+            </span>
+          </button>
+        ))}
+      </div>
+    </section>
   );
 }

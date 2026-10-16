@@ -4,6 +4,7 @@ import { DashboardPage } from "@/routes/dashboard";
 import { PromoReportPage } from "@/routes/promo-report";
 import { DataPage } from "@/routes/data";
 import { NotFoundPage } from "@/routes/not-found";
+import { SharePage } from "@/routes/share";
 
 const rootRoute = createRootRoute({
   component: RootLayout,
@@ -28,7 +29,13 @@ const dataRoute = createRoute({
   component: DataPage,
 });
 
-const routeTree = rootRoute.addChildren([dashboardRoute, promoRoute, dataRoute]);
+const shareRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/share/$promoId",
+  component: SharePage,
+});
+
+const routeTree = rootRoute.addChildren([shareRoute, dashboardRoute, promoRoute, dataRoute]);
 
 export const router = createRouter({
   routeTree,
