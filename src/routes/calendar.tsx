@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useNavigate, useSearch } from "@tanstack/react-router";
-import { ArrowRight, ChevronLeft, ChevronRight, Globe2, Layers } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, ExternalLink, Globe2, Layers } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -13,7 +13,7 @@ import { useView } from "@/lib/view";
 import { applyFilters, type FilterState } from "@/lib/filters";
 import { addDays, formatDay, formatRange, monthLabel, nextMonth, parseDay, prevMonth, todayIso } from "@/lib/dates";
 import { STATUS_LABEL, median, type PromoMetrics, type PromoStatus } from "@/lib/metrics";
-import { CALENDAR_CAMPAIGNS, type CalendarCampaign } from "@/lib/campaigns";
+import { CALENDAR_CAMPAIGNS, CALENDAR_SITE_URL, type CalendarCampaign } from "@/lib/campaigns";
 import { campaignRollup } from "@/lib/history";
 import { flagFor } from "@/lib/markets";
 import { num, pct } from "@/lib/format";
@@ -167,13 +167,20 @@ export function CalendarPage() {
 
   return (
     <main className="mx-auto max-w-[1400px] space-y-4 px-4 py-5 lg:px-8">
-      <div>
-        <h1 className="font-display text-3xl font-bold sm:text-4xl">
-          <span className="brand-gradient-text">Promo Calendar</span>
-        </h1>
-        <p className="mt-1.5 max-w-2xl text-sm text-muted-foreground">
-          Network campaigns from the Promo Calendar and every operator promo, with how the past ones went. Click one for details and similar past promos.
-        </p>
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h1 className="font-display text-3xl font-bold sm:text-4xl">
+            <span className="brand-gradient-text">Promo Calendar</span>
+          </h1>
+          <p className="mt-1.5 max-w-2xl text-sm text-muted-foreground">
+            Network campaigns from the Promo Calendar and every operator promo, with how the past ones went. Click one for details and similar past promos.
+          </p>
+        </div>
+        <Button asChild variant="outline">
+          <a href={CALENDAR_SITE_URL} target="_blank" rel="noopener noreferrer">
+            Full calendar site <ExternalLink className="ml-1.5 size-4" />
+          </a>
+        </Button>
       </div>
 
       <FilterLayout metrics={metrics} month={month} count={shown.length} hidePeriod>

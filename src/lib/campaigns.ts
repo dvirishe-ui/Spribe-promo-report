@@ -11,6 +11,9 @@ import worldCupBanner from "@/assets/banner-worldcup-aviator.jpg";
  * When both sites read from the Back Office, this list comes from the same
  * feed instead of being duplicated.
  */
+/** The full partner-facing Promo Calendar site. */
+export const CALENDAR_SITE_URL = "https://claude.ai/artifact/3zCsmHp7DAx1HZrRmS7Mx3";
+
 export interface CalendarCampaign {
   id: string;
   name: string;

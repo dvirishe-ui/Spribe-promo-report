@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, History } from "lucide-react";
+import { ArrowRight, ExternalLink, History } from "lucide-react";
 import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { TypeBadge, TypeBanner } from "./PromoType";
@@ -12,6 +12,7 @@ import { money, num, pct, pctPlain } from "@/lib/format";
 import { flagFor } from "@/lib/markets";
 import { outcomeFor } from "@/lib/verdict";
 import { campaignRollup, similarPast, typicalFor } from "@/lib/history";
+import { CALENDAR_SITE_URL } from "@/lib/campaigns";
 import type { PromoMetrics } from "@/lib/metrics";
 
 function Section({ title, children }: { title: string; children: ReactNode }) {
@@ -52,7 +53,16 @@ export function CalendarDetail({ item, all }: { item: CalItem; all: PromoMetrics
         <div className="flex flex-wrap items-center gap-2">
           <TypeBadge type={item.type} />
           <StatusBadge status={item.status} />
-          {c && <span className="rounded-full border border-border px-2 py-0.5 text-[11px] text-muted-foreground">Network campaign · Promo Calendar</span>}
+          {c && (
+            <a
+              href={CALENDAR_SITE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 rounded-full border border-border px-2 py-0.5 text-[11px] text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Network campaign · Full calendar site <ExternalLink className="size-3" />
+            </a>
+          )}
         </div>
         <h2 className="font-display text-2xl font-bold">{item.name}</h2>
         {c?.tagline && <p className="text-sm italic text-muted-foreground">{c.tagline}</p>}
