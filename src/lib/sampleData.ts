@@ -103,6 +103,16 @@ function buildPromo(spec: Spec, i: number): PromoRecord {
   const afterEnd = addDays(spec.end, days);
   const sum = (a: string, b: string) => daily.filter((p) => p.date >= a && p.date <= b).reduce((s, p) => s + p.ggr, 0);
   const pl = (f: number) => Math.round(spec.players * f * (1 + (rand() - 0.5) * 0.06));
+  const ggrBefore = sum(addDays(spec.start, -days), before);
+  const ggrDuring = spec.live ? null : sum(spec.start, spec.end);
+  const ggrAfter = spec.live ? null : sum(addDays(spec.end, 1), afterEnd);
+  // Crash games hold roughly 3–4% of turnover; promos push volume a bit harder.
+  const hold = 0.03 + rand() * 0.012;
+  const participants = spec.live ? Math.round(spec.players * 0.22) : pl(0.3 + spec.lift);
+  // About half the examples carry a comparison group, so both adjusted and unadjusted results appear.
+  const trend = (rand() - 0.3) * 0.08;
+  const control = i % 2 === 0 && !spec.live;
+  const controlBefore = Math.round(ggrBefore * 3.2);
   return {
     id: `sample-${i + 1}`,
     name: spec.name,
@@ -115,16 +125,61 @@ function buildPromo(spec: Spec, i: number): PromoRecord {
     startDate: spec.start,
     endDate: spec.end,
     windowDays: null,
-    ggrBefore: sum(addDays(spec.start, -days), before),
-    ggrDuring: spec.live ? null : sum(spec.start, spec.end),
-    ggrAfter: spec.live ? null : sum(addDays(spec.end, 1), afterEnd),
+    ggrBefore,
+    ggrDuring,
+    ggrAfter,
     prizePool: local.prize,
     playersBefore: pl(1),
     playersDuring: spec.live ? null : pl(1 + spec.lift * 0.8),
     playersAfter: spec.live ? null : pl(1 + spec.lift * spec.keep * 0.7),
+    participants,
+    newParticipants: Math.round(participants * (0.12 + rand() * 0.18)),
+    retainedParticipants: spec.live ? null : Math.round(participants * (0.42 + spec.keep * 0.6 + rand() * 0.05)),
+    betsDuring: Math.round(participants * (18 + rand() * 40)),
+    turnoverBefore: Math.round(ggrBefore / hold),
+    turnoverDuring: ggrDuring == null ? null : Math.round(ggrDuring / (hold * 0.96)),
+    turnoverAfter: ggrAfter == null ? null : Math.round(ggrAfter / hold),
+    ...(control
+      ? {
+          controlGgrBefore: controlBefore,
+          controlGgrDuring: Math.round(controlBefore * (1 + trend)),
+          controlLabel: `Same games at comparable ${spec.market} operators without the promo`,
+        }
+      : {}),
+    ...mechanicData(spec, participants, local.prize, rand),
     notes: spec.notes ?? "",
     daily,
   };
+}
+
+const MISSION_TYPES = ["Missions", "Cross-Game Challenge", "Collection Campaign", "New Game Launch"];
+const RANKING_TYPES = ["Leaderboard", "Network Tournament"];
+
+/** Mission funnels for mission-style promos, prize bands for leaderboards and tournaments. */
+function mechanicData(spec: Spec, participants: number, prize: number, rand: () => number): Partial<PromoRecord> {
+  if (MISSION_TYPES.includes(spec.type)) {
+    const names =
+      spec.games.length > 1
+        ? ["Opted in", ...spec.games.slice(0, 3).map((g) => `Play ${g}`), "All missions done"]
+        : ["Opted in", "Place 20 bets", "Hit a ×10 win", "Play 5 days in a row", "All missions done"];
+    let reached = participants;
+    const missions = names.map((name, k) => {
+      if (k > 0) reached = Math.round(reached * (k === names.length - 2 ? 0.38 + rand() * 0.1 : 0.62 + rand() * 0.2));
+      return { name, reached };
+    });
+    return { missions };
+  }
+  if (RANKING_TYPES.includes(spec.type) || /cup/i.test(spec.name)) {
+    const split: Array<[string, number, number]> = [
+      ["1st", 1, 0.2],
+      ["2nd–3rd", 2, 0.18],
+      ["4th–10th", 7, 0.22],
+      ["11th–50th", 40, 0.25],
+      ["51st–100th", 50, 0.15],
+    ];
+    return { leaderboard: split.map(([band, winners, f]) => ({ band, winners, prize: Math.round(prize * f) })) };
+  }
+  return {};
 }
 
 const MONTHLY: Array<[string, number]> = [

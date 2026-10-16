@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 
 const NAV = [
   { to: "/", label: "Reports" },
-  { to: "/data", label: "Enter numbers" },
+  { to: "/data", label: "Data" },
 ] as const;
 
 /** Only shown when a sheet or the backoffice is connected — manual mode needs no indicator. */

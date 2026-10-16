@@ -57,6 +57,37 @@ export interface PromoMetrics {
   playersDuringVsBefore: number | null;
   playersAfterVsBefore: number | null;
 
+  /** Comparison-group change over the same windows (market trend), if a comparison group exists */
+  controlChange: number | null;
+  /** During vs before with the market trend removed — the incremental estimate */
+  adjustedChange: number | null;
+  /** The headline change: adjusted when a comparison group exists, otherwise raw during vs before */
+  primaryChange: number | null;
+  /** True when primaryChange is adjusted for the market trend */
+  isAdjusted: boolean;
+
+  participants: number | null;
+  /** participants ÷ active players during */
+  participationRate: number | null;
+  /** new participants ÷ participants */
+  newShare: number | null;
+  /** participants active again after ÷ participants */
+  retentionRate: number | null;
+  betsPerParticipant: number | null;
+  costPerParticipant: number | null;
+
+  turnoverBefore: number | null;
+  turnoverDuring: number | null;
+  turnoverAfter: number | null;
+  /** Turnover during vs before, per day */
+  turnoverChange: number | null;
+  /** GGR ÷ turnover per window (hold) */
+  marginBefore: number | null;
+  marginDuring: number | null;
+
+  missions: MissionFunnel | null;
+  leaderboard: LeaderboardSummary | null;
+
   month: string;
   monthGgr: number | null;
   prevMonthGgr: number | null;
@@ -98,12 +129,75 @@ function windowTotal(
   return { total: d.total, days: d.days, partial: d.days < length };
 }
 
-export type PromoStatus = "upcoming" | "live" | "complete";
+/**
+ * upcoming → live → measuring (ended, after window still running) → complete.
+ * Results are only final once a promo is complete.
+ */
+export type PromoStatus = "upcoming" | "live" | "measuring" | "complete";
 
-export function promoStatus(promo: PromoRecord, today = todayIso()): PromoStatus {
+export const STATUS_LABEL: Record<PromoStatus, string> = {
+  upcoming: "Upcoming",
+  live: "Live",
+  measuring: "Measuring",
+  complete: "Complete",
+};
+
+export function promoStatus(promo: PromoRecord, afterEnd: string, today = todayIso()): PromoStatus {
   if (today < promo.startDate) return "upcoming";
   if (today <= promo.endDate) return "live";
+  if (today <= afterEnd) return "measuring";
   return "complete";
+}
+
+export interface MissionFunnel {
+  steps: Array<{ name: string; reached: number; ofStart: number; dropFromPrev: number | null }>;
+  /** Last step ÷ first step */
+  completionRate: number | null;
+  /** Index of the step that loses the largest share of players from the step before */
+  hardestStep: number | null;
+}
+
+export interface LeaderboardSummary {
+  bands: Array<{ band: string; winners: number; prize: number; share: number }>;
+  winners: number;
+  totalPrize: number;
+  /** Winners ÷ participants */
+  winRate: number | null;
+}
+
+function missionFunnel(steps: PromoRecord["missions"]): MissionFunnel | null {
+  const clean = (steps ?? []).filter((s) => s.name && Number.isFinite(s.reached) && s.reached >= 0);
+  if (clean.length < 2 || clean[0].reached <= 0) return null;
+  const start = clean[0].reached;
+  let hardest: number | null = null;
+  let worst = -1;
+  const out = clean.map((st, i) => {
+    const prev = i > 0 ? clean[i - 1].reached : null;
+    const drop = prev && prev > 0 ? 1 - st.reached / prev : null;
+    if (drop != null && drop > worst) {
+      worst = drop;
+      hardest = i;
+    }
+    return { name: st.name, reached: st.reached, ofStart: st.reached / start, dropFromPrev: drop };
+  });
+  return { steps: out, completionRate: clean[clean.length - 1].reached / start, hardestStep: hardest };
+}
+
+function leaderboardSummary(bands: PromoRecord["leaderboard"], participants: number | null): LeaderboardSummary | null {
+  const clean = (bands ?? []).filter((b) => b.band && b.winners >= 0 && b.prize >= 0);
+  if (!clean.length) return null;
+  const totalPrize = clean.reduce((s, b) => s + b.prize, 0);
+  const winners = clean.reduce((s, b) => s + b.winners, 0);
+  return {
+    bands: clean.map((b) => ({ ...b, share: totalPrize > 0 ? b.prize / totalPrize : 0 })),
+    winners,
+    totalPrize,
+    winRate: participants && participants > 0 ? winners / participants : null,
+  };
+}
+
+function share(a: number | null | undefined, b: number | null | undefined): number | null {
+  return a != null && b != null && b > 0 ? a / b : null;
 }
 
 export function monthlyMap(monthly: MonthlyRecord[]): Map<string, number | null> {
@@ -133,8 +227,19 @@ export function computePromo(promo: PromoRecord, months?: Map<string, number | n
   const afterVsBefore = ratio(perDayAfter, perDayBefore);
   const afterVsDuring = ratio(perDayAfter, perDayDuring);
 
+  // Comparison group: the same windows for players/operators without the promo. Its change is the
+  // market trend; removing it turns "GGR went up" into an estimate of what the promo itself added.
+  const controlChange = ratio(
+    promo.controlGgrDuring == null ? null : promo.controlGgrDuring / promoDays,
+    promo.controlGgrBefore == null ? null : promo.controlGgrBefore / windowDays,
+  );
+  const isAdjusted = controlChange != null && duringVsBefore != null;
+  const adjustedChange = isAdjusted ? (1 + duringVsBefore!) / (1 + controlChange!) - 1 : null;
+  const expectedPerDay = perDayBefore == null ? null : perDayBefore * (1 + (controlChange ?? 0));
+
+  // Extra GGR over what the before run-rate (moved by the market trend, when known) would have produced.
   const incrementalGgr =
-    perDayDuring != null && perDayBefore != null ? (perDayDuring - perDayBefore) * promoDays : null;
+    perDayDuring != null && expectedPerDay != null ? (perDayDuring - expectedPerDay) * promoDays : null;
   const haloGgr =
     perDayAfter != null && perDayBefore != null ? (perDayAfter - perDayBefore) * windowDays : null;
 
@@ -161,6 +266,11 @@ export function computePromo(promo: PromoRecord, months?: Map<string, number | n
   const playersDuringVsBefore = sameLength ? ratio(promo.playersDuring, promo.playersBefore) : null;
   const playersAfterVsBefore = sameLength ? ratio(promo.playersAfter, promo.playersBefore) : null;
 
+  const participants = promo.participants ?? null;
+  const turnoverBefore = promo.turnoverBefore ?? null;
+  const turnoverDuring = promo.turnoverDuring ?? null;
+  const turnoverAfter = promo.turnoverAfter ?? null;
+
   const month = monthOf(promo.startDate);
   const monthGgr = months?.get(month) ?? null;
   const prevMonthGgr = months?.get(prevMonth(month)) ?? null;
@@ -179,7 +289,7 @@ export function computePromo(promo: PromoRecord, months?: Map<string, number | n
     ggrAfter,
     partialDuring: wD.partial,
     partialAfter: wA.partial,
-    status: promoStatus(promo),
+    status: promoStatus(promo, afterEnd),
     perDayBefore,
     perDayDuring,
     perDayAfter,
@@ -194,11 +304,32 @@ export function computePromo(promo: PromoRecord, months?: Map<string, number | n
     index,
     playersDuringVsBefore,
     playersAfterVsBefore,
+    controlChange,
+    adjustedChange,
+    primaryChange: adjustedChange ?? duringVsBefore,
+    isAdjusted,
+    participants,
+    participationRate: share(participants, promo.playersDuring),
+    newShare: share(promo.newParticipants, participants),
+    retentionRate: share(promo.retainedParticipants, participants),
+    betsPerParticipant: share(promo.betsDuring, participants),
+    costPerParticipant: share(promo.prizePool, participants),
+    turnoverBefore,
+    turnoverDuring,
+    turnoverAfter,
+    turnoverChange: ratio(
+      turnoverDuring == null ? null : turnoverDuring / promoDays,
+      turnoverBefore == null ? null : turnoverBefore / windowDays,
+    ),
+    marginBefore: share(ggrBefore, turnoverBefore),
+    marginDuring: share(ggrDuring, turnoverDuring),
+    missions: missionFunnel(promo.missions),
+    leaderboard: leaderboardSummary(promo.leaderboard, participants),
     month,
     monthGgr,
     prevMonthGgr,
     monthVsPrev,
-    verdict: verdictFor(duringVsBefore, netImpact),
+    verdict: verdictFor(adjustedChange ?? duringVsBefore, netImpact),
   };
 }
 
@@ -242,6 +373,19 @@ export interface Aggregate {
   afterVsBefore: number | null;
   roi: number | null;
   positiveShare: number | null;
+  /** Promos whose change is adjusted with a comparison group */
+  adjustedCount: number;
+  /** Baseline-weighted adjusted change over the promos that have a comparison group */
+  adjustedChange: number | null;
+  participants: number;
+  /** Promos that report participants */
+  withParticipants: number;
+  newParticipants: number;
+  /** Total promo cost (rewards paid), display currency */
+  cost: number;
+  withCost: number;
+  /** Promos left out of money totals because their currency has no exchange rate */
+  fxMissing: number;
   index: { before: number; during: number | null; after: number | null } | null;
 }
 
@@ -259,9 +403,30 @@ export function aggregate(list: PromoMetrics[]): Aggregate {
     baseA = 0,
     aftA = 0,
     withData = 0,
-    positive = 0;
+    positive = 0,
+    adjBase = 0,
+    adjDur = 0,
+    adjustedCount = 0,
+    participants = 0,
+    withParticipants = 0,
+    newParticipants = 0,
+    withCost = 0,
+    fxMissing = 0;
 
   for (const m of list) {
+    if (m.promo.fxMissing) fxMissing++;
+    if (m.participants != null) {
+      participants += m.participants;
+      withParticipants++;
+      newParticipants += m.promo.newParticipants ?? 0;
+    }
+    if (m.promo.prizePool != null) withCost++;
+    if (m.isAdjusted && m.perDayBefore != null && m.perDayDuring != null) {
+      adjustedCount++;
+      // Weight each promo's adjusted change by its baseline, like the raw change.
+      adjBase += m.perDayBefore * m.promoDays;
+      adjDur += m.perDayBefore * m.promoDays * (1 + m.adjustedChange!);
+    }
     ggrBefore += m.ggrBefore ?? 0;
     ggrDuring += m.ggrDuring ?? 0;
     ggrAfter += m.ggrAfter ?? 0;
@@ -272,7 +437,7 @@ export function aggregate(list: PromoMetrics[]): Aggregate {
       durD += m.perDayDuring * m.promoDays;
       incrementalGgr += m.incrementalGgr ?? 0;
       netImpact += m.netImpact ?? 0;
-      if ((m.duringVsBefore ?? 0) > 0) positive++;
+      if ((m.primaryChange ?? 0) > 0) positive++;
       if (m.perDayAfter != null) {
         baseA += m.perDayBefore * m.windowDays;
         aftA += m.perDayAfter * m.windowDays;
@@ -299,6 +464,14 @@ export function aggregate(list: PromoMetrics[]): Aggregate {
     afterVsBefore,
     roi: pool > 0 ? netImpact / pool : null,
     positiveShare: withData ? positive / withData : null,
+    adjustedCount,
+    adjustedChange: adjBase > 0 ? adjDur / adjBase - 1 : null,
+    participants,
+    withParticipants,
+    newParticipants,
+    cost: prizePool,
+    withCost,
+    fxMissing,
     index:
       duringVsBefore == null
         ? null

@@ -3,6 +3,7 @@ import { Toaster } from "sonner";
 import { FlaskConical } from "lucide-react";
 import { AppHeader } from "@/components/report/AppHeader";
 import { ConfirmProvider } from "@/components/report/Confirm";
+import { DefinitionsDialog } from "@/components/report/DefinitionsDialog";
 import { DataProvider, useData } from "@/lib/store";
 import { ThemeProvider, useTheme } from "@/lib/theme";
 
@@ -30,13 +31,16 @@ function SampleBanner() {
       <div className="mx-auto flex max-w-[1400px] flex-wrap items-center justify-between gap-2 px-4 py-1.5 text-xs text-muted-foreground lg:px-8">
         <p className="flex items-center gap-2">
           <FlaskConical className="size-3.5" />
-          These are example numbers.{" "}
-          <Link to="/data" className="text-primary hover:underline">
-            Enter your own
-          </Link>
+          <span>
+            <strong className="font-semibold text-foreground">Demo data.</strong> Every promo, operator, aggregator and number here is
+            fictional.{" "}
+            <Link to="/data" className="text-primary hover:underline">
+              Add real data
+            </Link>
+          </span>
         </p>
         <button onClick={removeSample} className="hover:text-foreground hover:underline">
-          Clear examples
+          Clear demo data
         </button>
       </div>
     </div>
@@ -54,8 +58,11 @@ export function RootLayout() {
             <div className="flex-1">
               <Outlet />
             </div>
-            <footer className="no-print border-t border-border px-4 py-5 text-center text-xs text-muted-foreground lg:px-8">
-              SPRIBE Promo Reports
+            <footer className="no-print flex flex-wrap items-center justify-center gap-x-3 gap-y-1 border-t border-border px-4 py-5 text-center text-xs text-muted-foreground lg:px-8">
+              <span>SPRIBE Promo Reports · aggregate data only, no individual players</span>
+              <DefinitionsDialog>
+                <button className="text-primary hover:underline">How numbers are calculated</button>
+              </DefinitionsDialog>
             </footer>
             <AppToaster />
           </div>

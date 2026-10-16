@@ -97,7 +97,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
 
   const updateManual = useCallback((fn: (d: Dataset) => Dataset) => {
     setManual((prev) => {
-      const next = fn(prev);
+      const next = { ...fn(prev), updatedAt: new Date().toISOString() };
       write(DATA_KEY, next);
       return next;
     });

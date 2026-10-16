@@ -49,7 +49,7 @@ export const DEFAULT_CONFIG: SourceConfig = {
 export const SOURCE_LABEL: Record<SourceKind, string> = {
   manual: "Manual entry",
   sheet: "Google Sheet / CSV",
-  api: "Backoffice API",
+  api: "Back Office",
 };
 
 /**

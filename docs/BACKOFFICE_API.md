@@ -41,6 +41,27 @@ Authorization: Bearer <token>        # optional — see "Auth" below
       "playersDuring": 9900,
       "playersAfter": 8700,
 
+      // ---- everything below is optional; the report shows a section only when it's present ----
+      "participants": 2100,             // unique players who took part
+      "newParticipants": 420,           // of which first-time players
+      "retainedParticipants": 1150,     // participants who played again in the after window
+      "betsDuring": 61000,              // bets by participants during the promo
+      "turnoverBefore": 3400000,        // amount wagered, same windows as GGR
+      "turnoverDuring": 4450000,
+      "turnoverAfter": 3700000,
+      "controlGgrBefore": 380000,       // comparison group (no promo), same before/during windows
+      "controlGgrDuring": 392000,
+      "controlLabel": "Same games at comparable operators without the promo",
+      "missions": [                     // mission promos: players reaching each step, in order
+        { "name": "Opted in", "reached": 2100 },
+        { "name": "Place 20 bets", "reached": 1400 },
+        { "name": "All missions done", "reached": 520 }
+      ],
+      "leaderboard": [                  // leaderboards / tournaments: aggregate per rank band
+        { "band": "1st", "winners": 1, "prize": 3000 },
+        { "band": "2nd–10th", "winners": 9, "prize": 6000 }
+      ],
+
       "notes": "",
       "daily": [                        // optional — see below
         { "date": "2026-09-02", "ggr": 39800 }
@@ -84,12 +105,18 @@ All comparisons are made on **GGR per day**, so windows of different lengths com
 
 | Metric | Formula |
 | --- | --- |
-| During vs before | `(ggrDuring / promoDays) / (ggrBefore / windowDays) − 1` |
+| During vs before (raw) | `(ggrDuring / promoDays) / (ggrBefore / windowDays) − 1` |
+| Market trend | `(controlGgrDuring / promoDays) / (controlGgrBefore / windowDays) − 1` |
+| GGR change, adjusted | `(1 + raw) / (1 + market trend) − 1` — shown as "adj."; without a comparison group the raw change is shown as "raw" |
 | After vs before | `(ggrAfter / windowDays) / (ggrBefore / windowDays) − 1` |
-| Extra GGR (during) | `(perDayDuring − perDayBefore) × promoDays` |
+| Extra GGR (during) | `(perDayDuring − perDayBefore × (1 + market trend)) × promoDays` (trend = 0 without a comparison group) |
 | Halo (after) | `(perDayAfter − perDayBefore) × windowDays` |
 | Net impact | `extra + halo − prizePool` |
 | ROI | `netImpact / prizePool` |
+| Participation | `participants / playersDuring` |
+| Retention | `retainedParticipants / participants` |
+| Mission completion | `last step reached / first step reached`; hardest step = largest drop from the step before |
+| GGR margin | `GGR / turnover` per window |
 | Uplift retained | `(perDayAfter − perDayBefore) / (perDayDuring − perDayBefore)` |
 | GGR vs previous month | `monthly[m].ggr / monthly[m−1].ggr − 1` |
 | Aggregate uplift | baseline-weighted: `Σ during / Σ before` over promos with data (not an average of %) |
@@ -104,3 +131,19 @@ All comparisons are made on **GGR per day**, so windows of different lengths com
   they end up in the public JS bundle.
 - **Freshness**: the site refetches on load, on the refresh button, and optionally every
   5/15/60 minutes (`VITE_REFRESH_MINUTES`). A daily-updated endpoint is plenty.
+
+## Status and reporting periods
+
+`upcoming` → `live` → `measuring` (ended, after window still running) → `complete`.
+Results are final only when a promo is `complete`; cost conclusions and key findings about
+cost wait for it. A promo belongs to the month it starts in.
+
+## Privacy and access
+
+- **Aggregate data only.** Send totals and counts per promo (and per mission step / rank band).
+  Never player IDs, usernames or any per-player rows — the report has no place to show them.
+- **Access control lives in front of the data.** The site is static; it can't enforce roles by
+  itself. Serve both the site and this endpoint behind company login (SSO / VPN), and let the
+  endpoint return only the operators and markets the signed-in user may see.
+- **No secrets in the browser bundle.** Don't put tokens in `VITE_*` variables. Prefer SSO
+  cookies or a small proxy that adds credentials server-side.

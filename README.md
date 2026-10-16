@@ -6,54 +6,76 @@ without changing anything else.
 
 ## What it shows
 
-**Reports** (`/`): pick a month with the arrows, or switch to *All*. A filter sidebar (like the
-Promo Calendar's) narrows everything by market, aggregator, operator, promotion type, game or a
-search; filters are remembered and shown as removable chips.
-- Four numbers: how many promos ran, GGR during vs before, GGR after vs before, and the month's
-  total GGR vs the previous month.
-- One chart of GGR before / during / after for each promo, and one of total GGR by month.
-- **Results by** market / aggregator / operator / promotion type: a ranked list of GGR during vs
-  before. Click a row to filter the page to it.
-- The list of promos, which can be grouped by market, aggregator, operator or type and sorted by
-  newest, biggest change, highest GGR or name. Click one to open its report in a side panel, the
-  same way the Promo Calendar opens a promotion.
-- **Copy summary** puts a short text version of the current view on the clipboard for Slack/email.
+**Reports** (`/`), built to be understood in 30 seconds:
+- Month arrows or *All*, and a collapsible filter sidebar (market, aggregator, operator, promotion
+  type, game, search).
+- Four KPIs: **promotions**, **GGR change**, **unique participants**, **total promo cost**.
+- **Key findings**: up to three rule-based observations, each with the evidence it's based on and
+  a one-click drill-down (no AI, nothing without supporting data).
+- The GGR before / during / after chart, *Results by* market / aggregator / operator / type, and
+  the monthly trend.
+- The promo list with status (Upcoming / Live / Measuring / Complete), operator, dates and the GGR
+  change — marked **adj.** when adjusted for the market trend, **raw** when it isn't.
+- **Share**: copy a text summary, or download the current view's results as CSV.
 
-Promotion types are the Promo Calendar's eight. Each promo has a market (with flag), operator,
-aggregator and the **currency its numbers are in**; the report converts everything into one
-display currency using exchange rates you can edit in Settings (they start as rough examples).
+**Promo report** (`/promo/:id`), one or two clicks deeper. Tabs appear only when the promo has
+the data for them:
+- **Overview** — key results, whether the change is incremental or just a before/during
+  comparison, before/during/after with daily GGR, a plain summary, and how it compares with past
+  promos of the same type.
+- **Players** — participants, new players, participation, retention, engagement.
+- **Missions** (mission-style promos) — completion rate, progression per step, hardest step and
+  drop-offs. **Rankings** (leaderboards / tournaments) — winners and prize distribution by rank band.
+- **Financials** — GGR, turnover and margin per period, promo cost, extra GGR, net impact, return
+  on cost, market trend and month context.
 
-**Promo report** (side panel, or `/promo/:id` full page): before / during / after with the
-change, GGR per day (when daily data exists), a few plain sentences on what happened, notes,
-and **Copy summary** / **Print**.
+**Data** (`/data`): where the numbers come from — current source, freshness, Back Office state —
+with manual entry, Excel/CSV import and exports as the fallback. **Settings** (gear) holds the
+currency, exchange rates and the source:
 
-**Enter numbers** (`/data`):
-- A simple table: click any GGR number to change it (`120k` and `€120,000` both work).
-- **Add promo** opens a short form. Prize pool, players and notes are under "More details".
-- A Monthly GGR tab for each month's total.
-- **Import / export**: paste rows from Excel or Google Sheets, upload a CSV, download CSV or a
-  backup.
-- **Settings** (gear): currency, and where the numbers come from:
-
-| Source | How | Who can edit |
+| Source | How | Status |
 | --- | --- | --- |
-| Manual entry | Typed / pasted on the site, saved in the browser | You, in this browser |
-| Google Sheet / CSV | Site reads a shared sheet on every load | Anyone with access to the sheet |
-| Backoffice API | One `GET` endpoint returning JSON, fully automatic | The backoffice |
+| Back Office | One `GET` endpoint returning JSON — fully automatic | Planned: needs the BO endpoint ([`docs/BACKOFFICE_API.md`](docs/BACKOFFICE_API.md)) |
+| Google Sheet / CSV | Site reads a shared sheet on every load | Available |
+| Manual entry | Typed / pasted / imported on the site, saved in the browser | Available (fallback) |
 
-The backoffice contract is in [`docs/BACKOFFICE_API.md`](docs/BACKOFFICE_API.md). A demo
-payload is served at `/demo-backoffice.json` to try API mode end-to-end.
+The site ships with **fictional demo data**, labelled as such everywhere, until you clear it.
 
-The site opens in a light theme (dark is one click away in the header) and ships with clearly
-labelled **example numbers** until you clear them.
+## Analytics rules the report follows
 
-## How the numbers are calculated
+- **Higher GGR is not proof of success.** Every change is labelled: *adj.* (market trend removed
+  with a comparison group — an incremental estimate) or *raw* (before vs during only).
+- **Comparable periods.** Before and after use the same number of days as the promo (or a set
+  length), and all comparisons are per day.
+- **Not final until measured.** Promos that are live or still in their after period are marked,
+  and cost conclusions wait until they're complete.
+- **Currencies.** Each promo keeps its own currency; totals use one display currency with the
+  exchange rates in Settings. A promo without a rate is left out of money totals and flagged —
+  never added unconverted.
+- **Evidence-based findings.** Key findings come from fixed rules with minimum data requirements
+  and show what they're based on.
+- **Privacy.** Aggregate counts only, never individual players. Access control belongs in front of
+  the site and the BO endpoint (SSO / VPN) — see the API doc.
 
-Every comparison is made on **GGR per day**, so a 3-day promo can be compared with a 7-day
-baseline fairly. By default the before and after windows are the same length as the promo.
-Aggregates are **baseline-weighted** (Σ during / Σ before), not an average of percentages, so
-one tiny promo can't skew the headline. All formulas live in `src/lib/metrics.ts` and are
-listed in the API doc.
+Every definition is in the app under **How numbers are calculated** (footer and Key findings).
+
+## Architecture
+
+The data layer is separate from the UI, so the Back Office can replace manual data without
+touching any page:
+
+```
+src/lib/types.ts        data model (optional blocks for players, turnover, comparison group, missions, rankings)
+src/lib/normalize.ts    any input (BO JSON, CSV, Excel paste) → the model; tolerant field matching
+src/lib/sources.ts      sources: manual / Google Sheet / Back Office
+src/lib/fx.ts           currency conversion (one defined method)
+src/lib/metrics.ts      every calculation, statuses and aggregation
+src/lib/definitions.ts  plain-language definitions shown in the app
+src/lib/findings.ts     rule-based key findings
+src/lib/export.ts       results export (CSV)
+src/lib/store.tsx       data provider: persistence, sync status, edits
+src/routes/, src/components/   UI only — reads computed metrics, never raw math
+```
 
 ## Stack
 
@@ -61,15 +83,6 @@ Vite + React 19 + TypeScript, TanStack Router (hash routes — works on any stat
 Tailwind CSS v4, Radix UI. Charts are hand-built SVG (`src/components/charts`) with hover
 tooltips, light/dark themes and a colorblind-checked palette. Same design system as the
 SPRIBE Partner Promo Hub.
-
-```
-src/lib/types.ts       data model
-src/lib/metrics.ts     all report math
-src/lib/normalize.ts   turns CSV / pasted / API input into the model (loose field matching)
-src/lib/sources.ts     manual / Google Sheet / backoffice API
-src/lib/store.tsx      data provider (persistence, sync, edits)
-src/routes/            reports, promo report, enter numbers
-```
 
 ## Run it
 

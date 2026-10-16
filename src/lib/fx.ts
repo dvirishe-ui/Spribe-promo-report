@@ -44,11 +44,26 @@ export function fxFactor(from: string, to: string, rates: Record<string, number>
   return a && b ? a / b : null;
 }
 
-const MONEY_FIELDS = ["ggrBefore", "ggrDuring", "ggrAfter", "prizePool"] as const;
+const MONEY_FIELDS = [
+  "ggrBefore",
+  "ggrDuring",
+  "ggrAfter",
+  "prizePool",
+  "turnoverBefore",
+  "turnoverDuring",
+  "turnoverAfter",
+  "controlGgrBefore",
+  "controlGgrDuring",
+] as const;
 
 /**
  * The dataset as the report shows it: every promo's money converted into the
- * display currency. The stored data keeps each promo's own currency.
+ * display currency with one defined method (the rates above, via EUR). The
+ * stored data keeps each promo's own currency.
+ *
+ * A promo whose currency has no rate is never added up unconverted: its money
+ * fields are blanked and it is flagged `fxMissing`, so totals leave it out and
+ * the UI says why.
  */
 export function toDisplayCurrency(dataset: Dataset): Dataset {
   const rates = dataset.fxRates ?? {};
@@ -56,10 +71,19 @@ export function toDisplayCurrency(dataset: Dataset): Dataset {
     const from = p.currency || dataset.currency;
     const f = fxFactor(from, dataset.currency, rates);
     if (f === 1) return p;
-    if (f == null) return p; // unknown rate — leave as is; Settings flags it
-    const out = { ...p };
-    for (const k of MONEY_FIELDS) out[k] = p[k] == null ? null : (p[k] as number) * f;
+    const out: PromoRecord = { ...p };
+    for (const k of MONEY_FIELDS) {
+      const v = p[k];
+      out[k] = v == null || f == null ? null : v * f;
+    }
+    if (f == null) {
+      out.fxMissing = true;
+      out.daily = undefined;
+      out.leaderboard = p.leaderboard?.map((b) => ({ ...b, prize: Number.NaN }));
+      return out;
+    }
     if (p.daily) out.daily = p.daily.map((d) => ({ ...d, ggr: d.ggr * f }));
+    if (p.leaderboard) out.leaderboard = p.leaderboard.map((b) => ({ ...b, prize: b.prize * f }));
     return out;
   });
   return { ...dataset, promos };

@@ -21,9 +21,46 @@
       "ggrDuring": 5330770,
       "ggrAfter": 4784276,
       "prizePool": 375000,
-      "playersBefore": 21241,
-      "playersDuring": 25847,
-      "playersAfter": 22799,
+      "playersBefore": 21250,
+      "playersDuring": 24889,
+      "playersAfter": 22812,
+      "participants": 12116,
+      "newParticipants": 3419,
+      "retainedParticipants": 7717,
+      "betsDuring": 247033,
+      "turnoverBefore": 112459759,
+      "turnoverDuring": 144993539,
+      "turnoverAfter": 124924081,
+      "controlGgrBefore": 13782157,
+      "controlGgrDuring": 14338990,
+      "controlLabel": "Same games at comparable Brazil operators without the promo",
+      "leaderboard": [
+        {
+          "band": "1st",
+          "winners": 1,
+          "prize": 75000
+        },
+        {
+          "band": "2nd–3rd",
+          "winners": 2,
+          "prize": 67500
+        },
+        {
+          "band": "4th–10th",
+          "winners": 7,
+          "prize": 82500
+        },
+        {
+          "band": "11th–50th",
+          "winners": 40,
+          "prize": 93750
+        },
+        {
+          "band": "51st–100th",
+          "winners": 50,
+          "prize": 56250
+        }
+      ],
       "notes": "",
       "daily": [
         {
@@ -214,9 +251,16 @@
       "ggrDuring": 2124838,
       "ggrAfter": 2048155,
       "prizePool": 180000,
-      "playersBefore": 5055,
-      "playersDuring": 5612,
-      "playersAfter": 5357,
+      "playersBefore": 5192,
+      "playersDuring": 5476,
+      "playersAfter": 5334,
+      "participants": 2042,
+      "newParticipants": 578,
+      "retainedParticipants": 1025,
+      "betsDuring": 46261,
+      "turnoverBefore": 65751256,
+      "turnoverDuring": 72745983,
+      "turnoverAfter": 67315836,
       "notes": "",
       "daily": [
         {
@@ -324,9 +368,37 @@
       "ggrDuring": 638899,
       "ggrAfter": 577796,
       "prizePool": 56000,
-      "playersBefore": 3958,
-      "playersDuring": 4546,
-      "playersAfter": 3931,
+      "playersBefore": 3954,
+      "playersDuring": 4539,
+      "playersAfter": 3988,
+      "participants": 1907,
+      "newParticipants": 495,
+      "retainedParticipants": 1178,
+      "betsDuring": 64589,
+      "turnoverBefore": 13970316,
+      "turnoverDuring": 17079322,
+      "turnoverAfter": 14828055,
+      "controlGgrBefore": 1741994,
+      "controlGgrDuring": 1716590,
+      "controlLabel": "Same games at comparable Peru operators without the promo",
+      "missions": [
+        {
+          "name": "Opted in",
+          "reached": 1907
+        },
+        {
+          "name": "Play Plinko",
+          "reached": 1397
+        },
+        {
+          "name": "Play Dice",
+          "reached": 537
+        },
+        {
+          "name": "All missions done",
+          "reached": 336
+        }
+      ],
       "notes": "",
       "daily": [
         {
@@ -517,9 +589,16 @@
       "ggrDuring": 1212814,
       "ggrAfter": 948899,
       "prizePool": 75000,
-      "playersBefore": 22863,
-      "playersDuring": 24725,
-      "playersAfter": 22873,
+      "playersBefore": 22055,
+      "playersDuring": 25095,
+      "playersAfter": 22553,
+      "participants": 9783,
+      "newParticipants": 2661,
+      "retainedParticipants": 4825,
+      "betsDuring": 242557,
+      "turnoverBefore": 22939005,
+      "turnoverDuring": 32207452,
+      "turnoverAfter": 24190976,
       "notes": "",
       "daily": [
         {
@@ -580,9 +659,41 @@
       "ggrDuring": 319006303,
       "ggrAfter": 294977875,
       "prizePool": 16666667,
-      "playersBefore": 6123,
-      "playersDuring": 6989,
-      "playersAfter": 6381,
+      "playersBefore": 6053,
+      "playersDuring": 6999,
+      "playersAfter": 6469,
+      "participants": 3090,
+      "newParticipants": 808,
+      "retainedParticipants": 2044,
+      "betsDuring": 132738,
+      "turnoverBefore": 6926220839,
+      "turnoverDuring": 9037605285,
+      "turnoverAfter": 8022593391,
+      "controlGgrBefore": 814931254,
+      "controlGgrDuring": 812136950,
+      "controlLabel": "Same games at comparable Nigeria operators without the promo",
+      "missions": [
+        {
+          "name": "Opted in",
+          "reached": 3090
+        },
+        {
+          "name": "Play Mines",
+          "reached": 2162
+        },
+        {
+          "name": "Play Goal",
+          "reached": 1464
+        },
+        {
+          "name": "Play Hilo",
+          "reached": 669
+        },
+        {
+          "name": "All missions done",
+          "reached": 501
+        }
+      ],
       "notes": "",
       "daily": [
         {
@@ -773,9 +884,43 @@
       "ggrDuring": 8742619156,
       "ggrAfter": 7401401311,
       "prizePool": 681818182,
-      "playersBefore": 17013,
-      "playersDuring": 21250,
-      "playersAfter": 18375,
+      "playersBefore": 16944,
+      "playersDuring": 20719,
+      "playersAfter": 18267,
+      "participants": 10591,
+      "newParticipants": 2332,
+      "retainedParticipants": 6600,
+      "betsDuring": 461209,
+      "turnoverBefore": 167478243728,
+      "turnoverDuring": 236341509837,
+      "turnoverAfter": 192080656421,
+      "leaderboard": [
+        {
+          "band": "1st",
+          "winners": 1,
+          "prize": 136363636
+        },
+        {
+          "band": "2nd–3rd",
+          "winners": 2,
+          "prize": 122727273
+        },
+        {
+          "band": "4th–10th",
+          "winners": 7,
+          "prize": 150000000
+        },
+        {
+          "band": "11th–50th",
+          "winners": 40,
+          "prize": 170454546
+        },
+        {
+          "band": "51st–100th",
+          "winners": 50,
+          "prize": 102272727
+        }
+      ],
       "notes": "Ran alongside the World Cup. Strongest week was the knockout stage.",
       "daily": [
         {
@@ -1266,9 +1411,46 @@
       "ggrDuring": 2367555,
       "ggrAfter": 2001034,
       "prizePool": 160000,
-      "playersBefore": 2542,
-      "playersDuring": 2962,
-      "playersAfter": 2575,
+      "playersBefore": 2607,
+      "playersDuring": 2976,
+      "playersAfter": 2719,
+      "participants": 1277,
+      "newParticipants": 381,
+      "retainedParticipants": 663,
+      "betsDuring": 32937,
+      "turnoverBefore": 61145428,
+      "turnoverDuring": 78289316,
+      "turnoverAfter": 63522579,
+      "controlGgrBefore": 6163683,
+      "controlGgrDuring": 6016672,
+      "controlLabel": "Same games at comparable Mexico operators without the promo",
+      "leaderboard": [
+        {
+          "band": "1st",
+          "winners": 1,
+          "prize": 32000
+        },
+        {
+          "band": "2nd–3rd",
+          "winners": 2,
+          "prize": 28800
+        },
+        {
+          "band": "4th–10th",
+          "winners": 7,
+          "prize": 35200
+        },
+        {
+          "band": "11th–50th",
+          "winners": 40,
+          "prize": 40000
+        },
+        {
+          "band": "51st–100th",
+          "winners": 50,
+          "prize": 24000
+        }
+      ],
       "notes": "",
       "daily": [
         {
@@ -1459,9 +1641,16 @@
       "ggrDuring": 4970110,
       "ggrAfter": 5282917,
       "prizePool": 845070,
-      "playersBefore": 2163,
-      "playersDuring": 1981,
-      "playersAfter": 2047,
+      "playersBefore": 2154,
+      "playersDuring": 2035,
+      "playersAfter": 2078,
+      "participants": 532,
+      "newParticipants": 153,
+      "retainedParticipants": 229,
+      "betsDuring": 14064,
+      "turnoverBefore": 125555918,
+      "turnoverDuring": 123270464,
+      "turnoverAfter": 125787664,
       "notes": "Free bets were mostly redeemed by existing players; no measurable lift.",
       "daily": [
         {
@@ -1568,9 +1757,19 @@
       "ggrDuring": 4112265,
       "ggrAfter": 3682011,
       "prizePool": 187500,
-      "playersBefore": 23544,
-      "playersDuring": 26733,
-      "playersAfter": 24028,
+      "playersBefore": 23677,
+      "playersDuring": 26094,
+      "playersAfter": 25011,
+      "participants": 10902,
+      "newParticipants": 2772,
+      "retainedParticipants": 6018,
+      "betsDuring": 427111,
+      "turnoverBefore": 102383173,
+      "turnoverDuring": 126544374,
+      "turnoverAfter": 108772238,
+      "controlGgrBefore": 11090358,
+      "controlGgrDuring": 11082411,
+      "controlLabel": "Same games at comparable Brazil operators without the promo",
       "notes": "",
       "daily": [
         {
@@ -1713,9 +1912,16 @@
       "ggrDuring": 54571,
       "ggrAfter": 53578,
       "prizePool": 4200,
-      "playersBefore": 2847,
-      "playersDuring": 3111,
-      "playersAfter": 2907,
+      "playersBefore": 2898,
+      "playersDuring": 3043,
+      "playersAfter": 2824,
+      "participants": 1069,
+      "newParticipants": 213,
+      "retainedParticipants": 514,
+      "betsDuring": 42168,
+      "turnoverBefore": 1632579,
+      "turnoverDuring": 1756247,
+      "turnoverAfter": 1655318,
       "notes": "",
       "daily": [
         {
@@ -1822,9 +2028,41 @@
       "ggrDuring": 738004,
       "ggrAfter": 692976,
       "prizePool": 44000,
-      "playersBefore": 4177,
-      "playersDuring": 5210,
-      "playersAfter": 4500,
+      "playersBefore": 4413,
+      "playersDuring": 5248,
+      "playersAfter": 4718,
+      "participants": 2360,
+      "newParticipants": 595,
+      "retainedParticipants": 1742,
+      "betsDuring": 120912,
+      "turnoverBefore": 19719270,
+      "turnoverDuring": 25380765,
+      "turnoverAfter": 22878915,
+      "controlGgrBefore": 1911277,
+      "controlGgrDuring": 1872988,
+      "controlLabel": "Same games at comparable Peru operators without the promo",
+      "missions": [
+        {
+          "name": "Opted in",
+          "reached": 2360
+        },
+        {
+          "name": "Place 20 bets",
+          "reached": 1891
+        },
+        {
+          "name": "Hit a ×10 win",
+          "reached": 1529
+        },
+        {
+          "name": "Play 5 days in a row",
+          "reached": 585
+        },
+        {
+          "name": "All missions done",
+          "reached": 424
+        }
+      ],
       "notes": "",
       "daily": [
         {
@@ -2015,9 +2253,43 @@
       "ggrDuring": 836769585,
       "ggrAfter": 740083188,
       "prizePool": 66666667,
-      "playersBefore": 14248,
-      "playersDuring": 16132,
-      "playersAfter": 14723,
+      "playersBefore": 14398,
+      "playersDuring": 16660,
+      "playersAfter": 15098,
+      "participants": 6862,
+      "newParticipants": 1332,
+      "retainedParticipants": 4247,
+      "betsDuring": 209766,
+      "turnoverBefore": 18692768240,
+      "turnoverDuring": 23762057696,
+      "turnoverAfter": 20175761332,
+      "leaderboard": [
+        {
+          "band": "1st",
+          "winners": 1,
+          "prize": 13333333
+        },
+        {
+          "band": "2nd–3rd",
+          "winners": 2,
+          "prize": 12000000
+        },
+        {
+          "band": "4th–10th",
+          "winners": 7,
+          "prize": 14666667
+        },
+        {
+          "band": "11th–50th",
+          "winners": 40,
+          "prize": 16666667
+        },
+        {
+          "band": "51st–100th",
+          "winners": 50,
+          "prize": 10000000
+        }
+      ],
       "notes": "",
       "daily": [
         {
@@ -2208,9 +2480,46 @@
       "ggrDuring": 35887,
       "ggrAfter": 34508,
       "prizePool": 5000,
-      "playersBefore": 1823,
-      "playersDuring": 1808,
-      "playersAfter": 1805,
+      "playersBefore": 1817,
+      "playersDuring": 1868,
+      "playersAfter": 1834,
+      "participants": 556,
+      "newParticipants": 116,
+      "retainedParticipants": 247,
+      "betsDuring": 26939,
+      "turnoverBefore": 892754,
+      "turnoverDuring": 970094,
+      "turnoverAfter": 895504,
+      "controlGgrBefore": 110086,
+      "controlGgrDuring": 112242,
+      "controlLabel": "Same games at comparable Italy operators without the promo",
+      "leaderboard": [
+        {
+          "band": "1st",
+          "winners": 1,
+          "prize": 1000
+        },
+        {
+          "band": "2nd–3rd",
+          "winners": 2,
+          "prize": 900
+        },
+        {
+          "band": "4th–10th",
+          "winners": 7,
+          "prize": 1100
+        },
+        {
+          "band": "11th–50th",
+          "winners": 40,
+          "prize": 1250
+        },
+        {
+          "band": "51st–100th",
+          "winners": 50,
+          "prize": 750
+        }
+      ],
       "notes": "",
       "daily": [
         {
@@ -2320,9 +2629,38 @@
       "ggrDuring": 1356022169,
       "ggrAfter": 1196849017,
       "prizePool": 109090909,
-      "playersBefore": 7960,
-      "playersDuring": 9264,
-      "playersAfter": 8121,
+      "playersBefore": 7942,
+      "playersDuring": 8989,
+      "playersAfter": 8089,
+      "participants": 4045,
+      "newParticipants": 644,
+      "retainedParticipants": 2611,
+      "betsDuring": 111132,
+      "turnoverBefore": 27114015607,
+      "turnoverDuring": 35225556116,
+      "turnoverAfter": 29847067583,
+      "missions": [
+        {
+          "name": "Opted in",
+          "reached": 4045
+        },
+        {
+          "name": "Play Plinko",
+          "reached": 2544
+        },
+        {
+          "name": "Play Mines",
+          "reached": 1803
+        },
+        {
+          "name": "Play Dice",
+          "reached": 828
+        },
+        {
+          "name": "All missions done",
+          "reached": 562
+        }
+      ],
       "notes": "",
       "daily": [
         {
@@ -2513,9 +2851,19 @@
       "ggrDuring": 2905274,
       "ggrAfter": 2518972,
       "prizePool": 180000,
-      "playersBefore": 13073,
-      "playersDuring": 14773,
-      "playersAfter": 13144,
+      "playersBefore": 13484,
+      "playersDuring": 14629,
+      "playersAfter": 12935,
+      "participants": 5661,
+      "newParticipants": 1068,
+      "retainedParticipants": 2797,
+      "betsDuring": 154485,
+      "turnoverBefore": 66786874,
+      "turnoverDuring": 85054502,
+      "turnoverAfter": 70795358,
+      "controlGgrBefore": 7604307,
+      "controlGgrDuring": 7675200,
+      "controlLabel": "Same games at comparable Mexico operators without the promo",
       "notes": "",
       "daily": [
         {
@@ -2586,9 +2934,38 @@
       "ggrDuring": null,
       "ggrAfter": null,
       "prizePool": 704225,
-      "playersBefore": 1747,
+      "playersBefore": 1712,
       "playersDuring": null,
       "playersAfter": null,
+      "participants": 374,
+      "newParticipants": 61,
+      "retainedParticipants": null,
+      "betsDuring": 16144,
+      "turnoverBefore": 192352156,
+      "turnoverDuring": null,
+      "turnoverAfter": null,
+      "missions": [
+        {
+          "name": "Opted in",
+          "reached": 374
+        },
+        {
+          "name": "Place 20 bets",
+          "reached": 259
+        },
+        {
+          "name": "Hit a ×10 win",
+          "reached": 164
+        },
+        {
+          "name": "Play 5 days in a row",
+          "reached": 63
+        },
+        {
+          "name": "All missions done",
+          "reached": 51
+        }
+      ],
       "notes": "Still live — after-window numbers arrive once it ends.",
       "daily": [
         {

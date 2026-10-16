@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { ArrowDownRight, ArrowUpRight, Minus, Zap } from "lucide-react";
 import { pct } from "@/lib/format";
-import type { PromoStatus } from "@/lib/metrics";
+import { STATUS_LABEL, type PromoStatus } from "@/lib/metrics";
 import { cn } from "@/lib/utils";
 
 /** Same quiet card the Promo Calendar uses for its stats. */
@@ -10,14 +10,17 @@ export function StatCard({
   label,
   value,
   hint,
+  info,
 }: {
   icon: typeof Zap;
   label: string;
   value: ReactNode;
   hint?: ReactNode;
+  /** One-line definition, shown on hover */
+  info?: string;
 }) {
   return (
-    <div className="panel p-3.5">
+    <div className="panel p-3.5" title={info}>
       <div className="flex items-center gap-2">
         <Icon className="size-4 text-primary" />
         <span className="text-eyebrow">{label}</span>
@@ -70,12 +73,50 @@ export function ResultPill({ value, className }: { value: number | null; classNa
   );
 }
 
-export function LiveBadge({ status }: { status: PromoStatus }) {
-  if (status !== "live") return null;
+const STATUS_STYLE: Record<PromoStatus, string> = {
+  upcoming: "border-border text-muted-foreground",
+  live: "border-primary/40 bg-primary/10 text-primary",
+  measuring: "border-accent/40 bg-accent/10 text-accent",
+  complete: "border-border bg-surface-raised text-muted-foreground",
+};
+
+const STATUS_HINT: Record<PromoStatus, string> = {
+  upcoming: "Hasn't started yet",
+  live: "Running now — numbers are so far",
+  measuring: "Ended — the after period is still running, so results aren't final",
+  complete: "Ended and fully measured",
+};
+
+export function StatusBadge({ status, className }: { status: PromoStatus; className?: string }) {
   return (
-    <span className="inline-flex items-center gap-1 rounded-full border border-primary/40 bg-primary/10 px-2 py-0.5 text-[11px] font-medium text-primary">
-      <span className="size-1.5 animate-pulse rounded-full bg-primary" />
-      Live
+    <span
+      title={STATUS_HINT[status]}
+      className={cn("inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-medium whitespace-nowrap", STATUS_STYLE[status], className)}
+    >
+      {status === "live" && <span className="size-1.5 animate-pulse rounded-full bg-primary" />}
+      {STATUS_LABEL[status]}
+    </span>
+  );
+}
+
+/** Kept for places that only care about live promos. */
+export function LiveBadge({ status }: { status: PromoStatus }) {
+  return status === "live" ? <StatusBadge status={status} /> : null;
+}
+
+/** The headline change, marked when it is adjusted for the market trend. */
+export function ChangePill({ value, adjusted, className }: { value: number | null; adjusted: boolean; className?: string }) {
+  return (
+    <span className={cn("inline-flex items-center gap-1.5", className)}>
+      <ResultPill value={value} />
+      {value != null && (
+        <span
+          title={adjusted ? "Adjusted for the market trend with a comparison group" : "Before vs during only — not adjusted for the market trend"}
+          className={cn("text-[10px] font-medium uppercase tracking-wide", adjusted ? "text-good-ink" : "text-muted-foreground")}
+        >
+          {adjusted ? "adj." : "raw"}
+        </span>
+      )}
     </span>
   );
 }

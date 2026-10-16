@@ -7,6 +7,7 @@ import { Delta, EmptyState, ResultPill } from "@/components/report/bits";
 import { PromoEditor } from "@/components/report/PromoEditor";
 import { ImportDialog } from "@/components/report/ImportDialog";
 import { SettingsDialog } from "@/components/report/SettingsDialog";
+import { useDataStatus } from "@/components/report/DataStatus";
 import { useConfirm } from "@/components/report/Confirm";
 import { useData } from "@/lib/store";
 import { computePromo, monthlyMap } from "@/lib/metrics";
@@ -24,23 +25,17 @@ export function DataPage() {
 
   return (
     <main className="mx-auto max-w-[1400px] space-y-4 px-4 py-5 lg:px-8">
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <h1 className="font-display text-3xl font-bold sm:text-4xl">
-            <span className="brand-gradient-text">Enter numbers</span>
-          </h1>
-          <p className="mt-1.5 max-w-2xl text-sm text-muted-foreground">
-            Add each promo with its GGR before, during and after. The reports update right away.
-          </p>
-        </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <SettingsDialog />
-          <ImportDialog />
-          <Button onClick={() => setCreating(true)} disabled={!editable}>
-            <Plus className="size-4" /> Add promo
-          </Button>
-        </div>
+      <div>
+        <h1 className="font-display text-3xl font-bold sm:text-4xl">
+          <span className="brand-gradient-text">Data</span>
+        </h1>
+        <p className="mt-1.5 max-w-2xl text-sm text-muted-foreground">
+          Where the report's numbers come from. Once the Back Office is connected it fills the report automatically; manual entry and
+          import are the fallback.
+        </p>
       </div>
+
+      <SourceCard />
 
       {!editable && (
         <div className="panel flex flex-wrap items-center justify-between gap-3 p-4">
@@ -69,6 +64,19 @@ export function DataPage() {
         </div>
       )}
 
+      <div className="flex flex-wrap items-end justify-between gap-3 pt-2">
+        <div>
+          <h2 className="font-display text-lg font-semibold">Manual entry</h2>
+          <p className="text-xs text-muted-foreground">For promos the Back Office doesn't cover yet, or corrections. Saved in this browser.</p>
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          <ImportDialog />
+          <Button onClick={() => setCreating(true)} disabled={!editable}>
+            <Plus className="size-4" /> Add promo
+          </Button>
+        </div>
+      </div>
+
       <Tabs defaultValue="promos">
         <TabsList>
           <TabsTrigger value="promos">Promos ({dataset.promos.length})</TabsTrigger>
@@ -84,6 +92,41 @@ export function DataPage() {
 
       <PromoEditor promo={null} open={creating} onOpenChange={setCreating} />
     </main>
+  );
+}
+
+/** Current source, freshness and the Back Office connection state — stated honestly. */
+function SourceCard() {
+  const { config, dataset } = useData();
+  const status = useDataStatus();
+  const boConfigured = config.kind === "api" && !!config.apiUrl.trim();
+  return (
+    <section className="panel flex flex-wrap items-start justify-between gap-4 p-4 sm:p-5">
+      <div className="grid flex-1 gap-4 sm:grid-cols-3">
+        <div>
+          <p className="text-eyebrow">Source now</p>
+          <p className="mt-1 font-medium">{status.label}</p>
+          <p className="text-xs text-muted-foreground">{status.detail}</p>
+        </div>
+        <div>
+          <p className="text-eyebrow">Back Office</p>
+          <p className="mt-1 font-medium">{boConfigured ? "Configured" : "Not connected yet"}</p>
+          <p className="text-xs text-muted-foreground">
+            {boConfigured
+              ? "The report reads the Back Office endpoint set in Settings."
+              : "Needs one read-only endpoint from the BO team — the format is in docs/BACKOFFICE_API.md."}
+          </p>
+        </div>
+        <div>
+          <p className="text-eyebrow">In the report</p>
+          <p className="mt-1 font-medium">
+            {dataset.promos.length} promos · {dataset.monthly.length} months
+          </p>
+          <p className="text-xs text-muted-foreground">Shown in {dataset.currency}; other currencies converted with the rates in Settings.</p>
+        </div>
+      </div>
+      <SettingsDialog />
+    </section>
   );
 }
 

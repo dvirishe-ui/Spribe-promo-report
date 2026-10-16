@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import {
   ArrowRight,
@@ -7,22 +7,24 @@ import {
   ChevronLeft,
   ChevronRight,
   ClipboardCopy,
+  Coins,
+  Download,
   Inbox,
   Layers,
-  Pencil,
-  Repeat,
+  PanelLeftClose,
+  Share2,
   SlidersHorizontal,
   TrendingUp,
-  Wallet,
+  Users,
   X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Delta, EmptyState, LiveBadge, ResultPill, StatCard } from "@/components/report/bits";
-import { PromoSummary } from "@/components/report/PromoSummary";
-import { PromoEditor } from "@/components/report/PromoEditor";
+import { ChangePill, EmptyState, ResultPill, StatCard, StatusBadge } from "@/components/report/bits";
+import { KeyFindings } from "@/components/report/KeyFindings";
+import { DataStatusPill } from "@/components/report/DataStatus";
 import { ReportFilters, applyFilters, emptyFilters, filterCount, type FilterState } from "@/components/report/ReportFilters";
 import { DIMENSION_LABEL, ResultsBy, displayKey, groupBy, type Dimension } from "@/components/report/ResultsBy";
 import { GroupedColumns } from "@/components/charts/GroupedColumns";
@@ -32,7 +34,10 @@ import { useData } from "@/lib/store";
 import { aggregate, monthRows, type PromoMetrics } from "@/lib/metrics";
 import { formatRange, monthLabel, monthRange, nextMonth, prevMonth, todayIso } from "@/lib/dates";
 import { marketLabel } from "@/lib/markets";
-import { money, moneyFull, pct } from "@/lib/format";
+import { money, moneyFull, num, numCompact, pct } from "@/lib/format";
+import { keyFindings, type FindingAction } from "@/lib/findings";
+import { resultsCsv } from "@/lib/export";
+import { downloadText } from "@/lib/csv";
 import { cn } from "@/lib/utils";
 
 type SortKey = "newest" | "change" | "ggr" | "name";
@@ -42,6 +47,11 @@ interface ViewPrefs {
   filters: FilterState;
   group: GroupKey;
   sort: SortKey;
+  /** Filter sidebar open on wide screens */
+  filtersOpen: boolean;
+  view: "month" | "all";
+  /** Month being looked at, so coming back from a report lands in the same place */
+  month: string | null;
 }
 
 const PREFS_KEY = "spribe-report-view-v1";
@@ -49,15 +59,24 @@ const PREFS_KEY = "spribe-report-view-v1";
 function loadPrefs(): ViewPrefs {
   try {
     const p = JSON.parse(localStorage.getItem(PREFS_KEY) ?? "null");
-    if (p && p.filters) return { filters: { ...emptyFilters, ...p.filters }, group: p.group ?? "none", sort: p.sort ?? "newest" };
+    if (p && p.filters)
+      return {
+        filters: { ...emptyFilters, ...p.filters },
+        group: p.group ?? "none",
+        sort: p.sort ?? "newest",
+        filtersOpen: p.filtersOpen ?? true,
+        view: p.view === "all" ? "all" : "month",
+        month: typeof p.month === "string" ? p.month : null,
+      };
   } catch {
     // ignore — defaults below
   }
-  return { filters: emptyFilters, group: "none", sort: "newest" };
+  return { filters: emptyFilters, group: "none", sort: "newest", filtersOpen: true, view: "month", month: null };
 }
 
 export function DashboardPage() {
-  const { dataset, metrics, status, editable } = useData();
+  const { dataset, metrics, status } = useData();
+  const navigate = useNavigate();
   const cur = dataset.currency;
 
   const allMonths = useMemo(() => {
@@ -69,12 +88,13 @@ export function DashboardPage() {
     [...metrics].filter((m) => m.status === "complete").sort((a, b) => b.month.localeCompare(a.month))[0]?.month ??
     [...metrics].sort((a, b) => b.month.localeCompare(a.month))[0]?.month;
 
-  const [view, setView] = useState<"month" | "all">("month");
-  const [month, setMonth] = useState<string>(() => startMonth ?? todayIso().slice(0, 7));
   const [prefs, setPrefs] = useState<ViewPrefs>(loadPrefs);
   const [showFilters, setShowFilters] = useState(false);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [editingId, setEditingId] = useState<string | null>(null);
+  const view = prefs.view;
+  const month = prefs.month ?? startMonth ?? todayIso().slice(0, 7);
+  const setView = (v: "month" | "all") => setPrefs((p) => ({ ...p, view: v }));
+  const setMonth = (m: string) => setPrefs((p) => ({ ...p, month: m }));
+  const openPromo = (id: string) => navigate({ to: "/promo/$promoId", params: { promoId: id } });
 
   useEffect(() => {
     try {
@@ -92,15 +112,21 @@ export function DashboardPage() {
   const agg = aggregate(shown);
   const rows = monthRows(allMonths, dataset.monthly, filtered);
   const monthRow = view === "month" ? rows.find((r) => r.month === month) : [...rows].reverse().find((r) => r.ggr != null);
-  const selected = metrics.find((m) => m.promo.id === selectedId) ?? null;
-  const editing = dataset.promos.find((p) => p.id === editingId) ?? null;
+  const findings = keyFindings(shown, cur);
   const nFilters = filterCount(filters);
   const periodName = view === "month" ? monthLabel(month, "long") : "All months";
 
   const pickFilter = (d: Dimension, key: string) => setFilters({ ...filters, [d]: filters[d] === key ? "all" : key });
+  const onFinding = (a: FindingAction) =>
+    a.kind === "promo" ? openPromo(a.id) : setFilters({ ...filters, [a.dimension]: a.value });
+
+  const exportCsv = () => {
+    const name = `spribe-promo-results-${view === "month" ? month : "all"}${nFilters ? "-filtered" : ""}.csv`;
+    downloadText(name, resultsCsv(shown, cur));
+  };
 
   const copySummary = async () => {
-    const best = [...shown].filter((m) => m.duringVsBefore != null).sort((a, b) => b.duringVsBefore! - a.duringVsBefore!)[0];
+    const best = [...shown].filter((m) => m.primaryChange != null).sort((a, b) => b.primaryChange! - a.primaryChange!)[0];
     const markets = groupBy(shown, "market")
       .filter((g) => g.agg.duringVsBefore != null)
       .sort((a, b) => b.agg.duringVsBefore! - a.agg.duringVsBefore!)
@@ -108,14 +134,15 @@ export function DashboardPage() {
     const lines = [
       `SPRIBE promo report — ${periodName}${nFilters ? " (filtered)" : ""}`,
       `${shown.length} promo${shown.length === 1 ? "" : "s"}${view === "month" ? ` (${prevShown.length} the month before)` : ""}`,
-      `GGR during vs before: ${pct(agg.duringVsBefore)} · after vs before: ${pct(agg.afterVsBefore)}`,
+      `GGR change (during vs before): ${pct(agg.duringVsBefore)}${agg.adjustedCount ? ` · adjusted for market trend: ${pct(agg.adjustedChange)} (${agg.adjustedCount} promos)` : " · not adjusted for market trend"}`,
+      agg.withParticipants ? `Unique participants: ${num(agg.participants)} · promo cost: ${moneyFull(agg.cost, cur)}` : "",
       monthRow?.ggr != null ? `Total GGR ${monthLabel(monthRow.month, "long")}: ${moneyFull(monthRow.ggr, cur)} (${pct(monthRow.momChange)} vs previous month)` : "",
-      best ? `Best promo: ${best.promo.name} ${pct(best.duringVsBefore)}` : "",
+      best ? `Best promo: ${best.promo.name} ${pct(best.primaryChange)}${best.isAdjusted ? " (adjusted)" : ""}` : "",
       markets.length ? `By market: ${markets.join(", ")}` : "",
     ].filter(Boolean);
     try {
       await navigator.clipboard.writeText(lines.join("\n"));
-      toast.success("Summary copied — paste it in Slack or an email");
+      toast.success("Summary copied");
     } catch {
       toast.error("Couldn't copy — your browser blocked the clipboard");
     }
@@ -147,22 +174,32 @@ export function DashboardPage() {
               <span className="brand-gradient-text">Promo Reports</span>
             </h1>
             <p className="mt-1.5 max-w-2xl text-sm text-muted-foreground">How each promotion changed GGR — before, during and after.</p>
+            <DataStatusPill className="mt-2" />
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" onClick={copySummary}>
-              <ClipboardCopy className="size-4" /> Copy summary
-            </Button>
-            <Button asChild>
-              <Link to="/data">
-                <Pencil className="size-4" /> Enter numbers
-              </Link>
-            </Button>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="outline">
+                  <Share2 className="size-4" /> Share
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent align="end" className="w-60 p-1.5">
+                <MenuItem icon={ClipboardCopy} label="Copy summary" hint="Short text for Slack or email" onClick={copySummary} />
+                <MenuItem icon={Download} label="Download results (CSV)" hint={`${shown.length} promos in this view`} onClick={exportCsv} />
+              </PopoverContent>
+            </Popover>
           </div>
         </div>
 
-        <div className="grid gap-4 lg:grid-cols-[250px_1fr] lg:items-start">
-          <aside className={cn("lg:sticky lg:top-20 lg:block", showFilters ? "block" : "hidden")}>
+        <div className={cn("grid gap-4 lg:items-start", prefs.filtersOpen ? "lg:grid-cols-[250px_1fr]" : "lg:grid-cols-1")}>
+          <aside className={cn("lg:sticky lg:top-20", showFilters ? "block" : "hidden", prefs.filtersOpen ? "lg:block" : "lg:hidden")}>
             <ReportFilters filters={filters} onChange={setFilters} all={metrics} />
+            <button
+              onClick={() => setPrefs((p) => ({ ...p, filtersOpen: false }))}
+              className="mt-2 hidden w-full items-center justify-center gap-1.5 rounded-md py-1.5 text-xs text-muted-foreground hover:bg-surface-raised hover:text-foreground lg:flex"
+            >
+              <PanelLeftClose className="size-3.5" /> Hide filters
+            </button>
           </aside>
 
           <div className="min-w-0 space-y-4">
@@ -188,6 +225,11 @@ export function DashboardPage() {
                 <Button variant="outline" size="sm" className="lg:hidden" onClick={() => setShowFilters((v) => !v)}>
                   <SlidersHorizontal className="size-3.5" /> Filters{nFilters ? ` (${nFilters})` : ""}
                 </Button>
+                {!prefs.filtersOpen && (
+                  <Button variant="outline" size="sm" className="hidden lg:inline-flex" onClick={() => setPrefs((p) => ({ ...p, filtersOpen: true }))}>
+                    <SlidersHorizontal className="size-3.5" /> Filters{nFilters ? ` (${nFilters})` : ""}
+                  </Button>
+                )}
                 <Tabs value={view} onValueChange={(v) => setView(v as "month" | "all")}>
                   <TabsList>
                     <TabsTrigger value="month">Month</TabsTrigger>
@@ -202,32 +244,60 @@ export function DashboardPage() {
             <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
               <StatCard
                 icon={Layers}
-                label="Promos"
+                label="Promotions"
                 value={shown.length}
                 hint={view === "month" ? `${prevShown.length} the month before` : `across ${new Set(filtered.map((m) => m.month)).size} months`}
+                info="Promotions that started in this period."
               />
               <StatCard
                 icon={TrendingUp}
-                label="During vs before"
+                label="GGR change"
                 value={<span className={agg.duringVsBefore != null && agg.duringVsBefore < 0 ? "text-bad-ink" : ""}>{pct(agg.duringVsBefore)}</span>}
-                hint={agg.positiveShare != null ? `${Math.round(agg.positiveShare * 100)}% of promos raised GGR` : "GGR while the promos ran"}
-              />
-              <StatCard icon={Repeat} label="After vs before" value={pct(agg.afterVsBefore)} hint="GGR once they ended" />
-              <StatCard
-                icon={Wallet}
-                label={monthRow ? `Total GGR ${monthLabel(monthRow.month)}` : "Total GGR"}
-                value={money(monthRow?.ggr, cur)}
                 hint={
-                  monthRow?.momChange != null ? (
-                    <>
-                      <Delta value={monthRow.momChange} className="text-xs" /> vs {monthLabel(prevMonth(monthRow.month), "long", false)}
-                    </>
-                  ) : (
-                    "add monthly totals to compare"
-                  )
+                  agg.adjustedCount > 0
+                    ? `${pct(agg.adjustedChange)} after removing market trend (${agg.adjustedCount} of ${agg.withData})`
+                    : "during vs before · not adjusted for market trend"
                 }
+                info="GGR per day during the promos vs the same number of days before, weighted by before GGR. Promos with a comparison group also get a market-trend-adjusted figure."
+              />
+              <StatCard
+                icon={Users}
+                label="Unique participants"
+                value={agg.withParticipants ? numCompact(agg.participants) : "—"}
+                hint={
+                  agg.withParticipants
+                    ? `${agg.participants ? Math.round((agg.newParticipants / agg.participants) * 100) : 0}% new${agg.withParticipants < shown.length ? ` · ${agg.withParticipants} of ${shown.length} promos report it` : ""}`
+                    : "not reported for these promos"
+                }
+                info="Players who took part, counted once per promo (a player in two promos counts twice)."
+              />
+              <StatCard
+                icon={Coins}
+                label="Total promo cost"
+                value={agg.withCost ? money(agg.cost, cur) : "—"}
+                hint={
+                  agg.withCost
+                    ? agg.roi != null
+                      ? `net impact ${agg.netImpact >= 0 ? "+" : "−"}${money(Math.abs(agg.netImpact), cur)} after cost`
+                      : "rewards paid"
+                    : "not reported for these promos"
+                }
+                info={`Rewards paid (prize pools, free bets, cashback), converted to ${cur}.`}
               />
             </div>
+
+            {agg.fxMissing > 0 && (
+              <p className="rounded-md border border-bad/30 bg-bad/5 px-3 py-2 text-xs text-bad-ink">
+                {agg.fxMissing} promo{agg.fxMissing === 1 ? " is" : "s are"} left out of money totals because there's no exchange rate for
+                their currency. Add it in Data → Settings.
+              </p>
+            )}
+
+            <KeyFindings
+              findings={findings}
+              basis={`From ${agg.withData} of ${shown.length} promos with before and during GGR${agg.withData ? ` · ${agg.adjustedCount} adjusted for market trend` : ""}. Promos still live or measuring aren't final.`}
+              onAction={onFinding}
+            />
 
             <div className="grid gap-4 xl:grid-cols-5">
               <section className="panel min-w-0 p-4 sm:p-5 xl:col-span-3">
@@ -240,7 +310,7 @@ export function DashboardPage() {
                     list={shown}
                     byMonth={view === "all"}
                     currency={cur}
-                    onSelect={setSelectedId}
+                    onSelect={openPromo}
                     onMonth={(m) => (setMonth(m), setView("month"))}
                   />
                 ) : (
@@ -255,8 +325,14 @@ export function DashboardPage() {
             </div>
 
             <section className="panel min-w-0 p-4 sm:p-5">
-              <h3 className="font-display text-base font-semibold">Total GGR by month</h3>
-              <p className="mb-3 mt-0.5 text-xs text-muted-foreground">All operators. Hover a month for the change and number of promos; click to open it.</p>
+              <h3 className="font-display text-base font-semibold">Monthly trend</h3>
+              <p className="mb-3 mt-0.5 text-xs text-muted-foreground">
+                Total GGR, all operators
+                {monthRow?.ggr != null && monthRow.momChange != null
+                  ? ` · ${monthLabel(monthRow.month, "long")} ${money(monthRow.ggr, cur)}, ${pct(monthRow.momChange)} vs ${monthLabel(prevMonth(monthRow.month), "long", false)}`
+                  : ""}
+                . Click a month to open it.
+              </p>
               <MonthColumns
                 data={rows.slice(-12).map((r) => ({
                   month: r.month,
@@ -286,35 +362,12 @@ export function DashboardPage() {
               sort={prefs.sort}
               onGroup={(g) => setPrefs((p) => ({ ...p, group: g }))}
               onSort={(s) => setPrefs((p) => ({ ...p, sort: s }))}
-              onSelect={setSelectedId}
+              onSelect={openPromo}
             />
           </div>
         </div>
       </main>
 
-      <Sheet open={!!selected} onOpenChange={(o) => !o && setSelectedId(null)}>
-        <SheetContent aria-describedby={undefined} className="w-full overflow-y-auto border-border bg-background sm:max-w-xl">
-          <SheetTitle className="sr-only">{selected?.promo.name ?? "Promo"}</SheetTitle>
-          {selected && (
-            <div className="px-5 pb-8 pt-6">
-              <PromoSummary m={selected} currency={cur} />
-              <div className="mt-6 flex flex-wrap gap-2">
-                <Button variant="outline" asChild>
-                  <Link to="/promo/$promoId" params={{ promoId: selected.promo.id }}>
-                    Open full report <ArrowRight className="size-4" />
-                  </Link>
-                </Button>
-                {editable && (
-                  <Button variant="ghost" onClick={() => setEditingId(selected.promo.id)}>
-                    <Pencil className="size-4" /> Edit numbers
-                  </Button>
-                )}
-              </div>
-            </div>
-          )}
-        </SheetContent>
-      </Sheet>
-      <PromoEditor promo={editing} open={!!editing} onOpenChange={(o) => !o && setEditingId(null)} />
     </>
   );
 }
@@ -414,7 +467,7 @@ function BeforeDuringAfter({
 function sortList(list: PromoMetrics[], sort: SortKey): PromoMetrics[] {
   const out = [...list];
   if (sort === "newest") out.sort((a, b) => b.promo.startDate.localeCompare(a.promo.startDate));
-  if (sort === "change") out.sort((a, b) => (b.duringVsBefore ?? -Infinity) - (a.duringVsBefore ?? -Infinity));
+  if (sort === "change") out.sort((a, b) => (b.primaryChange ?? -Infinity) - (a.primaryChange ?? -Infinity));
   if (sort === "ggr") out.sort((a, b) => (b.ggrDuring ?? -Infinity) - (a.ggrDuring ?? -Infinity));
   if (sort === "name") out.sort((a, b) => a.promo.name.localeCompare(b.promo.name));
   return out;
@@ -504,14 +557,17 @@ function PromoList({
           ))}
         </div>
       )}
-      <p className="mt-2 text-xs text-muted-foreground">Numbers are GGR before → during → after. The % is during vs before.</p>
+      <p className="mt-2 text-xs text-muted-foreground">
+        Numbers are GGR before → during → after. The % is the GGR change: “adj.” when adjusted for the market trend, “raw” when it's
+        a before/during comparison only. Click a promo for its full report.
+      </p>
     </section>
   );
 }
 
 function PromoRow({ m, currency, onSelect }: { m: PromoMetrics; currency: string; onSelect: (id: string) => void }) {
   const p = m.promo;
-  const stripe = m.duringVsBefore == null ? "var(--color-border)" : m.duringVsBefore >= 0 ? "var(--good)" : "var(--bad)";
+  const stripe = m.primaryChange == null ? "var(--color-border)" : m.primaryChange >= 0 ? "var(--good)" : "var(--bad)";
   return (
     <button
       onClick={() => onSelect(p.id)}
@@ -522,7 +578,7 @@ function PromoRow({ m, currency, onSelect }: { m: PromoMetrics; currency: string
         <div className="flex flex-wrap items-center gap-2">
           <p className="truncate font-display text-sm font-semibold">{p.name}</p>
           <span className="rounded-full border border-border px-2 py-px text-[10.5px] text-muted-foreground">{p.type}</span>
-          <LiveBadge status={m.status} />
+          <StatusBadge status={m.status} />
         </div>
         <p className="mt-0.5 truncate text-xs text-muted-foreground">
           {[p.market && marketLabel(p.market), p.operator, p.aggregator, formatRange(p.startDate, p.endDate)].filter(Boolean).join(" · ")}
@@ -536,8 +592,21 @@ function PromoRow({ m, currency, onSelect }: { m: PromoMetrics; currency: string
           <ArrowRight className="size-3" />
           <span>{money(m.ggrAfter, currency)}</span>
         </div>
-        <ResultPill value={m.duringVsBefore} className="min-w-[4.5rem] justify-center" />
+        <ChangePill value={m.primaryChange} adjusted={m.isAdjusted} className="min-w-[6.5rem] justify-end" />
+        <ArrowRight className="hidden size-4 text-muted-foreground sm:block" />
       </div>
+    </button>
+  );
+}
+
+function MenuItem({ icon: Icon, label, hint, onClick }: { icon: typeof Share2; label: string; hint: string; onClick: () => void }) {
+  return (
+    <button onClick={onClick} className="flex w-full items-start gap-2.5 rounded-md px-2.5 py-2 text-left hover:bg-surface-raised">
+      <Icon className="mt-0.5 size-4 text-muted-foreground" />
+      <span>
+        <span className="block text-sm">{label}</span>
+        <span className="block text-[11px] text-muted-foreground">{hint}</span>
+      </span>
     </button>
   );
 }

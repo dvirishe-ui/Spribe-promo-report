@@ -5,7 +5,7 @@ import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { computePromo, monthlyMap } from "@/lib/metrics";
-import { emptyPromo, toNumber } from "@/lib/normalize";
+import { emptyPromo, parseBandLines, parseStepLines, toNumber } from "@/lib/normalize";
 import { useData } from "@/lib/store";
 import { PROMO_TYPES, SPRIBE_GAMES, type PromoRecord } from "@/lib/types";
 import { addDays, daysBetween, formatRange, isValidIsoDay } from "@/lib/dates";
@@ -25,19 +25,36 @@ const NUM_FIELDS = [
   "playersBefore",
   "playersDuring",
   "playersAfter",
+  "participants",
+  "newParticipants",
+  "retainedParticipants",
+  "betsDuring",
+  "turnoverBefore",
+  "turnoverDuring",
+  "turnoverAfter",
+  "controlGgrBefore",
+  "controlGgrDuring",
 ] as const;
 type NumField = (typeof NUM_FIELDS)[number];
-type Draft = Omit<PromoRecord, NumField> & Record<NumField, string>;
+type Draft = Omit<PromoRecord, NumField> & Record<NumField, string> & { missionsText: string; leaderboardText: string };
+
+const MISSION_TYPES = ["Missions", "Cross-Game Challenge", "Collection Campaign", "New Game Launch"];
+const RANKING_TYPES = ["Leaderboard", "Network Tournament", "Seasonal Promotion"];
 
 function toDraft(p: PromoRecord): Draft {
   const d = { ...p } as unknown as Draft;
   for (const f of NUM_FIELDS) d[f] = p[f] == null ? "" : String(p[f]);
+  d.missionsText = (p.missions ?? []).map((s) => `${s.name}: ${s.reached}`).join("\n");
+  d.leaderboardText = (p.leaderboard ?? []).map((b) => `${b.band}: ${b.winners}: ${b.prize}`).join("\n");
   return d;
 }
 
 function fromDraft(d: Draft): PromoRecord {
-  const p = { ...d } as unknown as PromoRecord;
+  const { missionsText, leaderboardText, ...rest } = d;
+  const p = { ...rest } as unknown as PromoRecord;
   for (const f of NUM_FIELDS) p[f] = toNumber(d[f]);
+  p.missions = parseStepLines(missionsText);
+  p.leaderboard = parseBandLines(leaderboardText);
   return p;
 }
 
@@ -243,14 +260,55 @@ export function PromoEditor({
               More details (optional)
             </button>
             {more && (
-              <div className="mt-3 grid grid-cols-2 gap-3">
-                {moneyInput("prizePool", "Prize pool", toNumber(draft.prizePool) != null ? `= ${moneyFull(toNumber(draft.prizePool), promoCurrency)}` : undefined)}
-                {plainInput("windowDays", "Days to compare before/after", promoDays ? String(promoDays) : "same as promo")}
-                {plainInput("playersBefore", "Players before")}
-                {plainInput("playersDuring", "Players during")}
-                {plainInput("playersAfter", "Players after")}
-                <span />
-                <Field label="Notes" className="col-span-2">
+              <div className="mt-3 space-y-5">
+                <Group title="Cost and comparison">
+                  {moneyInput("prizePool", "Promo cost (rewards paid)", toNumber(draft.prizePool) != null ? `= ${moneyFull(toNumber(draft.prizePool), promoCurrency)}` : undefined)}
+                  {plainInput("windowDays", "Days to compare before/after", promoDays ? String(promoDays) : "same as promo")}
+                </Group>
+                <Group title="Players" hint="Totals only — never individual players.">
+                  {plainInput("participants", "Unique participants")}
+                  {plainInput("newParticipants", "Of which new players")}
+                  {plainInput("retainedParticipants", "Played again after")}
+                  {plainInput("betsDuring", "Bets by participants")}
+                  {plainInput("playersBefore", "Active players before")}
+                  {plainInput("playersDuring", "Active players during")}
+                  {plainInput("playersAfter", "Active players after")}
+                </Group>
+                <Group title="Turnover (amount wagered)">
+                  {moneyInput("turnoverBefore", "Before")}
+                  {moneyInput("turnoverDuring", "During")}
+                  {moneyInput("turnoverAfter", "After")}
+                </Group>
+                <Group title="Comparison group" hint="GGR of a similar group without the promo, same days. Lets the report remove the market trend.">
+                  {moneyInput("controlGgrBefore", "Comparison GGR before")}
+                  {moneyInput("controlGgrDuring", "Comparison GGR during")}
+                  <Field label="What the comparison group is" className="col-span-2">
+                    <input className={inputCls} value={draft.controlLabel ?? ""} onChange={(e) => set("controlLabel", e.target.value)} placeholder="e.g. Same games at comparable operators without the promo" disabled={!editable} />
+                  </Field>
+                </Group>
+                {(MISSION_TYPES.includes(draft.type) || draft.missionsText) && (
+                  <Field label="Mission steps — one per line: step name: players who reached it">
+                    <textarea
+                      className={cn(inputCls, "h-24 resize-y py-2 font-mono text-xs")}
+                      value={draft.missionsText}
+                      onChange={(e) => set("missionsText", e.target.value)}
+                      placeholder={"Opted in: 4000\nPlace 20 bets: 2500\nAll missions done: 600"}
+                      disabled={!editable}
+                    />
+                  </Field>
+                )}
+                {(RANKING_TYPES.includes(draft.type) || draft.leaderboardText) && (
+                  <Field label="Prize bands — one per line: ranks: winners: total prize">
+                    <textarea
+                      className={cn(inputCls, "h-24 resize-y py-2 font-mono text-xs")}
+                      value={draft.leaderboardText}
+                      onChange={(e) => set("leaderboardText", e.target.value)}
+                      placeholder={"1st: 1: 5000\n2nd–10th: 9: 9000\n11th–100th: 90: 6000"}
+                      disabled={!editable}
+                    />
+                  </Field>
+                )}
+                <Field label="Notes">
                   <textarea className={cn(inputCls, "h-20 resize-y py-2")} value={draft.notes} onChange={(e) => set("notes", e.target.value)} disabled={!editable} />
                 </Field>
               </div>
@@ -287,5 +345,15 @@ export function PromoEditor({
         </div>
       </SheetContent>
     </Sheet>
+  );
+}
+
+function Group({ title, hint, children }: { title: string; hint?: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <p className="text-xs font-semibold">{title}</p>
+      {hint && <p className="text-[11px] text-muted-foreground">{hint}</p>}
+      <div className="mt-2 grid grid-cols-2 gap-3">{children}</div>
+    </div>
   );
 }

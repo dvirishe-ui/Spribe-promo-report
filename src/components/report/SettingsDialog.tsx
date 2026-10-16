@@ -34,9 +34,9 @@ const EXAMPLE_JSON = `{
 }`;
 
 const OPTIONS: Array<{ kind: SourceKind; icon: typeof Cloud; text: string }> = [
-  { kind: "manual", icon: PencilLine, text: "Type or paste the numbers on this site." },
+  { kind: "manual", icon: PencilLine, text: "Type, paste or import numbers on this site (fallback)." },
   { kind: "sheet", icon: SheetIcon, text: "The team fills in one Google Sheet; the site reads it." },
-  { kind: "api", icon: Cloud, text: "Numbers come straight from the backoffice, automatically." },
+  { kind: "api", icon: Cloud, text: "Numbers come straight from the Back Office, automatically — once the BO team provides the endpoint." },
 ];
 
 export function SettingsDialog() {
@@ -129,7 +129,10 @@ export function SettingsDialog() {
 
           {draft.kind === "api" && (
             <div className="space-y-3">
-              <Field label="Backoffice address" hint="Your developers set this up — the format they need is below.">
+              <Field
+                label="Back Office address"
+                hint="Your developers set this up — the format they need is below. Keep it behind company login (SSO/VPN) and have it return aggregate numbers only."
+              >
                 <input className={inputCls} value={draft.apiUrl} onChange={(e) => set("apiUrl", e.target.value)} placeholder="https://backoffice…/api/promo-report" />
               </Field>
               <details className="rounded-lg border border-border p-3 text-xs">

@@ -1,5 +1,5 @@
 import { isValidIsoDay, toIsoDay } from "./dates";
-import type { Dataset, DailyPoint, MonthlyRecord, PromoRecord } from "./types";
+import type { Dataset, DailyPoint, MissionStep, MonthlyRecord, PromoRecord, RankBand } from "./types";
 import { marketInfo } from "./markets";
 
 /**
@@ -79,6 +79,31 @@ const PROMO_ALIASES: Record<string, keyof PromoRecord> = {
   playersbefore: "playersBefore",
   playersduring: "playersDuring",
   playersafter: "playersAfter",
+  participants: "participants",
+  uniqueparticipants: "participants",
+  participantcount: "participants",
+  newparticipants: "newParticipants",
+  newplayers: "newParticipants",
+  retainedparticipants: "retainedParticipants",
+  retainedplayers: "retainedParticipants",
+  returningparticipants: "retainedParticipants",
+  betsduring: "betsDuring",
+  bets: "betsDuring",
+  turnoverbefore: "turnoverBefore",
+  turnoverduring: "turnoverDuring",
+  turnoverafter: "turnoverAfter",
+  controlggrbefore: "controlGgrBefore",
+  controlbefore: "controlGgrBefore",
+  controlggrduring: "controlGgrDuring",
+  controlduring: "controlGgrDuring",
+  controllabel: "controlLabel",
+  controlgroup: "controlLabel",
+  missions: "missions",
+  missionsteps: "missions",
+  funnel: "missions",
+  leaderboard: "leaderboard",
+  rankbands: "leaderboard",
+  prizedistribution: "leaderboard",
   notes: "notes",
   note: "notes",
   comment: "notes",
@@ -210,6 +235,50 @@ function toGames(v: unknown): string[] {
     .filter(Boolean);
 }
 
+function toMissions(v: unknown): MissionStep[] | undefined {
+  if (!Array.isArray(v)) return undefined;
+  const out = v
+    .map((x) => (x && typeof x === "object" ? (x as Raw) : null))
+    .filter((x): x is Raw => x != null)
+    .map((x) => ({ name: toText(x.name ?? x.step ?? x.mission), reached: toNumber(x.reached ?? x.players ?? x.count) }))
+    .filter((x): x is MissionStep => !!x.name && x.reached != null);
+  return out.length ? out : undefined;
+}
+
+function toBands(v: unknown): RankBand[] | undefined {
+  if (!Array.isArray(v)) return undefined;
+  const out = v
+    .map((x) => (x && typeof x === "object" ? (x as Raw) : null))
+    .filter((x): x is Raw => x != null)
+    .map((x) => ({ band: toText(x.band ?? x.rank ?? x.ranks), winners: toNumber(x.winners ?? x.count) ?? 0, prize: toNumber(x.prize ?? x.amount) }))
+    .filter((x): x is RankBand => !!x.band && x.prize != null);
+  return out.length ? out : undefined;
+}
+
+/** Text form used by the editor: one step per line, "Step name: 1234". */
+export function parseStepLines(text: string): MissionStep[] | undefined {
+  const out: MissionStep[] = [];
+  for (const line of text.split(/\n/)) {
+    const m = line.match(/^(.+?)[:\t,]\s*([\d.,\s]+)$/);
+    const n = m ? toNumber(m[2]) : null;
+    if (m && n != null) out.push({ name: m[1].trim(), reached: n });
+  }
+  return out.length ? out : undefined;
+}
+
+/** Text form used by the editor: one band per line, "4th–10th: 7 winners: 2200". */
+export function parseBandLines(text: string): RankBand[] | undefined {
+  const out: RankBand[] = [];
+  for (const line of text.split(/\n/)) {
+    const parts = line.split(/[:\t]/).map((x) => x.trim()).filter(Boolean);
+    if (parts.length < 3) continue;
+    const winners = toNumber(parts[1].replace(/winners?/i, ""));
+    const prize = toNumber(parts[2]);
+    if (winners != null && prize != null) out.push({ band: parts[0], winners, prize });
+  }
+  return out.length ? out : undefined;
+}
+
 function toDaily(v: unknown): DailyPoint[] | undefined {
   if (!Array.isArray(v)) return undefined;
   const out: DailyPoint[] = [];
@@ -300,6 +369,18 @@ export function normalizePromos(rows: unknown[], fieldMap: Record<string, string
       playersBefore: toNumber(r.playersBefore),
       playersDuring: toNumber(r.playersDuring),
       playersAfter: toNumber(r.playersAfter),
+      participants: toNumber(r.participants),
+      newParticipants: toNumber(r.newParticipants),
+      retainedParticipants: toNumber(r.retainedParticipants),
+      betsDuring: toNumber(r.betsDuring),
+      turnoverBefore: toNumber(r.turnoverBefore),
+      turnoverDuring: toNumber(r.turnoverDuring),
+      turnoverAfter: toNumber(r.turnoverAfter),
+      controlGgrBefore: toNumber(r.controlGgrBefore),
+      controlGgrDuring: toNumber(r.controlGgrDuring),
+      controlLabel: toText(r.controlLabel),
+      missions: toMissions(r.missions),
+      leaderboard: toBands(r.leaderboard),
       notes: toText(r.notes),
       ...(daily ? { daily } : {}),
     };
