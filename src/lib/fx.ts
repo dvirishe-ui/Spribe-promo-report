@@ -80,10 +80,12 @@ export function toDisplayCurrency(dataset: Dataset): Dataset {
       out.fxMissing = true;
       out.daily = undefined;
       out.leaderboard = p.leaderboard?.map((b) => ({ ...b, prize: Number.NaN }));
+      out.gameGgr = undefined;
       return out;
     }
     if (p.daily) out.daily = p.daily.map((d) => ({ ...d, ggr: d.ggr * f }));
     if (p.leaderboard) out.leaderboard = p.leaderboard.map((b) => ({ ...b, prize: b.prize * f }));
+    if (p.gameGgr) out.gameGgr = p.gameGgr.map((g) => ({ ...g, ggrDuring: g.ggrDuring * f }));
     return out;
   });
   return { ...dataset, promos };

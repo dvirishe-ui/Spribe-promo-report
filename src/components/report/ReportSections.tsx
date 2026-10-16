@@ -5,9 +5,10 @@ import { DailyTimeline } from "@/components/charts/DailyTimeline";
 import { PHASES } from "@/components/charts/core";
 import { formatDay, formatRange, monthLabel, prevMonth } from "@/lib/dates";
 import { money, moneyFull, moneySigned, multiple, num, pct, pctPlain } from "@/lib/format";
-import { aggregate, type PromoMetrics } from "@/lib/metrics";
+import { aggregate, median, type PromoMetrics } from "@/lib/metrics";
 import { cn } from "@/lib/utils";
 import { ChangePill, Delta } from "./bits";
+import { CompletionByDay, DayDetail } from "./MissionInvestigation";
 
 /*
  * The sections of one promo's report. Each tab is only offered when the promo
@@ -21,7 +22,7 @@ export function availableTabs(m: PromoMetrics): Array<{ key: TabKey; label: stri
   const p = m.promo;
   const tabs: Array<{ key: TabKey; label: string }> = [{ key: "overview", label: "Overview" }];
   if (m.participants != null || p.playersBefore != null || p.playersDuring != null) tabs.push({ key: "players", label: "Players" });
-  if (m.missions) tabs.push({ key: "missions", label: "Missions" });
+  if (m.missions || m.missionDays) tabs.push({ key: "missions", label: "Missions" });
   if (m.leaderboard) tabs.push({ key: "rankings", label: "Rankings" });
   if (m.ggrBefore != null || m.ggrDuring != null || p.prizePool != null) tabs.push({ key: "financials", label: "Financials" });
   return tabs;
@@ -225,10 +226,18 @@ export function PlayersTab({ m }: { m: PromoMetrics }) {
     <div className="space-y-4">
       <NotFinal m={m} />
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <Metric label="Unique participants" value={m.participants == null ? "—" : num(m.participants)} hint="took part in the promo" />
-        <Metric label="New players" value={m.newShare == null ? "—" : pctPlain(m.newShare)} hint={p.newParticipants != null ? `${num(p.newParticipants)} first-timers` : "of participants"} />
-        <Metric label="Participation" value={m.participationRate == null ? "—" : pctPlain(m.participationRate)} hint="of active players during the promo" />
-        <Metric label="Retention" value={m.retentionRate == null ? "—" : pctPlain(m.retentionRate)} hint="participants who played again after" />
+        <Metric
+          label="Took part"
+          value={m.participants == null ? "—" : num(m.participants)}
+          hint={m.eligibleRate != null ? `${pctPlain(m.eligibleRate)} of ${num(m.eligiblePlayers)} eligible` : "unique participants"}
+        />
+        <Metric label="Participation" value={m.participationRate == null ? "—" : pctPlain(m.participationRate)} hint="of players active during the promo" />
+        <Metric
+          label="New vs returning"
+          value={m.newShare == null ? "—" : `${pctPlain(m.newShare)} new`}
+          hint={m.newShare == null || m.participants == null ? "of participants" : `${num(m.participants - (p.newParticipants ?? 0))} returning players`}
+        />
+        <Metric label="Came back after" value={m.retentionRate == null ? "—" : pctPlain(m.retentionRate)} hint="participants active in the after period" />
       </div>
       <div className="grid gap-4 lg:grid-cols-2">
         {active.some((v) => v != null) && (
@@ -247,11 +256,12 @@ export function PlayersTab({ m }: { m: PromoMetrics }) {
           </Card>
         )}
         {m.participants != null && (
-          <Card title="Participants" subtitle="From taking part to coming back after the promo">
+          <Card title="Player funnel" subtitle="From being eligible to coming back after the promo">
             <Bars
               rows={[
+                ...(m.eligiblePlayers != null ? [{ key: "elig", label: "Eligible", value: m.eligiblePlayers, display: num(m.eligiblePlayers), color: "var(--color-muted-foreground)" }] : []),
                 { key: "all", label: "Took part", value: m.participants, display: num(m.participants) },
-                { key: "new", label: "Of which new players", value: p.newParticipants ?? null, display: num(p.newParticipants) },
+                ...(completedAll(m) != null ? [{ key: "done", label: "Completed every mission", value: completedAll(m), display: num(completedAll(m)), color: "var(--series-during)" }] : []),
                 { key: "ret", label: "Played again after", value: p.retainedParticipants ?? null, display: num(p.retainedParticipants), color: "var(--series-after)" },
               ]}
             />
@@ -269,52 +279,121 @@ export function PlayersTab({ m }: { m: PromoMetrics }) {
   );
 }
 
+function completedAll(m: PromoMetrics): number | null {
+  if (m.missions) return m.missions.steps[m.missions.steps.length - 1].reached;
+  if (m.missionDays) return m.missionDays.days[m.missionDays.days.length - 1].completed;
+  return null;
+}
+
 /* ---------------------------------------------------------------- missions */
 
-export function MissionsTab({ m }: { m: PromoMetrics }) {
-  const f = m.missions!;
-  const hardest = f.hardestStep != null ? f.steps[f.hardestStep] : null;
+export function MissionsTab({
+  m,
+  all,
+  day,
+  onDay,
+}: {
+  m: PromoMetrics;
+  all: PromoMetrics[];
+  day: number | null;
+  onDay: (d: number | null) => void;
+}) {
+  const f = m.missions;
+  const s = m.missionDays;
+  const hardest = f && f.hardestStep != null ? f.steps[f.hardestStep] : null;
+  const rate = s?.overallRate ?? f?.completionRate ?? null;
   return (
     <div className="space-y-4">
       <NotFinal m={m} />
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <Metric label="Started" value={num(f.steps[0].reached)} hint={f.steps[0].name} />
-        <Metric label="Completed all" value={num(f.steps[f.steps.length - 1].reached)} hint={f.steps[f.steps.length - 1].name} />
-        <Metric label="Completion rate" value={pctPlain(f.completionRate)} hint="finished ÷ started" />
-        <Metric
-          label="Hardest step"
-          value={<span className="text-base">{hardest?.name ?? "—"}</span>}
-          hint={hardest?.dropFromPrev != null ? `${pctPlain(hardest.dropFromPrev)} of players dropped here` : undefined}
-        />
-      </div>
-      <Card title="Progression" subtitle="Players reaching each step, as a share of those who started. The drop is versus the step before.">
-        <div className="space-y-3">
-          {f.steps.map((st, i) => (
-            <div key={st.name + i} className="grid grid-cols-[minmax(0,10rem)_1fr_auto] items-center gap-3 text-sm sm:grid-cols-[minmax(0,14rem)_1fr_auto]">
-              <span className={cn("truncate", i === f.hardestStep && "font-semibold")}>
-                {i + 1}. {st.name}
-              </span>
-              <div className="h-5 overflow-hidden rounded-r-[4px] bg-surface-raised">
-                <div
-                  className="h-full rounded-r-[4px]"
-                  style={{ width: `${st.ofStart * 100}%`, background: i === f.hardestStep ? "var(--series-during)" : "var(--series-before)" }}
-                />
-              </div>
-              <span className="w-32 text-right tabular">
-                <span className="font-medium">{num(st.reached)}</span>{" "}
-                <span className="text-xs text-muted-foreground">{pctPlain(st.ofStart)}</span>
-                {st.dropFromPrev != null && <span className="ml-1.5 text-xs text-bad-ink">−{pctPlain(st.dropFromPrev)}</span>}
-              </span>
-            </div>
-          ))}
-        </div>
-        {hardest && (
-          <p className="mt-4 text-sm text-muted-foreground">
-            The biggest drop-off is at <strong className="font-semibold text-foreground">{hardest.name}</strong> — worth checking whether
-            it's too hard or unclear.
-          </p>
+        <button onClick={() => document.getElementById("completion-by-day")?.scrollIntoView({ behavior: "smooth", block: "center" })} className="text-left" disabled={!s}>
+          <Metric
+            label="Completion rate"
+            value={pctPlain(rate)}
+            hint={s ? "of started missions · click for by-day" : "finished ÷ started"}
+            className={cn(s && "transition-colors hover:border-primary/60")}
+          />
+        </button>
+        {s ? (
+          <>
+            <Metric label="Most completed" value={pctPlain(s.mostCompleted.rate)} hint={`Day ${s.mostCompleted.day}: ${s.mostCompleted.requirement}`} />
+            <Metric label="Least completed" value={pctPlain(s.leastCompleted.rate)} hint={`Day ${s.leastCompleted.day}: ${s.leastCompleted.requirement}`} />
+            <Metric label="Typical time to complete" value={s.typicalMinutes == null ? "—" : `${Math.round(s.typicalMinutes)} min`} hint="median across days" />
+          </>
+        ) : (
+          <>
+            <Metric label="Started" value={num(f!.steps[0].reached)} hint={f!.steps[0].name} />
+            <Metric label="Completed all" value={num(f!.steps[f!.steps.length - 1].reached)} />
+            <Metric label="Hardest step" value={<span className="text-base">{hardest?.name ?? "—"}</span>} hint={hardest?.dropFromPrev != null ? `${pctPlain(hardest.dropFromPrev)} dropped here` : undefined} />
+          </>
         )}
-      </Card>
+      </div>
+
+      {s && <CompletionByDay m={m} selected={day} onSelect={onDay} />}
+      {s && day != null && <DayDetail m={m} day={day} all={all} onClose={() => onDay(null)} />}
+
+      {f && (
+        <Card title="Player progression" subtitle="Players reaching each step, as a share of those who started. The drop is versus the step before.">
+          <div className="space-y-3">
+            {f.steps.map((st, i) => (
+              <div key={st.name + i} className="grid grid-cols-[minmax(0,10rem)_1fr_auto] items-center gap-3 text-sm sm:grid-cols-[minmax(0,14rem)_1fr_auto]">
+                <span className={cn("truncate", i === f.hardestStep && "font-semibold")}>
+                  {i + 1}. {st.name}
+                </span>
+                <div className="h-5 overflow-hidden rounded-r-[4px] bg-surface-raised">
+                  <div className="h-full rounded-r-[4px] transition-[width] duration-700" style={{ width: `${st.ofStart * 100}%`, background: i === f.hardestStep ? "var(--series-during)" : "var(--series-before)" }} />
+                </div>
+                <span className="w-32 text-right tabular">
+                  <span className="font-medium">{num(st.reached)}</span> <span className="text-xs text-muted-foreground">{pctPlain(st.ofStart)}</span>
+                  {st.dropFromPrev != null && <span className="ml-1.5 text-xs text-bad-ink">−{pctPlain(st.dropFromPrev)}</span>}
+                </span>
+              </div>
+            ))}
+          </div>
+        </Card>
+      )}
+
+      {m.gameContribution && (
+        <Card title="Game contribution" subtitle="Share of GGR during the promo by game">
+          <Bars rows={m.gameContribution.map((g) => ({ key: g.game, label: g.game, value: g.share, display: pctPlain(g.share), color: "var(--series-during)" }))} />
+        </Card>
+      )}
+
+      {s && (
+        <details className="panel group p-4 sm:p-5">
+          <summary className="cursor-pointer list-none font-display text-base font-semibold">
+            <span className="mr-1 inline-block transition-transform group-open:rotate-90">›</span> All mission days (table)
+          </summary>
+          <div className="mt-3 overflow-x-auto">
+            <table className="w-full min-w-[620px] text-sm">
+              <thead className="text-left text-xs text-muted-foreground">
+                <tr className="border-b border-border">
+                  <th className="py-2 pr-2 font-medium">Day</th>
+                  <th className="px-2 py-2 font-medium">Requirement</th>
+                  <th className="px-2 py-2 font-medium">Game</th>
+                  <th className="px-2 py-2 text-right font-medium">Started</th>
+                  <th className="px-2 py-2 text-right font-medium">Completed</th>
+                  <th className="px-2 py-2 text-right font-medium">Rate</th>
+                  <th className="px-2 py-2 text-right font-medium">Median time</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border tabular">
+                {s.days.map((d) => (
+                  <tr key={d.day} onClick={() => onDay(d.day)} className="cursor-pointer hover:bg-surface-raised">
+                    <td className="py-2 pr-2">{d.day}</td>
+                    <td className="px-2 py-2">{d.requirement}</td>
+                    <td className="px-2 py-2">{d.game}</td>
+                    <td className="px-2 py-2 text-right">{num(d.started)}</td>
+                    <td className="px-2 py-2 text-right">{num(d.completed)}</td>
+                    <td className="px-2 py-2 text-right">{pctPlain(d.rate)}</td>
+                    <td className="px-2 py-2 text-right">{d.medianMinutes == null ? "—" : `${d.medianMinutes} min`}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </details>
+      )}
     </div>
   );
 }
@@ -351,7 +430,12 @@ export function RankingsTab({ m, currency }: { m: PromoMetrics; currency: string
 
 /* -------------------------------------------------------------- financials */
 
-export function FinancialsTab({ m, currency, fxNote }: { m: PromoMetrics; currency: string; fxNote: string | null }) {
+export function FinancialsTab({ m, currency, fxNote, all }: { m: PromoMetrics; currency: string; fxNote: string | null; all: PromoMetrics[] }) {
+  const peers = all.filter((x) => x.promo.type === m.promo.type && x.promo.id !== m.promo.id && x.status === "complete");
+  const peerMed = (pick: (x: PromoMetrics) => number | null) => {
+    const xs = peers.map(pick).filter((v): v is number => v != null && Number.isFinite(v));
+    return { v: median(xs), n: xs.length };
+  };
   const p = m.promo;
   const rows: Array<{ label: string; before: number | null; during: number | null; after: number | null; isPct?: boolean; change?: number | null; afterChange?: number | null }> = [
     { label: "GGR", before: m.ggrBefore, during: m.ggrDuring, after: m.ggrAfter, change: m.duringVsBefore, afterChange: m.afterVsBefore },
@@ -430,6 +514,59 @@ export function FinancialsTab({ m, currency, fxNote }: { m: PromoMetrics; curren
           )}
         </Card>
       </div>
+      {peers.length > 0 && (
+        <Card title={`Compared with past ${m.promo.type} promos`} subtitle="Median of completed promos of the same type. n = how many have the figure.">
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[480px] text-sm">
+              <thead className="text-left text-xs text-muted-foreground">
+                <tr className="border-b border-border">
+                  <th className="py-2 pr-3 font-medium" />
+                  <th className="px-3 py-2 text-right font-medium">This promo</th>
+                  <th className="px-3 py-2 text-right font-medium">Past {m.promo.type}</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border tabular">
+                {[
+                  { l: "GGR change vs baseline", mine: m.primaryChange, p: peerMed((x) => x.primaryChange), f: (v: number | null) => pct(v) },
+                  { l: "Cost per participant", mine: m.costPerParticipant, p: peerMed((x) => x.costPerParticipant), f: (v: number | null) => money(v, currency) },
+                  { l: "Return on rewards", mine: m.roi == null ? null : m.roi + 1, p: peerMed((x) => (x.roi == null ? null : x.roi + 1)), f: (v: number | null) => (v == null ? "—" : multiple(v)) },
+                  { l: "GGR margin during", mine: m.marginDuring, p: peerMed((x) => x.marginDuring), f: (v: number | null) => (v == null ? "—" : `${(v * 100).toFixed(2)}%`) },
+                ].map((r) => (
+                  <tr key={r.l}>
+                    <td className="py-2.5 pr-3">{r.l}</td>
+                    <td className="px-3 py-2.5 text-right font-medium">{r.f(r.mine)}</td>
+                    <td className="px-3 py-2.5 text-right">
+                      {r.p.n ? r.f(r.p.v) : "—"} <span className="text-[10px] text-muted-foreground">{r.p.n ? `n=${r.p.n}` : ""}</span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Card>
+      )}
+
+      {m.promo.daily?.length ? (
+        <details className="panel group p-4 sm:p-5">
+          <summary className="cursor-pointer list-none font-display text-base font-semibold">
+            <span className="mr-1 inline-block transition-transform group-open:rotate-90">›</span> Daily GGR (table)
+          </summary>
+          <div className="mt-3 max-h-80 overflow-auto">
+            <table className="w-full text-sm">
+              <tbody className="divide-y divide-border tabular">
+                {m.promo.daily.map((d) => (
+                  <tr key={d.date}>
+                    <td className="py-1.5 pr-3 text-muted-foreground">{formatDay(d.date, true)}</td>
+                    <td className="py-1.5 text-xs">{d.date < m.promo.startDate ? "Before" : d.date <= m.promo.endDate ? "During" : "After"}</td>
+                    <td className="py-1.5 text-right">{money(d.ggr, currency)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </details>
+      ) : null}
+
       {fxNote && <p className="text-[11px] text-muted-foreground">{fxNote}</p>}
     </div>
   );

@@ -8,7 +8,9 @@ import { NotFoundPage } from "@/routes/not-found";
 import { useData } from "@/lib/store";
 import { formatRange } from "@/lib/dates";
 import { marketLabel } from "@/lib/markets";
-import { money, num, pctPlain } from "@/lib/format";
+import { money, num, pct, pctPlain } from "@/lib/format";
+import { operatorBrief } from "@/lib/reports";
+import { outcomeFor } from "@/lib/verdict";
 import type { PromoMetrics } from "@/lib/metrics";
 
 /**
@@ -112,5 +114,101 @@ function Highlights({ m, currency }: { m: PromoMetrics; currency: string }) {
         ))}
       </div>
     </section>
+  );
+}
+
+/**
+ * Operator report for the partner. Built only from this operator's own promos:
+ * no other operators, no internal benchmarks, no internal follow-ups.
+ */
+export function SharedOperatorPage() {
+  const { operator } = useParams({ from: "/share/operator/$operator" });
+  const { metrics, dataset } = useData();
+  const cur = dataset.currency;
+  const mine = metrics.filter((m) => m.promo.operator === operator);
+  if (!mine.length) return <NotFoundPage />;
+  const sections = operatorBrief(operator, mine, mine, [], cur, true).filter((s) => s.title !== "Suggested talking points");
+  const done = mine.filter((m) => m.status === "complete").sort((a, b) => b.promo.startDate.localeCompare(a.promo.startDate));
+  const upcoming = mine.filter((m) => m.status === "upcoming");
+  const demo = mine.some((m) => m.promo.id.startsWith("sample-"));
+
+  return (
+    <div className="min-h-screen">
+      <div className="no-print border-b border-border bg-background/85 backdrop-blur">
+        <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-between gap-2 px-4 py-2.5">
+          <Button asChild variant="ghost" size="sm">
+            <Link to="/operators/$operator" params={{ operator }}>
+              <ArrowLeft className="size-4" /> Back
+            </Link>
+          </Button>
+          <Button variant="outline" size="sm" onClick={() => window.print()}>
+            <Printer className="size-3.5" /> Print / PDF
+          </Button>
+        </div>
+      </div>
+      <main className="mx-auto max-w-4xl space-y-6 px-4 py-8">
+        <header className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="text-eyebrow">Promotion results</p>
+            <h1 className="mt-1 font-display text-3xl font-bold sm:text-4xl">{operator}</h1>
+            <p className="mt-2 text-sm text-muted-foreground">
+              {done.length} completed promotion{done.length === 1 ? "" : "s"}
+              {upcoming.length ? ` · ${upcoming.length} upcoming` : ""}
+            </p>
+          </div>
+          <div className="flex items-center gap-2.5">
+            <LogoMark className="size-10 rounded-[11px]" />
+            <Wordmark className="text-base" />
+          </div>
+        </header>
+        {demo && (
+          <p className="rounded-lg border border-accent/40 bg-accent/10 px-3 py-2 text-xs">
+            <strong className="font-semibold">Demo data.</strong> This operator and all numbers are fictional.
+          </p>
+        )}
+        <section className="space-y-2">
+          {done.map((m) => {
+            const o = outcomeFor(m, cur);
+            return (
+              <div key={m.promo.id} className="panel flex flex-wrap items-center justify-between gap-3 p-4">
+                <div className="min-w-0">
+                  <p className="font-display font-semibold">{m.promo.name}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {m.promo.type} · {formatRange(m.promo.startDate, m.promo.endDate)}
+                  </p>
+                  <p className="mt-1 text-sm">{o.headline}</p>
+                </div>
+                <div className="flex gap-5 text-right text-sm tabular">
+                  <div>
+                    <p className="text-[11px] text-muted-foreground">GGR change</p>
+                    <p className="font-semibold">{pct(m.primaryChange)}</p>
+                  </div>
+                  <div>
+                    <p className="text-[11px] text-muted-foreground">Took part</p>
+                    <p className="font-semibold">{num(m.participants)}</p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </section>
+        <section className="grid gap-4 sm:grid-cols-2">
+          {sections.map((s) => (
+            <div key={s.title} className="panel p-4">
+              <h2 className="text-sm font-semibold">{s.title}</h2>
+              <ul className="mt-2 space-y-1.5 text-sm text-muted-foreground">
+                {s.items.map((it) => (
+                  <li key={it}>{it}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </section>
+        <footer className="border-t border-border pt-4 text-xs text-muted-foreground">
+          Figures in {cur}. GGR changes are per day vs the same number of days before each promotion; observed unless marked adjusted. Contains only {operator}'s
+          own promotions. Aggregate data only. Prepared by SPRIBE.
+        </footer>
+      </main>
+    </div>
   );
 }

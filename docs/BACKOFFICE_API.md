@@ -15,6 +15,7 @@ Authorization: Bearer <token>        # optional — see "Auth" below
 ```jsonc
 {
   "currency": "EUR",                    // ISO 4217 — the currency the report is shown in
+  "timeZone": "UTC",                    // dates are calendar days in this zone; cut daily numbers on the same boundaries
   "fxRates": { "BRL": 0.16 },           // optional: value of 1 unit in EUR; overrides the site's example rates
   "generatedAt": "2026-10-16T06:00:00Z",
   "promos": [
@@ -42,6 +43,7 @@ Authorization: Bearer <token>        # optional — see "Auth" below
       "playersAfter": 8700,
 
       // ---- everything below is optional; the report shows a section only when it's present ----
+      "eligiblePlayers": 6500,          // players who could take part
       "participants": 2100,             // unique players who took part
       "newParticipants": 420,           // of which first-time players
       "retainedParticipants": 1150,     // participants who played again in the after window
@@ -56,6 +58,13 @@ Authorization: Bearer <token>        # optional — see "Auth" below
         { "name": "Opted in", "reached": 2100 },
         { "name": "Place 20 bets", "reached": 1400 },
         { "name": "All missions done", "reached": 520 }
+      ],
+      "missionDays": [                  // daily-missions promos: one entry per day (enables completion-by-day + investigation)
+        { "day": 1, "game": "Mines", "requirement": "Place 10 bets on Mines", "started": 2100, "completed": 1700, "medianMinutes": 31 },
+        { "day": 2, "game": "Hilo",  "requirement": "Hit a ×50 win on Hilo",  "started": 1950, "completed": 780,  "medianMinutes": 152 }
+      ],
+      "gameGgr": [                      // multi-game promos: GGR during the promo per game
+        { "game": "Mines", "ggrDuring": 98000 }, { "game": "Hilo", "ggrDuring": 53000 }
       ],
       "leaderboard": [                  // leaderboards / tournaments: aggregate per rank band
         { "band": "1st", "winners": 1, "prize": 3000 },
@@ -147,3 +156,19 @@ cost wait for it. A promo belongs to the month it starts in.
   endpoint return only the operators and markets the signed-in user may see.
 - **No secrets in the browser bundle.** Don't put tokens in `VITE_*` variables. Prefer SSO
   cookies or a small proxy that adds credentials server-side.
+
+## Data quality the site checks
+
+- **Completeness** per promo (what each promo type needs) — shown on the Data page and in
+  insights; missing numbers are left out, never estimated.
+- **Duplicates** — same operator, name and dates. Imports skip them with a warning; existing
+  ones are flagged. Send a stable `id` so updates replace rather than duplicate.
+- **Freshness** — `generatedAt` and the last successful sync are shown in the header; a failed
+  sync keeps the last loaded numbers and raises a data insight.
+- **Time zone** — `timeZone` (default UTC). Promo dates and daily rows must use the same days.
+
+## Permissions
+
+The endpoint should return only the operators the signed-in user may see (SPRIBE internal:
+all; an AM: their portfolio; an operator login: their own). The site's "View as" menu only
+previews this — it is not a security boundary.

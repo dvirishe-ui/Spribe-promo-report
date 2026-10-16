@@ -1,17 +1,23 @@
+import { useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { AlertTriangle, Loader2, Moon, RefreshCw, Sun } from "lucide-react";
+import { AlertTriangle, BookOpen, Check, Database, ListChecks, Loader2, Menu, Moon, RefreshCw, ShieldCheck, Sun } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { LogoMark, Wordmark } from "./Logo";
+import { DefinitionsDialog } from "./DefinitionsDialog";
 import { useTheme } from "@/lib/theme";
 import { useData } from "@/lib/store";
+import { useActions } from "@/lib/actions";
 import { SOURCE_LABEL } from "@/lib/sources";
 import { cn } from "@/lib/utils";
 
 const NAV = [
-  { to: "/", label: "Reports" },
-  { to: "/data", label: "Data" },
+  { to: "/", label: "Overview" },
+  { to: "/promotions", label: "Promotions" },
+  { to: "/operators", label: "Operators" },
+  { to: "/insights", label: "Insights" },
+  { to: "/calendar", label: "Calendar" },
 ] as const;
 
-/** Only shown when a sheet or the backoffice is connected — manual mode needs no indicator. */
 function SyncIndicator() {
   const { config, status, error, refresh } = useData();
   if (config.kind === "manual") return null;
@@ -20,45 +26,96 @@ function SyncIndicator() {
       onClick={() => void refresh()}
       title={error ?? "Refresh data"}
       className={cn(
-        "hidden items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs sm:flex",
+        "hidden items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs xl:flex",
         status === "error" ? "border-bad/50 text-bad-ink" : "border-border text-muted-foreground hover:text-foreground",
       )}
     >
-      {status === "loading" ? (
-        <Loader2 className="size-3.5 animate-spin" />
-      ) : status === "error" ? (
-        <AlertTriangle className="size-3.5" />
-      ) : (
-        <RefreshCw className="size-3.5" />
-      )}
+      {status === "loading" ? <Loader2 className="size-3.5 animate-spin" /> : status === "error" ? <AlertTriangle className="size-3.5" /> : <RefreshCw className="size-3.5" />}
       {SOURCE_LABEL[config.kind]}
     </button>
+  );
+}
+
+/** Admin and reference items, kept out of the main navigation. */
+function SecondaryMenu() {
+  const { accessOperator, setAccessOperator, allOperators } = useData();
+  const [open, setOpen] = useState(false);
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <button aria-label="More" className="grid size-9 place-items-center rounded-md border border-border text-muted-foreground transition-colors hover:text-foreground">
+          <Menu className="size-4" />
+        </button>
+      </PopoverTrigger>
+      <PopoverContent align="end" className="w-72 p-1.5">
+        <Link to="/data" onClick={() => setOpen(false)} className="flex items-start gap-2.5 rounded-md px-2.5 py-2 hover:bg-surface-raised">
+          <Database className="mt-0.5 size-4 text-muted-foreground" />
+          <span>
+            <span className="block text-sm">Data & Back Office</span>
+            <span className="block text-[11px] text-muted-foreground">Sync status, import, manual entry, settings</span>
+          </span>
+        </Link>
+        <DefinitionsDialog>
+          <button className="flex w-full items-start gap-2.5 rounded-md px-2.5 py-2 text-left hover:bg-surface-raised">
+            <BookOpen className="mt-0.5 size-4 text-muted-foreground" />
+            <span>
+              <span className="block text-sm">How numbers are calculated</span>
+              <span className="block text-[11px] text-muted-foreground">Definitions, periods, currencies</span>
+            </span>
+          </button>
+        </DefinitionsDialog>
+        <div className="mt-1 border-t border-border px-2.5 pb-1 pt-2">
+          <p className="flex items-center gap-1.5 text-xs font-medium">
+            <ShieldCheck className="size-3.5 text-muted-foreground" /> View as (access preview)
+          </p>
+          <p className="mb-1.5 text-[11px] text-muted-foreground">What an operator-restricted login would see. Real restrictions are enforced by the Back Office.</p>
+          <div className="max-h-48 overflow-y-auto">
+            {[null, ...allOperators].map((op) => (
+              <button
+                key={op ?? "all"}
+                onClick={() => {
+                  setAccessOperator(op);
+                  setOpen(false);
+                }}
+                className="flex w-full items-center justify-between rounded-md px-2 py-1 text-left text-xs hover:bg-surface-raised"
+              >
+                {op ?? "SPRIBE internal — all operators"}
+                {accessOperator === op && <Check className="size-3.5 text-primary" />}
+              </button>
+            ))}
+          </div>
+        </div>
+      </PopoverContent>
+    </Popover>
   );
 }
 
 export function AppHeader() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { theme, toggleTheme } = useTheme();
-  const active = (to: string) => (to === "/" ? pathname === "/" || pathname.startsWith("/promo/") : pathname.startsWith(to));
+  const { actions, setOpen } = useActions();
+  const openCount = actions.filter((a) => a.status !== "done").length;
+  const active = (to: string) =>
+    to === "/" ? pathname === "/" : to === "/promotions" ? pathname.startsWith("/promotions") || pathname.startsWith("/promo/") : pathname.startsWith(to);
 
   return (
     <header className="no-print sticky top-0 z-20 border-b border-border bg-background/85 backdrop-blur-xl">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
       <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-2 px-4 py-3 sm:gap-4 lg:px-8">
-        <Link to="/" className="flex items-center gap-3">
+        <Link to="/" className="flex shrink-0 items-center gap-3">
           <LogoMark className="size-9 shadow-glow rounded-[11px]" />
-          <div className="hidden sm:block">
+          <div className="hidden xl:block">
             <Wordmark className="text-sm leading-tight" />
-            <p className="text-[11px] text-muted-foreground">Promo Reports</p>
+            <p className="text-[11px] text-muted-foreground">Promo Intelligence</p>
           </div>
         </Link>
-        <nav className="flex items-center gap-1 text-sm text-muted-foreground">
+        <nav className="flex min-w-0 items-center gap-0.5 overflow-x-auto text-sm text-muted-foreground">
           {NAV.map((n) => (
             <Link
               key={n.to}
               to={n.to}
               className={cn(
-                "whitespace-nowrap rounded-md px-3 py-1.5 transition-colors",
+                "whitespace-nowrap rounded-md px-2.5 py-1.5 transition-colors sm:px-3",
                 active(n.to) ? "bg-surface-raised text-foreground" : "hover:text-foreground",
               )}
             >
@@ -66,15 +123,29 @@ export function AppHeader() {
             </Link>
           ))}
         </nav>
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-2">
           <SyncIndicator />
+          <button
+            onClick={() => setOpen(true)}
+            className="relative grid size-9 place-items-center rounded-md border border-border text-muted-foreground transition-colors hover:text-foreground md:flex md:w-auto md:gap-1.5 md:px-2.5"
+            aria-label="Follow-up actions"
+          >
+            <ListChecks className="size-4" />
+            <span className="hidden text-sm md:inline">Actions</span>
+            {openCount > 0 && (
+              <span className="absolute -right-1.5 -top-1.5 grid min-w-4 place-items-center rounded-full bg-primary px-1 text-[10px] font-semibold text-primary-foreground md:static md:ml-0.5">
+                {openCount}
+              </span>
+            )}
+          </button>
           <button
             onClick={toggleTheme}
             aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-            className="grid size-9 place-items-center rounded-md border border-border text-muted-foreground transition-colors hover:text-foreground"
+            className="hidden size-9 place-items-center rounded-md border border-border text-muted-foreground transition-colors hover:text-foreground sm:grid"
           >
             {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
           </button>
+          <SecondaryMenu />
         </div>
       </div>
     </header>

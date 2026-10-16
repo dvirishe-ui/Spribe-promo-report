@@ -27,7 +27,7 @@ export const REPORTING_PERIODS: Definition[] = [
   {
     term: "Status",
     meaning:
-      "Upcoming → Live → Measuring (ended, but the after period is still running) → Complete. Results are final only when a promo is Complete.",
+      "Upcoming → Live → Measuring (ended, but the after period is still running) → Completed. Results are final only when a promo is Completed.",
   },
 ];
 
@@ -78,11 +78,27 @@ export const METRICS: Definition[] = [
     meaning: "Participants who played again in the after period ÷ participants.",
   },
   {
+    term: "Observed vs estimated",
+    meaning:
+      "Observed = what the numbers show (GGR before vs during). Estimated = an adjusted figure that removes the market trend using a comparison group. Possible explanations on investigations are hypotheses, never proven causes.",
+  },
+  {
+    term: "Time zone",
+    meaning: "Promo dates are calendar days in the reporting time zone (UTC unless the data source says otherwise); daily numbers must be cut on the same boundaries.",
+  },
+  {
+    term: "Sample size (n)",
+    meaning: "How many promos a benchmark or ranking is based on. With fewer than five, treat comparisons as indicative.",
+  },
+  {
     term: "Mission completion",
     meaning:
       "Players who reached the last step ÷ players at the first step. The hardest step is the one that loses the biggest share of the players who reached the step before it.",
   },
 ];
+
+export const RESPONSIBLE_GAMING =
+  "More play is not automatically a success. When engagement (bets per participant) is far above normal, the report flags it as something to check with the operator's responsible-gaming team, not as a win. Recommendations never suggest targeting individual or at-risk players.";
 
 export const KEY_FINDINGS_RULES =
   "Key findings are worked out from the numbers on this page with fixed rules (no AI). Each one says what it is based on, and a finding only appears when enough promos have the data behind it.";

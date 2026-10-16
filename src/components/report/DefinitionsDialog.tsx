@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { KEY_FINDINGS_RULES, METRICS, REPORTING_PERIODS, type Definition } from "@/lib/definitions";
+import { KEY_FINDINGS_RULES, METRICS, REPORTING_PERIODS, RESPONSIBLE_GAMING, type Definition } from "@/lib/definitions";
 
 /** "How numbers are calculated" — every metric and period in plain words. */
 export function DefinitionsDialog({ children }: { children: ReactNode }) {
@@ -20,10 +20,15 @@ export function DefinitionsDialog({ children }: { children: ReactNode }) {
             <p className="text-muted-foreground">{KEY_FINDINGS_RULES}</p>
           </div>
           <div>
-            <h3 className="mb-1 text-sm font-semibold">Privacy</h3>
+            <h3 className="mb-1 text-sm font-semibold">Responsible gaming</h3>
+            <p className="text-muted-foreground">{RESPONSIBLE_GAMING}</p>
+          </div>
+          <div>
+            <h3 className="mb-1 text-sm font-semibold">Privacy and access</h3>
             <p className="text-muted-foreground">
               The report only uses aggregate numbers (totals and counts per promo). It never stores or shows individual
-              players.
+              players. Operator reports contain only that operator's own promotions. Access restrictions are enforced by the
+              Back Office; “View as” only previews them.
             </p>
           </div>
         </div>

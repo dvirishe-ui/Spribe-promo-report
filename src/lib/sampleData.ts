@@ -35,9 +35,17 @@ interface Spec {
   players: number;
   notes?: string;
   live?: boolean;
+  /** Not started yet: dates and setup only, no results */
+  upcoming?: boolean;
 }
 
 const SPECS: Spec[] = [
+  { name: "Aviator New Year Sprint", type: "Network Tournament", operator: "Operator Alpha", games: ["Aviator"], market: "Brazil", start: "2026-01-08", end: "2026-01-18", base: 44000, lift: 0.21, keep: 0.25, prize: 45000, players: 19800 },
+  { name: "Mini Roulette Winter Cashback", type: "Regional Promotion", operator: "Operator Golf", games: ["Mini Roulette"], market: "Spain", start: "2026-01-19", end: "2026-01-25", base: 7000, lift: 0.04, keep: 0.02, prize: 3800, players: 2700 },
+  { name: "Mines Explorer Missions", type: "Missions", operator: "Operator Bravo", games: ["Mines", "Hilo"], market: "Mexico", start: "2026-02-02", end: "2026-02-11", base: 12500, lift: 0.19, keep: 0.3, prize: 8000, players: 4800 },
+  { name: "Aviator Carnival Rain", type: "Seasonal Promotion", operator: "Operator Delta", games: ["Aviator"], market: "Nigeria", start: "2026-02-13", end: "2026-02-17", base: 26000, lift: 0.15, keep: 0.12, prize: 14000, players: 12600 },
+  { name: "Goal Spring Leaderboard", type: "Leaderboard", operator: "Operator Echo", games: ["Goal"], market: "Colombia", start: "2026-03-02", end: "2026-03-15", base: 9800, lift: 0.08, keep: 0.05, prize: 9500, players: 3600 },
+  { name: "Plinko Path Missions", type: "Missions", operator: "Operator Charlie", games: ["Plinko", "Dice"], market: "Peru", start: "2026-03-09", end: "2026-03-18", base: 8800, lift: 0.27, keep: 0.4, prize: 7000, players: 3500 },
   { name: "Aviator Spring Sky Race", type: "Network Tournament", operator: "Operator Alpha", games: ["Aviator"], market: "Brazil", start: "2026-04-06", end: "2026-04-19", base: 48000, lift: 0.27, keep: 0.35, prize: 60000, players: 21000 },
   { name: "Mines Cashback Week", type: "Regional Promotion", operator: "Operator Bravo", games: ["Mines"], market: "Mexico", start: "2026-04-20", end: "2026-04-26", base: 14000, lift: 0.09, keep: 0.1, prize: 9000, players: 5200 },
   { name: "Plinko Drops Festival", type: "Collection Campaign", operator: "Operator Charlie", games: ["Plinko", "Dice"], market: "Peru", start: "2026-05-04", end: "2026-05-17", base: 9500, lift: 0.18, keep: 0.25, prize: 14000, players: 3900 },
@@ -54,6 +62,10 @@ const SPECS: Spec[] = [
   { name: "Turbo Rush Multi-game", type: "Cross-Game Challenge", operator: "Operator Echo", games: ["Plinko", "Mines", "Dice", "Goal"], market: "Colombia", start: "2026-09-14", end: "2026-09-27", base: 17000, lift: 0.21, keep: 0.3, prize: 24000, players: 7800 },
   { name: "Aviator Payday Rain", type: "Regional Promotion", operator: "Operator Bravo", games: ["Aviator"], market: "Mexico", start: "2026-09-25", end: "2026-09-28", base: 31000, lift: 0.12, keep: 0.1, prize: 9000, players: 13100 },
   { name: "Balloon Pop Missions", type: "New Game Launch", operator: "Operator Foxtrot", games: ["Balloon"], market: "Kenya", start: "2026-10-05", end: "2026-10-18", base: 4100, lift: 0.17, keep: 0.2, prize: 5000, players: 1700, notes: "Still live — after-window numbers arrive once it ends.", live: true },
+  { name: "Mines Weekend Rain", type: "Regional Promotion", operator: "Operator Bravo", games: ["Mines"], market: "Mexico", start: "2026-11-06", end: "2026-11-08", base: 0, lift: 0, keep: 0, prize: 6000, players: 0, upcoming: true },
+  { name: "Aviator Payday Rain II", type: "Regional Promotion", operator: "Operator Bravo", games: ["Aviator"], market: "Mexico", start: "2026-11-06", end: "2026-11-09", base: 0, lift: 0, keep: 0, prize: 9000, players: 0, upcoming: true, notes: "Same mechanic as Aviator Payday Rain (Sep)." },
+  { name: "Aviator Black Friday Race", type: "Network Tournament", operator: "Operator Alpha", games: ["Aviator"], market: "Brazil", start: "2026-11-20", end: "2026-11-29", base: 0, lift: 0, keep: 0, prize: 50000, players: 0, upcoming: true },
+  { name: "Advent Cross-Game Missions", type: "Cross-Game Challenge", operator: "Operator Echo", games: ["Plinko", "Mines", "Goal"], market: "Colombia", start: "2026-12-01", end: "2026-12-14", base: 0, lift: 0, keep: 0, prize: 20000, players: 0, upcoming: true },
 ];
 
 function buildDaily(spec: Spec, rand: () => number): DailyPoint[] {
@@ -91,7 +103,33 @@ const AGGREGATOR_OF: Record<string, string> = {
   "Operator Golf": "Aggregator South",
 };
 
+function upcomingPromo(spec: Spec, i: number): PromoRecord {
+  const currency = marketInfo(spec.market)?.currency ?? "EUR";
+  return {
+    id: `sample-${i + 1}`,
+    name: spec.name,
+    type: spec.type,
+    operator: spec.operator,
+    aggregator: AGGREGATOR_OF[spec.operator] ?? "Direct",
+    games: spec.games,
+    market: spec.market,
+    currency,
+    startDate: spec.start,
+    endDate: spec.end,
+    windowDays: null,
+    ggrBefore: null,
+    ggrDuring: null,
+    ggrAfter: null,
+    prizePool: null,
+    playersBefore: null,
+    playersDuring: null,
+    playersAfter: null,
+    notes: [`Planned prize pool: €${spec.prize.toLocaleString("en-US")}.`, spec.notes].filter(Boolean).join(" "),
+  };
+}
+
 function buildPromo(spec: Spec, i: number): PromoRecord {
+  if (spec.upcoming) return upcomingPromo(spec, i);
   const rand = rng(1000 + i * 97);
   // Specs are written in EUR; store each promo in its market's own currency like a real operator report.
   const currency = marketInfo(spec.market)?.currency ?? "EUR";
@@ -146,7 +184,10 @@ function buildPromo(spec: Spec, i: number): PromoRecord {
           controlLabel: `Same games at comparable ${spec.market} operators without the promo`,
         }
       : {}),
+    eligiblePlayers: Math.round((spec.live ? spec.players : pl(1 + spec.lift * 0.8)) * (1.6 + rand() * 0.5)),
     ...mechanicData(spec, participants, local.prize, rand),
+    ...(MISSION_TYPES.includes(spec.type) ? { missionDays: missionDays(spec, participants, rand) } : {}),
+    ...(spec.games.length > 1 && ggrDuring != null ? { gameGgr: gameSplit(spec.games, ggrDuring, rand) } : {}),
     notes: spec.notes ?? "",
     daily,
   };
@@ -182,7 +223,44 @@ function mechanicData(spec: Spec, participants: number, prize: number, rand: () 
   return {};
 }
 
+/**
+ * Daily missions: one requirement per day. Day 6 (or the second-to-last day on
+ * short promos) is deliberately much harder so the drop-off investigation has
+ * something to find; day 2 is unusually quick.
+ */
+function missionDays(spec: Spec, participants: number, rand: () => number) {
+  const n = Math.min(14, daysBetween(spec.start, spec.end));
+  const hard = n >= 7 ? 6 : Math.max(2, n - 1);
+  const tasks = ["Place 10 bets on {g}", "Place 3 bets on {g}", "Win ×3 on {g}", "Play {g} 5 rounds in a row", "Cash out above ×2 on {g}", "Collect 5 wins on {g}"];
+  let started = participants;
+  return Array.from({ length: n }, (_, k) => {
+    const day = k + 1;
+    const game = spec.games[k % spec.games.length];
+    if (day > 1) started = Math.round(started * (day === hard + 1 ? 0.78 : 0.93 + rand() * 0.03));
+    const isHard = day === hard;
+    const quick = day === 2;
+    const rate = isHard ? 0.36 + rand() * 0.08 : quick ? 0.94 + rand() * 0.03 : 0.72 + rand() * 0.14;
+    const requirement = isHard ? `Hit a ×50 win on ${game}` : tasks[k % tasks.length].replace("{g}", game);
+    return {
+      day,
+      game,
+      requirement: quick ? `Place 3 bets on ${game}` : requirement,
+      started,
+      completed: Math.round(started * rate),
+      medianMinutes: Math.round(isHard ? 140 + rand() * 40 : quick ? 3 + rand() * 2 : 22 + rand() * 30),
+    };
+  });
+}
+
+function gameSplit(games: string[], total: number, rand: () => number) {
+  const w = games.map((_, k) => (k === 0 ? 2.2 : 1) * (0.7 + rand() * 0.6));
+  const sum = w.reduce((a, b) => a + b, 0);
+  return games.map((game, k) => ({ game, ggrDuring: Math.round((total * w[k]) / sum) }));
+}
+
 const MONTHLY: Array<[string, number]> = [
+  ["2026-01", 36_900_000],
+  ["2026-02", 37_600_000],
   ["2026-03", 38_400_000],
   ["2026-04", 39_100_000],
   ["2026-05", 40_300_000],
@@ -194,7 +272,7 @@ const MONTHLY: Array<[string, number]> = [
 
 export function sampleDataset(): Dataset {
   const monthly: MonthlyRecord[] = MONTHLY.map(([month, ggr]) => ({ month, ggr, notes: "" }));
-  monthly[3].notes = "World Cup month";
+  monthly.find((m) => m.month === "2026-06")!.notes = "World Cup month";
   return {
     promos: SPECS.map(buildPromo),
     monthly,

@@ -9,6 +9,7 @@ import type { Dataset, MonthlyRecord, PromoRecord } from "./types";
 const DATA_KEY = "spribe-report-data-v1";
 const CONFIG_KEY = "spribe-report-source-v1";
 const REMOTE_CACHE_KEY = "spribe-report-remote-cache-v1";
+const ACCESS_KEY = "spribe-report-access-v1";
 
 function read<T>(key: string): T | null {
   try {
@@ -52,8 +53,17 @@ export type ImportMode = "merge" | "replace";
 interface DataContextValue {
   /** The data as stored/entered — each promo in its own currency. */
   dataset: Dataset;
-  /** Report metrics, with every promo converted into the display currency. */
+  /** Report metrics, with every promo converted into the display currency — limited to the access scope. */
   metrics: PromoMetrics[];
+  /**
+   * Operator the current viewer is limited to, or null for internal (all operators).
+   * Preview of permission-based access: real enforcement must happen where the data
+   * is served (the Back Office endpoint), not only in the browser.
+   */
+  accessOperator: string | null;
+  setAccessOperator: (op: string | null) => void;
+  /** Every operator in the data, regardless of scope (for the access picker) */
+  allOperators: string[];
   /** true while any of the built-in sample promos are still loaded */
   hasSample: boolean;
   config: SourceConfig;
@@ -151,12 +161,24 @@ export function DataProvider({ children }: { children: ReactNode }) {
       : { promos: [], monthly: [], currency: manual.currency };
   }, [isRemote, manual, remote]);
 
-  const metrics = useMemo(() => computeAll(toDisplayCurrency(dataset)), [dataset]);
+  const [accessOperator, setAccess] = useState<string | null>(() => read<string>(ACCESS_KEY));
+  const allMetrics = useMemo(() => computeAll(toDisplayCurrency(dataset)), [dataset]);
+  const metrics = useMemo(
+    () => (accessOperator ? allMetrics.filter((m) => m.promo.operator === accessOperator) : allMetrics),
+    [allMetrics, accessOperator],
+  );
+  const allOperators = useMemo(() => [...new Set(dataset.promos.map((p) => p.operator).filter(Boolean))].sort(), [dataset.promos]);
   const hasSample = dataset.promos.some((p) => p.id.startsWith("sample-"));
 
   const value: DataContextValue = {
     dataset,
     metrics,
+    accessOperator,
+    setAccessOperator: (op) => {
+      setAccess(op);
+      write(ACCESS_KEY, op);
+    },
+    allOperators,
     hasSample,
     config,
     setConfig,

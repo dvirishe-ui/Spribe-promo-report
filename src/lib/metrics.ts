@@ -88,6 +88,15 @@ export interface PromoMetrics {
   missions: MissionFunnel | null;
   leaderboard: LeaderboardSummary | null;
 
+  eligiblePlayers: number | null;
+  /** participants ÷ eligible players */
+  eligibleRate: number | null;
+  missionDays: MissionDaysSummary | null;
+  /** Share of GGR during the promo per game */
+  gameContribution: Array<{ game: string; ggr: number; share: number }> | null;
+  /** How complete this promo's data is — drives missing-data indicators */
+  quality: DataQuality;
+
   month: string;
   monthGgr: number | null;
   prevMonthGgr: number | null;
@@ -139,7 +148,7 @@ export const STATUS_LABEL: Record<PromoStatus, string> = {
   upcoming: "Upcoming",
   live: "Live",
   measuring: "Measuring",
-  complete: "Complete",
+  complete: "Completed",
 };
 
 export function promoStatus(promo: PromoRecord, afterEnd: string, today = todayIso()): PromoStatus {
@@ -194,6 +203,93 @@ function leaderboardSummary(bands: PromoRecord["leaderboard"], participants: num
     totalPrize,
     winRate: participants && participants > 0 ? winners / participants : null,
   };
+}
+
+export interface MissionDayRow {
+  day: number;
+  game: string;
+  requirement: string;
+  started: number;
+  completed: number;
+  rate: number;
+  medianMinutes: number | null;
+  /** Change in completion rate vs the day before (percentage points) */
+  rateChange: number | null;
+}
+
+export interface MissionDaysSummary {
+  days: MissionDayRow[];
+  /** Completed ÷ started across all days */
+  overallRate: number;
+  /** Day with the largest fall in completion rate vs the day before */
+  biggestDrop: MissionDayRow | null;
+  mostCompleted: MissionDayRow;
+  leastCompleted: MissionDayRow;
+  /** Median of the daily median completion times */
+  typicalMinutes: number | null;
+}
+
+function median(xs: number[]): number | null {
+  if (!xs.length) return null;
+  const s = [...xs].sort((a, b) => a - b);
+  const mid = Math.floor(s.length / 2);
+  return s.length % 2 ? s[mid] : (s[mid - 1] + s[mid]) / 2;
+}
+
+export { median };
+
+function missionDaysSummary(days: PromoRecord["missionDays"]): MissionDaysSummary | null {
+  const clean = (days ?? []).filter((d) => d.started > 0 && d.completed >= 0).sort((a, b) => a.day - b.day);
+  if (clean.length < 2) return null;
+  let prev: number | null = null;
+  const rows: MissionDayRow[] = clean.map((d) => {
+    const rate = d.completed / d.started;
+    const row = { day: d.day, game: d.game, requirement: d.requirement, started: d.started, completed: d.completed, rate, medianMinutes: d.medianMinutes ?? null, rateChange: prev == null ? null : rate - prev };
+    prev = rate;
+    return row;
+  });
+  const drops = rows.filter((r) => r.rateChange != null && r.rateChange < 0).sort((a, b) => a.rateChange! - b.rateChange!);
+  const byRate = [...rows].sort((a, b) => b.rate - a.rate);
+  const started = rows.reduce((s, r) => s + r.started, 0);
+  return {
+    days: rows,
+    overallRate: rows.reduce((s, r) => s + r.completed, 0) / started,
+    biggestDrop: drops[0] ?? null,
+    mostCompleted: byRate[0],
+    leastCompleted: byRate[byRate.length - 1],
+    typicalMinutes: median(rows.map((r) => r.medianMinutes).filter((v): v is number => v != null)),
+  };
+}
+
+export interface DataQuality {
+  level: "complete" | "partial" | "minimal";
+  /** Plain-language names of the data this promo is missing */
+  missing: string[];
+}
+
+const MISSION_MECHANICS = ["Missions", "Cross-Game Challenge", "Collection Campaign", "New Game Launch"];
+const RANKING_MECHANICS = ["Leaderboard", "Network Tournament"];
+
+export function isMissionType(type: string) {
+  return MISSION_MECHANICS.includes(type);
+}
+export function isRankingType(type: string) {
+  return RANKING_MECHANICS.includes(type);
+}
+
+function qualityOf(p: PromoRecord, status: PromoStatus, ggrBefore: number | null, ggrDuring: number | null, ggrAfter: number | null): DataQuality {
+  if (status === "upcoming") return { level: "complete", missing: [] };
+  const missing: string[] = [];
+  if (ggrBefore == null) missing.push("GGR before");
+  if (ggrDuring == null && status !== "live") missing.push("GGR during");
+  if (ggrAfter == null && status === "complete") missing.push("GGR after");
+  if (p.prizePool == null) missing.push("reward cost");
+  if (p.participants == null) missing.push("participants");
+  if (isMissionType(p.type) && !p.missions?.length && !p.missionDays?.length) missing.push("mission progress");
+  if (isRankingType(p.type) && !p.leaderboard?.length) missing.push("ranking results");
+  if (p.fxMissing) missing.push(`exchange rate for ${p.currency}`);
+  const core = missing.some((x) => x.startsWith("GGR") || x.startsWith("exchange"));
+  return { level: missing.length === 0 ? "complete" : core ? "minimal" : "partial", missing };
 }
 
 function share(a: number | null | undefined, b: number | null | undefined): number | null {
@@ -325,6 +421,15 @@ export function computePromo(promo: PromoRecord, months?: Map<string, number | n
     marginDuring: share(ggrDuring, turnoverDuring),
     missions: missionFunnel(promo.missions),
     leaderboard: leaderboardSummary(promo.leaderboard, participants),
+    eligiblePlayers: promo.eligiblePlayers ?? null,
+    eligibleRate: share(participants, promo.eligiblePlayers),
+    missionDays: missionDaysSummary(promo.missionDays),
+    gameContribution: (() => {
+      const g = (promo.gameGgr ?? []).filter((x) => Number.isFinite(x.ggrDuring));
+      const total = g.reduce((t, x) => t + Math.max(0, x.ggrDuring), 0);
+      return g.length > 1 && total > 0 ? g.map((x) => ({ game: x.game, ggr: x.ggrDuring, share: Math.max(0, x.ggrDuring) / total })).sort((a, b) => b.ggr - a.ggr) : null;
+    })(),
+    quality: qualityOf(promo, promoStatus(promo, afterEnd), ggrBefore, ggrDuring, ggrAfter),
     month,
     monthGgr,
     prevMonthGgr,

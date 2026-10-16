@@ -17,6 +17,8 @@ import { num } from "@/lib/format";
 import { SOURCE_LABEL } from "@/lib/sources";
 import type { PromoRecord } from "@/lib/types";
 import { marketLabel } from "@/lib/markets";
+import { findDuplicates } from "@/lib/quality";
+import { cn } from "@/lib/utils";
 
 export function DataPage() {
   const { dataset, editable, config, copyRemoteToManual } = useData();
@@ -97,9 +99,12 @@ export function DataPage() {
 
 /** Current source, freshness and the Back Office connection state — stated honestly. */
 function SourceCard() {
-  const { config, dataset } = useData();
+  const { config, dataset, metrics } = useData();
   const status = useDataStatus();
   const boConfigured = config.kind === "api" && !!config.apiUrl.trim();
+  const ended = metrics.filter((m) => m.status === "complete");
+  const incomplete = ended.filter((m) => m.quality.level !== "complete");
+  const dups = findDuplicates(dataset.promos);
   return (
     <section className="panel flex flex-wrap items-start justify-between gap-4 p-4 sm:p-5">
       <div className="grid flex-1 gap-4 sm:grid-cols-3">
@@ -122,10 +127,35 @@ function SourceCard() {
           <p className="mt-1 font-medium">
             {dataset.promos.length} promos · {dataset.monthly.length} months
           </p>
-          <p className="text-xs text-muted-foreground">Shown in {dataset.currency}; other currencies converted with the rates in Settings.</p>
+          <p className="text-xs text-muted-foreground">
+            Shown in {dataset.currency}; other currencies converted with the rates in Settings. Dates in {dataset.timeZone ?? "UTC"}.
+          </p>
         </div>
       </div>
       <SettingsDialog />
+      <div className="w-full border-t border-border pt-3 text-sm">
+        <p className="text-eyebrow mb-1.5">Data completeness</p>
+        <div className="flex flex-wrap gap-x-6 gap-y-1">
+          <span>
+            <span className={cn("mr-1.5 inline-block size-2 rounded-full", incomplete.length ? "bg-accent" : "bg-good")} />
+            {ended.length - incomplete.length} of {ended.length} completed promos have all their data
+          </span>
+          <span>
+            <span className={cn("mr-1.5 inline-block size-2 rounded-full", dups.length ? "bg-bad" : "bg-good")} />
+            {dups.length ? `${dups.length} possible duplicate${dups.length === 1 ? "" : "s"}: ${dups.map((g) => g[0].name).join(", ")}` : "No duplicates found"}
+          </span>
+        </div>
+        {incomplete.length > 0 && (
+          <ul className="mt-2 space-y-0.5 text-xs text-muted-foreground">
+            {incomplete.slice(0, 6).map((m) => (
+              <li key={m.promo.id}>
+                <span className="text-foreground">{m.promo.name}</span> — missing {m.quality.missing.join(", ")}
+              </li>
+            ))}
+            {incomplete.length > 6 && <li>and {incomplete.length - 6} more</li>}
+          </ul>
+        )}
+      </div>
     </section>
   );
 }

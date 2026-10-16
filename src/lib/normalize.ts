@@ -330,6 +330,7 @@ export function normalizePromos(rows: unknown[], fieldMap: Record<string, string
   const records: PromoRecord[] = [];
   const warnings: string[] = [];
   const seen = new Set<string>();
+  const seenKeys = new Set<string>();
   rows.forEach((row, i) => {
     if (!row || typeof row !== "object") return;
     const r = remap(row as Raw, PROMO_ALIASES, fieldMap);
@@ -346,6 +347,12 @@ export function normalizePromos(rows: unknown[], fieldMap: Record<string, string
       warnings.push(`${label}: end date is before start date — skipped.`);
       return;
     }
+    const dupKey = [toText(r.operator).toLowerCase(), name.toLowerCase(), startDate, endDate].join("|");
+    if (seenKeys.has(dupKey)) {
+      warnings.push(`${label}: same operator, name and dates as an earlier row — skipped as a duplicate.`);
+      return;
+    }
+    seenKeys.add(dupKey);
     let id = toText(r.id) || newId();
     if (seen.has(id)) id = newId();
     seen.add(id);

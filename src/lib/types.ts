@@ -19,6 +19,30 @@ export interface MissionStep {
   reached: number;
 }
 
+/**
+ * One day of a daily-missions promo (aggregate). Lets the report show
+ * completion per day, completion time and where players dropped off.
+ */
+export interface MissionDay {
+  /** 1-based day of the promo */
+  day: number;
+  game: string;
+  /** What players had to do, as shown to them */
+  requirement: string;
+  /** Participants who had this day's mission open (started it) */
+  started: number;
+  /** Participants who completed it */
+  completed: number;
+  /** Median minutes from starting to completing the mission, if tracked */
+  medianMinutes?: number | null;
+}
+
+/** GGR during the promo per game, for multi-game promos */
+export interface GameShare {
+  game: string;
+  ggrDuring: number;
+}
+
 export interface RankBand {
   /** e.g. "1st", "2nd–3rd", "4th–10th" */
   band: string;
@@ -71,6 +95,8 @@ export interface PromoRecord {
    * the report never stores or shows individual players.
    */
 
+  /** Players who could take part (eligible audience) */
+  eligiblePlayers?: number | null;
   /** Unique players who took part in the promo (opted in / qualified) */
   participants?: number | null;
   /** Participants who had not played these games before */
@@ -97,6 +123,10 @@ export interface PromoRecord {
 
   /** Mission promos: how many participants reached each step, in order */
   missions?: MissionStep[];
+  /** Daily-missions promos: one entry per day */
+  missionDays?: MissionDay[];
+  /** GGR during the promo split by game */
+  gameGgr?: GameShare[];
   /** Leaderboard / tournament promos: winners and prizes per rank band */
   leaderboard?: RankBand[];
 
@@ -133,6 +163,11 @@ export interface Dataset {
   generatedAt?: string;
   /** Last manual edit, ISO timestamp */
   updatedAt?: string;
+  /**
+   * Time zone the dates are reported in. Promo dates are calendar days in this
+   * zone; the Back Office should cut daily numbers on the same boundaries.
+   */
+  timeZone?: string;
 }
 
 /** The promotion types used in the SPRIBE Promo Calendar. */

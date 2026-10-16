@@ -4,6 +4,9 @@ import { FlaskConical } from "lucide-react";
 import { AppHeader } from "@/components/report/AppHeader";
 import { ConfirmProvider } from "@/components/report/Confirm";
 import { DefinitionsDialog } from "@/components/report/DefinitionsDialog";
+import { ActionsPanel } from "@/components/report/ActionsPanel";
+import { ActionsProvider } from "@/lib/actions";
+import { ViewProvider } from "@/lib/view";
 import { DataProvider, useData } from "@/lib/store";
 import { ThemeProvider, useTheme } from "@/lib/theme";
 
@@ -20,6 +23,23 @@ function AppToaster() {
         },
       }}
     />
+  );
+}
+
+function AccessBanner() {
+  const { accessOperator, setAccessOperator } = useData();
+  if (!accessOperator) return null;
+  return (
+    <div className="no-print border-b border-primary/30 bg-primary/10">
+      <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-2 px-4 py-1.5 text-xs lg:px-8">
+        <p>
+          <strong className="font-semibold">Viewing as {accessOperator}.</strong> Other operators are hidden — this previews an operator-restricted login.
+        </p>
+        <button onClick={() => setAccessOperator(null)} className="text-primary hover:underline">
+          Back to internal view
+        </button>
+      </div>
+    </div>
   );
 }
 
@@ -53,9 +73,12 @@ export function RootLayout() {
   return (
     <ThemeProvider>
       <DataProvider>
+        <ViewProvider>
+        <ActionsProvider>
         <ConfirmProvider>
           <div className="flex min-h-screen flex-col">
             {!bare && <AppHeader />}
+            {!bare && <AccessBanner />}
             {!bare && <SampleBanner />}
             <div className="flex-1">
               <Outlet />
@@ -67,8 +90,11 @@ export function RootLayout() {
               </DefinitionsDialog>
             </footer>
             <AppToaster />
+            {!bare && <ActionsPanel />}
           </div>
         </ConfirmProvider>
+        </ActionsProvider>
+        </ViewProvider>
       </DataProvider>
     </ThemeProvider>
   );

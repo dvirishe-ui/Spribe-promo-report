@@ -1,41 +1,60 @@
 import { createHashHistory, createRootRoute, createRoute, createRouter } from "@tanstack/react-router";
 import { RootLayout } from "@/routes/root";
-import { DashboardPage } from "@/routes/dashboard";
+import { OverviewPage } from "@/routes/overview";
+import { PromotionsPage } from "@/routes/promotions";
 import { PromoReportPage } from "@/routes/promo-report";
+import { OperatorProfilePage, OperatorsPage } from "@/routes/operators";
+import { InsightsPage } from "@/routes/insights";
+import { CalendarPage } from "@/routes/calendar";
 import { DataPage } from "@/routes/data";
 import { NotFoundPage } from "@/routes/not-found";
-import { SharePage } from "@/routes/share";
+import { SharePage, SharedOperatorPage } from "@/routes/share";
 
 const rootRoute = createRootRoute({
   component: RootLayout,
   notFoundComponent: NotFoundPage,
 });
 
-const dashboardRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/",
-  component: DashboardPage,
-});
+const str = (v: unknown) => (typeof v === "string" && v ? v : undefined);
+const int = (v: unknown) => {
+  const n = typeof v === "number" ? v : typeof v === "string" ? Number(v) : NaN;
+  return Number.isInteger(n) && n > 0 ? n : undefined;
+};
 
+const overviewRoute = createRoute({ getParentRoute: () => rootRoute, path: "/", component: OverviewPage });
+const promotionsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/promotions", component: PromotionsPage });
 const promoRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/promo/$promoId",
+  // ?tab=missions&day=6 — lets insights link straight to the evidence.
+  validateSearch: (s: Record<string, unknown>): { tab?: string; day?: number } => ({ tab: str(s.tab), day: int(s.day) }),
   component: PromoReportPage,
 });
-
-const dataRoute = createRoute({
+const operatorsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/operators", component: OperatorsPage });
+const operatorRoute = createRoute({ getParentRoute: () => rootRoute, path: "/operators/$operator", component: OperatorProfilePage });
+const insightsRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: "/data",
-  component: DataPage,
+  path: "/insights",
+  validateSearch: (s: Record<string, unknown>): { tab?: string; ids?: string } => ({ tab: str(s.tab), ids: str(s.ids) }),
+  component: InsightsPage,
 });
+const calendarRoute = createRoute({ getParentRoute: () => rootRoute, path: "/calendar", component: CalendarPage });
+const dataRoute = createRoute({ getParentRoute: () => rootRoute, path: "/data", component: DataPage });
+const shareRoute = createRoute({ getParentRoute: () => rootRoute, path: "/share/$promoId", component: SharePage });
+const shareOperatorRoute = createRoute({ getParentRoute: () => rootRoute, path: "/share/operator/$operator", component: SharedOperatorPage });
 
-const shareRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/share/$promoId",
-  component: SharePage,
-});
-
-const routeTree = rootRoute.addChildren([shareRoute, dashboardRoute, promoRoute, dataRoute]);
+const routeTree = rootRoute.addChildren([
+  overviewRoute,
+  promotionsRoute,
+  promoRoute,
+  operatorsRoute,
+  operatorRoute,
+  insightsRoute,
+  calendarRoute,
+  dataRoute,
+  shareOperatorRoute,
+  shareRoute,
+]);
 
 export const router = createRouter({
   routeTree,
