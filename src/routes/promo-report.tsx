@@ -29,6 +29,7 @@ import { fxFactor } from "@/lib/fx";
 import { resultsCsv } from "@/lib/export";
 import { downloadText } from "@/lib/csv";
 import { outcomeFor } from "@/lib/verdict";
+import { campaignById } from "@/lib/campaigns";
 
 export function PromoReportPage() {
   const { promoId } = useParams({ from: "/promo/$promoId" });
@@ -126,6 +127,19 @@ export function PromoReportPage() {
           <CalendarDays className="size-3.5" />
           {formatRange(p.startDate, p.endDate)} · {m.promoDays} day{m.promoDays === 1 ? "" : "s"} · compared with {m.windowDays} days before and after
         </p>
+        {campaignById(p.calendarId) && (
+          <p className="no-print mt-1.5 text-xs text-muted-foreground">
+            Part of the network campaign{" "}
+            <Link
+              to="/calendar"
+              search={{ month: p.startDate.slice(0, 7), open: `c:${p.calendarId}` }}
+              className="font-medium text-primary hover:underline"
+            >
+              {campaignById(p.calendarId)!.name}
+            </Link>{" "}
+            — see every operator's result on the calendar.
+          </p>
+        )}
       </header>
 
       <ResultHero m={m} currency={cur} />

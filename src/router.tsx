@@ -38,7 +38,18 @@ const insightsRoute = createRoute({
   validateSearch: (s: Record<string, unknown>): { tab?: string; ids?: string } => ({ tab: str(s.tab), ids: str(s.ids) }),
   component: InsightsPage,
 });
-const calendarRoute = createRoute({ getParentRoute: () => rootRoute, path: "/calendar", component: CalendarPage });
+const calendarRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/calendar",
+  // ?view=list&month=2026-09&open=c:spribe-adventure-2026 — open an entry from elsewhere.
+  validateSearch: (s: Record<string, unknown>): { view?: string; month?: string; week?: string; open?: string } => ({
+    view: str(s.view),
+    month: str(s.month),
+    week: str(s.week),
+    open: str(s.open),
+  }),
+  component: CalendarPage,
+});
 const dataRoute = createRoute({ getParentRoute: () => rootRoute, path: "/data", component: DataPage });
 const shareRoute = createRoute({ getParentRoute: () => rootRoute, path: "/share/$promoId", component: SharePage });
 const shareOperatorRoute = createRoute({ getParentRoute: () => rootRoute, path: "/share/operator/$operator", component: SharedOperatorPage });

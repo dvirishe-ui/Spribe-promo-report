@@ -90,6 +90,8 @@ export const PROMO_COLUMNS = [
   "control_ggr_before",
   "control_ggr_during",
   "control_label",
+  "eligible_players",
+  "calendar_id",
   "notes",
 ];
 
@@ -125,6 +127,8 @@ export function promosToCsv(promos: PromoRecord[]): string {
       p.controlGgrBefore,
       p.controlGgrDuring,
       p.controlLabel,
+      p.eligiblePlayers,
+      p.calendarId,
       p.notes,
     ]),
   );
@@ -168,6 +172,8 @@ export const PROMO_TEMPLATE = toCsv(PROMO_COLUMNS, [
     "3700000",
     "",
     "",
+    "",
+    "5400",
     "",
     "Example row — replace with your numbers",
   ],

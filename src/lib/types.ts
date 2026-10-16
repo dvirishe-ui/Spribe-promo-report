@@ -130,6 +130,9 @@ export interface PromoRecord {
   /** Leaderboard / tournament promos: winners and prizes per rank band */
   leaderboard?: RankBand[];
 
+  /** Id of the Promo Calendar network campaign this promo belongs to (e.g. "spribe-adventure-2026") */
+  calendarId?: string;
+
   /** Set by the report when no exchange rate exists for this promo's currency (never stored) */
   fxMissing?: boolean;
 
@@ -194,4 +197,5 @@ export const SPRIBE_GAMES = [
   "Hotline",
   "Balloon",
   "Trader",
+  "Pilot Chicken",
 ] as const;

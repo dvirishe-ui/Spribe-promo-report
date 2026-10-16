@@ -2,6 +2,7 @@ import { addDays, daysBetween, parseDay } from "./dates";
 import type { Dataset, DailyPoint, MonthlyRecord, PromoRecord } from "./types";
 import { marketInfo } from "./markets";
 import { DEFAULT_RATES_TO_EUR } from "./fx";
+import { campaignById } from "./campaigns";
 
 /**
  * SAMPLE NUMBERS ONLY. Generated deterministically so the site has something
@@ -37,6 +38,8 @@ interface Spec {
   live?: boolean;
   /** Not started yet: dates and setup only, no results */
   upcoming?: boolean;
+  /** Promo Calendar network campaign this operator took part in */
+  calendarId?: string;
 }
 
 const SPECS: Spec[] = [
@@ -66,6 +69,12 @@ const SPECS: Spec[] = [
   { name: "Aviator Payday Rain II", type: "Regional Promotion", operator: "Operator Bravo", games: ["Aviator"], market: "Mexico", start: "2026-11-06", end: "2026-11-09", base: 0, lift: 0, keep: 0, prize: 9000, players: 0, upcoming: true, notes: "Same mechanic as Aviator Payday Rain (Sep)." },
   { name: "Aviator Black Friday Race", type: "Network Tournament", operator: "Operator Alpha", games: ["Aviator"], market: "Brazil", start: "2026-11-20", end: "2026-11-29", base: 0, lift: 0, keep: 0, prize: 50000, players: 0, upcoming: true },
   { name: "Advent Cross-Game Missions", type: "Cross-Game Challenge", operator: "Operator Echo", games: ["Plinko", "Mines", "Goal"], market: "Colombia", start: "2026-12-01", end: "2026-12-14", base: 0, lift: 0, keep: 0, prize: 20000, players: 0, upcoming: true },
+  // Operators' results for network campaigns on the Promo Calendar (fictional numbers).
+  { name: "Aviator World Cup Kickoff", type: "Seasonal Promotion", operator: "Operator Alpha", games: ["Aviator"], market: "Brazil", start: "2026-06-15", end: "2026-06-28", base: 50000, lift: 0.18, keep: 0.15, prize: 2200, players: 21400, calendarId: "world-cup-aviator-kickoff" },
+  { name: "Aviator World Cup Kickoff", type: "Seasonal Promotion", operator: "Operator Bravo", games: ["Aviator"], market: "Mexico", start: "2026-06-15", end: "2026-06-28", base: 29000, lift: 0.11, keep: 0.08, prize: 1500, players: 12400, calendarId: "world-cup-aviator-kickoff", notes: "Ran alongside Goal Penalty Leaderboard at the same operator." },
+  { name: "SPRIBE Adventure", type: "Cross-Game Challenge", operator: "Operator Alpha", games: ["Aviator", "Mines", "Goal", "Plinko", "Pilot Chicken", "Keno", "Trader"], market: "Brazil", start: "2026-09-21", end: "2026-09-27", base: 58000, lift: 0.17, keep: 0.22, prize: 5200, players: 24600, calendarId: "spribe-adventure-2026" },
+  { name: "SPRIBE Adventure", type: "Cross-Game Challenge", operator: "Operator Delta", games: ["Aviator", "Mines", "Goal", "Plinko", "Pilot Chicken", "Keno", "Trader"], market: "Nigeria", start: "2026-09-21", end: "2026-09-27", base: 30000, lift: 0.23, keep: 0.3, prize: 4300, players: 14900, calendarId: "spribe-adventure-2026" },
+  { name: "SPRIBE Adventure", type: "Cross-Game Challenge", operator: "Operator Charlie", games: ["Aviator", "Mines", "Goal", "Plinko", "Pilot Chicken", "Keno", "Trader"], market: "Peru", start: "2026-09-21", end: "2026-09-27", base: 11500, lift: 0.06, keep: 0.05, prize: 2600, players: 4700, calendarId: "spribe-adventure-2026" },
 ];
 
 function buildDaily(spec: Spec, rand: () => number): DailyPoint[] {
@@ -124,6 +133,7 @@ function upcomingPromo(spec: Spec, i: number): PromoRecord {
     playersBefore: null,
     playersDuring: null,
     playersAfter: null,
+    ...(spec.calendarId ? { calendarId: spec.calendarId } : {}),
     notes: [`Planned prize pool: €${spec.prize.toLocaleString("en-US")}.`, spec.notes].filter(Boolean).join(" "),
   };
 }
@@ -188,6 +198,7 @@ function buildPromo(spec: Spec, i: number): PromoRecord {
     ...mechanicData(spec, participants, local.prize, rand),
     ...(MISSION_TYPES.includes(spec.type) ? { missionDays: missionDays(spec, participants, rand) } : {}),
     ...(spec.games.length > 1 && ggrDuring != null ? { gameGgr: gameSplit(spec.games, ggrDuring, rand) } : {}),
+    ...(spec.calendarId ? { calendarId: spec.calendarId } : {}),
     notes: spec.notes ?? "",
     daily,
   };
@@ -235,16 +246,18 @@ function missionDays(spec: Spec, participants: number, rand: () => number) {
   let started = participants;
   return Array.from({ length: n }, (_, k) => {
     const day = k + 1;
-    const game = spec.games[k % spec.games.length];
+    const plan = campaignById(spec.calendarId)?.dailyMissions?.[k];
+    const game = plan ? plan.games.slice(1).join(" · ") : spec.games[k % spec.games.length];
     if (day > 1) started = Math.round(started * (day === hard + 1 ? 0.78 : 0.93 + rand() * 0.03));
     const isHard = day === hard;
     const quick = day === 2;
-    const rate = isHard ? 0.36 + rand() * 0.08 : quick ? 0.94 + rand() * 0.03 : 0.72 + rand() * 0.14;
+    const rate = isHard ? 0.36 + rand() * 0.08 : quick ? 0.94 + rand() * 0.03 : Math.min(0.95, 0.62 + spec.lift * 0.7 + rand() * 0.14);
     const requirement = isHard ? `Hit a ×50 win on ${game}` : tasks[k % tasks.length].replace("{g}", game);
+    const planned = plan && (plan.tasks.length > 1 ? plan.tasks.join(" · ") : `4 tasks across ${plan.games.join(", ")}`);
     return {
       day,
       game,
-      requirement: quick ? `Place 3 bets on ${game}` : requirement,
+      requirement: planned || (quick ? `Place 3 bets on ${game}` : requirement),
       started,
       completed: Math.round(started * rate),
       medianMinutes: Math.round(isHard ? 140 + rand() * 40 : quick ? 3 + rand() * 2 : 22 + rand() * 30),

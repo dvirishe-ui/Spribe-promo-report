@@ -372,7 +372,7 @@
           "game": "Mines",
           "requirement": "Place 10 bets on Mines",
           "started": 2380,
-          "completed": 1753,
+          "completed": 1831,
           "medianMinutes": 44
         },
         {
@@ -388,7 +388,7 @@
           "game": "Mines",
           "requirement": "Win ×3 on Mines",
           "started": 2176,
-          "completed": 1688,
+          "completed": 1759,
           "medianMinutes": 39
         },
         {
@@ -396,7 +396,7 @@
           "game": "Hilo",
           "requirement": "Play Hilo 5 rounds in a row",
           "started": 2026,
-          "completed": 1466,
+          "completed": 1533,
           "medianMinutes": 43
         },
         {
@@ -404,7 +404,7 @@
           "game": "Mines",
           "requirement": "Cash out above ×2 on Mines",
           "started": 1944,
-          "completed": 1570,
+          "completed": 1634,
           "medianMinutes": 37
         },
         {
@@ -420,7 +420,7 @@
           "game": "Mines",
           "requirement": "Place 10 bets on Mines",
           "started": 1448,
-          "completed": 1116,
+          "completed": 1164,
           "medianMinutes": 50
         },
         {
@@ -428,7 +428,7 @@
           "game": "Hilo",
           "requirement": "Place 3 bets on Hilo",
           "started": 1372,
-          "completed": 1009,
+          "completed": 1055,
           "medianMinutes": 52
         },
         {
@@ -436,7 +436,7 @@
           "game": "Mines",
           "requirement": "Win ×3 on Mines",
           "started": 1283,
-          "completed": 1102,
+          "completed": 1144,
           "medianMinutes": 45
         },
         {
@@ -444,7 +444,7 @@
           "game": "Hilo",
           "requirement": "Play Hilo 5 rounds in a row",
           "started": 1217,
-          "completed": 1012,
+          "completed": 1052,
           "medianMinutes": 47
         }
       ],
@@ -960,7 +960,7 @@
           "game": "Plinko",
           "requirement": "Place 10 bets on Plinko",
           "started": 1975,
-          "completed": 1606,
+          "completed": 1781,
           "medianMinutes": 40
         },
         {
@@ -976,7 +976,7 @@
           "game": "Plinko",
           "requirement": "Win ×3 on Plinko",
           "started": 1749,
-          "completed": 1279,
+          "completed": 1435,
           "medianMinutes": 34
         },
         {
@@ -984,7 +984,7 @@
           "game": "Dice",
           "requirement": "Play Dice 5 rounds in a row",
           "started": 1657,
-          "completed": 1277,
+          "completed": 1424,
           "medianMinutes": 41
         },
         {
@@ -992,7 +992,7 @@
           "game": "Plinko",
           "requirement": "Cash out above ×2 on Plinko",
           "started": 1566,
-          "completed": 1347,
+          "completed": 1486,
           "medianMinutes": 34
         },
         {
@@ -1008,7 +1008,7 @@
           "game": "Plinko",
           "requirement": "Place 10 bets on Plinko",
           "started": 1166,
-          "completed": 853,
+          "completed": 957,
           "medianMinutes": 47
         },
         {
@@ -1016,7 +1016,7 @@
           "game": "Dice",
           "requirement": "Place 3 bets on Dice",
           "started": 1086,
-          "completed": 811,
+          "completed": 908,
           "medianMinutes": 42
         },
         {
@@ -1024,7 +1024,7 @@
           "game": "Plinko",
           "requirement": "Win ×3 on Plinko",
           "started": 1031,
-          "completed": 815,
+          "completed": 907,
           "medianMinutes": 22
         },
         {
@@ -1032,7 +1032,7 @@
           "game": "Dice",
           "requirement": "Play Dice 5 rounds in a row",
           "started": 988,
-          "completed": 817,
+          "completed": 905,
           "medianMinutes": 47
         }
       ],
@@ -1575,7 +1575,7 @@
           "game": "Plinko",
           "requirement": "Place 10 bets on Plinko",
           "started": 1915,
-          "completed": 1611,
+          "completed": 1661,
           "medianMinutes": 39
         },
         {
@@ -1591,7 +1591,7 @@
           "game": "Plinko",
           "requirement": "Win ×3 on Plinko",
           "started": 1686,
-          "completed": 1296,
+          "completed": 1340,
           "medianMinutes": 27
         },
         {
@@ -1599,7 +1599,7 @@
           "game": "Dice",
           "requirement": "Play Dice 5 rounds in a row",
           "started": 1591,
-          "completed": 1317,
+          "completed": 1358,
           "medianMinutes": 48
         },
         {
@@ -1607,7 +1607,7 @@
           "game": "Plinko",
           "requirement": "Cash out above ×2 on Plinko",
           "started": 1521,
-          "completed": 1243,
+          "completed": 1283,
           "medianMinutes": 49
         },
         {
@@ -1623,7 +1623,7 @@
           "game": "Plinko",
           "requirement": "Place 10 bets on Plinko",
           "started": 1114,
-          "completed": 904,
+          "completed": 933,
           "medianMinutes": 32
         },
         {
@@ -1631,7 +1631,7 @@
           "game": "Dice",
           "requirement": "Place 3 bets on Dice",
           "started": 1062,
-          "completed": 900,
+          "completed": 928,
           "medianMinutes": 27
         },
         {
@@ -1639,7 +1639,7 @@
           "game": "Plinko",
           "requirement": "Win ×3 on Plinko",
           "started": 988,
-          "completed": 720,
+          "completed": 746,
           "medianMinutes": 30
         },
         {
@@ -1647,7 +1647,7 @@
           "game": "Dice",
           "requirement": "Play Dice 5 rounds in a row",
           "started": 929,
-          "completed": 790,
+          "completed": 814,
           "medianMinutes": 35
         },
         {
@@ -1655,7 +1655,7 @@
           "game": "Plinko",
           "requirement": "Cash out above ×2 on Plinko",
           "started": 883,
-          "completed": 660,
+          "completed": 683,
           "medianMinutes": 41
         },
         {
@@ -1663,7 +1663,7 @@
           "game": "Dice",
           "requirement": "Collect 5 wins on Dice",
           "started": 833,
-          "completed": 692,
+          "completed": 714,
           "medianMinutes": 25
         },
         {
@@ -1671,7 +1671,7 @@
           "game": "Plinko",
           "requirement": "Place 10 bets on Plinko",
           "started": 783,
-          "completed": 633,
+          "completed": 653,
           "medianMinutes": 45
         },
         {
@@ -1679,7 +1679,7 @@
           "game": "Dice",
           "requirement": "Place 3 bets on Dice",
           "started": 733,
-          "completed": 630,
+          "completed": 649,
           "medianMinutes": 51
         }
       ],
@@ -1996,7 +1996,7 @@
           "game": "Mines",
           "requirement": "Place 10 bets on Mines",
           "started": 3224,
-          "completed": 2560,
+          "completed": 2734,
           "medianMinutes": 35
         },
         {
@@ -2012,7 +2012,7 @@
           "game": "Hilo",
           "requirement": "Win ×3 on Hilo",
           "started": 2835,
-          "completed": 2429,
+          "completed": 2582,
           "medianMinutes": 25
         },
         {
@@ -2020,7 +2020,7 @@
           "game": "Mines",
           "requirement": "Play Mines 5 rounds in a row",
           "started": 2657,
-          "completed": 1992,
+          "completed": 2136,
           "medianMinutes": 51
         },
         {
@@ -2028,7 +2028,7 @@
           "game": "Goal",
           "requirement": "Cash out above ×2 on Goal",
           "started": 2534,
-          "completed": 2011,
+          "completed": 2148,
           "medianMinutes": 26
         },
         {
@@ -2044,7 +2044,7 @@
           "game": "Mines",
           "requirement": "Place 10 bets on Mines",
           "started": 1867,
-          "completed": 1391,
+          "completed": 1492,
           "medianMinutes": 28
         },
         {
@@ -2052,7 +2052,7 @@
           "game": "Goal",
           "requirement": "Place 3 bets on Goal",
           "started": 1791,
-          "completed": 1398,
+          "completed": 1495,
           "medianMinutes": 35
         },
         {
@@ -2060,7 +2060,7 @@
           "game": "Hilo",
           "requirement": "Win ×3 on Hilo",
           "started": 1711,
-          "completed": 1393,
+          "completed": 1485,
           "medianMinutes": 29
         },
         {
@@ -2068,7 +2068,7 @@
           "game": "Mines",
           "requirement": "Play Mines 5 rounds in a row",
           "started": 1630,
-          "completed": 1291,
+          "completed": 1379,
           "medianMinutes": 34
         },
         {
@@ -2076,7 +2076,7 @@
           "game": "Goal",
           "requirement": "Cash out above ×2 on Goal",
           "started": 1545,
-          "completed": 1285,
+          "completed": 1368,
           "medianMinutes": 45
         },
         {
@@ -2084,7 +2084,7 @@
           "game": "Hilo",
           "requirement": "Collect 5 wins on Hilo",
           "started": 1478,
-          "completed": 1144,
+          "completed": 1224,
           "medianMinutes": 30
         },
         {
@@ -2092,7 +2092,7 @@
           "game": "Mines",
           "requirement": "Place 10 bets on Mines",
           "started": 1405,
-          "completed": 1066,
+          "completed": 1142,
           "medianMinutes": 28
         },
         {
@@ -2100,7 +2100,7 @@
           "game": "Goal",
           "requirement": "Place 3 bets on Goal",
           "started": 1345,
-          "completed": 1065,
+          "completed": 1137,
           "medianMinutes": 38
         }
       ],
@@ -3499,7 +3499,7 @@
           "game": "Mines",
           "requirement": "Place 10 bets on Mines",
           "started": 2330,
-          "completed": 1974,
+          "completed": 2132,
           "medianMinutes": 33
         },
         {
@@ -3515,7 +3515,7 @@
           "game": "Mines",
           "requirement": "Win ×3 on Mines",
           "started": 2087,
-          "completed": 1599,
+          "completed": 1741,
           "medianMinutes": 25
         },
         {
@@ -3523,7 +3523,7 @@
           "game": "Mines",
           "requirement": "Play Mines 5 rounds in a row",
           "started": 1997,
-          "completed": 1710,
+          "completed": 1846,
           "medianMinutes": 41
         },
         {
@@ -3531,7 +3531,7 @@
           "game": "Mines",
           "requirement": "Cash out above ×2 on Mines",
           "started": 1870,
-          "completed": 1389,
+          "completed": 1516,
           "medianMinutes": 22
         },
         {
@@ -3547,7 +3547,7 @@
           "game": "Mines",
           "requirement": "Place 10 bets on Mines",
           "started": 1365,
-          "completed": 1084,
+          "completed": 1177,
           "medianMinutes": 24
         },
         {
@@ -3555,7 +3555,7 @@
           "game": "Mines",
           "requirement": "Place 3 bets on Mines",
           "started": 1300,
-          "completed": 1076,
+          "completed": 1165,
           "medianMinutes": 41
         },
         {
@@ -3563,7 +3563,7 @@
           "game": "Mines",
           "requirement": "Win ×3 on Mines",
           "started": 1244,
-          "completed": 1017,
+          "completed": 1101,
           "medianMinutes": 52
         },
         {
@@ -3571,7 +3571,7 @@
           "game": "Mines",
           "requirement": "Play Mines 5 rounds in a row",
           "started": 1166,
-          "completed": 860,
+          "completed": 940,
           "medianMinutes": 33
         },
         {
@@ -3579,7 +3579,7 @@
           "game": "Mines",
           "requirement": "Cash out above ×2 on Mines",
           "started": 1085,
-          "completed": 851,
+          "completed": 925,
           "medianMinutes": 46
         },
         {
@@ -3587,7 +3587,7 @@
           "game": "Mines",
           "requirement": "Collect 5 wins on Mines",
           "started": 1027,
-          "completed": 836,
+          "completed": 906,
           "medianMinutes": 51
         },
         {
@@ -3595,7 +3595,7 @@
           "game": "Mines",
           "requirement": "Place 10 bets on Mines",
           "started": 958,
-          "completed": 771,
+          "completed": 836,
           "medianMinutes": 26
         },
         {
@@ -3603,7 +3603,7 @@
           "game": "Mines",
           "requirement": "Place 3 bets on Mines",
           "started": 900,
-          "completed": 708,
+          "completed": 769,
           "medianMinutes": 32
         }
       ],
@@ -4214,7 +4214,7 @@
           "game": "Plinko",
           "requirement": "Place 10 bets on Plinko",
           "started": 4077,
-          "completed": 3152,
+          "completed": 3344,
           "medianMinutes": 26
         },
         {
@@ -4230,7 +4230,7 @@
           "game": "Dice",
           "requirement": "Win ×3 on Dice",
           "started": 3631,
-          "completed": 2982,
+          "completed": 3152,
           "medianMinutes": 34
         },
         {
@@ -4238,7 +4238,7 @@
           "game": "Goal",
           "requirement": "Play Goal 5 rounds in a row",
           "started": 3391,
-          "completed": 2732,
+          "completed": 2891,
           "medianMinutes": 27
         },
         {
@@ -4246,7 +4246,7 @@
           "game": "Plinko",
           "requirement": "Cash out above ×2 on Plinko",
           "started": 3178,
-          "completed": 2635,
+          "completed": 2784,
           "medianMinutes": 46
         },
         {
@@ -4262,7 +4262,7 @@
           "game": "Dice",
           "requirement": "Place 10 bets on Dice",
           "started": 2310,
-          "completed": 1816,
+          "completed": 1925,
           "medianMinutes": 41
         },
         {
@@ -4270,7 +4270,7 @@
           "game": "Goal",
           "requirement": "Place 3 bets on Goal",
           "started": 2180,
-          "completed": 1717,
+          "completed": 1820,
           "medianMinutes": 37
         },
         {
@@ -4278,7 +4278,7 @@
           "game": "Plinko",
           "requirement": "Win ×3 on Plinko",
           "started": 2056,
-          "completed": 1703,
+          "completed": 1800,
           "medianMinutes": 43
         },
         {
@@ -4286,7 +4286,7 @@
           "game": "Mines",
           "requirement": "Play Mines 5 rounds in a row",
           "started": 1967,
-          "completed": 1542,
+          "completed": 1635,
           "medianMinutes": 39
         },
         {
@@ -4294,7 +4294,7 @@
           "game": "Dice",
           "requirement": "Cash out above ×2 on Dice",
           "started": 1834,
-          "completed": 1404,
+          "completed": 1491,
           "medianMinutes": 24
         },
         {
@@ -4302,7 +4302,7 @@
           "game": "Goal",
           "requirement": "Collect 5 wins on Goal",
           "started": 1741,
-          "completed": 1354,
+          "completed": 1436,
           "medianMinutes": 31
         },
         {
@@ -4310,7 +4310,7 @@
           "game": "Plinko",
           "requirement": "Place 10 bets on Plinko",
           "started": 1652,
-          "completed": 1357,
+          "completed": 1435,
           "medianMinutes": 28
         },
         {
@@ -4318,7 +4318,7 @@
           "game": "Mines",
           "requirement": "Place 3 bets on Mines",
           "started": 1537,
-          "completed": 1229,
+          "completed": 1302,
           "medianMinutes": 42
         }
       ],
@@ -4653,7 +4653,7 @@
           "game": "Balloon",
           "requirement": "Place 10 bets on Balloon",
           "started": 374,
-          "completed": 310,
+          "completed": 317,
           "medianMinutes": 38
         },
         {
@@ -4669,7 +4669,7 @@
           "game": "Balloon",
           "requirement": "Win ×3 on Balloon",
           "started": 335,
-          "completed": 253,
+          "completed": 259,
           "medianMinutes": 43
         },
         {
@@ -4677,7 +4677,7 @@
           "game": "Balloon",
           "requirement": "Play Balloon 5 rounds in a row",
           "started": 320,
-          "completed": 247,
+          "completed": 253,
           "medianMinutes": 29
         },
         {
@@ -4685,7 +4685,7 @@
           "game": "Balloon",
           "requirement": "Cash out above ×2 on Balloon",
           "started": 303,
-          "completed": 244,
+          "completed": 249,
           "medianMinutes": 44
         },
         {
@@ -4701,7 +4701,7 @@
           "game": "Balloon",
           "requirement": "Place 10 bets on Balloon",
           "started": 223,
-          "completed": 168,
+          "completed": 172,
           "medianMinutes": 30
         },
         {
@@ -4709,7 +4709,7 @@
           "game": "Balloon",
           "requirement": "Place 3 bets on Balloon",
           "started": 212,
-          "completed": 181,
+          "completed": 185,
           "medianMinutes": 27
         },
         {
@@ -4717,7 +4717,7 @@
           "game": "Balloon",
           "requirement": "Win ×3 on Balloon",
           "started": 201,
-          "completed": 146,
+          "completed": 150,
           "medianMinutes": 40
         },
         {
@@ -4725,7 +4725,7 @@
           "game": "Balloon",
           "requirement": "Play Balloon 5 rounds in a row",
           "started": 188,
-          "completed": 136,
+          "completed": 140,
           "medianMinutes": 44
         },
         {
@@ -4733,7 +4733,7 @@
           "game": "Balloon",
           "requirement": "Cash out above ×2 on Balloon",
           "started": 179,
-          "completed": 132,
+          "completed": 135,
           "medianMinutes": 36
         },
         {
@@ -4741,7 +4741,7 @@
           "game": "Balloon",
           "requirement": "Collect 5 wins on Balloon",
           "started": 171,
-          "completed": 144,
+          "completed": 147,
           "medianMinutes": 51
         },
         {
@@ -4749,7 +4749,7 @@
           "game": "Balloon",
           "requirement": "Place 10 bets on Balloon",
           "started": 160,
-          "completed": 136,
+          "completed": 139,
           "medianMinutes": 36
         },
         {
@@ -4757,7 +4757,7 @@
           "game": "Balloon",
           "requirement": "Place 3 bets on Balloon",
           "started": 151,
-          "completed": 125,
+          "completed": 128,
           "medianMinutes": 47
         }
       ],
@@ -4954,6 +4954,1175 @@
       "playersDuring": null,
       "playersAfter": null,
       "notes": "Planned prize pool: €20,000."
+    },
+    {
+      "id": "demo-27",
+      "name": "Aviator World Cup Kickoff",
+      "type": "Seasonal Promotion",
+      "operator": "Operator Alpha",
+      "aggregator": "Direct",
+      "games": [
+        "Aviator"
+      ],
+      "market": "Brazil",
+      "currency": "BRL",
+      "startDate": "2026-06-15",
+      "endDate": "2026-06-28",
+      "windowDays": null,
+      "ggrBefore": 4465959,
+      "ggrDuring": 5308575,
+      "ggrAfter": 4688780,
+      "prizePool": 13750,
+      "playersBefore": 21361,
+      "playersDuring": 24101,
+      "playersAfter": 21792,
+      "participants": 10125,
+      "newParticipants": 2589,
+      "retainedParticipants": 5522,
+      "betsDuring": 507040,
+      "turnoverBefore": 117816150,
+      "turnoverDuring": 145880358,
+      "turnoverAfter": 123694375,
+      "controlGgrBefore": 14291069,
+      "controlGgrDuring": 14687688,
+      "controlLabel": "Same games at comparable Brazil operators without the promo",
+      "eligiblePlayers": 43507,
+      "leaderboard": [
+        {
+          "band": "1st",
+          "winners": 1,
+          "prize": 2750
+        },
+        {
+          "band": "2nd–3rd",
+          "winners": 2,
+          "prize": 2475
+        },
+        {
+          "band": "4th–10th",
+          "winners": 7,
+          "prize": 3025
+        },
+        {
+          "band": "11th–50th",
+          "winners": 40,
+          "prize": 3438
+        },
+        {
+          "band": "51st–100th",
+          "winners": 50,
+          "prize": 2063
+        }
+      ],
+      "calendarId": "world-cup-aviator-kickoff",
+      "notes": "",
+      "daily": [
+        {
+          "date": "2026-06-01",
+          "ggr": 319215
+        },
+        {
+          "date": "2026-06-02",
+          "ggr": 304268
+        },
+        {
+          "date": "2026-06-03",
+          "ggr": 305283
+        },
+        {
+          "date": "2026-06-04",
+          "ggr": 296760
+        },
+        {
+          "date": "2026-06-05",
+          "ggr": 337923
+        },
+        {
+          "date": "2026-06-06",
+          "ggr": 355456
+        },
+        {
+          "date": "2026-06-07",
+          "ggr": 342235
+        },
+        {
+          "date": "2026-06-08",
+          "ggr": 298529
+        },
+        {
+          "date": "2026-06-09",
+          "ggr": 281273
+        },
+        {
+          "date": "2026-06-10",
+          "ggr": 302744
+        },
+        {
+          "date": "2026-06-11",
+          "ggr": 311609
+        },
+        {
+          "date": "2026-06-12",
+          "ggr": 315043
+        },
+        {
+          "date": "2026-06-13",
+          "ggr": 335574
+        },
+        {
+          "date": "2026-06-14",
+          "ggr": 360047
+        },
+        {
+          "date": "2026-06-15",
+          "ggr": 344153
+        },
+        {
+          "date": "2026-06-16",
+          "ggr": 358300
+        },
+        {
+          "date": "2026-06-17",
+          "ggr": 377767
+        },
+        {
+          "date": "2026-06-18",
+          "ggr": 327433
+        },
+        {
+          "date": "2026-06-19",
+          "ggr": 396276
+        },
+        {
+          "date": "2026-06-20",
+          "ggr": 430845
+        },
+        {
+          "date": "2026-06-21",
+          "ggr": 444838
+        },
+        {
+          "date": "2026-06-22",
+          "ggr": 336338
+        },
+        {
+          "date": "2026-06-23",
+          "ggr": 363213
+        },
+        {
+          "date": "2026-06-24",
+          "ggr": 347488
+        },
+        {
+          "date": "2026-06-25",
+          "ggr": 370080
+        },
+        {
+          "date": "2026-06-26",
+          "ggr": 370846
+        },
+        {
+          "date": "2026-06-27",
+          "ggr": 428855
+        },
+        {
+          "date": "2026-06-28",
+          "ggr": 412143
+        },
+        {
+          "date": "2026-06-29",
+          "ggr": 325053
+        },
+        {
+          "date": "2026-06-30",
+          "ggr": 305817
+        },
+        {
+          "date": "2026-07-01",
+          "ggr": 305199
+        },
+        {
+          "date": "2026-07-02",
+          "ggr": 321531
+        },
+        {
+          "date": "2026-07-03",
+          "ggr": 366541
+        },
+        {
+          "date": "2026-07-04",
+          "ggr": 372872
+        },
+        {
+          "date": "2026-07-05",
+          "ggr": 396646
+        },
+        {
+          "date": "2026-07-06",
+          "ggr": 322716
+        },
+        {
+          "date": "2026-07-07",
+          "ggr": 323772
+        },
+        {
+          "date": "2026-07-08",
+          "ggr": 312063
+        },
+        {
+          "date": "2026-07-09",
+          "ggr": 313187
+        },
+        {
+          "date": "2026-07-10",
+          "ggr": 317817
+        },
+        {
+          "date": "2026-07-11",
+          "ggr": 334117
+        },
+        {
+          "date": "2026-07-12",
+          "ggr": 371449
+        }
+      ]
+    },
+    {
+      "id": "demo-28",
+      "name": "Aviator World Cup Kickoff",
+      "type": "Seasonal Promotion",
+      "operator": "Operator Bravo",
+      "aggregator": "Aggregator North",
+      "games": [
+        "Aviator"
+      ],
+      "market": "Mexico",
+      "currency": "MXN",
+      "startDate": "2026-06-15",
+      "endDate": "2026-06-28",
+      "windowDays": null,
+      "ggrBefore": 8146529,
+      "ggrDuring": 9165480,
+      "ggrAfter": 8532402,
+      "prizePool": 30000,
+      "playersBefore": 12182,
+      "playersDuring": 13860,
+      "playersAfter": 12469,
+      "participants": 5076,
+      "newParticipants": 1010,
+      "retainedParticipants": 2528,
+      "betsDuring": 170470,
+      "turnoverBefore": 216727997,
+      "turnoverDuring": 253995716,
+      "turnoverAfter": 226993656,
+      "eligiblePlayers": 22934,
+      "leaderboard": [
+        {
+          "band": "1st",
+          "winners": 1,
+          "prize": 6000
+        },
+        {
+          "band": "2nd–3rd",
+          "winners": 2,
+          "prize": 5400
+        },
+        {
+          "band": "4th–10th",
+          "winners": 7,
+          "prize": 6600
+        },
+        {
+          "band": "11th–50th",
+          "winners": 40,
+          "prize": 7500
+        },
+        {
+          "band": "51st–100th",
+          "winners": 50,
+          "prize": 4500
+        }
+      ],
+      "calendarId": "world-cup-aviator-kickoff",
+      "notes": "Ran alongside Goal Penalty Leaderboard at the same operator.",
+      "daily": [
+        {
+          "date": "2026-06-01",
+          "ggr": 535714
+        },
+        {
+          "date": "2026-06-02",
+          "ggr": 532681
+        },
+        {
+          "date": "2026-06-03",
+          "ggr": 555545
+        },
+        {
+          "date": "2026-06-04",
+          "ggr": 582454
+        },
+        {
+          "date": "2026-06-05",
+          "ggr": 634362
+        },
+        {
+          "date": "2026-06-06",
+          "ggr": 665750
+        },
+        {
+          "date": "2026-06-07",
+          "ggr": 644231
+        },
+        {
+          "date": "2026-06-08",
+          "ggr": 516291
+        },
+        {
+          "date": "2026-06-09",
+          "ggr": 565835
+        },
+        {
+          "date": "2026-06-10",
+          "ggr": 527476
+        },
+        {
+          "date": "2026-06-11",
+          "ggr": 516492
+        },
+        {
+          "date": "2026-06-12",
+          "ggr": 638050
+        },
+        {
+          "date": "2026-06-13",
+          "ggr": 620720
+        },
+        {
+          "date": "2026-06-14",
+          "ggr": 610928
+        },
+        {
+          "date": "2026-06-15",
+          "ggr": 650926
+        },
+        {
+          "date": "2026-06-16",
+          "ggr": 642319
+        },
+        {
+          "date": "2026-06-17",
+          "ggr": 641160
+        },
+        {
+          "date": "2026-06-18",
+          "ggr": 657736
+        },
+        {
+          "date": "2026-06-19",
+          "ggr": 667570
+        },
+        {
+          "date": "2026-06-20",
+          "ggr": 725585
+        },
+        {
+          "date": "2026-06-21",
+          "ggr": 666862
+        },
+        {
+          "date": "2026-06-22",
+          "ggr": 662490
+        },
+        {
+          "date": "2026-06-23",
+          "ggr": 588705
+        },
+        {
+          "date": "2026-06-24",
+          "ggr": 639084
+        },
+        {
+          "date": "2026-06-25",
+          "ggr": 568676
+        },
+        {
+          "date": "2026-06-26",
+          "ggr": 696801
+        },
+        {
+          "date": "2026-06-27",
+          "ggr": 687234
+        },
+        {
+          "date": "2026-06-28",
+          "ggr": 670332
+        },
+        {
+          "date": "2026-06-29",
+          "ggr": 600743
+        },
+        {
+          "date": "2026-06-30",
+          "ggr": 536163
+        },
+        {
+          "date": "2026-07-01",
+          "ggr": 599110
+        },
+        {
+          "date": "2026-07-02",
+          "ggr": 562238
+        },
+        {
+          "date": "2026-07-03",
+          "ggr": 604520
+        },
+        {
+          "date": "2026-07-04",
+          "ggr": 692004
+        },
+        {
+          "date": "2026-07-05",
+          "ggr": 717125
+        },
+        {
+          "date": "2026-07-06",
+          "ggr": 561538
+        },
+        {
+          "date": "2026-07-07",
+          "ggr": 568502
+        },
+        {
+          "date": "2026-07-08",
+          "ggr": 531453
+        },
+        {
+          "date": "2026-07-09",
+          "ggr": 562338
+        },
+        {
+          "date": "2026-07-10",
+          "ggr": 633829
+        },
+        {
+          "date": "2026-07-11",
+          "ggr": 687692
+        },
+        {
+          "date": "2026-07-12",
+          "ggr": 675147
+        }
+      ]
+    },
+    {
+      "id": "demo-29",
+      "name": "SPRIBE Adventure",
+      "type": "Cross-Game Challenge",
+      "operator": "Operator Alpha",
+      "aggregator": "Direct",
+      "games": [
+        "Aviator",
+        "Mines",
+        "Goal",
+        "Plinko",
+        "Pilot Chicken",
+        "Keno",
+        "Trader"
+      ],
+      "market": "Brazil",
+      "currency": "BRL",
+      "startDate": "2026-09-21",
+      "endDate": "2026-09-27",
+      "windowDays": null,
+      "ggrBefore": 2560592,
+      "ggrDuring": 3078586,
+      "ggrAfter": 2747267,
+      "prizePool": 32500,
+      "playersBefore": 24838,
+      "playersDuring": 28110,
+      "playersAfter": 25792,
+      "participants": 11418,
+      "newParticipants": 1816,
+      "retainedParticipants": 6853,
+      "betsDuring": 507464,
+      "turnoverBefore": 66307680,
+      "turnoverDuring": 83043091,
+      "turnoverAfter": 71141713,
+      "controlGgrBefore": 8193894,
+      "controlGgrDuring": 8095718,
+      "controlLabel": "Same games at comparable Brazil operators without the promo",
+      "eligiblePlayers": 46059,
+      "missions": [
+        {
+          "name": "Opted in",
+          "reached": 11418
+        },
+        {
+          "name": "Play Aviator",
+          "reached": 7513
+        },
+        {
+          "name": "Play Mines",
+          "reached": 4948
+        },
+        {
+          "name": "Play Goal",
+          "reached": 2336
+        },
+        {
+          "name": "All missions done",
+          "reached": 1816
+        }
+      ],
+      "missionDays": [
+        {
+          "day": 1,
+          "game": "Pilot Chicken · Plinko · Mines",
+          "requirement": "Aviator: catch a 30x+ multiplier 10 times · Pilot Chicken: collect 100x in total · Plinko: place 100 individual bets · Mines: collect 100x in total",
+          "started": 11418,
+          "completed": 8486,
+          "medianMinutes": 23
+        },
+        {
+          "day": 2,
+          "game": "Goal · Keno · Trader",
+          "requirement": "Aviator: catch a 30x+ multiplier 10 times · Goal: collect 100x in total · Keno: place 100 individual bets · Trader: collect 100x in total",
+          "started": 10857,
+          "completed": 10460,
+          "medianMinutes": 4
+        },
+        {
+          "day": 3,
+          "game": "Pilot Chicken · Mines · Plinko",
+          "requirement": "Aviator: catch a 30x+ multiplier 10 times · Pilot Chicken: place 100 individual bets · Mines: collect 100x in total · Plinko: place 100 individual bets",
+          "started": 10325,
+          "completed": 9055,
+          "medianMinutes": 32
+        },
+        {
+          "day": 4,
+          "game": "Trader · Keno · Goal",
+          "requirement": "Aviator: catch a 30x+ multiplier 10 times · Trader: collect 100x in total · Keno: place 100 individual bets · Goal: collect 100x in total",
+          "started": 9659,
+          "completed": 7647,
+          "medianMinutes": 43
+        },
+        {
+          "day": 5,
+          "game": "Pilot Chicken · Trader · Mines",
+          "requirement": "Aviator: catch a 30x+ multiplier 10 times · Pilot Chicken: collect 100x in total · Trader: place 100 individual bets · Mines: collect 100x in total",
+          "started": 9159,
+          "completed": 6939,
+          "medianMinutes": 40
+        },
+        {
+          "day": 6,
+          "game": "Plinko · Keno · Goal",
+          "requirement": "4 tasks across Aviator, Plinko, Keno, Goal",
+          "started": 8524,
+          "completed": 3308,
+          "medianMinutes": 158
+        },
+        {
+          "day": 7,
+          "game": "Pilot Chicken · Plinko · Mines",
+          "requirement": "4 tasks across Aviator, Pilot Chicken, Plinko, Mines",
+          "started": 6649,
+          "completed": 5164,
+          "medianMinutes": 42
+        }
+      ],
+      "gameGgr": [
+        {
+          "game": "Aviator",
+          "ggrDuring": 1022312
+        },
+        {
+          "game": "Mines",
+          "ggrDuring": 284670
+        },
+        {
+          "game": "Goal",
+          "ggrDuring": 303982
+        },
+        {
+          "game": "Plinko",
+          "ggrDuring": 287657
+        },
+        {
+          "game": "Pilot Chicken",
+          "ggrDuring": 417567
+        },
+        {
+          "game": "Keno",
+          "ggrDuring": 379742
+        },
+        {
+          "game": "Trader",
+          "ggrDuring": 382657
+        }
+      ],
+      "calendarId": "spribe-adventure-2026",
+      "notes": "",
+      "daily": [
+        {
+          "date": "2026-09-14",
+          "ggr": 349467
+        },
+        {
+          "date": "2026-09-15",
+          "ggr": 323543
+        },
+        {
+          "date": "2026-09-16",
+          "ggr": 353473
+        },
+        {
+          "date": "2026-09-17",
+          "ggr": 334069
+        },
+        {
+          "date": "2026-09-18",
+          "ggr": 380451
+        },
+        {
+          "date": "2026-09-19",
+          "ggr": 429821
+        },
+        {
+          "date": "2026-09-20",
+          "ggr": 389768
+        },
+        {
+          "date": "2026-09-21",
+          "ggr": 372762
+        },
+        {
+          "date": "2026-09-22",
+          "ggr": 425629
+        },
+        {
+          "date": "2026-09-23",
+          "ggr": 428950
+        },
+        {
+          "date": "2026-09-24",
+          "ggr": 435237
+        },
+        {
+          "date": "2026-09-25",
+          "ggr": 427095
+        },
+        {
+          "date": "2026-09-26",
+          "ggr": 496033
+        },
+        {
+          "date": "2026-09-27",
+          "ggr": 492880
+        },
+        {
+          "date": "2026-09-28",
+          "ggr": 379177
+        },
+        {
+          "date": "2026-09-29",
+          "ggr": 385228
+        },
+        {
+          "date": "2026-09-30",
+          "ggr": 351626
+        },
+        {
+          "date": "2026-10-01",
+          "ggr": 391728
+        },
+        {
+          "date": "2026-10-02",
+          "ggr": 403975
+        },
+        {
+          "date": "2026-10-03",
+          "ggr": 444531
+        },
+        {
+          "date": "2026-10-04",
+          "ggr": 391002
+        }
+      ]
+    },
+    {
+      "id": "demo-30",
+      "name": "SPRIBE Adventure",
+      "type": "Cross-Game Challenge",
+      "operator": "Operator Delta",
+      "aggregator": "Aggregator East",
+      "games": [
+        "Aviator",
+        "Mines",
+        "Goal",
+        "Plinko",
+        "Pilot Chicken",
+        "Keno",
+        "Trader"
+      ],
+      "market": "Nigeria",
+      "currency": "NGN",
+      "startDate": "2026-09-21",
+      "endDate": "2026-09-27",
+      "windowDays": null,
+      "ggrBefore": 352862551,
+      "ggrDuring": 435803527,
+      "ggrAfter": 392257223,
+      "prizePool": 7166667,
+      "playersBefore": 15154,
+      "playersDuring": 17526,
+      "playersAfter": 15603,
+      "participants": 7666,
+      "newParticipants": 2048,
+      "retainedParticipants": 4925,
+      "betsDuring": 223450,
+      "turnoverBefore": 10436228684,
+      "turnoverDuring": 13426336426,
+      "turnoverAfter": 11601361693,
+      "eligiblePlayers": 28375,
+      "missions": [
+        {
+          "name": "Opted in",
+          "reached": 7666
+        },
+        {
+          "name": "Play Aviator",
+          "reached": 5306
+        },
+        {
+          "name": "Play Mines",
+          "reached": 3804
+        },
+        {
+          "name": "Play Goal",
+          "reached": 1749
+        },
+        {
+          "name": "All missions done",
+          "reached": 1277
+        }
+      ],
+      "missionDays": [
+        {
+          "day": 1,
+          "game": "Pilot Chicken · Plinko · Mines",
+          "requirement": "Aviator: catch a 30x+ multiplier 10 times · Pilot Chicken: collect 100x in total · Plinko: place 100 individual bets · Mines: collect 100x in total",
+          "started": 7666,
+          "completed": 6726,
+          "medianMinutes": 38
+        },
+        {
+          "day": 2,
+          "game": "Goal · Keno · Trader",
+          "requirement": "Aviator: catch a 30x+ multiplier 10 times · Goal: collect 100x in total · Keno: place 100 individual bets · Trader: collect 100x in total",
+          "started": 7204,
+          "completed": 6874,
+          "medianMinutes": 5
+        },
+        {
+          "day": 3,
+          "game": "Pilot Chicken · Mines · Plinko",
+          "requirement": "Aviator: catch a 30x+ multiplier 10 times · Pilot Chicken: place 100 individual bets · Mines: collect 100x in total · Plinko: place 100 individual bets",
+          "started": 6906,
+          "completed": 5736,
+          "medianMinutes": 39
+        },
+        {
+          "day": 4,
+          "game": "Trader · Keno · Goal",
+          "requirement": "Aviator: catch a 30x+ multiplier 10 times · Trader: collect 100x in total · Keno: place 100 individual bets · Goal: collect 100x in total",
+          "started": 6432,
+          "completed": 5129,
+          "medianMinutes": 30
+        },
+        {
+          "day": 5,
+          "game": "Pilot Chicken · Trader · Mines",
+          "requirement": "Aviator: catch a 30x+ multiplier 10 times · Pilot Chicken: collect 100x in total · Trader: place 100 individual bets · Mines: collect 100x in total",
+          "started": 6027,
+          "completed": 4850,
+          "medianMinutes": 42
+        },
+        {
+          "day": 6,
+          "game": "Plinko · Keno · Goal",
+          "requirement": "4 tasks across Aviator, Plinko, Keno, Goal",
+          "started": 5624,
+          "completed": 2054,
+          "medianMinutes": 169
+        },
+        {
+          "day": 7,
+          "game": "Pilot Chicken · Plinko · Mines",
+          "requirement": "4 tasks across Aviator, Pilot Chicken, Plinko, Mines",
+          "started": 4387,
+          "completed": 3569,
+          "medianMinutes": 36
+        }
+      ],
+      "gameGgr": [
+        {
+          "game": "Aviator",
+          "ggrDuring": 122285717
+        },
+        {
+          "game": "Mines",
+          "ggrDuring": 63995823
+        },
+        {
+          "game": "Goal",
+          "ggrDuring": 45469407
+        },
+        {
+          "game": "Plinko",
+          "ggrDuring": 43785047
+        },
+        {
+          "game": "Pilot Chicken",
+          "ggrDuring": 57526907
+        },
+        {
+          "game": "Keno",
+          "ggrDuring": 63928281
+        },
+        {
+          "game": "Trader",
+          "ggrDuring": 38812345
+        }
+      ],
+      "calendarId": "spribe-adventure-2026",
+      "notes": "",
+      "daily": [
+        {
+          "date": "2026-09-14",
+          "ggr": 49618387
+        },
+        {
+          "date": "2026-09-15",
+          "ggr": 46059834
+        },
+        {
+          "date": "2026-09-16",
+          "ggr": 46369676
+        },
+        {
+          "date": "2026-09-17",
+          "ggr": 47345246
+        },
+        {
+          "date": "2026-09-18",
+          "ggr": 51534273
+        },
+        {
+          "date": "2026-09-19",
+          "ggr": 56052485
+        },
+        {
+          "date": "2026-09-20",
+          "ggr": 55882650
+        },
+        {
+          "date": "2026-09-21",
+          "ggr": 59537573
+        },
+        {
+          "date": "2026-09-22",
+          "ggr": 56872947
+        },
+        {
+          "date": "2026-09-23",
+          "ggr": 58414097
+        },
+        {
+          "date": "2026-09-24",
+          "ggr": 60053338
+        },
+        {
+          "date": "2026-09-25",
+          "ggr": 60705689
+        },
+        {
+          "date": "2026-09-26",
+          "ggr": 66502733
+        },
+        {
+          "date": "2026-09-27",
+          "ggr": 73717150
+        },
+        {
+          "date": "2026-09-28",
+          "ggr": 51197651
+        },
+        {
+          "date": "2026-09-29",
+          "ggr": 55704957
+        },
+        {
+          "date": "2026-09-30",
+          "ggr": 55147999
+        },
+        {
+          "date": "2026-10-01",
+          "ggr": 48150656
+        },
+        {
+          "date": "2026-10-02",
+          "ggr": 61087326
+        },
+        {
+          "date": "2026-10-03",
+          "ggr": 62978711
+        },
+        {
+          "date": "2026-10-04",
+          "ggr": 57989923
+        }
+      ]
+    },
+    {
+      "id": "demo-31",
+      "name": "SPRIBE Adventure",
+      "type": "Cross-Game Challenge",
+      "operator": "Operator Charlie",
+      "aggregator": "Aggregator South",
+      "games": [
+        "Aviator",
+        "Mines",
+        "Goal",
+        "Plinko",
+        "Pilot Chicken",
+        "Keno",
+        "Trader"
+      ],
+      "market": "Peru",
+      "currency": "PEN",
+      "startDate": "2026-09-21",
+      "endDate": "2026-09-27",
+      "windowDays": null,
+      "ggrBefore": 325838,
+      "ggrDuring": 338561,
+      "ggrAfter": 340163,
+      "prizePool": 10400,
+      "playersBefore": 4666,
+      "playersDuring": 4830,
+      "playersAfter": 4815,
+      "participants": 1696,
+      "newParticipants": 319,
+      "retainedParticipants": 844,
+      "betsDuring": 62399,
+      "turnoverBefore": 8930498,
+      "turnoverDuring": 9665841,
+      "turnoverAfter": 9323115,
+      "controlGgrBefore": 1042682,
+      "controlGgrDuring": 1090689,
+      "controlLabel": "Same games at comparable Peru operators without the promo",
+      "eligiblePlayers": 8962,
+      "missions": [
+        {
+          "name": "Opted in",
+          "reached": 1696
+        },
+        {
+          "name": "Play Aviator",
+          "reached": 1070
+        },
+        {
+          "name": "Play Mines",
+          "reached": 846
+        },
+        {
+          "name": "Play Goal",
+          "reached": 353
+        },
+        {
+          "name": "All missions done",
+          "reached": 284
+        }
+      ],
+      "missionDays": [
+        {
+          "day": 1,
+          "game": "Pilot Chicken · Plinko · Mines",
+          "requirement": "Aviator: catch a 30x+ multiplier 10 times · Pilot Chicken: collect 100x in total · Plinko: place 100 individual bets · Mines: collect 100x in total",
+          "started": 1696,
+          "completed": 1219,
+          "medianMinutes": 50
+        },
+        {
+          "day": 2,
+          "game": "Goal · Keno · Trader",
+          "requirement": "Aviator: catch a 30x+ multiplier 10 times · Goal: collect 100x in total · Keno: place 100 individual bets · Trader: collect 100x in total",
+          "started": 1588,
+          "completed": 1495,
+          "medianMinutes": 4
+        },
+        {
+          "day": 3,
+          "game": "Pilot Chicken · Mines · Plinko",
+          "requirement": "Aviator: catch a 30x+ multiplier 10 times · Pilot Chicken: place 100 individual bets · Mines: collect 100x in total · Plinko: place 100 individual bets",
+          "started": 1489,
+          "completed": 1137,
+          "medianMinutes": 29
+        },
+        {
+          "day": 4,
+          "game": "Trader · Keno · Goal",
+          "requirement": "Aviator: catch a 30x+ multiplier 10 times · Trader: collect 100x in total · Keno: place 100 individual bets · Goal: collect 100x in total",
+          "started": 1397,
+          "completed": 996,
+          "medianMinutes": 32
+        },
+        {
+          "day": 5,
+          "game": "Pilot Chicken · Trader · Mines",
+          "requirement": "Aviator: catch a 30x+ multiplier 10 times · Pilot Chicken: collect 100x in total · Trader: place 100 individual bets · Mines: collect 100x in total",
+          "started": 1320,
+          "completed": 884,
+          "medianMinutes": 31
+        },
+        {
+          "day": 6,
+          "game": "Plinko · Keno · Goal",
+          "requirement": "4 tasks across Aviator, Plinko, Keno, Goal",
+          "started": 1231,
+          "completed": 458,
+          "medianMinutes": 167
+        },
+        {
+          "day": 7,
+          "game": "Pilot Chicken · Plinko · Mines",
+          "requirement": "4 tasks across Aviator, Pilot Chicken, Plinko, Mines",
+          "started": 960,
+          "completed": 680,
+          "medianMinutes": 47
+        }
+      ],
+      "gameGgr": [
+        {
+          "game": "Aviator",
+          "ggrDuring": 97054
+        },
+        {
+          "game": "Mines",
+          "ggrDuring": 47473
+        },
+        {
+          "game": "Goal",
+          "ggrDuring": 34174
+        },
+        {
+          "game": "Plinko",
+          "ggrDuring": 44498
+        },
+        {
+          "game": "Pilot Chicken",
+          "ggrDuring": 36580
+        },
+        {
+          "game": "Keno",
+          "ggrDuring": 34611
+        },
+        {
+          "game": "Trader",
+          "ggrDuring": 44171
+        }
+      ],
+      "calendarId": "spribe-adventure-2026",
+      "notes": "",
+      "daily": [
+        {
+          "date": "2026-09-14",
+          "ggr": 44906
+        },
+        {
+          "date": "2026-09-15",
+          "ggr": 41258
+        },
+        {
+          "date": "2026-09-16",
+          "ggr": 40908
+        },
+        {
+          "date": "2026-09-17",
+          "ggr": 42806
+        },
+        {
+          "date": "2026-09-18",
+          "ggr": 46136
+        },
+        {
+          "date": "2026-09-19",
+          "ggr": 55309
+        },
+        {
+          "date": "2026-09-20",
+          "ggr": 54515
+        },
+        {
+          "date": "2026-09-21",
+          "ggr": 43395
+        },
+        {
+          "date": "2026-09-22",
+          "ggr": 48200
+        },
+        {
+          "date": "2026-09-23",
+          "ggr": 49083
+        },
+        {
+          "date": "2026-09-24",
+          "ggr": 46676
+        },
+        {
+          "date": "2026-09-25",
+          "ggr": 48273
+        },
+        {
+          "date": "2026-09-26",
+          "ggr": 50345
+        },
+        {
+          "date": "2026-09-27",
+          "ggr": 52589
+        },
+        {
+          "date": "2026-09-28",
+          "ggr": 47539
+        },
+        {
+          "date": "2026-09-29",
+          "ggr": 45774
+        },
+        {
+          "date": "2026-09-30",
+          "ggr": 47785
+        },
+        {
+          "date": "2026-10-01",
+          "ggr": 47615
+        },
+        {
+          "date": "2026-10-02",
+          "ggr": 46178
+        },
+        {
+          "date": "2026-10-03",
+          "ggr": 49861
+        },
+        {
+          "date": "2026-10-04",
+          "ggr": 55411
+        }
+      ]
     }
   ],
   "monthly": [

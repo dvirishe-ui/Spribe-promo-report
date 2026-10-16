@@ -71,6 +71,7 @@ Authorization: Bearer <token>        # optional — see "Auth" below
         { "band": "2nd–10th", "winners": 9, "prize": 6000 }
       ],
 
+      "calendarId": "spribe-adventure-2026", // optional: the Promo Calendar network campaign this is the operator's part of
       "notes": "",
       "daily": [                        // optional — see below
         { "date": "2026-09-02", "ggr": 39800 }
@@ -172,3 +173,13 @@ cost wait for it. A promo belongs to the month it starts in.
 The endpoint should return only the operators the signed-in user may see (SPRIBE internal:
 all; an AM: their portfolio; an operator login: their own). The site's "View as" menu only
 previews this — it is not a security boundary.
+
+## Promo Calendar campaigns
+
+Network campaigns (World Cup Kickoff, SPRIBE Adventure, …) are SPRIBE-run and
+span many operators. They are copied from the Promo Calendar site into
+`src/lib/campaigns.ts`. Each operator's results for a campaign are a normal
+promo record with `calendarId` set to the campaign's id. The calendar then
+shows one entry for the campaign with the combined result and a row per
+operator. Once both sites read from the Back Office, the campaign list should
+come from the same feed, for example a `campaigns` array next to `promos`.

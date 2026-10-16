@@ -1,5 +1,5 @@
 import { isValidIsoDay, toIsoDay } from "./dates";
-import type { Dataset, DailyPoint, MissionStep, MonthlyRecord, PromoRecord, RankBand } from "./types";
+import type { Dataset, DailyPoint, GameShare, MissionDay, MissionStep, MonthlyRecord, PromoRecord, RankBand } from "./types";
 import { marketInfo } from "./markets";
 
 /**
@@ -81,6 +81,9 @@ const PROMO_ALIASES: Record<string, keyof PromoRecord> = {
   playersafter: "playersAfter",
   participants: "participants",
   uniqueparticipants: "participants",
+  eligibleplayers: "eligiblePlayers",
+  eligible: "eligiblePlayers",
+  eligibleaudience: "eligiblePlayers",
   participantcount: "participants",
   newparticipants: "newParticipants",
   newplayers: "newParticipants",
@@ -101,6 +104,13 @@ const PROMO_ALIASES: Record<string, keyof PromoRecord> = {
   missions: "missions",
   missionsteps: "missions",
   funnel: "missions",
+  missiondays: "missionDays",
+  dailymissions: "missionDays",
+  gameggr: "gameGgr",
+  ggrbygame: "gameGgr",
+  calendarid: "calendarId",
+  calendarpromoid: "calendarId",
+  networkcampaignid: "calendarId",
   leaderboard: "leaderboard",
   rankbands: "leaderboard",
   prizedistribution: "leaderboard",
@@ -245,6 +255,35 @@ function toMissions(v: unknown): MissionStep[] | undefined {
   return out.length ? out : undefined;
 }
 
+function toMissionDays(v: unknown): MissionDay[] | undefined {
+  if (!Array.isArray(v)) return undefined;
+  const out = v
+    .map((x) => (x && typeof x === "object" ? (x as Raw) : null))
+    .filter((x): x is Raw => x != null)
+    .map((x) => ({
+      day: toNumber(x.day),
+      game: toText(x.game ?? x.games),
+      requirement: toText(x.requirement ?? x.task ?? x.tasks),
+      started: toNumber(x.started ?? x.opened),
+      completed: toNumber(x.completed),
+      medianMinutes: toNumber(x.medianMinutes ?? x.minutes),
+    }))
+    .flatMap((x): MissionDay[] =>
+      x.day != null && x.started != null && x.completed != null ? [{ ...x, day: x.day, started: x.started, completed: x.completed }] : [],
+    );
+  return out.length ? out.sort((a, b) => a.day - b.day) : undefined;
+}
+
+function toGameShares(v: unknown): GameShare[] | undefined {
+  if (!Array.isArray(v)) return undefined;
+  const out = v
+    .map((x) => (x && typeof x === "object" ? (x as Raw) : null))
+    .filter((x): x is Raw => x != null)
+    .map((x) => ({ game: toText(x.game), ggrDuring: toNumber(x.ggrDuring ?? x.ggr) }))
+    .filter((x): x is GameShare => !!x.game && x.ggrDuring != null);
+  return out.length ? out : undefined;
+}
+
 function toBands(v: unknown): RankBand[] | undefined {
   if (!Array.isArray(v)) return undefined;
   const out = v
@@ -376,6 +415,7 @@ export function normalizePromos(rows: unknown[], fieldMap: Record<string, string
       playersBefore: toNumber(r.playersBefore),
       playersDuring: toNumber(r.playersDuring),
       playersAfter: toNumber(r.playersAfter),
+      eligiblePlayers: toNumber(r.eligiblePlayers),
       participants: toNumber(r.participants),
       newParticipants: toNumber(r.newParticipants),
       retainedParticipants: toNumber(r.retainedParticipants),
@@ -387,6 +427,9 @@ export function normalizePromos(rows: unknown[], fieldMap: Record<string, string
       controlGgrDuring: toNumber(r.controlGgrDuring),
       controlLabel: toText(r.controlLabel),
       missions: toMissions(r.missions),
+      missionDays: toMissionDays(r.missionDays),
+      gameGgr: toGameShares(r.gameGgr),
+      ...(toText(r.calendarId) ? { calendarId: toText(r.calendarId) } : {}),
       leaderboard: toBands(r.leaderboard),
       notes: toText(r.notes),
       ...(daily ? { daily } : {}),
