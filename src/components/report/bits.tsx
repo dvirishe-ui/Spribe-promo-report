@@ -1,154 +1,81 @@
-import { useState, type ReactNode } from "react";
-import { ArrowDownRight, ArrowUpRight, BarChart3, Clock, Coins, Minus, Table2, TrendingDown, TrendingUp, Zap } from "lucide-react";
+import type { ReactNode } from "react";
+import { ArrowDownRight, ArrowUpRight, Minus, Zap } from "lucide-react";
 import { pct } from "@/lib/format";
-import { VERDICT_LABEL, type PromoStatus, type Verdict } from "@/lib/metrics";
+import type { PromoStatus } from "@/lib/metrics";
 import { cn } from "@/lib/utils";
 
-export function ChartCard({
-  title,
-  subtitle,
-  actions,
-  children,
-  table,
-  className,
+/** Same quiet card the Promo Calendar uses for its stats. */
+export function StatCard({
+  icon: Icon,
+  label,
+  value,
+  hint,
 }: {
-  title: string;
-  subtitle?: ReactNode;
-  actions?: ReactNode;
-  children: ReactNode;
-  /** Optional table view — every chart value stays reachable without hovering. */
-  table?: () => ReactNode;
-  className?: string;
+  icon: typeof Zap;
+  label: string;
+  value: ReactNode;
+  hint?: ReactNode;
 }) {
-  const [view, setView] = useState<"chart" | "table">("chart");
   return (
-    <section className={cn("panel animate-rise flex min-w-0 flex-col p-4 sm:p-5", className)}>
-      <header className="mb-4 flex flex-wrap items-start justify-between gap-3">
-        <div className="min-w-0">
-          <h2 className="text-base leading-tight">{title}</h2>
-          {subtitle && <p className="mt-1 text-xs text-muted-foreground">{subtitle}</p>}
-        </div>
-        <div className="flex items-center gap-2">
-          {actions}
-          {table && (
-            <div className="no-print flex rounded-md border border-border p-0.5">
-              <button
-                onClick={() => setView("chart")}
-                aria-pressed={view === "chart"}
-                aria-label="Chart view"
-                className={cn("rounded px-1.5 py-1", view === "chart" ? "bg-surface-raised text-foreground" : "text-muted-foreground")}
-              >
-                <BarChart3 className="size-3.5" />
-              </button>
-              <button
-                onClick={() => setView("table")}
-                aria-pressed={view === "table"}
-                aria-label="Table view"
-                className={cn("rounded px-1.5 py-1", view === "table" ? "bg-surface-raised text-foreground" : "text-muted-foreground")}
-              >
-                <Table2 className="size-3.5" />
-              </button>
-            </div>
-          )}
-        </div>
-      </header>
-      <div className="min-w-0 flex-1">{view === "table" && table ? table() : children}</div>
-    </section>
+    <div className="panel p-3.5">
+      <div className="flex items-center gap-2">
+        <Icon className="size-4 text-primary" />
+        <span className="text-eyebrow">{label}</span>
+      </div>
+      <p className="mt-1.5 font-display text-2xl font-bold">{value}</p>
+      {hint && <p className="text-xs text-muted-foreground">{hint}</p>}
+    </div>
   );
 }
 
-/** Direction × whether up is good → green/red ink, always with an arrow and a sign. */
-export function Delta({ value, suffix, invert = false, className }: { value: number | null; suffix?: string; invert?: boolean; className?: string }) {
+/** A % change with an arrow, green when up and red when down. */
+export function Delta({ value, className }: { value: number | null; className?: string }) {
   if (value == null || !Number.isFinite(value)) return <span className={cn("text-muted-foreground", className)}>—</span>;
   const flat = Math.abs(value) < 0.005;
-  const good = invert ? value < 0 : value > 0;
   const Icon = flat ? Minus : value > 0 ? ArrowUpRight : ArrowDownRight;
   return (
     <span
       className={cn(
         "inline-flex items-center gap-0.5 font-medium tabular",
-        flat ? "text-muted-foreground" : good ? "text-good-ink" : "text-bad-ink",
+        flat ? "text-muted-foreground" : value > 0 ? "text-good-ink" : "text-bad-ink",
         className,
       )}
     >
       <Icon className="size-3.5" />
       {pct(value)}
-      {suffix && <span className="ml-1 font-normal text-muted-foreground">{suffix}</span>}
     </span>
   );
 }
 
-export function StatTile({
-  label,
-  value,
-  delta,
-  deltaSuffix,
-  hint,
-  icon: Icon,
-  trend,
-  accent,
-  className,
-}: {
-  label: string;
-  value: ReactNode;
-  delta?: number | null;
-  deltaSuffix?: string;
-  hint?: ReactNode;
-  icon?: typeof Zap;
-  trend?: ReactNode;
-  accent?: string;
-  className?: string;
-}) {
-  return (
-    <div className={cn("panel animate-rise relative overflow-hidden p-4", className)}>
-      {accent && <span className="absolute inset-x-0 top-0 h-0.5" style={{ background: accent }} />}
-      <div className="flex items-center gap-2">
-        {Icon && <Icon className="size-4 text-primary" />}
-        <span className="text-eyebrow">{label}</span>
-      </div>
-      <div className="mt-2 flex items-end justify-between gap-2">
-        <p className="text-2xl font-semibold tracking-tight">{value}</p>
-        {trend}
-      </div>
-      <div className="mt-1 flex flex-wrap items-center gap-x-2 text-xs text-muted-foreground">
-        {delta !== undefined && <Delta value={delta} suffix={deltaSuffix} />}
-        {hint && <span>{hint}</span>}
-      </div>
-    </div>
-  );
-}
-
-const VERDICT_STYLE: Record<Verdict, { cls: string; icon: typeof Zap }> = {
-  strong: { cls: "border-good/40 bg-good/12 text-good-ink", icon: Zap },
-  positive: { cls: "border-good/30 bg-good/8 text-good-ink", icon: TrendingUp },
-  unprofitable: { cls: "border-accent/40 bg-accent/10 text-accent", icon: Coins },
-  flat: { cls: "border-border bg-surface-raised text-muted-foreground", icon: Minus },
-  negative: { cls: "border-bad/40 bg-bad/10 text-bad-ink", icon: TrendingDown },
-  pending: { cls: "border-border bg-surface-raised text-muted-foreground", icon: Clock },
-};
-
-export function VerdictBadge({ verdict, className }: { verdict: Verdict; className?: string }) {
-  const s = VERDICT_STYLE[verdict];
-  const Icon = s.icon;
-  return (
-    <span className={cn("inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-medium whitespace-nowrap", s.cls, className)}>
-      <Icon className="size-3" />
-      {VERDICT_LABEL[verdict]}
-    </span>
-  );
-}
-
-export function StatusBadge({ status }: { status: PromoStatus }) {
-  if (status === "complete") return null;
+/** The one-glance result of a promo: GGR during vs before. */
+export function ResultPill({ value, className }: { value: number | null; className?: string }) {
+  if (value == null)
+    return (
+      <span className={cn("inline-flex rounded-full border border-border px-2.5 py-0.5 text-[11px] text-muted-foreground", className)}>
+        No data yet
+      </span>
+    );
+  const up = value >= 0;
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-medium",
-        status === "live" ? "border-primary/40 bg-primary/12 text-primary" : "border-border text-muted-foreground",
+        "inline-flex items-center gap-0.5 rounded-full border px-2.5 py-0.5 text-xs font-semibold tabular",
+        up ? "border-good/30 bg-good/10 text-good-ink" : "border-bad/30 bg-bad/10 text-bad-ink",
+        className,
       )}
     >
-      {status === "live" && <span className="size-1.5 animate-pulse rounded-full bg-primary" />}
-      {status === "live" ? "Live" : "Upcoming"}
+      {up ? <ArrowUpRight className="size-3.5" /> : <ArrowDownRight className="size-3.5" />}
+      {pct(value)}
+    </span>
+  );
+}
+
+export function LiveBadge({ status }: { status: PromoStatus }) {
+  if (status !== "live") return null;
+  return (
+    <span className="inline-flex items-center gap-1 rounded-full border border-primary/40 bg-primary/10 px-2 py-0.5 text-[11px] font-medium text-primary">
+      <span className="size-1.5 animate-pulse rounded-full bg-primary" />
+      Live
     </span>
   );
 }
@@ -161,36 +88,6 @@ export function EmptyState({ icon: Icon, title, children }: { icon: typeof Zap; 
       </span>
       <p className="font-medium">{title}</p>
       {children && <div className="max-w-sm text-sm text-muted-foreground">{children}</div>}
-    </div>
-  );
-}
-
-/** Small table used by chart table-views. */
-export function MiniTable({ head, rows }: { head: string[]; rows: ReactNode[][] }) {
-  return (
-    <div className="max-h-[360px] overflow-auto rounded-lg border border-border">
-      <table className="w-full text-sm">
-        <thead className="sticky top-0 bg-surface-raised text-left text-xs text-muted-foreground">
-          <tr>
-            {head.map((h, i) => (
-              <th key={h} className={cn("px-3 py-2 font-medium", i > 0 && "text-right")}>
-                {h}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((r, i) => (
-            <tr key={i} className="border-t border-border">
-              {r.map((c, j) => (
-                <td key={j} className={cn("px-3 py-1.5", j > 0 && "text-right tabular")}>
-                  {c}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
     </div>
   );
 }

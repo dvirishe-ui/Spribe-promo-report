@@ -106,7 +106,7 @@ export function parseFieldMap(text: string): Record<string, string> {
       return out;
     }
   } catch {
-    // invalid JSON is reported by the Connect page; ignore here
+    // invalid JSON is simply ignored
   }
   return {};
 }

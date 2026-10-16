@@ -3,7 +3,6 @@ import { RootLayout } from "@/routes/root";
 import { DashboardPage } from "@/routes/dashboard";
 import { PromoReportPage } from "@/routes/promo-report";
 import { DataPage } from "@/routes/data";
-import { ConnectPage } from "@/routes/connect";
 import { NotFoundPage } from "@/routes/not-found";
 
 const rootRoute = createRootRoute({
@@ -14,8 +13,6 @@ const rootRoute = createRootRoute({
 const dashboardRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/",
-  validateSearch: (s: Record<string, unknown>): { period?: string } =>
-    typeof s.period === "string" ? { period: s.period } : {},
   component: DashboardPage,
 });
 
@@ -31,13 +28,7 @@ const dataRoute = createRoute({
   component: DataPage,
 });
 
-const connectRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/connect",
-  component: ConnectPage,
-});
-
-const routeTree = rootRoute.addChildren([dashboardRoute, promoRoute, dataRoute, connectRoute]);
+const routeTree = rootRoute.addChildren([dashboardRoute, promoRoute, dataRoute]);
 
 export const router = createRouter({
   routeTree,

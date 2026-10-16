@@ -6,42 +6,36 @@ without changing anything else.
 
 ## What it shows
 
-**Dashboard** (`/`)
-- KPIs: number of promos (vs previous period), GGR during promos, **during vs before**,
-  **after vs before**, extra GGR generated (and net of prizes), **total GGR vs previous month**.
-- *Before → During → After* curve: every promo indexed to its own pre-promo run-rate (=100),
-  with the baseline-weighted average on top.
-- Total GGR by month and number of promos by month (click a month to focus on it).
-- Uplift per promo (during vs before as bars, after vs before as dots).
-- Before / During / After GGR grouped by type, game, operator or market.
-- Prize pool vs extra GGR (ROI map, break-even line).
-- Month-over-month impact table and a sortable table of every promo.
-- Filters by period, operator, type, game and market. Every chart has a table view.
+**Reports** (`/`): pick a month with the arrows, or switch to *All*.
+- Four numbers: how many promos ran, GGR during vs before, GGR after vs before, and the month's
+  total GGR vs the previous month.
+- One chart of GGR before / during / after for each promo, and one of total GGR by month.
+- The list of promos. Click one to open its report in a side panel, the same way the
+  Promo Calendar opens a promotion.
 
-**Promo report** (`/promo/:id`) — one page per promo: before/during/after totals and per-day,
-uplift, halo, retained lift, net impact, ROI, month vs previous month, active players, a daily
-GGR timeline (when daily data exists), plain-language "what happened" bullets, **Copy summary**
-(for Slack/email) and **Print / PDF**.
+**Promo report** (side panel, or `/promo/:id` full page): before / during / after with the
+change, GGR per day (when daily data exists), a few plain sentences on what happened, notes,
+and **Copy summary** / **Print**.
 
-**Data** (`/data`) — where the numbers go in:
-- Spreadsheet-style grid: type straight into cells (accepts `€120,000`, `120k`, `1.234,50`).
-- Full form per promo with a live preview of the results.
-- Monthly GGR totals.
-- Paste rows from Excel / Google Sheets, or upload CSV; export CSV and a full JSON backup.
-
-**Connect** (`/connect`) — choose where data comes from:
+**Enter numbers** (`/data`):
+- A simple table: click any GGR number to change it (`120k` and `€120,000` both work).
+- **Add promo** opens a short form. Prize pool, players and notes are under "More details".
+- A Monthly GGR tab for each month's total.
+- **Import / export**: paste rows from Excel or Google Sheets, upload a CSV, download CSV or a
+  backup.
+- **Settings** (gear): currency, and where the numbers come from:
 
 | Source | How | Who can edit |
 | --- | --- | --- |
-| Manual entry | Typed / pasted on the Data page, saved in the browser (localStorage) | You, in this browser |
+| Manual entry | Typed / pasted on the site, saved in the browser | You, in this browser |
 | Google Sheet / CSV | Site reads a shared sheet on every load | Anyone with access to the sheet |
-| Backoffice API | One `GET` endpoint returning JSON — fully automatic | The backoffice |
+| Backoffice API | One `GET` endpoint returning JSON, fully automatic | The backoffice |
 
 The backoffice contract is in [`docs/BACKOFFICE_API.md`](docs/BACKOFFICE_API.md). A demo
 payload is served at `/demo-backoffice.json` to try API mode end-to-end.
 
-> The site ships with clearly-labelled **sample numbers** so the charts have something to
-> draw. Remove them with one click (banner at the top) or on Data → Import & export.
+The site opens in a light theme (dark is one click away in the header) and ships with clearly
+labelled **example numbers** until you clear them.
 
 ## How the numbers are calculated
 
@@ -64,7 +58,7 @@ src/lib/metrics.ts     all report math
 src/lib/normalize.ts   turns CSV / pasted / API input into the model (loose field matching)
 src/lib/sources.ts     manual / Google Sheet / backoffice API
 src/lib/store.tsx      data provider (persistence, sync, edits)
-src/routes/            dashboard, promo report, data, connect
+src/routes/            reports, promo report, enter numbers
 ```
 
 ## Run it

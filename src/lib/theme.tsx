@@ -11,7 +11,7 @@ function loadInitial(): Theme {
   } catch {
     // localStorage unavailable — fall back to the default
   }
-  return "dark";
+  return "light";
 }
 
 interface ThemeContextValue {

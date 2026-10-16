@@ -1,7 +1,7 @@
 # Backoffice API contract
 
 The promo report needs **one read-only endpoint** that returns JSON. Once it exists,
-set the URL on the site's **Connect** page (or bake it in with `VITE_BACKOFFICE_URL`)
+set the URL in the site's **Settings** (Enter numbers → gear icon) (or bake it in with `VITE_BACKOFFICE_URL`)
 and every chart, KPI and per-promo report fills itself.
 
 ```
@@ -51,7 +51,7 @@ Authorization: Bearer <token>        # optional — see "Auth" below
 ```
 
 A working example payload is served by the site itself at `/demo-backoffice.json`
-(sample numbers only) — point the Connect page at it to see API mode working.
+(sample numbers only) — point Settings at it to see API mode working.
 
 ### Two ways to send GGR
 
@@ -66,7 +66,7 @@ For a promo that is still live, send what you have: partial `daily` data is show
 ### Flexibility
 
 - **Field names** don't have to match. The site matches loosely (`ggr_before`, `GGR Before`,
-  `ggrBefore` all work) and the Connect page has a *field map* for anything else, e.g.
+  `ggrBefore` all work) and Settings has a *field names map* for anything else, e.g.
   `{"ggr_pre_period": "ggrBefore", "brand_name": "operator"}`.
 - **Wrappers**: `{ "data": { "promos": [...], "monthly": [...] } }` or a bare array of promos also work.
 - **Numbers** can be numbers or strings (`"120,000.00"`, `"1.234,50"`). **Dates** as `YYYY-MM-DD`, ISO
@@ -94,7 +94,7 @@ All comparisons are made on **GGR per day**, so windows of different lengths com
 
 - **CORS**: the endpoint must send `Access-Control-Allow-Origin` for the site's origin
   (and allow the auth header if one is used).
-- **Auth**: a token typed on the Connect page lives in that browser's localStorage only.
+- **Auth**: a token typed in Settings lives in that browser's localStorage only.
   For a team-wide deployment prefer an endpoint behind VPN/SSO, or a tiny proxy that adds the
   token server-side, so no secret reaches the browser. Never bake a token into `VITE_*` vars —
   they end up in the public JS bundle.

@@ -87,7 +87,7 @@ export async function fetchRemote(config: SourceConfig, currency: string): Promi
   const fieldMap = parseFieldMap(config.fieldMap);
 
   if (config.kind === "sheet") {
-    if (!config.sheetPromosUrl.trim()) throw new Error("Add the Google Sheet / CSV link for promos on the Connect page.");
+    if (!config.sheetPromosUrl.trim()) throw new Error("Add the link to the promos tab in Settings.");
     const promoText = await fetchText(toCsvUrl(config.sheetPromosUrl));
     if (/^\s*<(!doctype|html)/i.test(promoText)) {
       throw new Error('The sheet link returned a web page, not CSV. Share the sheet as "Anyone with the link can view".');
@@ -105,7 +105,7 @@ export async function fetchRemote(config: SourceConfig, currency: string): Promi
   }
 
   if (config.kind === "api") {
-    if (!config.apiUrl.trim()) throw new Error("Add the backoffice endpoint URL on the Connect page.");
+    if (!config.apiUrl.trim()) throw new Error("Add the backoffice address in Settings.");
     const headers: Record<string, string> = { Accept: "application/json" };
     if (config.apiToken.trim()) {
       const header = config.apiAuthHeader.trim() || "Authorization";
