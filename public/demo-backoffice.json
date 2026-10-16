@@ -5,6 +5,1173 @@
   "promos": [
     {
       "id": "demo-1",
+      "name": "Aviator New Year Sprint",
+      "type": "Network Tournament",
+      "operator": "Operator Alpha",
+      "aggregator": "Direct",
+      "games": [
+        "Aviator"
+      ],
+      "market": "Brazil",
+      "currency": "BRL",
+      "startDate": "2026-01-08",
+      "endDate": "2026-01-18",
+      "windowDays": null,
+      "ggrBefore": 3085788,
+      "ggrDuring": 3733029,
+      "ggrAfter": 3268160,
+      "prizePool": 281250,
+      "playersBefore": 19624,
+      "playersDuring": 23133,
+      "playersAfter": 20372,
+      "participants": 10241,
+      "newParticipants": 1625,
+      "retainedParticipants": 5852,
+      "betsDuring": 197483,
+      "turnoverBefore": 74810671,
+      "turnoverDuring": 94273059,
+      "turnoverAfter": 79232029,
+      "controlGgrBefore": 9874522,
+      "controlGgrDuring": 9743951,
+      "controlLabel": "Same games at comparable Brazil operators without the promo",
+      "eligiblePlayers": 45649,
+      "leaderboard": [
+        {
+          "band": "1st",
+          "winners": 1,
+          "prize": 56250
+        },
+        {
+          "band": "2nd–3rd",
+          "winners": 2,
+          "prize": 50625
+        },
+        {
+          "band": "4th–10th",
+          "winners": 7,
+          "prize": 61875
+        },
+        {
+          "band": "11th–50th",
+          "winners": 40,
+          "prize": 70313
+        },
+        {
+          "band": "51st–100th",
+          "winners": 50,
+          "prize": 42188
+        }
+      ],
+      "notes": "",
+      "daily": [
+        {
+          "date": "2025-12-28",
+          "ggr": 322547
+        },
+        {
+          "date": "2025-12-29",
+          "ggr": 277842
+        },
+        {
+          "date": "2025-12-30",
+          "ggr": 272090
+        },
+        {
+          "date": "2025-12-31",
+          "ggr": 280075
+        },
+        {
+          "date": "2026-01-01",
+          "ggr": 243632
+        },
+        {
+          "date": "2026-01-02",
+          "ggr": 285290
+        },
+        {
+          "date": "2026-01-03",
+          "ggr": 298174
+        },
+        {
+          "date": "2026-01-04",
+          "ggr": 288814
+        },
+        {
+          "date": "2026-01-05",
+          "ggr": 274875
+        },
+        {
+          "date": "2026-01-06",
+          "ggr": 272468
+        },
+        {
+          "date": "2026-01-07",
+          "ggr": 269981
+        },
+        {
+          "date": "2026-01-08",
+          "ggr": 290136
+        },
+        {
+          "date": "2026-01-09",
+          "ggr": 369262
+        },
+        {
+          "date": "2026-01-10",
+          "ggr": 372712
+        },
+        {
+          "date": "2026-01-11",
+          "ggr": 376077
+        },
+        {
+          "date": "2026-01-12",
+          "ggr": 296096
+        },
+        {
+          "date": "2026-01-13",
+          "ggr": 305635
+        },
+        {
+          "date": "2026-01-14",
+          "ggr": 310620
+        },
+        {
+          "date": "2026-01-15",
+          "ggr": 322922
+        },
+        {
+          "date": "2026-01-16",
+          "ggr": 367163
+        },
+        {
+          "date": "2026-01-17",
+          "ggr": 358274
+        },
+        {
+          "date": "2026-01-18",
+          "ggr": 364132
+        },
+        {
+          "date": "2026-01-19",
+          "ggr": 306131
+        },
+        {
+          "date": "2026-01-20",
+          "ggr": 280347
+        },
+        {
+          "date": "2026-01-21",
+          "ggr": 272553
+        },
+        {
+          "date": "2026-01-22",
+          "ggr": 269920
+        },
+        {
+          "date": "2026-01-23",
+          "ggr": 295855
+        },
+        {
+          "date": "2026-01-24",
+          "ggr": 347203
+        },
+        {
+          "date": "2026-01-25",
+          "ggr": 348053
+        },
+        {
+          "date": "2026-01-26",
+          "ggr": 291196
+        },
+        {
+          "date": "2026-01-27",
+          "ggr": 279368
+        },
+        {
+          "date": "2026-01-28",
+          "ggr": 301460
+        },
+        {
+          "date": "2026-01-29",
+          "ggr": 276074
+        }
+      ]
+    },
+    {
+      "id": "demo-2",
+      "name": "Mini Roulette Winter Cashback",
+      "type": "Regional Promotion",
+      "operator": "Operator Golf",
+      "aggregator": "Aggregator South",
+      "games": [
+        "Mini Roulette"
+      ],
+      "market": "Spain",
+      "currency": "EUR",
+      "startDate": "2026-01-19",
+      "endDate": "2026-01-25",
+      "windowDays": null,
+      "ggrBefore": 50015,
+      "ggrDuring": 50760,
+      "ggrAfter": 50490,
+      "prizePool": 3800,
+      "playersBefore": 2696,
+      "playersDuring": 2737,
+      "playersAfter": 2754,
+      "participants": 924,
+      "newParticipants": 261,
+      "retainedParticipants": 419,
+      "betsDuring": 20933,
+      "turnoverBefore": 1643822,
+      "turnoverDuring": 1737820,
+      "turnoverAfter": 1659433,
+      "eligiblePlayers": 4641,
+      "notes": "",
+      "daily": [
+        {
+          "date": "2026-01-12",
+          "ggr": 7135
+        },
+        {
+          "date": "2026-01-13",
+          "ggr": 6631
+        },
+        {
+          "date": "2026-01-14",
+          "ggr": 6726
+        },
+        {
+          "date": "2026-01-15",
+          "ggr": 6665
+        },
+        {
+          "date": "2026-01-16",
+          "ggr": 7263
+        },
+        {
+          "date": "2026-01-17",
+          "ggr": 7546
+        },
+        {
+          "date": "2026-01-18",
+          "ggr": 8049
+        },
+        {
+          "date": "2026-01-19",
+          "ggr": 6888
+        },
+        {
+          "date": "2026-01-20",
+          "ggr": 6878
+        },
+        {
+          "date": "2026-01-21",
+          "ggr": 6550
+        },
+        {
+          "date": "2026-01-22",
+          "ggr": 6639
+        },
+        {
+          "date": "2026-01-23",
+          "ggr": 7103
+        },
+        {
+          "date": "2026-01-24",
+          "ggr": 8090
+        },
+        {
+          "date": "2026-01-25",
+          "ggr": 8612
+        },
+        {
+          "date": "2026-01-26",
+          "ggr": 6839
+        },
+        {
+          "date": "2026-01-27",
+          "ggr": 6592
+        },
+        {
+          "date": "2026-01-28",
+          "ggr": 7035
+        },
+        {
+          "date": "2026-01-29",
+          "ggr": 6765
+        },
+        {
+          "date": "2026-01-30",
+          "ggr": 6894
+        },
+        {
+          "date": "2026-01-31",
+          "ggr": 8436
+        },
+        {
+          "date": "2026-02-01",
+          "ggr": 7929
+        }
+      ]
+    },
+    {
+      "id": "demo-3",
+      "name": "Mines Explorer Missions",
+      "type": "Missions",
+      "operator": "Operator Bravo",
+      "aggregator": "Aggregator North",
+      "games": [
+        "Mines",
+        "Hilo"
+      ],
+      "market": "Mexico",
+      "currency": "MXN",
+      "startDate": "2026-02-02",
+      "endDate": "2026-02-11",
+      "windowDays": null,
+      "ggrBefore": 2618167,
+      "ggrDuring": 2996119,
+      "ggrAfter": 2741580,
+      "prizePool": 160000,
+      "playersBefore": 4822,
+      "playersDuring": 5655,
+      "playersAfter": 4899,
+      "participants": 2380,
+      "newParticipants": 674,
+      "retainedParticipants": 1449,
+      "betsDuring": 49351,
+      "turnoverBefore": 71432971,
+      "turnoverDuring": 85150891,
+      "turnoverAfter": 74800120,
+      "controlGgrBefore": 8378134,
+      "controlGgrDuring": 8527850,
+      "controlLabel": "Same games at comparable Mexico operators without the promo",
+      "eligiblePlayers": 11172,
+      "missions": [
+        {
+          "name": "Opted in",
+          "reached": 2380
+        },
+        {
+          "name": "Play Mines",
+          "reached": 1598
+        },
+        {
+          "name": "Play Hilo",
+          "reached": 727
+        },
+        {
+          "name": "All missions done",
+          "reached": 569
+        }
+      ],
+      "missionDays": [
+        {
+          "day": 1,
+          "game": "Mines",
+          "requirement": "Place 10 bets on Mines",
+          "started": 2380,
+          "completed": 1753,
+          "medianMinutes": 44
+        },
+        {
+          "day": 2,
+          "game": "Hilo",
+          "requirement": "Place 3 bets on Hilo",
+          "started": 2270,
+          "completed": 2158,
+          "medianMinutes": 5
+        },
+        {
+          "day": 3,
+          "game": "Mines",
+          "requirement": "Win ×3 on Mines",
+          "started": 2176,
+          "completed": 1688,
+          "medianMinutes": 39
+        },
+        {
+          "day": 4,
+          "game": "Hilo",
+          "requirement": "Play Hilo 5 rounds in a row",
+          "started": 2026,
+          "completed": 1466,
+          "medianMinutes": 43
+        },
+        {
+          "day": 5,
+          "game": "Mines",
+          "requirement": "Cash out above ×2 on Mines",
+          "started": 1944,
+          "completed": 1570,
+          "medianMinutes": 37
+        },
+        {
+          "day": 6,
+          "game": "Hilo",
+          "requirement": "Hit a ×50 win on Hilo",
+          "started": 1857,
+          "completed": 754,
+          "medianMinutes": 157
+        },
+        {
+          "day": 7,
+          "game": "Mines",
+          "requirement": "Place 10 bets on Mines",
+          "started": 1448,
+          "completed": 1116,
+          "medianMinutes": 50
+        },
+        {
+          "day": 8,
+          "game": "Hilo",
+          "requirement": "Place 3 bets on Hilo",
+          "started": 1372,
+          "completed": 1009,
+          "medianMinutes": 52
+        },
+        {
+          "day": 9,
+          "game": "Mines",
+          "requirement": "Win ×3 on Mines",
+          "started": 1283,
+          "completed": 1102,
+          "medianMinutes": 45
+        },
+        {
+          "day": 10,
+          "game": "Hilo",
+          "requirement": "Play Hilo 5 rounds in a row",
+          "started": 1217,
+          "completed": 1012,
+          "medianMinutes": 47
+        }
+      ],
+      "gameGgr": [
+        {
+          "game": "Mines",
+          "ggrDuring": 2092203
+        },
+        {
+          "game": "Hilo",
+          "ggrDuring": 903916
+        }
+      ],
+      "notes": "",
+      "daily": [
+        {
+          "date": "2026-01-23",
+          "ggr": 281759
+        },
+        {
+          "date": "2026-01-24",
+          "ggr": 299577
+        },
+        {
+          "date": "2026-01-25",
+          "ggr": 266817
+        },
+        {
+          "date": "2026-01-26",
+          "ggr": 242453
+        },
+        {
+          "date": "2026-01-27",
+          "ggr": 241768
+        },
+        {
+          "date": "2026-01-28",
+          "ggr": 224650
+        },
+        {
+          "date": "2026-01-29",
+          "ggr": 253942
+        },
+        {
+          "date": "2026-01-30",
+          "ggr": 257570
+        },
+        {
+          "date": "2026-01-31",
+          "ggr": 289214
+        },
+        {
+          "date": "2026-02-01",
+          "ggr": 260417
+        },
+        {
+          "date": "2026-02-02",
+          "ggr": 278658
+        },
+        {
+          "date": "2026-02-03",
+          "ggr": 279144
+        },
+        {
+          "date": "2026-02-04",
+          "ggr": 293027
+        },
+        {
+          "date": "2026-02-05",
+          "ggr": 284290
+        },
+        {
+          "date": "2026-02-06",
+          "ggr": 293066
+        },
+        {
+          "date": "2026-02-07",
+          "ggr": 349184
+        },
+        {
+          "date": "2026-02-08",
+          "ggr": 358438
+        },
+        {
+          "date": "2026-02-09",
+          "ggr": 269789
+        },
+        {
+          "date": "2026-02-10",
+          "ggr": 287372
+        },
+        {
+          "date": "2026-02-11",
+          "ggr": 303151
+        },
+        {
+          "date": "2026-02-12",
+          "ggr": 253704
+        },
+        {
+          "date": "2026-02-13",
+          "ggr": 292316
+        },
+        {
+          "date": "2026-02-14",
+          "ggr": 326515
+        },
+        {
+          "date": "2026-02-15",
+          "ggr": 295908
+        },
+        {
+          "date": "2026-02-16",
+          "ggr": 253622
+        },
+        {
+          "date": "2026-02-17",
+          "ggr": 241170
+        },
+        {
+          "date": "2026-02-18",
+          "ggr": 272627
+        },
+        {
+          "date": "2026-02-19",
+          "ggr": 240979
+        },
+        {
+          "date": "2026-02-20",
+          "ggr": 277685
+        },
+        {
+          "date": "2026-02-21",
+          "ggr": 287054
+        }
+      ]
+    },
+    {
+      "id": "demo-4",
+      "name": "Aviator Carnival Rain",
+      "type": "Seasonal Promotion",
+      "operator": "Operator Delta",
+      "aggregator": "Aggregator East",
+      "games": [
+        "Aviator"
+      ],
+      "market": "Nigeria",
+      "currency": "NGN",
+      "startDate": "2026-02-13",
+      "endDate": "2026-02-17",
+      "windowDays": null,
+      "ggrBefore": 208220196,
+      "ggrDuring": 260524609,
+      "ggrAfter": 231431495,
+      "prizePool": 23333333,
+      "playersBefore": 12330,
+      "playersDuring": 13702,
+      "playersAfter": 12616,
+      "participants": 5794,
+      "newParticipants": 726,
+      "retainedParticipants": 3034,
+      "betsDuring": 274267,
+      "turnoverBefore": 5187900656,
+      "turnoverDuring": 6761550872,
+      "turnoverAfter": 5766220702,
+      "eligiblePlayers": 26403,
+      "notes": "",
+      "daily": [
+        {
+          "date": "2026-02-08",
+          "ggr": 46352569
+        },
+        {
+          "date": "2026-02-09",
+          "ggr": 40904892
+        },
+        {
+          "date": "2026-02-10",
+          "ggr": 39336244
+        },
+        {
+          "date": "2026-02-11",
+          "ggr": 41697973
+        },
+        {
+          "date": "2026-02-12",
+          "ggr": 39928518
+        },
+        {
+          "date": "2026-02-13",
+          "ggr": 53253432
+        },
+        {
+          "date": "2026-02-14",
+          "ggr": 59590533
+        },
+        {
+          "date": "2026-02-15",
+          "ggr": 51916859
+        },
+        {
+          "date": "2026-02-16",
+          "ggr": 45866455
+        },
+        {
+          "date": "2026-02-17",
+          "ggr": 49897330
+        },
+        {
+          "date": "2026-02-18",
+          "ggr": 42443420
+        },
+        {
+          "date": "2026-02-19",
+          "ggr": 44681159
+        },
+        {
+          "date": "2026-02-20",
+          "ggr": 44564146
+        },
+        {
+          "date": "2026-02-21",
+          "ggr": 50323939
+        },
+        {
+          "date": "2026-02-22",
+          "ggr": 49418831
+        }
+      ]
+    },
+    {
+      "id": "demo-5",
+      "name": "Goal Spring Leaderboard",
+      "type": "Leaderboard",
+      "operator": "Operator Echo",
+      "aggregator": "Aggregator North",
+      "games": [
+        "Goal"
+      ],
+      "market": "Colombia",
+      "currency": "COP",
+      "startDate": "2026-03-02",
+      "endDate": "2026-03-15",
+      "windowDays": null,
+      "ggrBefore": 618775281,
+      "ggrDuring": 687445352,
+      "ggrAfter": 656676822,
+      "prizePool": 43181818,
+      "playersBefore": 3572,
+      "playersDuring": 3737,
+      "playersAfter": 3606,
+      "participants": 1333,
+      "newParticipants": 349,
+      "retainedParticipants": 602,
+      "betsDuring": 57262,
+      "turnoverBefore": 16828999394,
+      "turnoverDuring": 19475664550,
+      "turnoverAfter": 17859817900,
+      "controlGgrBefore": 1980080899,
+      "controlGgrDuring": 1973291433,
+      "controlLabel": "Same games at comparable Colombia operators without the promo",
+      "eligiblePlayers": 6635,
+      "leaderboard": [
+        {
+          "band": "1st",
+          "winners": 1,
+          "prize": 8636364
+        },
+        {
+          "band": "2nd–3rd",
+          "winners": 2,
+          "prize": 7772727
+        },
+        {
+          "band": "4th–10th",
+          "winners": 7,
+          "prize": 9500000
+        },
+        {
+          "band": "11th–50th",
+          "winners": 40,
+          "prize": 10795455
+        },
+        {
+          "band": "51st–100th",
+          "winners": 50,
+          "prize": 6477273
+        }
+      ],
+      "notes": "",
+      "daily": [
+        {
+          "date": "2026-02-16",
+          "ggr": 40576845
+        },
+        {
+          "date": "2026-02-17",
+          "ggr": 45537663
+        },
+        {
+          "date": "2026-02-18",
+          "ggr": 42307468
+        },
+        {
+          "date": "2026-02-19",
+          "ggr": 41051568
+        },
+        {
+          "date": "2026-02-20",
+          "ggr": 46137288
+        },
+        {
+          "date": "2026-02-21",
+          "ggr": 47364839
+        },
+        {
+          "date": "2026-02-22",
+          "ggr": 47020862
+        },
+        {
+          "date": "2026-02-23",
+          "ggr": 42962012
+        },
+        {
+          "date": "2026-02-24",
+          "ggr": 39703692
+        },
+        {
+          "date": "2026-02-25",
+          "ggr": 41739791
+        },
+        {
+          "date": "2026-02-26",
+          "ggr": 39363415
+        },
+        {
+          "date": "2026-02-27",
+          "ggr": 49968317
+        },
+        {
+          "date": "2026-02-28",
+          "ggr": 46705950
+        },
+        {
+          "date": "2026-03-01",
+          "ggr": 48335571
+        },
+        {
+          "date": "2026-03-02",
+          "ggr": 47506394
+        },
+        {
+          "date": "2026-03-03",
+          "ggr": 43810712
+        },
+        {
+          "date": "2026-03-04",
+          "ggr": 45745709
+        },
+        {
+          "date": "2026-03-05",
+          "ggr": 45123149
+        },
+        {
+          "date": "2026-03-06",
+          "ggr": 53629857
+        },
+        {
+          "date": "2026-03-07",
+          "ggr": 57384055
+        },
+        {
+          "date": "2026-03-08",
+          "ggr": 54730207
+        },
+        {
+          "date": "2026-03-09",
+          "ggr": 45656378
+        },
+        {
+          "date": "2026-03-10",
+          "ggr": 44070507
+        },
+        {
+          "date": "2026-03-11",
+          "ggr": 46366374
+        },
+        {
+          "date": "2026-03-12",
+          "ggr": 45093345
+        },
+        {
+          "date": "2026-03-13",
+          "ggr": 50724414
+        },
+        {
+          "date": "2026-03-14",
+          "ggr": 55829260
+        },
+        {
+          "date": "2026-03-15",
+          "ggr": 51774991
+        },
+        {
+          "date": "2026-03-16",
+          "ggr": 46258040
+        },
+        {
+          "date": "2026-03-17",
+          "ggr": 46681935
+        },
+        {
+          "date": "2026-03-18",
+          "ggr": 43039105
+        },
+        {
+          "date": "2026-03-19",
+          "ggr": 42757126
+        },
+        {
+          "date": "2026-03-20",
+          "ggr": 51212220
+        },
+        {
+          "date": "2026-03-21",
+          "ggr": 53621622
+        },
+        {
+          "date": "2026-03-22",
+          "ggr": 49273829
+        },
+        {
+          "date": "2026-03-23",
+          "ggr": 43792918
+        },
+        {
+          "date": "2026-03-24",
+          "ggr": 43581187
+        },
+        {
+          "date": "2026-03-25",
+          "ggr": 42454203
+        },
+        {
+          "date": "2026-03-26",
+          "ggr": 45901534
+        },
+        {
+          "date": "2026-03-27",
+          "ggr": 47846373
+        },
+        {
+          "date": "2026-03-28",
+          "ggr": 47734427
+        },
+        {
+          "date": "2026-03-29",
+          "ggr": 52522303
+        }
+      ]
+    },
+    {
+      "id": "demo-6",
+      "name": "Plinko Path Missions",
+      "type": "Missions",
+      "operator": "Operator Charlie",
+      "aggregator": "Aggregator South",
+      "games": [
+        "Plinko",
+        "Dice"
+      ],
+      "market": "Peru",
+      "currency": "PEN",
+      "startDate": "2026-03-09",
+      "endDate": "2026-03-18",
+      "windowDays": null,
+      "ggrBefore": 358720,
+      "ggrDuring": 452352,
+      "ggrAfter": 406399,
+      "prizePool": 28000,
+      "playersBefore": 3563,
+      "playersDuring": 4178,
+      "playersAfter": 3667,
+      "participants": 1975,
+      "newParticipants": 292,
+      "retainedParticipants": 1381,
+      "betsDuring": 40577,
+      "turnoverBefore": 8584399,
+      "turnoverDuring": 11276118,
+      "turnoverAfter": 9725388,
+      "eligiblePlayers": 8165,
+      "missions": [
+        {
+          "name": "Opted in",
+          "reached": 1975
+        },
+        {
+          "name": "Play Plinko",
+          "reached": 1616
+        },
+        {
+          "name": "Play Dice",
+          "reached": 705
+        },
+        {
+          "name": "All missions done",
+          "reached": 506
+        }
+      ],
+      "missionDays": [
+        {
+          "day": 1,
+          "game": "Plinko",
+          "requirement": "Place 10 bets on Plinko",
+          "started": 1975,
+          "completed": 1606,
+          "medianMinutes": 40
+        },
+        {
+          "day": 2,
+          "game": "Dice",
+          "requirement": "Place 3 bets on Dice",
+          "started": 1839,
+          "completed": 1775,
+          "medianMinutes": 5
+        },
+        {
+          "day": 3,
+          "game": "Plinko",
+          "requirement": "Win ×3 on Plinko",
+          "started": 1749,
+          "completed": 1279,
+          "medianMinutes": 34
+        },
+        {
+          "day": 4,
+          "game": "Dice",
+          "requirement": "Play Dice 5 rounds in a row",
+          "started": 1657,
+          "completed": 1277,
+          "medianMinutes": 41
+        },
+        {
+          "day": 5,
+          "game": "Plinko",
+          "requirement": "Cash out above ×2 on Plinko",
+          "started": 1566,
+          "completed": 1347,
+          "medianMinutes": 34
+        },
+        {
+          "day": 6,
+          "game": "Dice",
+          "requirement": "Hit a ×50 win on Dice",
+          "started": 1495,
+          "completed": 588,
+          "medianMinutes": 163
+        },
+        {
+          "day": 7,
+          "game": "Plinko",
+          "requirement": "Place 10 bets on Plinko",
+          "started": 1166,
+          "completed": 853,
+          "medianMinutes": 47
+        },
+        {
+          "day": 8,
+          "game": "Dice",
+          "requirement": "Place 3 bets on Dice",
+          "started": 1086,
+          "completed": 811,
+          "medianMinutes": 42
+        },
+        {
+          "day": 9,
+          "game": "Plinko",
+          "requirement": "Win ×3 on Plinko",
+          "started": 1031,
+          "completed": 815,
+          "medianMinutes": 22
+        },
+        {
+          "day": 10,
+          "game": "Dice",
+          "requirement": "Play Dice 5 rounds in a row",
+          "started": 988,
+          "completed": 817,
+          "medianMinutes": 47
+        }
+      ],
+      "gameGgr": [
+        {
+          "game": "Plinko",
+          "ggrDuring": 298192
+        },
+        {
+          "game": "Dice",
+          "ggrDuring": 154160
+        }
+      ],
+      "notes": "",
+      "daily": [
+        {
+          "date": "2026-02-27",
+          "ggr": 35598
+        },
+        {
+          "date": "2026-02-28",
+          "ggr": 36965
+        },
+        {
+          "date": "2026-03-01",
+          "ggr": 38089
+        },
+        {
+          "date": "2026-03-02",
+          "ggr": 33490
+        },
+        {
+          "date": "2026-03-03",
+          "ggr": 36171
+        },
+        {
+          "date": "2026-03-04",
+          "ggr": 31421
+        },
+        {
+          "date": "2026-03-05",
+          "ggr": 32809
+        },
+        {
+          "date": "2026-03-06",
+          "ggr": 35799
+        },
+        {
+          "date": "2026-03-07",
+          "ggr": 38746
+        },
+        {
+          "date": "2026-03-08",
+          "ggr": 39632
+        },
+        {
+          "date": "2026-03-09",
+          "ggr": 39312
+        },
+        {
+          "date": "2026-03-10",
+          "ggr": 42753
+        },
+        {
+          "date": "2026-03-11",
+          "ggr": 44806
+        },
+        {
+          "date": "2026-03-12",
+          "ggr": 45006
+        },
+        {
+          "date": "2026-03-13",
+          "ggr": 46950
+        },
+        {
+          "date": "2026-03-14",
+          "ggr": 52833
+        },
+        {
+          "date": "2026-03-15",
+          "ggr": 53525
+        },
+        {
+          "date": "2026-03-16",
+          "ggr": 45610
+        },
+        {
+          "date": "2026-03-17",
+          "ggr": 40607
+        },
+        {
+          "date": "2026-03-18",
+          "ggr": 40950
+        },
+        {
+          "date": "2026-03-19",
+          "ggr": 38988
+        },
+        {
+          "date": "2026-03-20",
+          "ggr": 40722
+        },
+        {
+          "date": "2026-03-21",
+          "ggr": 46485
+        },
+        {
+          "date": "2026-03-22",
+          "ggr": 44127
+        },
+        {
+          "date": "2026-03-23",
+          "ggr": 37402
+        },
+        {
+          "date": "2026-03-24",
+          "ggr": 36567
+        },
+        {
+          "date": "2026-03-25",
+          "ggr": 40492
+        },
+        {
+          "date": "2026-03-26",
+          "ggr": 35920
+        },
+        {
+          "date": "2026-03-27",
+          "ggr": 43916
+        },
+        {
+          "date": "2026-03-28",
+          "ggr": 41780
+        }
+      ]
+    },
+    {
+      "id": "demo-7",
       "name": "Aviator Spring Sky Race",
       "type": "Network Tournament",
       "operator": "Operator Alpha",
@@ -17,23 +1184,24 @@
       "startDate": "2026-04-06",
       "endDate": "2026-04-19",
       "windowDays": null,
-      "ggrBefore": 4306924,
-      "ggrDuring": 5330770,
-      "ggrAfter": 4784276,
+      "ggrBefore": 4248859,
+      "ggrDuring": 5522925,
+      "ggrAfter": 4687080,
       "prizePool": 375000,
-      "playersBefore": 21250,
-      "playersDuring": 24889,
-      "playersAfter": 22812,
-      "participants": 12116,
-      "newParticipants": 3419,
-      "retainedParticipants": 7717,
-      "betsDuring": 247033,
-      "turnoverBefore": 112459759,
-      "turnoverDuring": 144993539,
-      "turnoverAfter": 124924081,
-      "controlGgrBefore": 13782157,
-      "controlGgrDuring": 14338990,
+      "playersBefore": 21059,
+      "playersDuring": 25196,
+      "playersAfter": 22932,
+      "participants": 11756,
+      "newParticipants": 3504,
+      "retainedParticipants": 7513,
+      "betsDuring": 303212,
+      "turnoverBefore": 134879509,
+      "turnoverDuring": 182629769,
+      "turnoverAfter": 148790781,
+      "controlGgrBefore": 13596349,
+      "controlGgrDuring": 13272060,
       "controlLabel": "Same games at comparable Brazil operators without the promo",
+      "eligiblePlayers": 52669,
       "leaderboard": [
         {
           "band": "1st",
@@ -65,176 +1233,176 @@
       "daily": [
         {
           "date": "2026-03-23",
-          "ggr": 301603
+          "ggr": 294290
         },
         {
           "date": "2026-03-24",
-          "ggr": 303100
+          "ggr": 292930
         },
         {
           "date": "2026-03-25",
-          "ggr": 296825
+          "ggr": 282698
         },
         {
           "date": "2026-03-26",
-          "ggr": 305537
+          "ggr": 274476
         },
         {
           "date": "2026-03-27",
-          "ggr": 290697
+          "ggr": 290599
         },
         {
           "date": "2026-03-28",
-          "ggr": 331974
+          "ggr": 333811
         },
         {
           "date": "2026-03-29",
-          "ggr": 325280
+          "ggr": 318068
         },
         {
           "date": "2026-03-30",
-          "ggr": 270060
+          "ggr": 290070
         },
         {
           "date": "2026-03-31",
-          "ggr": 299864
+          "ggr": 309994
         },
         {
           "date": "2026-04-01",
-          "ggr": 297238
+          "ggr": 289475
         },
         {
           "date": "2026-04-02",
-          "ggr": 294524
+          "ggr": 284585
         },
         {
           "date": "2026-04-03",
-          "ggr": 299080
+          "ggr": 311140
         },
         {
           "date": "2026-04-04",
-          "ggr": 355113
+          "ggr": 352687
         },
         {
           "date": "2026-04-05",
-          "ggr": 336029
+          "ggr": 324036
         },
         {
           "date": "2026-04-06",
-          "ggr": 349477
+          "ggr": 352195
         },
         {
           "date": "2026-04-07",
-          "ggr": 339031
+          "ggr": 345473
         },
         {
           "date": "2026-04-08",
-          "ggr": 349953
+          "ggr": 372364
         },
         {
           "date": "2026-04-09",
-          "ggr": 355661
+          "ggr": 387058
         },
         {
           "date": "2026-04-10",
-          "ggr": 404411
+          "ggr": 431028
         },
         {
           "date": "2026-04-11",
-          "ggr": 448430
+          "ggr": 443005
         },
         {
           "date": "2026-04-12",
-          "ggr": 410225
+          "ggr": 421763
         },
         {
           "date": "2026-04-13",
-          "ggr": 357371
+          "ggr": 357704
         },
         {
           "date": "2026-04-14",
-          "ggr": 383820
+          "ggr": 349563
         },
         {
           "date": "2026-04-15",
-          "ggr": 354292
+          "ggr": 374483
         },
         {
           "date": "2026-04-16",
-          "ggr": 346745
+          "ggr": 385587
         },
         {
           "date": "2026-04-17",
-          "ggr": 377694
+          "ggr": 412739
         },
         {
           "date": "2026-04-18",
-          "ggr": 405629
+          "ggr": 456826
         },
         {
           "date": "2026-04-19",
-          "ggr": 448031
+          "ggr": 433137
         },
         {
           "date": "2026-04-20",
-          "ggr": 351367
+          "ggr": 329341
         },
         {
           "date": "2026-04-21",
-          "ggr": 341494
+          "ggr": 312243
         },
         {
           "date": "2026-04-22",
-          "ggr": 326365
+          "ggr": 329591
         },
         {
           "date": "2026-04-23",
-          "ggr": 350966
+          "ggr": 311080
         },
         {
           "date": "2026-04-24",
-          "ggr": 350468
+          "ggr": 332978
         },
         {
           "date": "2026-04-25",
-          "ggr": 404195
+          "ggr": 357763
         },
         {
           "date": "2026-04-26",
-          "ggr": 390687
+          "ggr": 375915
         },
         {
           "date": "2026-04-27",
-          "ggr": 302864
+          "ggr": 297956
         },
         {
           "date": "2026-04-28",
-          "ggr": 313181
+          "ggr": 305690
         },
         {
           "date": "2026-04-29",
-          "ggr": 320290
+          "ggr": 322284
         },
         {
           "date": "2026-04-30",
-          "ggr": 312975
+          "ggr": 324416
         },
         {
           "date": "2026-05-01",
-          "ggr": 332832
+          "ggr": 333634
         },
         {
           "date": "2026-05-02",
-          "ggr": 343419
+          "ggr": 392291
         },
         {
           "date": "2026-05-03",
-          "ggr": 343173
+          "ggr": 361898
         }
       ]
     },
     {
-      "id": "demo-2",
+      "id": "demo-8",
       "name": "Mines Cashback Week",
       "type": "Regional Promotion",
       "operator": "Operator Bravo",
@@ -247,110 +1415,111 @@
       "startDate": "2026-04-20",
       "endDate": "2026-04-26",
       "windowDays": null,
-      "ggrBefore": 2000551,
-      "ggrDuring": 2124838,
-      "ggrAfter": 2048155,
+      "ggrBefore": 2015979,
+      "ggrDuring": 2148991,
+      "ggrAfter": 2073582,
       "prizePool": 180000,
-      "playersBefore": 5192,
-      "playersDuring": 5476,
-      "playersAfter": 5334,
-      "participants": 2042,
-      "newParticipants": 578,
-      "retainedParticipants": 1025,
-      "betsDuring": 46261,
-      "turnoverBefore": 65751256,
-      "turnoverDuring": 72745983,
-      "turnoverAfter": 67315836,
+      "playersBefore": 5333,
+      "playersDuring": 5580,
+      "playersAfter": 5177,
+      "participants": 1977,
+      "newParticipants": 570,
+      "retainedParticipants": 968,
+      "betsDuring": 52265,
+      "turnoverBefore": 48000998,
+      "turnoverDuring": 53300051,
+      "turnoverAfter": 49372541,
+      "eligiblePlayers": 9005,
       "notes": "",
       "daily": [
         {
           "date": "2026-04-13",
-          "ggr": 285381
+          "ggr": 266143
         },
         {
           "date": "2026-04-14",
-          "ggr": 265228
+          "ggr": 260602
         },
         {
           "date": "2026-04-15",
-          "ggr": 269030
+          "ggr": 275888
         },
         {
           "date": "2026-04-16",
-          "ggr": 266593
+          "ggr": 249051
         },
         {
           "date": "2026-04-17",
-          "ggr": 290526
+          "ggr": 294552
         },
         {
           "date": "2026-04-18",
-          "ggr": 301846
+          "ggr": 336596
         },
         {
           "date": "2026-04-19",
-          "ggr": 321947
+          "ggr": 333147
         },
         {
           "date": "2026-04-20",
-          "ggr": 285562
+          "ggr": 265667
         },
         {
           "date": "2026-04-21",
-          "ggr": 288339
+          "ggr": 303932
         },
         {
           "date": "2026-04-22",
-          "ggr": 274587
+          "ggr": 316121
         },
         {
           "date": "2026-04-23",
-          "ggr": 278347
+          "ggr": 270519
         },
         {
           "date": "2026-04-24",
-          "ggr": 297797
+          "ggr": 343303
         },
         {
           "date": "2026-04-25",
-          "ggr": 339147
+          "ggr": 329257
         },
         {
           "date": "2026-04-26",
-          "ggr": 361059
+          "ggr": 320192
         },
         {
           "date": "2026-04-27",
-          "ggr": 279167
+          "ggr": 274121
         },
         {
           "date": "2026-04-28",
-          "ggr": 268267
+          "ggr": 297841
         },
         {
           "date": "2026-04-29",
-          "ggr": 285690
+          "ggr": 277044
         },
         {
           "date": "2026-04-30",
-          "ggr": 274240
+          "ggr": 267958
         },
         {
           "date": "2026-05-01",
-          "ggr": 279098
+          "ggr": 308954
         },
         {
           "date": "2026-05-02",
-          "ggr": 341217
+          "ggr": 325897
         },
         {
           "date": "2026-05-03",
-          "ggr": 320476
+          "ggr": 321767
         }
       ]
     },
     {
-      "id": "demo-3",
+      "id": "demo-9",
       "name": "Plinko Drops Festival",
       "type": "Collection Campaign",
       "operator": "Operator Charlie",
@@ -364,215 +1533,340 @@
       "startDate": "2026-05-04",
       "endDate": "2026-05-17",
       "windowDays": null,
-      "ggrBefore": 544373,
-      "ggrDuring": 638899,
-      "ggrAfter": 577796,
+      "ggrBefore": 546025,
+      "ggrDuring": 638269,
+      "ggrAfter": 573291,
       "prizePool": 56000,
-      "playersBefore": 3954,
-      "playersDuring": 4539,
-      "playersAfter": 3988,
-      "participants": 1907,
-      "newParticipants": 495,
-      "retainedParticipants": 1178,
-      "betsDuring": 64589,
-      "turnoverBefore": 13970316,
-      "turnoverDuring": 17079322,
-      "turnoverAfter": 14828055,
-      "controlGgrBefore": 1741994,
-      "controlGgrDuring": 1716590,
+      "playersBefore": 3805,
+      "playersDuring": 4411,
+      "playersAfter": 4121,
+      "participants": 1915,
+      "newParticipants": 456,
+      "retainedParticipants": 1142,
+      "betsDuring": 46706,
+      "turnoverBefore": 13871636,
+      "turnoverDuring": 16890701,
+      "turnoverAfter": 14564323,
+      "controlGgrBefore": 1747280,
+      "controlGgrDuring": 1766500,
       "controlLabel": "Same games at comparable Peru operators without the promo",
+      "eligiblePlayers": 9490,
       "missions": [
         {
           "name": "Opted in",
-          "reached": 1907
+          "reached": 1915
         },
         {
           "name": "Play Plinko",
-          "reached": 1397
+          "reached": 1455
         },
         {
           "name": "Play Dice",
-          "reached": 537
+          "reached": 601
         },
         {
           "name": "All missions done",
-          "reached": 336
+          "reached": 391
+        }
+      ],
+      "missionDays": [
+        {
+          "day": 1,
+          "game": "Plinko",
+          "requirement": "Place 10 bets on Plinko",
+          "started": 1915,
+          "completed": 1611,
+          "medianMinutes": 39
+        },
+        {
+          "day": 2,
+          "game": "Dice",
+          "requirement": "Place 3 bets on Dice",
+          "started": 1788,
+          "completed": 1687,
+          "medianMinutes": 4
+        },
+        {
+          "day": 3,
+          "game": "Plinko",
+          "requirement": "Win ×3 on Plinko",
+          "started": 1686,
+          "completed": 1296,
+          "medianMinutes": 27
+        },
+        {
+          "day": 4,
+          "game": "Dice",
+          "requirement": "Play Dice 5 rounds in a row",
+          "started": 1591,
+          "completed": 1317,
+          "medianMinutes": 48
+        },
+        {
+          "day": 5,
+          "game": "Plinko",
+          "requirement": "Cash out above ×2 on Plinko",
+          "started": 1521,
+          "completed": 1243,
+          "medianMinutes": 49
+        },
+        {
+          "day": 6,
+          "game": "Dice",
+          "requirement": "Hit a ×50 win on Dice",
+          "started": 1428,
+          "completed": 623,
+          "medianMinutes": 156
+        },
+        {
+          "day": 7,
+          "game": "Plinko",
+          "requirement": "Place 10 bets on Plinko",
+          "started": 1114,
+          "completed": 904,
+          "medianMinutes": 32
+        },
+        {
+          "day": 8,
+          "game": "Dice",
+          "requirement": "Place 3 bets on Dice",
+          "started": 1062,
+          "completed": 900,
+          "medianMinutes": 27
+        },
+        {
+          "day": 9,
+          "game": "Plinko",
+          "requirement": "Win ×3 on Plinko",
+          "started": 988,
+          "completed": 720,
+          "medianMinutes": 30
+        },
+        {
+          "day": 10,
+          "game": "Dice",
+          "requirement": "Play Dice 5 rounds in a row",
+          "started": 929,
+          "completed": 790,
+          "medianMinutes": 35
+        },
+        {
+          "day": 11,
+          "game": "Plinko",
+          "requirement": "Cash out above ×2 on Plinko",
+          "started": 883,
+          "completed": 660,
+          "medianMinutes": 41
+        },
+        {
+          "day": 12,
+          "game": "Dice",
+          "requirement": "Collect 5 wins on Dice",
+          "started": 833,
+          "completed": 692,
+          "medianMinutes": 25
+        },
+        {
+          "day": 13,
+          "game": "Plinko",
+          "requirement": "Place 10 bets on Plinko",
+          "started": 783,
+          "completed": 633,
+          "medianMinutes": 45
+        },
+        {
+          "day": 14,
+          "game": "Dice",
+          "requirement": "Place 3 bets on Dice",
+          "started": 733,
+          "completed": 630,
+          "medianMinutes": 51
+        }
+      ],
+      "gameGgr": [
+        {
+          "game": "Plinko",
+          "ggrDuring": 482124
+        },
+        {
+          "game": "Dice",
+          "ggrDuring": 156145
         }
       ],
       "notes": "",
       "daily": [
         {
           "date": "2026-04-20",
-          "ggr": 39156
+          "ggr": 38944
         },
         {
           "date": "2026-04-21",
-          "ggr": 39031
+          "ggr": 37264
         },
         {
           "date": "2026-04-22",
-          "ggr": 34762
+          "ggr": 36136
         },
         {
           "date": "2026-04-23",
-          "ggr": 36853
+          "ggr": 35821
         },
         {
           "date": "2026-04-24",
-          "ggr": 40194
+          "ggr": 40769
         },
         {
           "date": "2026-04-25",
-          "ggr": 39838
+          "ggr": 40987
         },
         {
           "date": "2026-04-26",
-          "ggr": 45032
+          "ggr": 43999
         },
         {
           "date": "2026-04-27",
-          "ggr": 35795
+          "ggr": 33592
         },
         {
           "date": "2026-04-28",
-          "ggr": 37680
+          "ggr": 37473
         },
         {
           "date": "2026-04-29",
-          "ggr": 33929
+          "ggr": 38347
         },
         {
           "date": "2026-04-30",
-          "ggr": 37073
+          "ggr": 37526
         },
         {
           "date": "2026-05-01",
-          "ggr": 38998
+          "ggr": 36788
         },
         {
           "date": "2026-05-02",
-          "ggr": 43667
+          "ggr": 45950
         },
         {
           "date": "2026-05-03",
-          "ggr": 42365
+          "ggr": 42429
         },
         {
           "date": "2026-05-04",
-          "ggr": 38845
+          "ggr": 43259
         },
         {
           "date": "2026-05-05",
-          "ggr": 45111
+          "ggr": 41441
         },
         {
           "date": "2026-05-06",
-          "ggr": 46307
+          "ggr": 43920
         },
         {
           "date": "2026-05-07",
-          "ggr": 40663
+          "ggr": 39991
         },
         {
           "date": "2026-05-08",
-          "ggr": 47374
+          "ggr": 44077
         },
         {
           "date": "2026-05-09",
-          "ggr": 53307
+          "ggr": 51139
         },
         {
           "date": "2026-05-10",
-          "ggr": 48238
+          "ggr": 51047
         },
         {
           "date": "2026-05-11",
-          "ggr": 43871
+          "ggr": 40977
         },
         {
           "date": "2026-05-12",
-          "ggr": 46214
+          "ggr": 42012
         },
         {
           "date": "2026-05-13",
-          "ggr": 42087
+          "ggr": 44234
         },
         {
           "date": "2026-05-14",
-          "ggr": 42254
+          "ggr": 45823
         },
         {
           "date": "2026-05-15",
-          "ggr": 44092
+          "ggr": 43734
         },
         {
           "date": "2026-05-16",
-          "ggr": 53310
+          "ggr": 52580
         },
         {
           "date": "2026-05-17",
-          "ggr": 47226
+          "ggr": 54035
         },
         {
           "date": "2026-05-18",
-          "ggr": 39532
+          "ggr": 41101
         },
         {
           "date": "2026-05-19",
-          "ggr": 38150
+          "ggr": 42024
         },
         {
           "date": "2026-05-20",
-          "ggr": 39747
+          "ggr": 38276
         },
         {
           "date": "2026-05-21",
-          "ggr": 40498
+          "ggr": 38793
         },
         {
           "date": "2026-05-22",
-          "ggr": 42910
+          "ggr": 41321
         },
         {
           "date": "2026-05-23",
-          "ggr": 46000
+          "ggr": 44823
         },
         {
           "date": "2026-05-24",
-          "ggr": 48056
+          "ggr": 41932
         },
         {
           "date": "2026-05-25",
-          "ggr": 36827
+          "ggr": 41630
         },
         {
           "date": "2026-05-26",
-          "ggr": 41178
+          "ggr": 40187
         },
         {
           "date": "2026-05-27",
-          "ggr": 36600
+          "ggr": 36987
         },
         {
           "date": "2026-05-28",
-          "ggr": 35870
+          "ggr": 38712
         },
         {
           "date": "2026-05-29",
-          "ggr": 42116
+          "ggr": 40256
         },
         {
           "date": "2026-05-30",
-          "ggr": 47271
+          "ggr": 43713
         },
         {
           "date": "2026-05-31",
-          "ggr": 43041
+          "ggr": 43536
         }
       ]
     },
     {
-      "id": "demo-4",
+      "id": "demo-10",
       "name": "Aviator Rain Weekend",
       "type": "Regional Promotion",
       "operator": "Operator Alpha",
@@ -585,62 +1879,63 @@
       "startDate": "2026-05-22",
       "endDate": "2026-05-24",
       "windowDays": null,
-      "ggrBefore": 899790,
-      "ggrDuring": 1212814,
-      "ggrAfter": 948899,
+      "ggrBefore": 933886,
+      "ggrDuring": 1216394,
+      "ggrAfter": 959631,
       "prizePool": 75000,
-      "playersBefore": 22055,
-      "playersDuring": 25095,
-      "playersAfter": 22553,
-      "participants": 9783,
-      "newParticipants": 2661,
-      "retainedParticipants": 4825,
-      "betsDuring": 242557,
-      "turnoverBefore": 22939005,
-      "turnoverDuring": 32207452,
-      "turnoverAfter": 24190976,
+      "playersBefore": 22342,
+      "playersDuring": 24846,
+      "playersAfter": 22312,
+      "participants": 9940,
+      "newParticipants": 2323,
+      "retainedParticipants": 4900,
+      "betsDuring": 424033,
+      "turnoverBefore": 30910685,
+      "turnoverDuring": 41938974,
+      "turnoverAfter": 31762819,
+      "eligiblePlayers": 41060,
       "notes": "",
       "daily": [
         {
           "date": "2026-05-19",
-          "ggr": 297981
+          "ggr": 316185
         },
         {
           "date": "2026-05-20",
-          "ggr": 306787
+          "ggr": 301017
         },
         {
           "date": "2026-05-21",
-          "ggr": 295022
+          "ggr": 316684
         },
         {
           "date": "2026-05-22",
-          "ggr": 377969
+          "ggr": 384556
         },
         {
           "date": "2026-05-23",
-          "ggr": 398287
+          "ggr": 441556
         },
         {
           "date": "2026-05-24",
-          "ggr": 436558
+          "ggr": 390282
         },
         {
           "date": "2026-05-25",
-          "ggr": 346195
+          "ggr": 323548
         },
         {
           "date": "2026-05-26",
-          "ggr": 297930
+          "ggr": 309866
         },
         {
           "date": "2026-05-27",
-          "ggr": 304774
+          "ggr": 326217
         }
       ]
     },
     {
-      "id": "demo-5",
+      "id": "demo-11",
       "name": "Turbo Games Missions",
       "type": "Missions",
       "operator": "Operator Delta",
@@ -655,219 +1950,348 @@
       "startDate": "2026-06-01",
       "endDate": "2026-06-14",
       "windowDays": null,
-      "ggrBefore": 254666017,
-      "ggrDuring": 319006303,
-      "ggrAfter": 294977875,
+      "ggrBefore": 260714744,
+      "ggrDuring": 317019068,
+      "ggrAfter": 297130175,
       "prizePool": 16666667,
-      "playersBefore": 6053,
-      "playersDuring": 6999,
-      "playersAfter": 6469,
-      "participants": 3090,
-      "newParticipants": 808,
-      "retainedParticipants": 2044,
-      "betsDuring": 132738,
-      "turnoverBefore": 6926220839,
-      "turnoverDuring": 9037605285,
-      "turnoverAfter": 8022593391,
-      "controlGgrBefore": 814931254,
-      "controlGgrDuring": 812136950,
+      "playersBefore": 6261,
+      "playersDuring": 7345,
+      "playersAfter": 6606,
+      "participants": 3224,
+      "newParticipants": 813,
+      "retainedParticipants": 2282,
+      "betsDuring": 165178,
+      "turnoverBefore": 8607614650,
+      "turnoverDuring": 10902632557,
+      "turnoverAfter": 9809886499,
+      "controlGgrBefore": 834287181,
+      "controlGgrDuring": 817573828,
       "controlLabel": "Same games at comparable Nigeria operators without the promo",
+      "eligiblePlayers": 15222,
       "missions": [
         {
           "name": "Opted in",
-          "reached": 3090
+          "reached": 3224
         },
         {
           "name": "Play Mines",
-          "reached": 2162
+          "reached": 2015
         },
         {
           "name": "Play Goal",
-          "reached": 1464
+          "reached": 1462
         },
         {
           "name": "Play Hilo",
-          "reached": 669
+          "reached": 631
         },
         {
           "name": "All missions done",
-          "reached": 501
+          "reached": 392
+        }
+      ],
+      "missionDays": [
+        {
+          "day": 1,
+          "game": "Mines",
+          "requirement": "Place 10 bets on Mines",
+          "started": 3224,
+          "completed": 2560,
+          "medianMinutes": 35
+        },
+        {
+          "day": 2,
+          "game": "Goal",
+          "requirement": "Place 3 bets on Goal",
+          "started": 3012,
+          "completed": 2907,
+          "medianMinutes": 3
+        },
+        {
+          "day": 3,
+          "game": "Hilo",
+          "requirement": "Win ×3 on Hilo",
+          "started": 2835,
+          "completed": 2429,
+          "medianMinutes": 25
+        },
+        {
+          "day": 4,
+          "game": "Mines",
+          "requirement": "Play Mines 5 rounds in a row",
+          "started": 2657,
+          "completed": 1992,
+          "medianMinutes": 51
+        },
+        {
+          "day": 5,
+          "game": "Goal",
+          "requirement": "Cash out above ×2 on Goal",
+          "started": 2534,
+          "completed": 2011,
+          "medianMinutes": 26
+        },
+        {
+          "day": 6,
+          "game": "Hilo",
+          "requirement": "Hit a ×50 win on Hilo",
+          "started": 2393,
+          "completed": 1004,
+          "medianMinutes": 155
+        },
+        {
+          "day": 7,
+          "game": "Mines",
+          "requirement": "Place 10 bets on Mines",
+          "started": 1867,
+          "completed": 1391,
+          "medianMinutes": 28
+        },
+        {
+          "day": 8,
+          "game": "Goal",
+          "requirement": "Place 3 bets on Goal",
+          "started": 1791,
+          "completed": 1398,
+          "medianMinutes": 35
+        },
+        {
+          "day": 9,
+          "game": "Hilo",
+          "requirement": "Win ×3 on Hilo",
+          "started": 1711,
+          "completed": 1393,
+          "medianMinutes": 29
+        },
+        {
+          "day": 10,
+          "game": "Mines",
+          "requirement": "Play Mines 5 rounds in a row",
+          "started": 1630,
+          "completed": 1291,
+          "medianMinutes": 34
+        },
+        {
+          "day": 11,
+          "game": "Goal",
+          "requirement": "Cash out above ×2 on Goal",
+          "started": 1545,
+          "completed": 1285,
+          "medianMinutes": 45
+        },
+        {
+          "day": 12,
+          "game": "Hilo",
+          "requirement": "Collect 5 wins on Hilo",
+          "started": 1478,
+          "completed": 1144,
+          "medianMinutes": 30
+        },
+        {
+          "day": 13,
+          "game": "Mines",
+          "requirement": "Place 10 bets on Mines",
+          "started": 1405,
+          "completed": 1066,
+          "medianMinutes": 28
+        },
+        {
+          "day": 14,
+          "game": "Goal",
+          "requirement": "Place 3 bets on Goal",
+          "started": 1345,
+          "completed": 1065,
+          "medianMinutes": 38
+        }
+      ],
+      "gameGgr": [
+        {
+          "game": "Mines",
+          "ggrDuring": 174947044
+        },
+        {
+          "game": "Goal",
+          "ggrDuring": 87769795
+        },
+        {
+          "game": "Hilo",
+          "ggrDuring": 54302229
         }
       ],
       "notes": "",
       "daily": [
         {
           "date": "2026-05-18",
-          "ggr": 16699994
+          "ggr": 17937996
         },
         {
           "date": "2026-05-19",
-          "ggr": 18741691
+          "ggr": 18754527
         },
         {
           "date": "2026-05-20",
-          "ggr": 17412257
+          "ggr": 17706882
         },
         {
           "date": "2026-05-21",
-          "ggr": 16895373
+          "ggr": 16367401
         },
         {
           "date": "2026-05-22",
-          "ggr": 18988476
+          "ggr": 18056105
         },
         {
           "date": "2026-05-23",
-          "ggr": 19493692
+          "ggr": 20206897
         },
         {
           "date": "2026-05-24",
-          "ggr": 19352124
+          "ggr": 21219076
         },
         {
           "date": "2026-05-25",
-          "ggr": 17681645
+          "ggr": 18143776
         },
         {
           "date": "2026-05-26",
-          "ggr": 16340635
+          "ggr": 17066660
         },
         {
           "date": "2026-05-27",
-          "ggr": 17178621
+          "ggr": 16629095
         },
         {
           "date": "2026-05-28",
-          "ggr": 16200589
+          "ggr": 18188301
         },
         {
           "date": "2026-05-29",
-          "ggr": 20565192
+          "ggr": 19653329
         },
         {
           "date": "2026-05-30",
-          "ggr": 19222517
+          "ggr": 19708069
         },
         {
           "date": "2026-05-31",
-          "ggr": 19893211
+          "ggr": 21076630
         },
         {
           "date": "2026-06-01",
-          "ggr": 21488701
+          "ggr": 20107609
         },
         {
           "date": "2026-06-02",
-          "ggr": 20368283
+          "ggr": 20292122
         },
         {
           "date": "2026-06-03",
-          "ggr": 21267894
+          "ggr": 20349378
         },
         {
           "date": "2026-06-04",
-          "ggr": 20978456
+          "ggr": 21464992
         },
         {
           "date": "2026-06-05",
-          "ggr": 24933357
+          "ggr": 24991816
         },
         {
           "date": "2026-06-06",
-          "ggr": 26678742
+          "ggr": 26635067
         },
         {
           "date": "2026-06-07",
-          "ggr": 25444927
+          "ggr": 25036939
         },
         {
           "date": "2026-06-08",
-          "ggr": 21226362
+          "ggr": 20490929
         },
         {
           "date": "2026-06-09",
-          "ggr": 20489066
+          "ggr": 22084557
         },
         {
           "date": "2026-06-10",
-          "ggr": 21556450
+          "ggr": 22060967
         },
         {
           "date": "2026-06-11",
-          "ggr": 20964599
+          "ggr": 21338953
         },
         {
           "date": "2026-06-12",
-          "ggr": 23582571
+          "ggr": 23231382
         },
         {
           "date": "2026-06-13",
-          "ggr": 25955894
+          "ggr": 23102969
         },
         {
           "date": "2026-06-14",
-          "ggr": 24071001
+          "ggr": 25831388
         },
         {
           "date": "2026-06-15",
-          "ggr": 20949063
+          "ggr": 20085920
         },
         {
           "date": "2026-06-16",
-          "ggr": 21099256
+          "ggr": 20798999
         },
         {
           "date": "2026-06-17",
-          "ggr": 19419170
+          "ggr": 20606012
         },
         {
           "date": "2026-06-18",
-          "ggr": 19262841
+          "ggr": 19968528
         },
         {
           "date": "2026-06-19",
-          "ggr": 23041650
+          "ggr": 21695543
         },
         {
           "date": "2026-06-20",
-          "ggr": 24098027
+          "ggr": 23949990
         },
         {
           "date": "2026-06-21",
-          "ggr": 22121967
+          "ggr": 22855416
         },
         {
           "date": "2026-06-22",
-          "ggr": 19644158
+          "ggr": 20797809
         },
         {
           "date": "2026-06-23",
-          "ggr": 19534391
+          "ggr": 18355910
         },
         {
           "date": "2026-06-24",
-          "ggr": 19016721
+          "ggr": 19543082
         },
         {
           "date": "2026-06-25",
-          "ggr": 20549142
+          "ggr": 19761544
         },
         {
           "date": "2026-06-26",
-          "ggr": 21409160
+          "ggr": 21032975
         },
         {
           "date": "2026-06-27",
-          "ggr": 21349848
+          "ggr": 23847005
         },
         {
           "date": "2026-06-28",
-          "ggr": 23482481
+          "ggr": 23831442
         }
       ]
     },
     {
-      "id": "demo-6",
+      "id": "demo-12",
       "name": "World Cup Aviator Cup",
       "type": "Seasonal Promotion",
       "operator": "Operator Echo",
@@ -880,20 +2304,21 @@
       "startDate": "2026-06-11",
       "endDate": "2026-07-19",
       "windowDays": null,
-      "ggrBefore": 6453402002,
-      "ggrDuring": 8742619156,
-      "ggrAfter": 7401401311,
+      "ggrBefore": 6535592126,
+      "ggrDuring": 8784025424,
+      "ggrAfter": 7384032449,
       "prizePool": 681818182,
-      "playersBefore": 16944,
-      "playersDuring": 20719,
-      "playersAfter": 18267,
-      "participants": 10591,
-      "newParticipants": 2332,
-      "retainedParticipants": 6600,
-      "betsDuring": 461209,
-      "turnoverBefore": 167478243728,
-      "turnoverDuring": 236341509837,
-      "turnoverAfter": 192080656421,
+      "playersBefore": 16803,
+      "playersDuring": 20995,
+      "playersAfter": 17734,
+      "participants": 10778,
+      "newParticipants": 3116,
+      "retainedParticipants": 6784,
+      "betsDuring": 232704,
+      "turnoverBefore": 163065327944,
+      "turnoverDuring": 228296386989,
+      "turnoverAfter": 184234213157,
+      "eligiblePlayers": 37780,
       "leaderboard": [
         {
           "band": "1st",
@@ -925,476 +2350,476 @@
       "daily": [
         {
           "date": "2026-05-03",
-          "ggr": 176518841
+          "ggr": 178615286
         },
         {
           "date": "2026-05-04",
-          "ggr": 147293250
+          "ggr": 161091128
         },
         {
           "date": "2026-05-05",
-          "ggr": 151769854
+          "ggr": 165234784
         },
         {
           "date": "2026-05-06",
-          "ggr": 155689015
+          "ggr": 158733868
         },
         {
           "date": "2026-05-07",
-          "ggr": 168149124
+          "ggr": 155281438
         },
         {
           "date": "2026-05-08",
-          "ggr": 159760491
+          "ggr": 159667392
         },
         {
           "date": "2026-05-09",
-          "ggr": 177941042
+          "ggr": 186639693
         },
         {
           "date": "2026-05-10",
-          "ggr": 177516197
+          "ggr": 187515469
         },
         {
           "date": "2026-05-11",
-          "ggr": 154389229
+          "ggr": 159792709
         },
         {
           "date": "2026-05-12",
-          "ggr": 157918763
+          "ggr": 147936955
         },
         {
           "date": "2026-05-13",
-          "ggr": 151975203
+          "ggr": 147907789
         },
         {
           "date": "2026-05-14",
-          "ggr": 156495819
+          "ggr": 165832646
         },
         {
           "date": "2026-05-15",
-          "ggr": 179387123
+          "ggr": 165474910
         },
         {
           "date": "2026-05-16",
-          "ggr": 192198857
+          "ggr": 182238861
         },
         {
           "date": "2026-05-17",
-          "ggr": 183314969
+          "ggr": 195084823
         },
         {
           "date": "2026-05-18",
-          "ggr": 165765782
+          "ggr": 162871696
         },
         {
           "date": "2026-05-19",
-          "ggr": 167937361
+          "ggr": 163922224
         },
         {
           "date": "2026-05-20",
-          "ggr": 166952155
+          "ggr": 165695175
         },
         {
           "date": "2026-05-21",
-          "ggr": 148640209
+          "ggr": 144662510
         },
         {
           "date": "2026-05-22",
-          "ggr": 163946793
+          "ggr": 167545871
         },
         {
           "date": "2026-05-23",
-          "ggr": 182120654
+          "ggr": 190388234
         },
         {
           "date": "2026-05-24",
-          "ggr": 175371801
+          "ggr": 183540096
         },
         {
           "date": "2026-05-25",
-          "ggr": 161973635
+          "ggr": 167843595
         },
         {
           "date": "2026-05-26",
-          "ggr": 154628178
+          "ggr": 164396378
         },
         {
           "date": "2026-05-27",
-          "ggr": 153620505
+          "ggr": 148886893
         },
         {
           "date": "2026-05-28",
-          "ggr": 150767091
+          "ggr": 167852651
         },
         {
           "date": "2026-05-29",
-          "ggr": 183175883
+          "ggr": 170118212
         },
         {
           "date": "2026-05-30",
-          "ggr": 173774434
+          "ggr": 196776777
         },
         {
           "date": "2026-05-31",
-          "ggr": 194658973
+          "ggr": 177003462
         },
         {
           "date": "2026-06-01",
-          "ggr": 149073414
+          "ggr": 149618899
         },
         {
           "date": "2026-06-02",
-          "ggr": 169212948
+          "ggr": 167206076
         },
         {
           "date": "2026-06-03",
-          "ggr": 152874402
+          "ggr": 156163153
         },
         {
           "date": "2026-06-04",
-          "ggr": 164779944
+          "ggr": 153685267
         },
         {
           "date": "2026-06-05",
-          "ggr": 180012399
+          "ggr": 170807799
         },
         {
           "date": "2026-06-06",
-          "ggr": 174370724
+          "ggr": 187782942
         },
         {
           "date": "2026-06-07",
-          "ggr": 170577687
+          "ggr": 182217736
         },
         {
           "date": "2026-06-08",
-          "ggr": 148402471
+          "ggr": 144555828
         },
         {
           "date": "2026-06-09",
-          "ggr": 164323903
+          "ggr": 165400512
         },
         {
           "date": "2026-06-10",
-          "ggr": 146122879
+          "ggr": 169602389
         },
         {
           "date": "2026-06-11",
-          "ggr": 187709654
+          "ggr": 193184187
         },
         {
           "date": "2026-06-12",
-          "ggr": 235760691
+          "ggr": 246573193
         },
         {
           "date": "2026-06-13",
-          "ggr": 262892712
+          "ggr": 234477825
         },
         {
           "date": "2026-06-14",
-          "ggr": 246246088
+          "ggr": 245968593
         },
         {
           "date": "2026-06-15",
-          "ggr": 208461876
+          "ggr": 201205322
         },
         {
           "date": "2026-06-16",
-          "ggr": 214406462
+          "ggr": 210877593
         },
         {
           "date": "2026-06-17",
-          "ggr": 212261053
+          "ggr": 216711254
         },
         {
           "date": "2026-06-18",
-          "ggr": 193562001
+          "ggr": 219207736
         },
         {
           "date": "2026-06-19",
-          "ggr": 241265399
+          "ggr": 246184671
         },
         {
           "date": "2026-06-20",
-          "ggr": 253749366
+          "ggr": 240313637
         },
         {
           "date": "2026-06-21",
-          "ggr": 251680194
+          "ggr": 262412528
         },
         {
           "date": "2026-06-22",
-          "ggr": 194888387
+          "ggr": 202720873
         },
         {
           "date": "2026-06-23",
-          "ggr": 205075083
+          "ggr": 225507912
         },
         {
           "date": "2026-06-24",
-          "ggr": 211390327
+          "ggr": 199064561
         },
         {
           "date": "2026-06-25",
-          "ggr": 204275510
+          "ggr": 221801331
         },
         {
           "date": "2026-06-26",
-          "ggr": 233281848
+          "ggr": 243422051
         },
         {
           "date": "2026-06-27",
-          "ggr": 244249906
+          "ggr": 233658718
         },
         {
           "date": "2026-06-28",
-          "ggr": 263249529
+          "ggr": 224381083
         },
         {
           "date": "2026-06-29",
-          "ggr": 205835902
+          "ggr": 223202542
         },
         {
           "date": "2026-06-30",
-          "ggr": 219518246
+          "ggr": 223752580
         },
         {
           "date": "2026-07-01",
-          "ggr": 206115058
+          "ggr": 206406229
         },
         {
           "date": "2026-07-02",
-          "ggr": 211271347
+          "ggr": 224779481
         },
         {
           "date": "2026-07-03",
-          "ggr": 213293882
+          "ggr": 242381431
         },
         {
           "date": "2026-07-04",
-          "ggr": 256904588
+          "ggr": 246575017
         },
         {
           "date": "2026-07-05",
-          "ggr": 225826249
+          "ggr": 238321011
         },
         {
           "date": "2026-07-06",
-          "ggr": 198608916
+          "ggr": 218907823
         },
         {
           "date": "2026-07-07",
-          "ggr": 214694975
+          "ggr": 211464518
         },
         {
           "date": "2026-07-08",
-          "ggr": 214259602
+          "ggr": 204483824
         },
         {
           "date": "2026-07-09",
-          "ggr": 209100471
+          "ggr": 194923299
         },
         {
           "date": "2026-07-10",
-          "ggr": 210692320
+          "ggr": 236953159
         },
         {
           "date": "2026-07-11",
-          "ggr": 260471839
+          "ggr": 262012301
         },
         {
           "date": "2026-07-12",
-          "ggr": 253950886
+          "ggr": 227172315
         },
         {
           "date": "2026-07-13",
-          "ggr": 220008907
+          "ggr": 202103525
         },
         {
           "date": "2026-07-14",
-          "ggr": 192515293
+          "ggr": 206058865
         },
         {
           "date": "2026-07-15",
-          "ggr": 197913316
+          "ggr": 221530086
         },
         {
           "date": "2026-07-16",
-          "ggr": 214496886
+          "ggr": 210978530
         },
         {
           "date": "2026-07-17",
-          "ggr": 241536024
+          "ggr": 244727975
         },
         {
           "date": "2026-07-18",
-          "ggr": 249312722
+          "ggr": 235300170
         },
         {
           "date": "2026-07-19",
-          "ggr": 261885641
+          "ggr": 234317675
         },
         {
           "date": "2026-07-20",
-          "ggr": 198806111
+          "ggr": 201271427
         },
         {
           "date": "2026-07-21",
-          "ggr": 195377760
+          "ggr": 191192851
         },
         {
           "date": "2026-07-22",
-          "ggr": 180742667
+          "ggr": 172157109
         },
         {
           "date": "2026-07-23",
-          "ggr": 181745854
+          "ggr": 182753326
         },
         {
           "date": "2026-07-24",
-          "ggr": 205031861
+          "ggr": 200581701
         },
         {
           "date": "2026-07-25",
-          "ggr": 230406598
+          "ggr": 200857975
         },
         {
           "date": "2026-07-26",
-          "ggr": 200222360
+          "ggr": 207990457
         },
         {
           "date": "2026-07-27",
-          "ggr": 167775472
+          "ggr": 176712630
         },
         {
           "date": "2026-07-28",
-          "ggr": 182665008
+          "ggr": 189232006
         },
         {
           "date": "2026-07-29",
-          "ggr": 172034899
+          "ggr": 180878486
         },
         {
           "date": "2026-07-30",
-          "ggr": 183818684
+          "ggr": 182334149
         },
         {
           "date": "2026-07-31",
-          "ggr": 202823551
+          "ggr": 203335865
         },
         {
           "date": "2026-08-01",
-          "ggr": 224858056
+          "ggr": 203863872
         },
         {
           "date": "2026-08-02",
-          "ggr": 217414706
+          "ggr": 214523618
         },
         {
           "date": "2026-08-03",
-          "ggr": 175450775
+          "ggr": 180334425
         },
         {
           "date": "2026-08-04",
-          "ggr": 189534589
+          "ggr": 182079241
         },
         {
           "date": "2026-08-05",
-          "ggr": 170925584
+          "ggr": 165646539
         },
         {
           "date": "2026-08-06",
-          "ggr": 170466860
+          "ggr": 178897638
         },
         {
           "date": "2026-08-07",
-          "ggr": 186446524
+          "ggr": 191085266
         },
         {
           "date": "2026-08-08",
-          "ggr": 208000408
+          "ggr": 221980059
         },
         {
           "date": "2026-08-09",
-          "ggr": 199432777
+          "ggr": 215343034
         },
         {
           "date": "2026-08-10",
-          "ggr": 170286705
+          "ggr": 178077087
         },
         {
           "date": "2026-08-11",
-          "ggr": 181353563
+          "ggr": 190797380
         },
         {
           "date": "2026-08-12",
-          "ggr": 172338995
+          "ggr": 187050974
         },
         {
           "date": "2026-08-13",
-          "ggr": 189232214
+          "ggr": 166343532
         },
         {
           "date": "2026-08-14",
-          "ggr": 200897002
+          "ggr": 185047648
         },
         {
           "date": "2026-08-15",
-          "ggr": 216818641
+          "ggr": 216442879
         },
         {
           "date": "2026-08-16",
-          "ggr": 210600978
+          "ggr": 209403649
         },
         {
           "date": "2026-08-17",
-          "ggr": 167512305
+          "ggr": 179126298
         },
         {
           "date": "2026-08-18",
-          "ggr": 161887412
+          "ggr": 182668698
         },
         {
           "date": "2026-08-19",
-          "ggr": 170252451
+          "ggr": 189007355
         },
         {
           "date": "2026-08-20",
-          "ggr": 180434806
+          "ggr": 170530141
         },
         {
           "date": "2026-08-21",
-          "ggr": 199266947
+          "ggr": 201350452
         },
         {
           "date": "2026-08-22",
-          "ggr": 213640822
+          "ggr": 208795305
         },
         {
           "date": "2026-08-23",
-          "ggr": 215489413
+          "ggr": 193641350
         },
         {
           "date": "2026-08-24",
-          "ggr": 172286599
+          "ggr": 167659111
         },
         {
           "date": "2026-08-25",
-          "ggr": 177265894
+          "ggr": 180872614
         },
         {
           "date": "2026-08-26",
-          "ggr": 175897895
+          "ggr": 165461534
         },
         {
           "date": "2026-08-27",
-          "ggr": 181957565
+          "ggr": 168704768
         }
       ]
     },
     {
-      "id": "demo-7",
+      "id": "demo-13",
       "name": "Goal Penalty Leaderboard",
       "type": "Leaderboard",
       "operator": "Operator Bravo",
@@ -1407,23 +2832,24 @@
       "startDate": "2026-06-15",
       "endDate": "2026-06-28",
       "windowDays": null,
-      "ggrBefore": 1926151,
-      "ggrDuring": 2367555,
-      "ggrAfter": 2001034,
+      "ggrBefore": 1981813,
+      "ggrDuring": 2359938,
+      "ggrAfter": 2015182,
       "prizePool": 160000,
-      "playersBefore": 2607,
-      "playersDuring": 2976,
-      "playersAfter": 2719,
-      "participants": 1277,
-      "newParticipants": 381,
-      "retainedParticipants": 663,
-      "betsDuring": 32937,
-      "turnoverBefore": 61145428,
-      "turnoverDuring": 78289316,
-      "turnoverAfter": 63522579,
-      "controlGgrBefore": 6163683,
-      "controlGgrDuring": 6016672,
+      "playersBefore": 2553,
+      "playersDuring": 2986,
+      "playersAfter": 2589,
+      "participants": 1334,
+      "newParticipants": 357,
+      "retainedParticipants": 724,
+      "betsDuring": 29732,
+      "turnoverBefore": 53789164,
+      "turnoverDuring": 66720836,
+      "turnoverAfter": 54694845,
+      "controlGgrBefore": 6341802,
+      "controlGgrDuring": 6536876,
       "controlLabel": "Same games at comparable Mexico operators without the promo",
+      "eligiblePlayers": 6184,
       "leaderboard": [
         {
           "band": "1st",
@@ -1455,176 +2881,176 @@
       "daily": [
         {
           "date": "2026-06-01",
-          "ggr": 133412
+          "ggr": 131923
         },
         {
           "date": "2026-06-02",
-          "ggr": 132795
+          "ggr": 136609
         },
         {
           "date": "2026-06-03",
-          "ggr": 128157
+          "ggr": 135331
         },
         {
           "date": "2026-06-04",
-          "ggr": 124429
+          "ggr": 129961
         },
         {
           "date": "2026-06-05",
-          "ggr": 131738
+          "ggr": 144109
         },
         {
           "date": "2026-06-06",
-          "ggr": 151328
+          "ggr": 146803
         },
         {
           "date": "2026-06-07",
-          "ggr": 144191
+          "ggr": 150010
         },
         {
           "date": "2026-06-08",
-          "ggr": 131498
+          "ggr": 136468
         },
         {
           "date": "2026-06-09",
-          "ggr": 140531
+          "ggr": 140653
         },
         {
           "date": "2026-06-10",
-          "ggr": 131229
+          "ggr": 138975
         },
         {
           "date": "2026-06-11",
-          "ggr": 129012
+          "ggr": 139730
         },
         {
           "date": "2026-06-12",
-          "ggr": 141050
+          "ggr": 144615
         },
         {
           "date": "2026-06-13",
-          "ggr": 159885
+          "ggr": 150612
         },
         {
           "date": "2026-06-14",
-          "ggr": 146896
+          "ggr": 156014
         },
         {
           "date": "2026-06-15",
-          "ggr": 152691
+          "ggr": 143169
         },
         {
           "date": "2026-06-16",
-          "ggr": 147982
+          "ggr": 154180
         },
         {
           "date": "2026-06-17",
-          "ggr": 159501
+          "ggr": 168062
         },
         {
           "date": "2026-06-18",
-          "ggr": 165795
+          "ggr": 165775
         },
         {
           "date": "2026-06-19",
-          "ggr": 184629
+          "ggr": 173851
         },
         {
           "date": "2026-06-20",
-          "ggr": 189760
+          "ggr": 191079
         },
         {
           "date": "2026-06-21",
-          "ggr": 180661
+          "ggr": 169271
         },
         {
           "date": "2026-06-22",
-          "ggr": 153221
+          "ggr": 161967
         },
         {
           "date": "2026-06-23",
-          "ggr": 149734
+          "ggr": 155165
         },
         {
           "date": "2026-06-24",
-          "ggr": 160408
+          "ggr": 157795
         },
         {
           "date": "2026-06-25",
-          "ggr": 165165
+          "ggr": 160517
         },
         {
           "date": "2026-06-26",
-          "ggr": 176795
+          "ggr": 184757
         },
         {
           "date": "2026-06-27",
-          "ggr": 195680
+          "ggr": 191883
         },
         {
           "date": "2026-06-28",
-          "ggr": 185533
+          "ggr": 182467
         },
         {
           "date": "2026-06-29",
-          "ggr": 140720
+          "ggr": 141984
         },
         {
           "date": "2026-06-30",
-          "ggr": 133388
+          "ggr": 147049
         },
         {
           "date": "2026-07-01",
-          "ggr": 140775
+          "ggr": 139755
         },
         {
           "date": "2026-07-02",
-          "ggr": 132848
+          "ggr": 139610
         },
         {
           "date": "2026-07-03",
-          "ggr": 142181
+          "ggr": 141018
         },
         {
           "date": "2026-07-04",
-          "ggr": 152747
+          "ggr": 150754
         },
         {
           "date": "2026-07-05",
-          "ggr": 160480
+          "ggr": 170381
         },
         {
           "date": "2026-07-06",
-          "ggr": 127188
+          "ggr": 133303
         },
         {
           "date": "2026-07-07",
-          "ggr": 130479
+          "ggr": 128887
         },
         {
           "date": "2026-07-08",
-          "ggr": 137553
+          "ggr": 128818
         },
         {
           "date": "2026-07-09",
-          "ggr": 138455
+          "ggr": 136361
         },
         {
           "date": "2026-07-10",
-          "ggr": 142382
+          "ggr": 145880
         },
         {
           "date": "2026-07-11",
-          "ggr": 167407
+          "ggr": 155148
         },
         {
           "date": "2026-07-12",
-          "ggr": 154431
+          "ggr": 156234
         }
       ]
     },
     {
-      "id": "demo-8",
+      "id": "demo-14",
       "name": "Keno Free Bets Drop",
       "type": "Regional Promotion",
       "operator": "Operator Foxtrot",
@@ -1637,110 +3063,111 @@
       "startDate": "2026-07-06",
       "endDate": "2026-07-12",
       "windowDays": null,
-      "ggrBefore": 5273184,
-      "ggrDuring": 4970110,
-      "ggrAfter": 5282917,
+      "ggrBefore": 5063586,
+      "ggrDuring": 5039399,
+      "ggrAfter": 5191917,
       "prizePool": 845070,
-      "playersBefore": 2154,
-      "playersDuring": 2035,
-      "playersAfter": 2078,
-      "participants": 532,
-      "newParticipants": 153,
-      "retainedParticipants": 229,
-      "betsDuring": 14064,
-      "turnoverBefore": 125555918,
-      "turnoverDuring": 123270464,
-      "turnoverAfter": 125787664,
+      "playersBefore": 2112,
+      "playersDuring": 2081,
+      "playersAfter": 2119,
+      "participants": 544,
+      "newParticipants": 147,
+      "retainedParticipants": 235,
+      "betsDuring": 27864,
+      "turnoverBefore": 123178204,
+      "turnoverDuring": 127697734,
+      "turnoverAfter": 126300020,
+      "eligiblePlayers": 4150,
       "notes": "Free bets were mostly redeemed by existing players; no measurable lift.",
       "daily": [
         {
           "date": "2026-06-29",
-          "ggr": 696150
+          "ggr": 716588
         },
         {
           "date": "2026-06-30",
-          "ggr": 681655
+          "ggr": 653813
         },
         {
           "date": "2026-07-01",
-          "ggr": 721637
+          "ggr": 660105
         },
         {
           "date": "2026-07-02",
-          "ggr": 651442
+          "ggr": 682767
         },
         {
           "date": "2026-07-03",
-          "ggr": 770457
+          "ggr": 760735
         },
         {
           "date": "2026-07-04",
-          "ggr": 880433
+          "ggr": 783676
         },
         {
           "date": "2026-07-05",
-          "ggr": 871410
+          "ggr": 805902
         },
         {
           "date": "2026-07-06",
-          "ggr": 631435
+          "ggr": 736158
         },
         {
           "date": "2026-07-07",
-          "ggr": 700178
+          "ggr": 638247
         },
         {
           "date": "2026-07-08",
-          "ggr": 728258
+          "ggr": 705528
         },
         {
           "date": "2026-07-09",
-          "ggr": 623204
+          "ggr": 632760
         },
         {
           "date": "2026-07-10",
-          "ggr": 790879
+          "ggr": 750766
         },
         {
           "date": "2026-07-11",
-          "ggr": 758519
+          "ggr": 803536
         },
         {
           "date": "2026-07-12",
-          "ggr": 737637
+          "ggr": 772404
         },
         {
           "date": "2026-07-13",
-          "ggr": 685534
+          "ggr": 706342
         },
         {
           "date": "2026-07-14",
-          "ggr": 751507
+          "ggr": 659919
         },
         {
           "date": "2026-07-15",
-          "ggr": 703733
+          "ggr": 712408
         },
         {
           "date": "2026-07-16",
-          "ggr": 684093
+          "ggr": 755367
         },
         {
           "date": "2026-07-17",
-          "ggr": 791756
+          "ggr": 747894
         },
         {
           "date": "2026-07-18",
-          "ggr": 837565
+          "ggr": 773336
         },
         {
           "date": "2026-07-19",
-          "ggr": 828729
+          "ggr": 836651
         }
       ]
     },
     {
-      "id": "demo-9",
+      "id": "demo-15",
       "name": "Summer Aviator Rain",
       "type": "Seasonal Promotion",
       "operator": "Operator Alpha",
@@ -1753,149 +3180,150 @@
       "startDate": "2026-07-17",
       "endDate": "2026-07-26",
       "windowDays": null,
-      "ggrBefore": 3465737,
-      "ggrDuring": 4112265,
-      "ggrAfter": 3682011,
+      "ggrBefore": 3451167,
+      "ggrDuring": 4147988,
+      "ggrAfter": 3616927,
       "prizePool": 187500,
-      "playersBefore": 23677,
-      "playersDuring": 26094,
-      "playersAfter": 25011,
-      "participants": 10902,
-      "newParticipants": 2772,
-      "retainedParticipants": 6018,
-      "betsDuring": 427111,
-      "turnoverBefore": 102383173,
-      "turnoverDuring": 126544374,
-      "turnoverAfter": 108772238,
-      "controlGgrBefore": 11090358,
-      "controlGgrDuring": 11082411,
+      "playersBefore": 23813,
+      "playersDuring": 26385,
+      "playersAfter": 25054,
+      "participants": 10718,
+      "newParticipants": 2608,
+      "retainedParticipants": 6183,
+      "betsDuring": 310363,
+      "turnoverBefore": 103273423,
+      "turnoverDuring": 129297121,
+      "turnoverAfter": 108233659,
+      "controlGgrBefore": 11043734,
+      "controlGgrDuring": 11222966,
       "controlLabel": "Same games at comparable Brazil operators without the promo",
+      "eligiblePlayers": 53483,
       "notes": "",
       "daily": [
         {
           "date": "2026-07-07",
-          "ggr": 352285
+          "ggr": 305018
         },
         {
           "date": "2026-07-08",
-          "ggr": 337094
+          "ggr": 324832
         },
         {
           "date": "2026-07-09",
-          "ggr": 326889
+          "ggr": 345483
         },
         {
           "date": "2026-07-10",
-          "ggr": 354417
+          "ggr": 374279
         },
         {
           "date": "2026-07-11",
-          "ggr": 393382
+          "ggr": 385804
         },
         {
           "date": "2026-07-12",
-          "ggr": 370769
+          "ggr": 358565
         },
         {
           "date": "2026-07-13",
-          "ggr": 341161
+          "ggr": 321651
         },
         {
           "date": "2026-07-14",
-          "ggr": 303873
+          "ggr": 352375
         },
         {
           "date": "2026-07-15",
-          "ggr": 338981
+          "ggr": 348252
         },
         {
           "date": "2026-07-16",
-          "ggr": 346886
+          "ggr": 334908
         },
         {
           "date": "2026-07-17",
-          "ggr": 415840
+          "ggr": 391154
         },
         {
           "date": "2026-07-18",
-          "ggr": 411768
+          "ggr": 443202
         },
         {
           "date": "2026-07-19",
-          "ggr": 482171
+          "ggr": 444105
         },
         {
           "date": "2026-07-20",
-          "ggr": 381619
+          "ggr": 412344
         },
         {
           "date": "2026-07-21",
-          "ggr": 399944
+          "ggr": 377688
         },
         {
           "date": "2026-07-22",
-          "ggr": 368527
+          "ggr": 412684
         },
         {
           "date": "2026-07-23",
-          "ggr": 390566
+          "ggr": 402129
         },
         {
           "date": "2026-07-24",
-          "ggr": 388967
+          "ggr": 395448
         },
         {
           "date": "2026-07-25",
-          "ggr": 418096
+          "ggr": 438152
         },
         {
           "date": "2026-07-26",
-          "ggr": 454767
+          "ggr": 431082
         },
         {
           "date": "2026-07-27",
-          "ggr": 360222
+          "ggr": 339210
         },
         {
           "date": "2026-07-28",
-          "ggr": 334972
+          "ggr": 363771
         },
         {
           "date": "2026-07-29",
-          "ggr": 341430
+          "ggr": 327944
         },
         {
           "date": "2026-07-30",
-          "ggr": 357756
+          "ggr": 350892
         },
         {
           "date": "2026-07-31",
-          "ggr": 403755
+          "ggr": 395678
         },
         {
           "date": "2026-08-01",
-          "ggr": 374581
+          "ggr": 413314
         },
         {
           "date": "2026-08-02",
-          "ggr": 421075
+          "ggr": 418782
         },
         {
           "date": "2026-08-03",
-          "ggr": 370093
+          "ggr": 337696
         },
         {
           "date": "2026-08-04",
-          "ggr": 354315
+          "ggr": 333828
         },
         {
           "date": "2026-08-05",
-          "ggr": 363812
+          "ggr": 335812
         }
       ]
     },
     {
-      "id": "demo-10",
+      "id": "demo-16",
       "name": "Mini Roulette Cashback",
       "type": "Regional Promotion",
       "operator": "Operator Golf",
@@ -1908,110 +3336,111 @@
       "startDate": "2026-08-03",
       "endDate": "2026-08-09",
       "windowDays": null,
-      "ggrBefore": 52842,
-      "ggrDuring": 54571,
-      "ggrAfter": 53578,
+      "ggrBefore": 51684,
+      "ggrDuring": 53738,
+      "ggrAfter": 52716,
       "prizePool": 4200,
-      "playersBefore": 2898,
-      "playersDuring": 3043,
-      "playersAfter": 2824,
-      "participants": 1069,
-      "newParticipants": 213,
-      "retainedParticipants": 514,
-      "betsDuring": 42168,
-      "turnoverBefore": 1632579,
-      "turnoverDuring": 1756247,
-      "turnoverAfter": 1655318,
+      "playersBefore": 2981,
+      "playersDuring": 2999,
+      "playersAfter": 2926,
+      "participants": 1018,
+      "newParticipants": 166,
+      "retainedParticipants": 490,
+      "betsDuring": 33285,
+      "turnoverBefore": 1668316,
+      "turnoverDuring": 1806893,
+      "turnoverAfter": 1701628,
+      "eligiblePlayers": 4787,
       "notes": "",
       "daily": [
         {
           "date": "2026-07-27",
-          "ggr": 7199
+          "ggr": 6610
         },
         {
           "date": "2026-07-28",
-          "ggr": 6854
+          "ggr": 6550
         },
         {
           "date": "2026-07-29",
-          "ggr": 7211
+          "ggr": 7450
         },
         {
           "date": "2026-07-30",
-          "ggr": 7245
+          "ggr": 7087
         },
         {
           "date": "2026-07-31",
-          "ggr": 8268
+          "ggr": 7983
         },
         {
           "date": "2026-08-01",
-          "ggr": 7795
+          "ggr": 7887
         },
         {
           "date": "2026-08-02",
-          "ggr": 8270
+          "ggr": 8117
         },
         {
           "date": "2026-08-03",
-          "ggr": 7182
+          "ggr": 7108
         },
         {
           "date": "2026-08-04",
-          "ggr": 7728
+          "ggr": 7132
         },
         {
           "date": "2026-08-05",
-          "ggr": 6949
+          "ggr": 7168
         },
         {
           "date": "2026-08-06",
-          "ggr": 7611
+          "ggr": 7032
         },
         {
           "date": "2026-08-07",
-          "ggr": 7858
+          "ggr": 7791
         },
         {
           "date": "2026-08-08",
-          "ggr": 8620
+          "ggr": 8215
         },
         {
           "date": "2026-08-09",
-          "ggr": 8623
+          "ggr": 9292
         },
         {
           "date": "2026-08-10",
-          "ggr": 6992
+          "ggr": 6672
         },
         {
           "date": "2026-08-11",
-          "ggr": 7369
+          "ggr": 7676
         },
         {
           "date": "2026-08-12",
-          "ggr": 7608
+          "ggr": 7301
         },
         {
           "date": "2026-08-13",
-          "ggr": 7311
+          "ggr": 7482
         },
         {
           "date": "2026-08-14",
-          "ggr": 8304
+          "ggr": 8006
         },
         {
           "date": "2026-08-15",
-          "ggr": 7693
+          "ggr": 7867
         },
         {
           "date": "2026-08-16",
-          "ggr": 8301
+          "ggr": 7712
         }
       ]
     },
     {
-      "id": "demo-11",
+      "id": "demo-17",
       "name": "Mines Diamond Hunt",
       "type": "Missions",
       "operator": "Operator Charlie",
@@ -2024,219 +3453,334 @@
       "startDate": "2026-08-10",
       "endDate": "2026-08-23",
       "windowDays": null,
-      "ggrBefore": 597274,
-      "ggrDuring": 738004,
-      "ggrAfter": 692976,
+      "ggrBefore": 610289,
+      "ggrDuring": 734072,
+      "ggrAfter": 670191,
       "prizePool": 44000,
-      "playersBefore": 4413,
-      "playersDuring": 5248,
-      "playersAfter": 4718,
-      "participants": 2360,
-      "newParticipants": 595,
-      "retainedParticipants": 1742,
-      "betsDuring": 120912,
-      "turnoverBefore": 19719270,
-      "turnoverDuring": 25380765,
-      "turnoverAfter": 22878915,
-      "controlGgrBefore": 1911277,
-      "controlGgrDuring": 1872988,
+      "playersBefore": 4375,
+      "playersDuring": 5205,
+      "playersAfter": 4624,
+      "participants": 2330,
+      "newParticipants": 436,
+      "retainedParticipants": 1661,
+      "betsDuring": 59976,
+      "turnoverBefore": 15254974,
+      "turnoverDuring": 19113638,
+      "turnoverAfter": 16752303,
+      "controlGgrBefore": 1952925,
+      "controlGgrDuring": 2059549,
       "controlLabel": "Same games at comparable Peru operators without the promo",
+      "eligiblePlayers": 10673,
       "missions": [
         {
           "name": "Opted in",
-          "reached": 2360
+          "reached": 2330
         },
         {
           "name": "Place 20 bets",
-          "reached": 1891
+          "reached": 1776
         },
         {
           "name": "Hit a ×10 win",
-          "reached": 1529
+          "reached": 1294
         },
         {
           "name": "Play 5 days in a row",
-          "reached": 585
+          "reached": 529
         },
         {
           "name": "All missions done",
-          "reached": 424
+          "reached": 369
+        }
+      ],
+      "missionDays": [
+        {
+          "day": 1,
+          "game": "Mines",
+          "requirement": "Place 10 bets on Mines",
+          "started": 2330,
+          "completed": 1974,
+          "medianMinutes": 33
+        },
+        {
+          "day": 2,
+          "game": "Mines",
+          "requirement": "Place 3 bets on Mines",
+          "started": 2189,
+          "completed": 2098,
+          "medianMinutes": 3
+        },
+        {
+          "day": 3,
+          "game": "Mines",
+          "requirement": "Win ×3 on Mines",
+          "started": 2087,
+          "completed": 1599,
+          "medianMinutes": 25
+        },
+        {
+          "day": 4,
+          "game": "Mines",
+          "requirement": "Play Mines 5 rounds in a row",
+          "started": 1997,
+          "completed": 1710,
+          "medianMinutes": 41
+        },
+        {
+          "day": 5,
+          "game": "Mines",
+          "requirement": "Cash out above ×2 on Mines",
+          "started": 1870,
+          "completed": 1389,
+          "medianMinutes": 22
+        },
+        {
+          "day": 6,
+          "game": "Mines",
+          "requirement": "Hit a ×50 win on Mines",
+          "started": 1750,
+          "completed": 709,
+          "medianMinutes": 146
+        },
+        {
+          "day": 7,
+          "game": "Mines",
+          "requirement": "Place 10 bets on Mines",
+          "started": 1365,
+          "completed": 1084,
+          "medianMinutes": 24
+        },
+        {
+          "day": 8,
+          "game": "Mines",
+          "requirement": "Place 3 bets on Mines",
+          "started": 1300,
+          "completed": 1076,
+          "medianMinutes": 41
+        },
+        {
+          "day": 9,
+          "game": "Mines",
+          "requirement": "Win ×3 on Mines",
+          "started": 1244,
+          "completed": 1017,
+          "medianMinutes": 52
+        },
+        {
+          "day": 10,
+          "game": "Mines",
+          "requirement": "Play Mines 5 rounds in a row",
+          "started": 1166,
+          "completed": 860,
+          "medianMinutes": 33
+        },
+        {
+          "day": 11,
+          "game": "Mines",
+          "requirement": "Cash out above ×2 on Mines",
+          "started": 1085,
+          "completed": 851,
+          "medianMinutes": 46
+        },
+        {
+          "day": 12,
+          "game": "Mines",
+          "requirement": "Collect 5 wins on Mines",
+          "started": 1027,
+          "completed": 836,
+          "medianMinutes": 51
+        },
+        {
+          "day": 13,
+          "game": "Mines",
+          "requirement": "Place 10 bets on Mines",
+          "started": 958,
+          "completed": 771,
+          "medianMinutes": 26
+        },
+        {
+          "day": 14,
+          "game": "Mines",
+          "requirement": "Place 3 bets on Mines",
+          "started": 900,
+          "completed": 708,
+          "medianMinutes": 32
         }
       ],
       "notes": "",
       "daily": [
         {
           "date": "2026-07-27",
-          "ggr": 41094
+          "ggr": 43133
         },
         {
           "date": "2026-07-28",
-          "ggr": 42965
+          "ggr": 40111
         },
         {
           "date": "2026-07-29",
-          "ggr": 40565
+          "ggr": 40068
         },
         {
           "date": "2026-07-30",
-          "ggr": 37496
+          "ggr": 40272
         },
         {
           "date": "2026-07-31",
-          "ggr": 41365
+          "ggr": 44997
         },
         {
           "date": "2026-08-01",
-          "ggr": 46292
+          "ggr": 47190
         },
         {
           "date": "2026-08-02",
-          "ggr": 48611
-        },
-        {
-          "date": "2026-08-03",
-          "ggr": 41566
-        },
-        {
-          "date": "2026-08-04",
-          "ggr": 39098
-        },
-        {
-          "date": "2026-08-05",
-          "ggr": 38096
-        },
-        {
-          "date": "2026-08-06",
-          "ggr": 41668
-        },
-        {
-          "date": "2026-08-07",
-          "ggr": 45024
-        },
-        {
-          "date": "2026-08-08",
-          "ggr": 45149
-        },
-        {
-          "date": "2026-08-09",
-          "ggr": 48285
-        },
-        {
-          "date": "2026-08-10",
-          "ggr": 46658
-        },
-        {
-          "date": "2026-08-11",
-          "ggr": 47249
-        },
-        {
-          "date": "2026-08-12",
-          "ggr": 47383
-        },
-        {
-          "date": "2026-08-13",
           "ggr": 49980
         },
         {
+          "date": "2026-08-03",
+          "ggr": 39417
+        },
+        {
+          "date": "2026-08-04",
+          "ggr": 41406
+        },
+        {
+          "date": "2026-08-05",
+          "ggr": 38681
+        },
+        {
+          "date": "2026-08-06",
+          "ggr": 43075
+        },
+        {
+          "date": "2026-08-07",
+          "ggr": 44075
+        },
+        {
+          "date": "2026-08-08",
+          "ggr": 48276
+        },
+        {
+          "date": "2026-08-09",
+          "ggr": 49608
+        },
+        {
+          "date": "2026-08-10",
+          "ggr": 45198
+        },
+        {
+          "date": "2026-08-11",
+          "ggr": 50043
+        },
+        {
+          "date": "2026-08-12",
+          "ggr": 48410
+        },
+        {
+          "date": "2026-08-13",
+          "ggr": 49946
+        },
+        {
           "date": "2026-08-14",
-          "ggr": 58193
+          "ggr": 56470
         },
         {
           "date": "2026-08-15",
-          "ggr": 62019
+          "ggr": 53716
         },
         {
           "date": "2026-08-16",
-          "ggr": 58298
+          "ggr": 60824
         },
         {
           "date": "2026-08-17",
-          "ggr": 47712
+          "ggr": 51956
         },
         {
           "date": "2026-08-18",
-          "ggr": 51423
+          "ggr": 46008
         },
         {
           "date": "2026-08-19",
-          "ggr": 51368
+          "ggr": 50080
         },
         {
           "date": "2026-08-20",
-          "ggr": 49687
+          "ggr": 52803
         },
         {
           "date": "2026-08-21",
-          "ggr": 54093
+          "ggr": 53714
         },
         {
           "date": "2026-08-22",
-          "ggr": 53794
+          "ggr": 56402
         },
         {
           "date": "2026-08-23",
-          "ggr": 60147
+          "ggr": 58502
         },
         {
           "date": "2026-08-24",
-          "ggr": 46827
+          "ggr": 46357
         },
         {
           "date": "2026-08-25",
-          "ggr": 48494
+          "ggr": 46645
         },
         {
           "date": "2026-08-26",
-          "ggr": 48048
+          "ggr": 47003
         },
         {
           "date": "2026-08-27",
-          "ggr": 46565
+          "ggr": 43887
         },
         {
           "date": "2026-08-28",
-          "ggr": 50595
+          "ggr": 48658
         },
         {
           "date": "2026-08-29",
-          "ggr": 55855
+          "ggr": 51252
         },
         {
           "date": "2026-08-30",
-          "ggr": 53305
+          "ggr": 51114
         },
         {
           "date": "2026-08-31",
-          "ggr": 48508
+          "ggr": 46833
         },
         {
           "date": "2026-09-01",
-          "ggr": 42814
+          "ggr": 47107
         },
         {
           "date": "2026-09-02",
-          "ggr": 45585
+          "ggr": 46731
         },
         {
           "date": "2026-09-03",
-          "ggr": 46096
+          "ggr": 47338
         },
         {
           "date": "2026-09-04",
-          "ggr": 49063
+          "ggr": 46126
         },
         {
           "date": "2026-09-05",
-          "ggr": 55628
+          "ggr": 51350
         },
         {
           "date": "2026-09-06",
-          "ggr": 55593
+          "ggr": 49790
         }
       ]
     },
     {
-      "id": "demo-12",
+      "id": "demo-18",
       "name": "Aviator Night Tournament",
       "type": "Network Tournament",
       "operator": "Operator Delta",
@@ -2249,20 +3793,21 @@
       "startDate": "2026-08-24",
       "endDate": "2026-09-06",
       "windowDays": null,
-      "ggrBefore": 685684336,
-      "ggrDuring": 836769585,
-      "ggrAfter": 740083188,
+      "ggrBefore": 702929028,
+      "ggrDuring": 821201543,
+      "ggrAfter": 735388510,
       "prizePool": 66666667,
-      "playersBefore": 14398,
+      "playersBefore": 13914,
       "playersDuring": 16660,
-      "playersAfter": 15098,
-      "participants": 6862,
-      "newParticipants": 1332,
-      "retainedParticipants": 4247,
-      "betsDuring": 209766,
-      "turnoverBefore": 18692768240,
-      "turnoverDuring": 23762057696,
-      "turnoverAfter": 20175761332,
+      "playersAfter": 14735,
+      "participants": 6882,
+      "newParticipants": 1294,
+      "retainedParticipants": 3953,
+      "betsDuring": 333399,
+      "turnoverBefore": 18649015774,
+      "turnoverDuring": 22694622428,
+      "turnoverAfter": 19510180084,
+      "eligiblePlayers": 34098,
       "leaderboard": [
         {
           "band": "1st",
@@ -2294,176 +3839,176 @@
       "daily": [
         {
           "date": "2026-08-10",
-          "ggr": 45220854
+          "ggr": 50047518
         },
         {
           "date": "2026-08-11",
-          "ggr": 47581546
+          "ggr": 47072894
         },
         {
           "date": "2026-08-12",
-          "ggr": 48805459
+          "ggr": 47913388
         },
         {
           "date": "2026-08-13",
-          "ggr": 46885281
+          "ggr": 44378413
         },
         {
           "date": "2026-08-14",
-          "ggr": 50165430
+          "ggr": 52941155
         },
         {
           "date": "2026-08-15",
-          "ggr": 50305085
+          "ggr": 57731563
         },
         {
           "date": "2026-08-16",
-          "ggr": 55127835
+          "ggr": 52827331
         },
         {
           "date": "2026-08-17",
-          "ggr": 47474155
+          "ggr": 49143774
         },
         {
           "date": "2026-08-18",
-          "ggr": 47198032
+          "ggr": 44196516
         },
         {
           "date": "2026-08-19",
-          "ggr": 43696193
+          "ggr": 45076088
         },
         {
           "date": "2026-08-20",
-          "ggr": 43687578
+          "ggr": 47757253
         },
         {
           "date": "2026-08-21",
-          "ggr": 53574117
+          "ggr": 53249812
         },
         {
           "date": "2026-08-22",
-          "ggr": 52134811
+          "ggr": 54265986
         },
         {
           "date": "2026-08-23",
-          "ggr": 53827960
+          "ggr": 56327337
         },
         {
           "date": "2026-08-24",
-          "ggr": 56428672
+          "ggr": 53546552
         },
         {
           "date": "2026-08-25",
-          "ggr": 57247893
+          "ggr": 54636650
         },
         {
           "date": "2026-08-26",
-          "ggr": 57617144
+          "ggr": 55518377
         },
         {
           "date": "2026-08-27",
-          "ggr": 58240320
+          "ggr": 54429894
         },
         {
           "date": "2026-08-28",
-          "ggr": 55614489
+          "ggr": 58454268
         },
         {
           "date": "2026-08-29",
-          "ggr": 62816877
+          "ggr": 62924193
         },
         {
           "date": "2026-08-30",
-          "ggr": 66919701
+          "ggr": 61985730
         },
         {
           "date": "2026-08-31",
-          "ggr": 55296552
+          "ggr": 58436386
         },
         {
           "date": "2026-09-01",
-          "ggr": 58995469
+          "ggr": 51452410
         },
         {
           "date": "2026-09-02",
-          "ggr": 57783805
+          "ggr": 57274363
         },
         {
           "date": "2026-09-03",
-          "ggr": 52332364
+          "ggr": 58837210
         },
         {
           "date": "2026-09-04",
-          "ggr": 64529776
+          "ggr": 63426200
         },
         {
           "date": "2026-09-05",
-          "ggr": 63781308
+          "ggr": 61001539
         },
         {
           "date": "2026-09-06",
-          "ggr": 69165215
+          "ggr": 69277771
         },
         {
           "date": "2026-09-07",
-          "ggr": 49155679
+          "ggr": 48541630
         },
         {
           "date": "2026-09-08",
-          "ggr": 48185128
+          "ggr": 48457288
         },
         {
           "date": "2026-09-09",
-          "ggr": 53567503
+          "ggr": 53293075
         },
         {
           "date": "2026-09-10",
-          "ggr": 49801698
+          "ggr": 49532960
         },
         {
           "date": "2026-09-11",
-          "ggr": 53393554
+          "ggr": 57717758
         },
         {
           "date": "2026-09-12",
-          "ggr": 57672957
+          "ggr": 62363090
         },
         {
           "date": "2026-09-13",
-          "ggr": 59263193
+          "ggr": 56974488
         },
         {
           "date": "2026-09-14",
-          "ggr": 49162805
+          "ggr": 48886463
         },
         {
           "date": "2026-09-15",
-          "ggr": 45398460
+          "ggr": 46278126
         },
         {
           "date": "2026-09-16",
-          "ggr": 51842352
+          "ggr": 53147622
         },
         {
           "date": "2026-09-17",
-          "ggr": 53068271
+          "ggr": 49444845
         },
         {
           "date": "2026-09-18",
-          "ggr": 52918231
+          "ggr": 50802866
         },
         {
           "date": "2026-09-19",
-          "ggr": 61704628
+          "ggr": 55155730
         },
         {
           "date": "2026-09-20",
-          "ggr": 54948729
+          "ggr": 54792569
         }
       ]
     },
     {
-      "id": "demo-13",
+      "id": "demo-19",
       "name": "Hotline Hot Streak",
       "type": "Leaderboard",
       "operator": "Operator Golf",
@@ -2476,23 +4021,24 @@
       "startDate": "2026-09-07",
       "endDate": "2026-09-13",
       "windowDays": null,
-      "ggrBefore": 34402,
-      "ggrDuring": 35887,
-      "ggrAfter": 34508,
+      "ggrBefore": 34864,
+      "ggrDuring": 35323,
+      "ggrAfter": 34318,
       "prizePool": 5000,
-      "playersBefore": 1817,
-      "playersDuring": 1868,
-      "playersAfter": 1834,
-      "participants": 556,
-      "newParticipants": 116,
-      "retainedParticipants": 247,
-      "betsDuring": 26939,
-      "turnoverBefore": 892754,
-      "turnoverDuring": 970094,
-      "turnoverAfter": 895504,
-      "controlGgrBefore": 110086,
-      "controlGgrDuring": 112242,
+      "playersBefore": 1761,
+      "playersDuring": 1820,
+      "playersAfter": 1845,
+      "participants": 557,
+      "newParticipants": 93,
+      "retainedParticipants": 251,
+      "betsDuring": 23519,
+      "turnoverBefore": 995106,
+      "turnoverDuring": 1050216,
+      "turnoverAfter": 979522,
+      "controlGgrBefore": 111565,
+      "controlGgrDuring": 111116,
       "controlLabel": "Same games at comparable Italy operators without the promo",
+      "eligiblePlayers": 3327,
       "leaderboard": [
         {
           "band": "1st",
@@ -2524,92 +4070,92 @@
       "daily": [
         {
           "date": "2026-08-31",
-          "ggr": 4656
+          "ggr": 4820
         },
         {
           "date": "2026-09-01",
-          "ggr": 4822
+          "ggr": 4655
         },
         {
           "date": "2026-09-02",
-          "ggr": 4776
+          "ggr": 4722
         },
         {
           "date": "2026-09-03",
-          "ggr": 4587
+          "ggr": 4572
         },
         {
           "date": "2026-09-04",
-          "ggr": 5086
+          "ggr": 5315
         },
         {
           "date": "2026-09-05",
-          "ggr": 5181
+          "ggr": 5479
         },
         {
           "date": "2026-09-06",
-          "ggr": 5294
+          "ggr": 5301
         },
         {
           "date": "2026-09-07",
-          "ggr": 4853
+          "ggr": 4940
         },
         {
           "date": "2026-09-08",
-          "ggr": 5014
+          "ggr": 4424
         },
         {
           "date": "2026-09-09",
-          "ggr": 4954
+          "ggr": 4603
         },
         {
           "date": "2026-09-10",
-          "ggr": 4981
+          "ggr": 4984
         },
         {
           "date": "2026-09-11",
-          "ggr": 5155
+          "ggr": 5305
         },
         {
           "date": "2026-09-12",
-          "ggr": 5369
+          "ggr": 5854
         },
         {
           "date": "2026-09-13",
-          "ggr": 5561
+          "ggr": 5213
         },
         {
           "date": "2026-09-14",
-          "ggr": 4407
+          "ggr": 4975
         },
         {
           "date": "2026-09-15",
-          "ggr": 4545
+          "ggr": 4721
         },
         {
           "date": "2026-09-16",
-          "ggr": 4951
+          "ggr": 4688
         },
         {
           "date": "2026-09-17",
-          "ggr": 4882
+          "ggr": 4348
         },
         {
           "date": "2026-09-18",
-          "ggr": 5118
+          "ggr": 5016
         },
         {
           "date": "2026-09-19",
-          "ggr": 5624
+          "ggr": 5269
         },
         {
           "date": "2026-09-20",
-          "ggr": 4981
+          "ggr": 5301
         }
       ]
     },
     {
-      "id": "demo-14",
+      "id": "demo-20",
       "name": "Turbo Rush Multi-game",
       "type": "Cross-Game Challenge",
       "operator": "Operator Echo",
@@ -2625,216 +4171,349 @@
       "startDate": "2026-09-14",
       "endDate": "2026-09-27",
       "windowDays": null,
-      "ggrBefore": 1087255317,
-      "ggrDuring": 1356022169,
-      "ggrAfter": 1196849017,
+      "ggrBefore": 1095974577,
+      "ggrDuring": 1348199977,
+      "ggrAfter": 1175130859,
       "prizePool": 109090909,
-      "playersBefore": 7942,
-      "playersDuring": 8989,
-      "playersAfter": 8089,
-      "participants": 4045,
-      "newParticipants": 644,
-      "retainedParticipants": 2611,
-      "betsDuring": 111132,
-      "turnoverBefore": 27114015607,
-      "turnoverDuring": 35225556116,
-      "turnoverAfter": 29847067583,
+      "playersBefore": 7703,
+      "playersDuring": 9033,
+      "playersAfter": 8113,
+      "participants": 4077,
+      "newParticipants": 1115,
+      "retainedParticipants": 2548,
+      "betsDuring": 151623,
+      "turnoverBefore": 28148448610,
+      "turnoverDuring": 36069246195,
+      "turnoverAfter": 30181457936,
+      "eligiblePlayers": 16224,
       "missions": [
         {
           "name": "Opted in",
-          "reached": 4045
+          "reached": 4077
         },
         {
           "name": "Play Plinko",
-          "reached": 2544
+          "reached": 3225
         },
         {
           "name": "Play Mines",
-          "reached": 1803
+          "reached": 2514
         },
         {
           "name": "Play Dice",
-          "reached": 828
+          "reached": 1125
         },
         {
           "name": "All missions done",
-          "reached": 562
+          "reached": 897
+        }
+      ],
+      "missionDays": [
+        {
+          "day": 1,
+          "game": "Plinko",
+          "requirement": "Place 10 bets on Plinko",
+          "started": 4077,
+          "completed": 3152,
+          "medianMinutes": 26
+        },
+        {
+          "day": 2,
+          "game": "Mines",
+          "requirement": "Place 3 bets on Mines",
+          "started": 3885,
+          "completed": 3667,
+          "medianMinutes": 4
+        },
+        {
+          "day": 3,
+          "game": "Dice",
+          "requirement": "Win ×3 on Dice",
+          "started": 3631,
+          "completed": 2982,
+          "medianMinutes": 34
+        },
+        {
+          "day": 4,
+          "game": "Goal",
+          "requirement": "Play Goal 5 rounds in a row",
+          "started": 3391,
+          "completed": 2732,
+          "medianMinutes": 27
+        },
+        {
+          "day": 5,
+          "game": "Plinko",
+          "requirement": "Cash out above ×2 on Plinko",
+          "started": 3178,
+          "completed": 2635,
+          "medianMinutes": 46
+        },
+        {
+          "day": 6,
+          "game": "Mines",
+          "requirement": "Hit a ×50 win on Mines",
+          "started": 2962,
+          "completed": 1200,
+          "medianMinutes": 162
+        },
+        {
+          "day": 7,
+          "game": "Dice",
+          "requirement": "Place 10 bets on Dice",
+          "started": 2310,
+          "completed": 1816,
+          "medianMinutes": 41
+        },
+        {
+          "day": 8,
+          "game": "Goal",
+          "requirement": "Place 3 bets on Goal",
+          "started": 2180,
+          "completed": 1717,
+          "medianMinutes": 37
+        },
+        {
+          "day": 9,
+          "game": "Plinko",
+          "requirement": "Win ×3 on Plinko",
+          "started": 2056,
+          "completed": 1703,
+          "medianMinutes": 43
+        },
+        {
+          "day": 10,
+          "game": "Mines",
+          "requirement": "Play Mines 5 rounds in a row",
+          "started": 1967,
+          "completed": 1542,
+          "medianMinutes": 39
+        },
+        {
+          "day": 11,
+          "game": "Dice",
+          "requirement": "Cash out above ×2 on Dice",
+          "started": 1834,
+          "completed": 1404,
+          "medianMinutes": 24
+        },
+        {
+          "day": 12,
+          "game": "Goal",
+          "requirement": "Collect 5 wins on Goal",
+          "started": 1741,
+          "completed": 1354,
+          "medianMinutes": 31
+        },
+        {
+          "day": 13,
+          "game": "Plinko",
+          "requirement": "Place 10 bets on Plinko",
+          "started": 1652,
+          "completed": 1357,
+          "medianMinutes": 28
+        },
+        {
+          "day": 14,
+          "game": "Mines",
+          "requirement": "Place 3 bets on Mines",
+          "started": 1537,
+          "completed": 1229,
+          "medianMinutes": 42
+        }
+      ],
+      "gameGgr": [
+        {
+          "game": "Plinko",
+          "ggrDuring": 672246836
+        },
+        {
+          "game": "Mines",
+          "ggrDuring": 190018126
+        },
+        {
+          "game": "Dice",
+          "ggrDuring": 230473074
+        },
+        {
+          "game": "Goal",
+          "ggrDuring": 255461941
         }
       ],
       "notes": "",
       "daily": [
         {
           "date": "2026-08-31",
-          "ggr": 75605090
+          "ggr": 75257193
         },
         {
           "date": "2026-09-01",
-          "ggr": 68981852
+          "ggr": 76271534
         },
         {
           "date": "2026-09-02",
-          "ggr": 69645675
+          "ggr": 74878336
         },
         {
           "date": "2026-09-03",
-          "ggr": 72036665
+          "ggr": 70283996
         },
         {
           "date": "2026-09-04",
-          "ggr": 80262905
+          "ggr": 78352415
         },
         {
           "date": "2026-09-05",
-          "ggr": 82683350
+          "ggr": 87902273
         },
         {
           "date": "2026-09-06",
-          "ggr": 85028275
+          "ggr": 81489315
         },
         {
           "date": "2026-09-07",
-          "ggr": 80071983
+          "ggr": 79951754
         },
         {
           "date": "2026-09-08",
-          "ggr": 70145306
+          "ggr": 69213866
         },
         {
           "date": "2026-09-09",
-          "ggr": 77539731
+          "ggr": 77362791
         },
         {
           "date": "2026-09-10",
-          "ggr": 69542253
+          "ggr": 75144837
         },
         {
           "date": "2026-09-11",
-          "ggr": 82511537
+          "ggr": 78977871
         },
         {
           "date": "2026-09-12",
-          "ggr": 88311087
+          "ggr": 90303523
         },
         {
           "date": "2026-09-13",
-          "ggr": 84889608
+          "ggr": 80584873
         },
         {
           "date": "2026-09-14",
-          "ggr": 87311327
+          "ggr": 90407731
         },
         {
           "date": "2026-09-15",
-          "ggr": 85015764
+          "ggr": 85122917
         },
         {
           "date": "2026-09-16",
-          "ggr": 91570270
+          "ggr": 92421935
         },
         {
           "date": "2026-09-17",
-          "ggr": 96927348
+          "ggr": 83540145
         },
         {
           "date": "2026-09-18",
-          "ggr": 95846224
+          "ggr": 92469565
         },
         {
           "date": "2026-09-19",
-          "ggr": 99012017
+          "ggr": 109725653
         },
         {
           "date": "2026-09-20",
-          "ggr": 107041524
+          "ggr": 112696473
         },
         {
           "date": "2026-09-21",
-          "ggr": 95873025
+          "ggr": 89984357
         },
         {
           "date": "2026-09-22",
-          "ggr": 88907396
+          "ggr": 92268956
         },
         {
           "date": "2026-09-23",
-          "ggr": 95481577
+          "ggr": 91627191
         },
         {
           "date": "2026-09-24",
-          "ggr": 91162206
+          "ggr": 93580260
         },
         {
           "date": "2026-09-25",
-          "ggr": 104437063
+          "ggr": 97193979
         },
         {
           "date": "2026-09-26",
-          "ggr": 107180586
+          "ggr": 104240918
         },
         {
           "date": "2026-09-27",
-          "ggr": 110255842
+          "ggr": 112919897
         },
         {
           "date": "2026-09-28",
-          "ggr": 79255151
+          "ggr": 84096337
         },
         {
           "date": "2026-09-29",
-          "ggr": 86476793
+          "ggr": 82184624
         },
         {
           "date": "2026-09-30",
-          "ggr": 76909618
+          "ggr": 81459517
         },
         {
           "date": "2026-10-01",
-          "ggr": 87495087
+          "ggr": 81342590
         },
         {
           "date": "2026-10-02",
-          "ggr": 89747911
+          "ggr": 91426742
         },
         {
           "date": "2026-10-03",
-          "ggr": 99562581
+          "ggr": 88844639
         },
         {
           "date": "2026-10-04",
-          "ggr": 91863526
+          "ggr": 89839250
         },
         {
           "date": "2026-10-05",
-          "ggr": 75494311
+          "ggr": 77482449
         },
         {
           "date": "2026-10-06",
-          "ggr": 81317228
+          "ggr": 74417389
         },
         {
           "date": "2026-10-07",
-          "ggr": 74559809
+          "ggr": 79063225
         },
         {
           "date": "2026-10-08",
-          "ggr": 74186148
+          "ggr": 75551177
         },
         {
           "date": "2026-10-09",
-          "ggr": 89918528
+          "ggr": 81180502
         },
         {
           "date": "2026-10-10",
-          "ggr": 99071994
+          "ggr": 96075313
         },
         {
           "date": "2026-10-11",
-          "ggr": 90990332
+          "ggr": 92167105
         }
       ]
     },
     {
-      "id": "demo-15",
+      "id": "demo-21",
       "name": "Aviator Payday Rain",
       "type": "Regional Promotion",
       "operator": "Operator Bravo",
@@ -2847,77 +4526,78 @@
       "startDate": "2026-09-25",
       "endDate": "2026-09-28",
       "windowDays": null,
-      "ggrBefore": 2376346,
-      "ggrDuring": 2905274,
-      "ggrAfter": 2518972,
+      "ggrBefore": 2334690,
+      "ggrDuring": 2982127,
+      "ggrAfter": 2473127,
       "prizePool": 180000,
-      "playersBefore": 13484,
-      "playersDuring": 14629,
-      "playersAfter": 12935,
-      "participants": 5661,
-      "newParticipants": 1068,
-      "retainedParticipants": 2797,
-      "betsDuring": 154485,
-      "turnoverBefore": 66786874,
-      "turnoverDuring": 85054502,
-      "turnoverAfter": 70795358,
-      "controlGgrBefore": 7604307,
-      "controlGgrDuring": 7675200,
+      "playersBefore": 13350,
+      "playersDuring": 14432,
+      "playersAfter": 12899,
+      "participants": 5599,
+      "newParticipants": 998,
+      "retainedParticipants": 2794,
+      "betsDuring": 324039,
+      "turnoverBefore": 73185404,
+      "turnoverDuring": 97375601,
+      "turnoverAfter": 77524981,
+      "controlGgrBefore": 7471008,
+      "controlGgrDuring": 7421538,
       "controlLabel": "Same games at comparable Mexico operators without the promo",
+      "eligiblePlayers": 26182,
       "notes": "",
       "daily": [
         {
           "date": "2026-09-21",
-          "ggr": 550142
+          "ggr": 604115
         },
         {
           "date": "2026-09-22",
-          "ggr": 585878
+          "ggr": 564872
         },
         {
           "date": "2026-09-23",
-          "ggr": 623126
+          "ggr": 554642
         },
         {
           "date": "2026-09-24",
-          "ggr": 617200
+          "ggr": 611061
         },
         {
           "date": "2026-09-25",
-          "ggr": 711071
+          "ggr": 678952
         },
         {
           "date": "2026-09-26",
-          "ggr": 724327
+          "ggr": 782642
         },
         {
           "date": "2026-09-27",
-          "ggr": 758052
+          "ggr": 811295
         },
         {
           "date": "2026-09-28",
-          "ggr": 711824
+          "ggr": 709238
         },
         {
           "date": "2026-09-29",
-          "ggr": 652116
+          "ggr": 598612
         },
         {
           "date": "2026-09-30",
-          "ggr": 620900
+          "ggr": 601779
         },
         {
           "date": "2026-10-01",
-          "ggr": 588380
+          "ggr": 586195
         },
         {
           "date": "2026-10-02",
-          "ggr": 657576
+          "ggr": 686541
         }
       ]
     },
     {
-      "id": "demo-16",
+      "id": "demo-22",
       "name": "Balloon Pop Missions",
       "type": "New Game Launch",
       "operator": "Operator Foxtrot",
@@ -2930,20 +4610,21 @@
       "startDate": "2026-10-05",
       "endDate": "2026-10-18",
       "windowDays": null,
-      "ggrBefore": 7996845,
+      "ggrBefore": 8154697,
       "ggrDuring": null,
       "ggrAfter": null,
       "prizePool": 704225,
-      "playersBefore": 1712,
+      "playersBefore": 1744,
       "playersDuring": null,
       "playersAfter": null,
       "participants": 374,
-      "newParticipants": 61,
+      "newParticipants": 52,
       "retainedParticipants": null,
-      "betsDuring": 16144,
-      "turnoverBefore": 192352156,
+      "betsDuring": 16031,
+      "turnoverBefore": 204303899,
       "turnoverDuring": null,
       "turnoverAfter": null,
+      "eligiblePlayers": 3184,
       "missions": [
         {
           "name": "Opted in",
@@ -2951,123 +4632,339 @@
         },
         {
           "name": "Place 20 bets",
-          "reached": 259
+          "reached": 260
         },
         {
           "name": "Hit a ×10 win",
-          "reached": 164
+          "reached": 196
         },
         {
           "name": "Play 5 days in a row",
-          "reached": 63
+          "reached": 76
         },
         {
           "name": "All missions done",
-          "reached": 51
+          "reached": 54
+        }
+      ],
+      "missionDays": [
+        {
+          "day": 1,
+          "game": "Balloon",
+          "requirement": "Place 10 bets on Balloon",
+          "started": 374,
+          "completed": 310,
+          "medianMinutes": 38
+        },
+        {
+          "day": 2,
+          "game": "Balloon",
+          "requirement": "Place 3 bets on Balloon",
+          "started": 355,
+          "completed": 342,
+          "medianMinutes": 4
+        },
+        {
+          "day": 3,
+          "game": "Balloon",
+          "requirement": "Win ×3 on Balloon",
+          "started": 335,
+          "completed": 253,
+          "medianMinutes": 43
+        },
+        {
+          "day": 4,
+          "game": "Balloon",
+          "requirement": "Play Balloon 5 rounds in a row",
+          "started": 320,
+          "completed": 247,
+          "medianMinutes": 29
+        },
+        {
+          "day": 5,
+          "game": "Balloon",
+          "requirement": "Cash out above ×2 on Balloon",
+          "started": 303,
+          "completed": 244,
+          "medianMinutes": 44
+        },
+        {
+          "day": 6,
+          "game": "Balloon",
+          "requirement": "Hit a ×50 win on Balloon",
+          "started": 286,
+          "completed": 117,
+          "medianMinutes": 140
+        },
+        {
+          "day": 7,
+          "game": "Balloon",
+          "requirement": "Place 10 bets on Balloon",
+          "started": 223,
+          "completed": 168,
+          "medianMinutes": 30
+        },
+        {
+          "day": 8,
+          "game": "Balloon",
+          "requirement": "Place 3 bets on Balloon",
+          "started": 212,
+          "completed": 181,
+          "medianMinutes": 27
+        },
+        {
+          "day": 9,
+          "game": "Balloon",
+          "requirement": "Win ×3 on Balloon",
+          "started": 201,
+          "completed": 146,
+          "medianMinutes": 40
+        },
+        {
+          "day": 10,
+          "game": "Balloon",
+          "requirement": "Play Balloon 5 rounds in a row",
+          "started": 188,
+          "completed": 136,
+          "medianMinutes": 44
+        },
+        {
+          "day": 11,
+          "game": "Balloon",
+          "requirement": "Cash out above ×2 on Balloon",
+          "started": 179,
+          "completed": 132,
+          "medianMinutes": 36
+        },
+        {
+          "day": 12,
+          "game": "Balloon",
+          "requirement": "Collect 5 wins on Balloon",
+          "started": 171,
+          "completed": 144,
+          "medianMinutes": 51
+        },
+        {
+          "day": 13,
+          "game": "Balloon",
+          "requirement": "Place 10 bets on Balloon",
+          "started": 160,
+          "completed": 136,
+          "medianMinutes": 36
+        },
+        {
+          "day": 14,
+          "game": "Balloon",
+          "requirement": "Place 3 bets on Balloon",
+          "started": 151,
+          "completed": 125,
+          "medianMinutes": 47
         }
       ],
       "notes": "Still live — after-window numbers arrive once it ends.",
       "daily": [
         {
           "date": "2026-09-21",
-          "ggr": 515786
+          "ggr": 528388
         },
         {
           "date": "2026-09-22",
-          "ggr": 511127
+          "ggr": 557080
         },
         {
           "date": "2026-09-23",
-          "ggr": 581342
+          "ggr": 526621
         },
         {
           "date": "2026-09-24",
-          "ggr": 553071
+          "ggr": 513283
         },
         {
           "date": "2026-09-25",
-          "ggr": 622993
+          "ggr": 652643
         },
         {
           "date": "2026-09-26",
-          "ggr": 615472
+          "ggr": 634974
         },
         {
           "date": "2026-09-27",
-          "ggr": 633399
+          "ggr": 640719
         },
         {
           "date": "2026-09-28",
-          "ggr": 530804
+          "ggr": 527697
         },
         {
           "date": "2026-09-29",
-          "ggr": 525042
+          "ggr": 591419
         },
         {
           "date": "2026-09-30",
-          "ggr": 527714
+          "ggr": 522180
         },
         {
           "date": "2026-10-01",
-          "ggr": 517714
+          "ggr": 594091
         },
         {
           "date": "2026-10-02",
-          "ggr": 573595
+          "ggr": 653666
         },
         {
           "date": "2026-10-03",
-          "ggr": 604748
+          "ggr": 608333
         },
         {
           "date": "2026-10-04",
-          "ggr": 684038
+          "ggr": 603603
         },
         {
           "date": "2026-10-05",
-          "ggr": 575484
+          "ggr": 660985
         },
         {
           "date": "2026-10-06",
-          "ggr": 689857
+          "ggr": 680136
         },
         {
           "date": "2026-10-07",
-          "ggr": 658258
+          "ggr": 611948
         },
         {
           "date": "2026-10-08",
-          "ggr": 676136
+          "ggr": 635900
         },
         {
           "date": "2026-10-09",
-          "ggr": 724831
+          "ggr": 671937
         },
         {
           "date": "2026-10-10",
-          "ggr": 713210
+          "ggr": 721739
         },
         {
           "date": "2026-10-11",
-          "ggr": 699826
+          "ggr": 771962
         },
         {
           "date": "2026-10-12",
-          "ggr": 605193
+          "ggr": 668305
         },
         {
           "date": "2026-10-13",
-          "ggr": 605464
+          "ggr": 606068
         },
         {
           "date": "2026-10-14",
-          "ggr": 619293
+          "ggr": 647327
         }
       ]
+    },
+    {
+      "id": "demo-23",
+      "name": "Mines Weekend Rain",
+      "type": "Regional Promotion",
+      "operator": "Operator Bravo",
+      "aggregator": "Aggregator North",
+      "games": [
+        "Mines"
+      ],
+      "market": "Mexico",
+      "currency": "MXN",
+      "startDate": "2026-11-06",
+      "endDate": "2026-11-08",
+      "windowDays": null,
+      "ggrBefore": null,
+      "ggrDuring": null,
+      "ggrAfter": null,
+      "prizePool": null,
+      "playersBefore": null,
+      "playersDuring": null,
+      "playersAfter": null,
+      "notes": "Planned prize pool: €6,000."
+    },
+    {
+      "id": "demo-24",
+      "name": "Aviator Payday Rain II",
+      "type": "Regional Promotion",
+      "operator": "Operator Bravo",
+      "aggregator": "Aggregator North",
+      "games": [
+        "Aviator"
+      ],
+      "market": "Mexico",
+      "currency": "MXN",
+      "startDate": "2026-11-06",
+      "endDate": "2026-11-09",
+      "windowDays": null,
+      "ggrBefore": null,
+      "ggrDuring": null,
+      "ggrAfter": null,
+      "prizePool": null,
+      "playersBefore": null,
+      "playersDuring": null,
+      "playersAfter": null,
+      "notes": "Planned prize pool: €9,000. Same mechanic as Aviator Payday Rain (Sep)."
+    },
+    {
+      "id": "demo-25",
+      "name": "Aviator Black Friday Race",
+      "type": "Network Tournament",
+      "operator": "Operator Alpha",
+      "aggregator": "Direct",
+      "games": [
+        "Aviator"
+      ],
+      "market": "Brazil",
+      "currency": "BRL",
+      "startDate": "2026-11-20",
+      "endDate": "2026-11-29",
+      "windowDays": null,
+      "ggrBefore": null,
+      "ggrDuring": null,
+      "ggrAfter": null,
+      "prizePool": null,
+      "playersBefore": null,
+      "playersDuring": null,
+      "playersAfter": null,
+      "notes": "Planned prize pool: €50,000."
+    },
+    {
+      "id": "demo-26",
+      "name": "Advent Cross-Game Missions",
+      "type": "Cross-Game Challenge",
+      "operator": "Operator Echo",
+      "aggregator": "Aggregator North",
+      "games": [
+        "Plinko",
+        "Mines",
+        "Goal"
+      ],
+      "market": "Colombia",
+      "currency": "COP",
+      "startDate": "2026-12-01",
+      "endDate": "2026-12-14",
+      "windowDays": null,
+      "ggrBefore": null,
+      "ggrDuring": null,
+      "ggrAfter": null,
+      "prizePool": null,
+      "playersBefore": null,
+      "playersDuring": null,
+      "playersAfter": null,
+      "notes": "Planned prize pool: €20,000."
     }
   ],
   "monthly": [
+    {
+      "month": "2026-01",
+      "ggr": 36900000
+    },
+    {
+      "month": "2026-02",
+      "ggr": 37600000
+    },
     {
       "month": "2026-03",
       "ggr": 38400000
