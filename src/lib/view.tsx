@@ -23,11 +23,14 @@ export interface ViewState {
   sort: "newest" | "change" | "ggr" | "name";
   /** Promotions page: cards or the full results table */
   layout: "table" | "list";
+  /** Metric shown in the Overview trend chart and the Promotions chart */
+  trendMetric: string;
+  promoChartMetric: string;
 }
 
 const KEY = "spribe-report-view-v2";
 
-const DEFAULTS: ViewState = { filters: emptyFilters, mode: "month", month: null, from: "", to: "", filtersOpen: true, group: "none", sort: "newest", layout: "table" };
+const DEFAULTS: ViewState = { filters: emptyFilters, mode: "month", month: null, from: "", to: "", filtersOpen: true, group: "none", sort: "newest", layout: "table", trendMetric: "monthGgr", promoChartMetric: "bda" };
 
 function load(): ViewState {
   try {

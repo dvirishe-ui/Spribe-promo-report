@@ -11,13 +11,13 @@ import { MenuItem, PeriodVerdict, PromoRow } from "@/components/report/PromoList
 import { ResultsBy, type Dimension } from "@/components/report/ResultsBy";
 import { FilterLayout, defaultMonth, periodName } from "@/components/report/ViewControls";
 import { OutcomeChip } from "@/components/report/ResultHero";
-import { MonthColumns } from "@/components/charts/MonthColumns";
 import { DefinitionsDialog } from "@/components/report/DefinitionsDialog";
 import { useData } from "@/lib/store";
+import { TrendCard } from "@/components/report/MetricCharts";
 import { useView, selectPeriod } from "@/lib/view";
 import { aggregate, monthRows, type PromoMetrics } from "@/lib/metrics";
-import { monthLabel, monthRange, prevMonth } from "@/lib/dates";
-import { money, moneyFull, multiple, numCompact, pct } from "@/lib/format";
+import { monthRange } from "@/lib/dates";
+import { money, multiple, numCompact, pct } from "@/lib/format";
 import { buildInsights, topInsights } from "@/lib/insights";
 import { executiveSummary } from "@/lib/reports";
 import { resultsCsv } from "@/lib/export";
@@ -43,7 +43,6 @@ export function OverviewPage() {
     return ms.length ? monthRange(ms[0], ms[ms.length - 1]) : [];
   }, [dataset.monthly, metrics]);
   const rows = monthRows(allMonths, dataset.monthly, filtered).filter((r) => r.month <= new Date().toISOString().slice(0, 7));
-  const monthRow = view.mode === "month" ? rows.find((r) => r.month === month) : [...rows].reverse().find((r) => r.ggr != null);
 
   const insights = buildInsights(shown, dataset.promos, { syncError: status === "error" ? error : null, currency: cur });
   const top3 = topInsights(insights);
@@ -180,30 +179,16 @@ export function OverviewPage() {
               </p>
             </section>
 
-            <div className="grid gap-4 xl:grid-cols-5">
+            <div className="grid gap-4 xl:grid-cols-5 xl:items-start">
               <section className="panel min-w-0 p-4 sm:p-5 xl:col-span-3">
-                <h3 className="font-display text-base font-semibold">GGR trend</h3>
-                <p className="mb-3 mt-0.5 text-xs text-muted-foreground">
-                  Total monthly GGR, all operators
-                  {monthRow?.ggr != null && monthRow.momChange != null ? ` · ${monthLabel(monthRow.month, "long")} ${money(monthRow.ggr, cur)}, ${pct(monthRow.momChange)} vs ${monthLabel(prevMonth(monthRow.month), "long", false)}` : ""}.
-                  Click a month to open it.
-                </p>
-                <MonthColumns
-                  data={rows.slice(-12).map((r) => ({
-                    month: r.month,
-                    value: r.ggr,
-                    extra: [
-                      { label: "vs previous month", value: pct(r.momChange) },
-                      { label: "Promos started", value: String(r.promoCount) },
-                    ],
-                  }))}
-                  valueName="Total GGR"
-                  format={(v) => money(v, cur)}
-                  formatFull={(v) => moneyFull(v, cur)}
+                <TrendCard
+                  rows={rows.slice(-12)}
+                  promos={filtered}
+                  currency={cur}
                   highlight={view.mode === "month" ? month : null}
-                  label={(d) => money(d.value, cur)}
-                  onSelect={(m) => set({ mode: "month", month: m })}
-                  height={220}
+                  metricKey={view.trendMetric}
+                  onMetric={(k) => set({ trendMetric: k })}
+                  onSelectMonth={(m) => set({ mode: "month", month: m })}
                 />
               </section>
               <section className="panel min-w-0 p-4 sm:p-5 xl:col-span-2">

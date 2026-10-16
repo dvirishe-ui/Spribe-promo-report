@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/report/bits";
 import { BeforeDuringAfter, PeriodVerdict, PromoList } from "@/components/report/PromoListing";
 import { ResultsTable } from "@/components/report/ResultsTable";
+import { PromoChartCard } from "@/components/report/MetricCharts";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FilterLayout, defaultMonth, periodName } from "@/components/report/ViewControls";
 import { useData } from "@/lib/store";
@@ -52,15 +53,21 @@ export function PromotionsPage() {
           <>
             <PeriodVerdict list={shown} currency={cur} period={label} active={outcome} onPick={(t) => setPick(outcome === t ? null : t)} />
             <section className="panel min-w-0 p-4 sm:p-5">
-              <h3 className="font-display text-base font-semibold">GGR before, during and after</h3>
-              <p className="mb-4 mt-0.5 text-xs text-muted-foreground">
-                {view.mode === "month" ? "Each promo. Click one to open its report." : "Added up by the month promos started. Click a month to open it."}
-              </p>
-              {list.length ? (
-                <BeforeDuringAfter list={list} byMonth={view.mode !== "month"} currency={cur} onSelect={openPromo} onMonth={(m) => set({ mode: "month", month: m })} />
-              ) : (
-                <EmptyState icon={BarChart3} title="No promos match" />
-              )}
+              <PromoChartCard
+                list={list}
+                currency={cur}
+                metricKey={view.promoChartMetric}
+                onMetric={(k) => set({ promoChartMetric: k })}
+                onSelect={openPromo}
+                bdaSub={view.mode === "month" ? "Each promo. Click one to open its report." : "Added up by the month promos started. Click a month to open it."}
+                bda={
+                  list.length ? (
+                    <BeforeDuringAfter list={list} byMonth={view.mode !== "month"} currency={cur} onSelect={openPromo} onMonth={(m) => set({ mode: "month", month: m })} />
+                  ) : (
+                    <EmptyState icon={BarChart3} title="No promos match" />
+                  )
+                }
+              />
             </section>
             <div className={view.layout === "table" ? "flex flex-wrap items-center justify-between gap-3" : "-mb-2 flex justify-end"}>
               {view.layout === "table" && (

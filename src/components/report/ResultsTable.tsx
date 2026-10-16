@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { ArrowDown, ArrowUp } from "lucide-react";
-import { aggregate, type PromoMetrics } from "@/lib/metrics";
+import type { PromoMetrics } from "@/lib/metrics";
+import { rollup } from "@/lib/rollup";
 import { formatRange } from "@/lib/dates";
 import { money, moneyFull, multiple, pct, pctPlain } from "@/lib/format";
 import { cn } from "@/lib/utils";
@@ -60,38 +61,6 @@ function tone(kind: Kind, v: string | number | null): string {
   return "";
 }
 
-/** Totals for the footer: money is summed, rates are recalculated from the sums (never averaged). */
-function totals(list: PromoMetrics[]): Record<string, number | null> {
-  const sum = (f: (m: PromoMetrics) => number | null | undefined) => {
-    const xs = list.map(f).filter((x): x is number => x != null && Number.isFinite(x));
-    return xs.length ? xs.reduce((a, b) => a + b, 0) : null;
-  };
-  const both = <T,>(f: (m: PromoMetrics) => [T | null | undefined, T | null | undefined]) => list.map(f).filter(([a, b]) => a != null && b != null) as [T, T][];
-  const a = aggregate(list);
-  const rtpPairs = both((m) => [m.ggrDuring, m.turnoverDuring]).filter(([, w]) => (w as number) > 0) as [number, number][];
-  const partPairs = both((m) => [m.participants, m.promo.playersDuring]).filter(([, p]) => (p as number) > 0) as [number, number][];
-  const roiPairs = list
-    .filter((m) => m.promoRoi != null)
-    .map((m) => [m.incrementalGgr! + (m.haloGgr ?? 0), m.promo.prizePool!] as [number, number]);
-  const ratio = (pairs: [number, number][]) => {
-    const den = pairs.reduce((s, [, d]) => s + d, 0);
-    return pairs.length && den > 0 ? pairs.reduce((s, [n]) => s + n, 0) / den : null;
-  };
-  const rtpRatio = ratio(rtpPairs);
-  return {
-    contribution: sum((m) => m.promo.prizePool),
-    before: sum((m) => m.ggrBefore),
-    during: sum((m) => m.ggrDuring),
-    after: sum((m) => m.ggrAfter),
-    dvb: a.duringVsBefore,
-    avb: a.afterVsBefore,
-    wager: sum((m) => m.turnoverDuring),
-    part: ratio(partPairs),
-    rtp: rtpRatio == null ? null : 1 - rtpRatio,
-    roi: ratio(roiPairs),
-  };
-}
-
 /**
  * Every promo as one row with the full set of report metrics. Sortable by any
  * column; the footer sums money and recalculates rates from the sums. Values
@@ -110,7 +79,7 @@ export function ResultsTable({ list, currency, onSelect }: { list: PromoMetrics[
       return (typeof a === "number" && typeof b === "number" ? a - b : String(a).localeCompare(String(b))) * sort.dir;
     });
   }, [list, sort]);
-  const t = useMemo(() => totals(list), [list]);
+  const t = useMemo(() => rollup(list) as unknown as Record<string, number | null>, [list]);
   const anyReported = list.some((m) => m.rtpReported || m.participationReported);
   const toggle = (key: string, kind: Kind) =>
     setSort((s) => (s?.key !== key ? { key, dir: kind === "text" ? 1 : -1 } : s.dir === (kind === "text" ? 1 : -1) ? { key, dir: s.dir === 1 ? -1 : 1 } : null));
