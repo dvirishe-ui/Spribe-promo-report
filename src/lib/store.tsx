@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { computeAll, type PromoMetrics } from "./metrics";
+import { toDisplayCurrency } from "./fx";
 import { newId } from "./normalize";
 import { sampleDataset } from "./sampleData";
 import { DEFAULT_CONFIG, fetchRemote, type SourceConfig } from "./sources";
@@ -29,7 +30,14 @@ function write(key: string, value: unknown) {
 function loadManual(): Dataset {
   const stored = read<Dataset>(DATA_KEY);
   if (stored && Array.isArray(stored.promos) && Array.isArray(stored.monthly)) {
-    return { ...stored, currency: stored.currency || "EUR" };
+    // Untouched example data from an older version: swap in the current examples.
+    if (stored.isSample && stored.promos.every((p) => p.id.startsWith("sample-"))) return sampleDataset();
+    return {
+      ...stored,
+      currency: stored.currency || "EUR",
+      // Fill fields added after the data was saved.
+      promos: stored.promos.map((p) => ({ ...p, aggregator: p.aggregator ?? "", currency: p.currency ?? "" })),
+    };
   }
   return sampleDataset();
 }
@@ -42,7 +50,9 @@ export type SyncStatus = "idle" | "loading" | "ready" | "error";
 export type ImportMode = "merge" | "replace";
 
 interface DataContextValue {
+  /** The data as stored/entered — each promo in its own currency. */
   dataset: Dataset;
+  /** Report metrics, with every promo converted into the display currency. */
   metrics: PromoMetrics[];
   /** true while any of the built-in sample promos are still loaded */
   hasSample: boolean;
@@ -64,6 +74,7 @@ interface DataContextValue {
   deleteMonthly: (month: string) => void;
   importMonthly: (list: MonthlyRecord[], mode: ImportMode) => void;
   setCurrency: (c: string) => void;
+  setFxRate: (currency: string, eurValue: number | null) => void;
   loadSample: () => void;
   removeSample: () => void;
   clearAll: () => void;
@@ -135,10 +146,12 @@ export function DataProvider({ children }: { children: ReactNode }) {
 
   const dataset: Dataset = useMemo(() => {
     if (!isRemote) return manual;
-    return remote ? { ...remote, currency: remote.currency || manual.currency } : { promos: [], monthly: [], currency: manual.currency };
+    return remote
+      ? { ...remote, currency: remote.currency || manual.currency, fxRates: { ...manual.fxRates, ...remote.fxRates } }
+      : { promos: [], monthly: [], currency: manual.currency };
   }, [isRemote, manual, remote]);
 
-  const metrics = useMemo(() => computeAll(dataset), [dataset]);
+  const metrics = useMemo(() => computeAll(toDisplayCurrency(dataset)), [dataset]);
   const hasSample = dataset.promos.some((p) => p.id.startsWith("sample-"));
 
   const value: DataContextValue = {
@@ -192,7 +205,14 @@ export function DataProvider({ children }: { children: ReactNode }) {
         return { ...d, monthly: [...map.values()].sort((a, b) => a.month.localeCompare(b.month)) };
       }),
     setCurrency: (c) => updateManual((d) => ({ ...d, currency: c })),
-    loadSample: () => updateManual((d) => ({ ...sampleDataset(), currency: d.currency })),
+    setFxRate: (c, v) =>
+      updateManual((d) => {
+        const fxRates = { ...(d.fxRates ?? {}) };
+        if (v == null || !(v > 0)) delete fxRates[c];
+        else fxRates[c] = v;
+        return { ...d, fxRates };
+      }),
+    loadSample: () => updateManual((d) => ({ ...sampleDataset(), currency: d.currency, fxRates: d.fxRates })),
     removeSample: () =>
       updateManual((d) => {
         // Drop sample months only where the number is still the untouched sample value.

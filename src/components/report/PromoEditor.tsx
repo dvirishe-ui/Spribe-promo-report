@@ -13,6 +13,8 @@ import { currencySymbol, moneyFull } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { Delta, Field, inputCls } from "./bits";
 import { useConfirm } from "./Confirm";
+import { MARKETS, marketInfo, marketLabel } from "@/lib/markets";
+import { DEFAULT_RATES_TO_EUR } from "@/lib/fx";
 
 const NUM_FIELDS = [
   "windowDays",
@@ -62,11 +64,16 @@ export function PromoEditor({
   }, [open, promo]);
 
   const cur = dataset.currency;
-  const sym = currencySymbol(cur);
+  const sym = currencySymbol(draft.currency || cur);
   const set = <K extends keyof Draft>(k: K, v: Draft[K]) => setDraft((d) => ({ ...d, [k]: v }));
 
   const operators = useMemo(() => [...new Set(dataset.promos.map((p) => p.operator).filter(Boolean))].sort(), [dataset.promos]);
-  const markets = useMemo(() => [...new Set(dataset.promos.map((p) => p.market).filter(Boolean))].sort(), [dataset.promos]);
+  const markets = useMemo(
+    () => [...new Set([...MARKETS.map((m) => m.name), ...dataset.promos.map((p) => p.market).filter(Boolean)])].sort(),
+    [dataset.promos],
+  );
+  const aggregators = useMemo(() => [...new Set(dataset.promos.map((p) => p.aggregator).filter(Boolean))].sort(), [dataset.promos]);
+  const promoCurrency = draft.currency || dataset.currency;
 
   const datesOk = isValidIsoDay(draft.startDate) && isValidIsoDay(draft.endDate) && draft.endDate >= draft.startDate;
   const record = fromDraft(draft);
@@ -131,7 +138,41 @@ export function PromoEditor({
               <input className={inputCls} list="editor-operators" value={draft.operator} onChange={(e) => set("operator", e.target.value)} disabled={!editable} />
               <datalist id="editor-operators">{operators.map((o) => <option key={o} value={o} />)}</datalist>
             </Field>
-            <Field label="Type">
+            <Field label="Aggregator">
+              <input className={inputCls} list="editor-aggregators" value={draft.aggregator} onChange={(e) => set("aggregator", e.target.value)} placeholder="or Direct" disabled={!editable} />
+              <datalist id="editor-aggregators">{["Direct", ...aggregators.filter((a) => a !== "Direct")].map((o) => <option key={o} value={o} />)}</datalist>
+            </Field>
+            <Field label="Market">
+              <input
+                className={inputCls}
+                list="editor-markets"
+                value={draft.market}
+                onChange={(e) => {
+                  const v = e.target.value;
+                  const info = marketInfo(v);
+                  // Picking a known market fills in its usual currency, unless one was already chosen.
+                  setDraft((d) => ({ ...d, market: v, currency: info && !d.currency ? info.currency : d.currency }));
+                }}
+                placeholder="e.g. Brazil"
+                disabled={!editable}
+              />
+              <datalist id="editor-markets">{markets.map((o) => <option key={o} value={o}>{marketLabel(o)}</option>)}</datalist>
+            </Field>
+            <Field label="Currency of the numbers">
+              <Select value={promoCurrency} onValueChange={(v) => set("currency", v)} disabled={!editable}>
+                <SelectTrigger className="h-9">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {[...new Set([dataset.currency, promoCurrency, ...Object.keys(DEFAULT_RATES_TO_EUR)])].map((c) => (
+                    <SelectItem key={c} value={c}>
+                      {c}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </Field>
+            <Field label="Promotion type" className="col-span-2">
               <Select value={draft.type} onValueChange={(v) => set("type", v)} disabled={!editable}>
                 <SelectTrigger className="h-9">
                   <SelectValue />
@@ -203,13 +244,8 @@ export function PromoEditor({
             </button>
             {more && (
               <div className="mt-3 grid grid-cols-2 gap-3">
-                {moneyInput("prizePool", "Prize pool", toNumber(draft.prizePool) != null ? `= ${moneyFull(toNumber(draft.prizePool), cur)}` : undefined)}
-                <Field label="Market">
-                  <input className={inputCls} list="editor-markets" value={draft.market} onChange={(e) => set("market", e.target.value)} placeholder="e.g. Brazil" disabled={!editable} />
-                  <datalist id="editor-markets">{markets.map((o) => <option key={o} value={o} />)}</datalist>
-                </Field>
+                {moneyInput("prizePool", "Prize pool", toNumber(draft.prizePool) != null ? `= ${moneyFull(toNumber(draft.prizePool), promoCurrency)}` : undefined)}
                 {plainInput("windowDays", "Days to compare before/after", promoDays ? String(promoDays) : "same as promo")}
-                <span />
                 {plainInput("playersBefore", "Players before")}
                 {plainInput("playersDuring", "Players during")}
                 {plainInput("playersAfter", "Players after")}

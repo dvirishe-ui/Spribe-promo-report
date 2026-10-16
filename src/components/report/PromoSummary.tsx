@@ -5,11 +5,16 @@ import { formatRange, monthLabel, prevMonth } from "@/lib/dates";
 import { money, moneyFull, pct } from "@/lib/format";
 import type { PromoMetrics } from "@/lib/metrics";
 import { cn } from "@/lib/utils";
+import { marketLabel } from "@/lib/markets";
+import { fxFactor } from "@/lib/fx";
+import { useData } from "@/lib/store";
 import { Delta, LiveBadge, ResultPill } from "./bits";
 
 /** One promo's report. Used in the side panel and on the full page. */
 export function PromoSummary({ m, currency }: { m: PromoMetrics; currency: string }) {
   const p = m.promo;
+  const { dataset } = useData();
+  const fx = p.currency && p.currency !== currency ? fxFactor(p.currency, currency, dataset.fxRates ?? {}) : null;
   const windows = [
     { ...PHASES[0], value: m.ggrBefore, dates: formatRange(m.beforeStart, m.beforeEnd), change: null },
     { ...PHASES[1], value: m.ggrDuring, dates: formatRange(p.startDate, p.endDate), change: m.duringVsBefore },
@@ -24,13 +29,22 @@ export function PromoSummary({ m, currency }: { m: PromoMetrics; currency: strin
           <LiveBadge status={m.status} />
         </div>
         <h2 className="mt-2 text-2xl">{p.name}</h2>
-        <p className="mt-1 text-sm text-muted-foreground">
-          {[p.operator, p.games.join(", "), p.market].filter(Boolean).join(" · ")}
-        </p>
+        <div className="mt-2 flex flex-wrap gap-1.5 text-xs">
+          {[p.type, p.market && marketLabel(p.market), p.operator, p.aggregator, p.games.join(", ")].filter(Boolean).map((t) => (
+            <span key={t} className="rounded-full border border-border bg-surface px-2.5 py-0.5 text-muted-foreground">
+              {t}
+            </span>
+          ))}
+        </div>
         <p className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground">
           <CalendarDays className="size-3.5" />
           {formatRange(p.startDate, p.endDate)} · {m.promoDays} day{m.promoDays === 1 ? "" : "s"}
         </p>
+        {fx && (
+          <p className="mt-1 text-xs text-muted-foreground">
+            Entered in {p.currency}, shown in {currency} (1 {p.currency} = {fx.toPrecision(3)} {currency})
+          </p>
+        )}
       </div>
 
       {/* Before / During / After */}

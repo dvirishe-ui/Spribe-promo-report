@@ -1,5 +1,6 @@
 import { isValidIsoDay, toIsoDay } from "./dates";
 import type { Dataset, DailyPoint, MonthlyRecord, PromoRecord } from "./types";
+import { marketInfo } from "./markets";
 
 /**
  * Turns whatever comes in — a backoffice JSON payload, a CSV export, an Excel
@@ -32,6 +33,14 @@ const PROMO_ALIASES: Record<string, keyof PromoRecord> = {
   partner: "operator",
   casino: "operator",
   client: "operator",
+  aggregator: "aggregator",
+  aggregatorname: "aggregator",
+  platform: "aggregator",
+  provider: "aggregator",
+  hub: "aggregator",
+  currency: "currency",
+  ccy: "currency",
+  currencycode: "currency",
   games: "games",
   game: "games",
   gamename: "games",
@@ -222,10 +231,12 @@ export function emptyPromo(partial: Partial<PromoRecord> = {}): PromoRecord {
   return {
     id: newId(),
     name: "",
-    type: "Tournament",
+    type: "Network Tournament",
     operator: "",
+    aggregator: "",
     games: ["Aviator"],
     market: "",
+    currency: "",
     startDate: "",
     endDate: "",
     windowDays: null,
@@ -275,8 +286,10 @@ export function normalizePromos(rows: unknown[], fieldMap: Record<string, string
       name: name || "Untitled promo",
       type: toText(r.type) || "Other",
       operator: toText(r.operator),
+      aggregator: toText(r.aggregator),
       games: toGames(r.games),
       market: toText(r.market),
+      currency: /^[a-z]{3}$/i.test(toText(r.currency)) ? toText(r.currency).toUpperCase() : marketInfo(toText(r.market))?.currency ?? "",
       startDate,
       endDate,
       windowDays: toNumber(r.windowDays),

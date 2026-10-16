@@ -6,12 +6,22 @@ without changing anything else.
 
 ## What it shows
 
-**Reports** (`/`): pick a month with the arrows, or switch to *All*.
+**Reports** (`/`): pick a month with the arrows, or switch to *All*. A filter sidebar (like the
+Promo Calendar's) narrows everything by market, aggregator, operator, promotion type, game or a
+search; filters are remembered and shown as removable chips.
 - Four numbers: how many promos ran, GGR during vs before, GGR after vs before, and the month's
   total GGR vs the previous month.
 - One chart of GGR before / during / after for each promo, and one of total GGR by month.
-- The list of promos. Click one to open its report in a side panel, the same way the
-  Promo Calendar opens a promotion.
+- **Results by** market / aggregator / operator / promotion type: a ranked list of GGR during vs
+  before. Click a row to filter the page to it.
+- The list of promos, which can be grouped by market, aggregator, operator or type and sorted by
+  newest, biggest change, highest GGR or name. Click one to open its report in a side panel, the
+  same way the Promo Calendar opens a promotion.
+- **Copy summary** puts a short text version of the current view on the clipboard for Slack/email.
+
+Promotion types are the Promo Calendar's eight. Each promo has a market (with flag), operator,
+aggregator and the **currency its numbers are in**; the report converts everything into one
+display currency using exchange rates you can edit in Settings (they start as rough examples).
 
 **Promo report** (side panel, or `/promo/:id` full page): before / during / after with the
 change, GGR per day (when daily data exists), a few plain sentences on what happened, notes,

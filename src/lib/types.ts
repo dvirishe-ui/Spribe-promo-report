@@ -16,11 +16,15 @@ export interface DailyPoint {
 export interface PromoRecord {
   id: string;
   name: string;
-  /** Tournament, Rain, Cashback, Free bets, Missions… free text, but the editor suggests a list. */
+  /** One of the Promo Calendar types (Network Tournament, Missions, …); free text is allowed too */
   type: string;
   operator: string;
+  /** Aggregator / platform the operator gets SPRIBE games through; "Direct" when integrated directly */
+  aggregator: string;
   games: string[];
   market: string;
+  /** ISO 4217 code the GGR numbers of this promo are in (usually the operator's currency) */
+  currency: string;
   /** YYYY-MM-DD, inclusive */
   startDate: string;
   /** YYYY-MM-DD, inclusive */
@@ -67,23 +71,26 @@ export interface MonthlyRecord {
 export interface Dataset {
   promos: PromoRecord[];
   monthly: MonthlyRecord[];
-  /** ISO 4217 code used for display, e.g. EUR, USD */
+  /** ISO 4217 code the whole report is shown in, e.g. EUR */
   currency: string;
+  /** Value of 1 unit of each currency in EUR — overrides the built-in example rates */
+  fxRates?: Record<string, number>;
   /** true while the built-in sample numbers are loaded */
   isSample?: boolean;
   /** When the source produced this data (API / CSV), ISO timestamp */
   generatedAt?: string;
 }
 
+/** The promotion types used in the SPRIBE Promo Calendar. */
 export const PROMO_TYPES = [
-  "Tournament",
-  "Rain",
-  "Cashback",
-  "Free bets",
+  "Network Tournament",
+  "Cross-Game Challenge",
   "Missions",
   "Leaderboard",
-  "Drops & Wins",
-  "Other",
+  "Collection Campaign",
+  "Regional Promotion",
+  "Seasonal Promotion",
+  "New Game Launch",
 ] as const;
 
 export const SPRIBE_GAMES = [

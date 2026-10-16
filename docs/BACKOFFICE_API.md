@@ -14,16 +14,20 @@ Authorization: Bearer <token>        # optional — see "Auth" below
 
 ```jsonc
 {
-  "currency": "EUR",                    // ISO 4217, used for display
+  "currency": "EUR",                    // ISO 4217 — the currency the report is shown in
+  "fxRates": { "BRL": 0.16 },           // optional: value of 1 unit in EUR; overrides the site's example rates
   "generatedAt": "2026-10-16T06:00:00Z",
   "promos": [
     {
       "id": "BO-48213",                 // stable ID — used to match updates
       "name": "Aviator Weekend Rain",
-      "type": "Rain",                   // Tournament | Rain | Cashback | Free bets | Missions | Leaderboard | …
+      "type": "Regional Promotion",     // Promo Calendar types: Network Tournament | Cross-Game Challenge | Missions |
+                                        // Leaderboard | Collection Campaign | Regional Promotion | Seasonal Promotion | New Game Launch
       "operator": "Operator name",
+      "aggregator": "Aggregator name",  // or "Direct"
       "games": ["Aviator"],
       "market": "Brazil",
+      "currency": "BRL",                // currency of this promo's GGR numbers; converted to the report currency
       "startDate": "2026-09-05",        // inclusive
       "endDate": "2026-09-07",          // inclusive
       "windowDays": null,               // before/after window length; null = same length as the promo

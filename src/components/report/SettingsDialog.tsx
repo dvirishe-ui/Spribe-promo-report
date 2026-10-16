@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useData } from "@/lib/store";
 import { SOURCE_LABEL, type SourceConfig, type SourceKind } from "@/lib/sources";
 import { currencySymbol } from "@/lib/format";
+import { fxFactor, rateToEur } from "@/lib/fx";
 import { cn } from "@/lib/utils";
 import { Field, inputCls } from "./bits";
 
@@ -17,7 +18,11 @@ const EXAMPLE_JSON = `{
   "promos": [{
     "id": "BO-48213",
     "name": "Aviator Weekend Rain",
+    "type": "Regional Promotion",
     "operator": "Operator name",
+    "aggregator": "Aggregator name",
+    "market": "Brazil",
+    "currency": "BRL",
     "games": ["Aviator"],
     "startDate": "2026-09-05",
     "endDate": "2026-09-07",
@@ -35,7 +40,8 @@ const OPTIONS: Array<{ kind: SourceKind; icon: typeof Cloud; text: string }> = [
 ];
 
 export function SettingsDialog() {
-  const { config, setConfig, status, error, dataset, setCurrency, editable } = useData();
+  const { config, setConfig, status, error, dataset, setCurrency, setFxRate, editable } = useData();
+  const used = [...new Set(dataset.promos.map((p) => p.currency).filter((c) => c && c !== dataset.currency))].sort();
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState<SourceConfig>(config);
   useEffect(() => {
@@ -72,6 +78,21 @@ export function SettingsDialog() {
               </SelectContent>
             </Select>
           </Field>
+
+          {used.length > 0 && (
+            <div>
+              <p className="text-xs font-medium text-muted-foreground">Exchange rates</p>
+              <p className="mb-2 text-[11px] text-muted-foreground">
+                Promos entered in other currencies are converted to {dataset.currency} with these. They start as rough
+                example rates — check them before sharing numbers.
+              </p>
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                {used.map((c) => (
+                  <RateInput key={c} code={c} display={dataset.currency} rates={dataset.fxRates ?? {}} onChange={setFxRate} disabled={!editable} />
+                ))}
+              </div>
+            </div>
+          )}
 
           <div>
             <p className="mb-2 text-xs font-medium text-muted-foreground">Numbers come from</p>
@@ -185,5 +206,42 @@ export function SettingsDialog() {
         </div>
       </DialogContent>
     </Dialog>
+  );
+}
+
+/** "1 BRL = [0.16] EUR" — stored as the value in EUR so any display currency works. */
+function RateInput({
+  code,
+  display,
+  rates,
+  onChange,
+  disabled,
+}: {
+  code: string;
+  display: string;
+  rates: Record<string, number>;
+  onChange: (c: string, eur: number | null) => void;
+  disabled?: boolean;
+}) {
+  const factor = fxFactor(code, display, rates);
+  const [v, setV] = useState(factor == null ? "" : String(+factor.toPrecision(4)));
+  useEffect(() => setV(factor == null ? "" : String(+factor.toPrecision(4))), [factor]);
+  return (
+    <label className="flex items-center gap-1.5 rounded-md border border-border bg-surface-raised px-2 py-1 text-xs">
+      <span className="shrink-0 text-muted-foreground">1 {code} =</span>
+      <input
+        inputMode="decimal"
+        className="w-full min-w-0 bg-transparent text-right tabular outline-none"
+        value={v}
+        disabled={disabled}
+        onChange={(e) => setV(e.target.value)}
+        onBlur={() => {
+          const n = Number(v.replace(",", "."));
+          const displayInEur = rateToEur(display, rates);
+          if (n > 0 && displayInEur) onChange(code, n * displayInEur);
+        }}
+      />
+      <span className="shrink-0 text-muted-foreground">{display}</span>
+    </label>
   );
 }

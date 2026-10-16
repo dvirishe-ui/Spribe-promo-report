@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { CalendarPlus, Copy, FileSpreadsheet, Lock, Pencil, Plus, Trash2 } from "lucide-react";
+import { CalendarPlus, Copy, FileSpreadsheet, Lock, Pencil, Plus, Search, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Delta, EmptyState, ResultPill } from "@/components/report/bits";
@@ -15,6 +15,7 @@ import { formatRange, monthLabel, nextMonth, prevMonth, todayIso } from "@/lib/d
 import { num } from "@/lib/format";
 import { SOURCE_LABEL } from "@/lib/sources";
 import type { PromoRecord } from "@/lib/types";
+import { marketLabel } from "@/lib/markets";
 
 export function DataPage() {
   const { dataset, editable, config, copyRemoteToManual } = useData();
@@ -117,13 +118,16 @@ function NumCell({ value, onCommit, disabled, label }: { value: number | null; o
 }
 
 function PromosTable({ onAdd }: { onAdd: () => void }) {
-  const { dataset, editable, savePromo, deletePromo } = useData();
+  const { dataset, editable, savePromo, deletePromo, duplicatePromo } = useData();
   const confirm = useConfirm();
   const [editing, setEditing] = useState<PromoRecord | null>(null);
+  const [query, setQuery] = useState("");
   const months = monthlyMap(dataset.monthly);
-  const rows = [...dataset.promos].sort((a, b) => b.startDate.localeCompare(a.startDate));
+  const q = query.trim().toLowerCase();
+  const all = [...dataset.promos].sort((a, b) => b.startDate.localeCompare(a.startDate));
+  const rows = q ? all.filter((p) => [p.name, p.operator, p.aggregator, p.market, p.type, ...p.games].join(" ").toLowerCase().includes(q)) : all;
 
-  if (!rows.length)
+  if (!all.length)
     return (
       <div className="panel">
         <EmptyState icon={FileSpreadsheet} title="No promos yet">
@@ -136,15 +140,28 @@ function PromosTable({ onAdd }: { onAdd: () => void }) {
 
   return (
     <div className="panel overflow-x-auto">
-      <table className="w-full min-w-[760px] text-sm">
+      <div className="border-b border-border p-3">
+        <div className="relative max-w-xs">
+          <Search className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+          <input
+            aria-label="Search promos"
+            className="h-9 w-full rounded-md border border-border bg-surface-raised pl-8 pr-2 text-sm outline-none placeholder:text-muted-foreground/70 focus:ring-2 focus:ring-ring"
+            placeholder="Search name, market, operator, aggregator…"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        </div>
+      </div>
+      <table className="w-full min-w-[820px] text-sm">
         <thead className="text-left text-xs text-muted-foreground">
           <tr className="border-b border-border">
             <th className="px-4 py-2.5 font-medium">Promo</th>
+            <th className="w-14 px-2 py-2.5 font-medium">Cur.</th>
             <th className="w-32 px-2 py-2.5 text-right font-medium">GGR before</th>
             <th className="w-32 px-2 py-2.5 text-right font-medium">GGR during</th>
             <th className="w-32 px-2 py-2.5 text-right font-medium">GGR after</th>
             <th className="w-28 px-2 py-2.5 text-right font-medium">Result</th>
-            <th className="w-20 px-2 py-2.5" />
+            <th className="w-24 px-2 py-2.5" />
           </tr>
         </thead>
         <tbody className="divide-y divide-border">
@@ -157,9 +174,10 @@ function PromosTable({ onAdd }: { onAdd: () => void }) {
                     {p.name}
                   </button>
                   <p className="truncate text-xs text-muted-foreground">
-                    {[p.operator, formatRange(p.startDate, p.endDate)].filter(Boolean).join(" · ")}
+                    {[p.market && marketLabel(p.market), p.operator, p.aggregator, formatRange(p.startDate, p.endDate)].filter(Boolean).join(" · ")}
                   </p>
                 </td>
+                <td className="px-2 py-2 text-xs text-muted-foreground">{p.currency || dataset.currency}</td>
                 <td className="px-1 py-2">
                   <NumCell label={`${p.name} GGR before`} value={p.ggrBefore} onCommit={(v) => savePromo({ ...p, ggrBefore: v })} disabled={!editable} />
                 </td>
@@ -177,6 +195,18 @@ function PromosTable({ onAdd }: { onAdd: () => void }) {
                     <IconBtn label="Edit" onClick={() => setEditing(p)}>
                       <Pencil className="size-3.5" />
                     </IconBtn>
+                    {editable && (
+                      <IconBtn
+                        label="Duplicate (for a repeat promo)"
+                        onClick={() => {
+                          const id = duplicatePromo(p.id);
+                          const copy = id && { ...p, id, name: `${p.name} (copy)` };
+                          if (copy) setEditing(copy);
+                        }}
+                      >
+                        <Copy className="size-3.5" />
+                      </IconBtn>
+                    )}
                     {editable && (
                       <IconBtn
                         label="Delete"
@@ -197,8 +227,9 @@ function PromosTable({ onAdd }: { onAdd: () => void }) {
           })}
         </tbody>
       </table>
+      {rows.length === 0 && <p className="px-4 py-6 text-center text-sm text-muted-foreground">No promos match “{query}”.</p>}
       <p className="border-t border-border px-4 py-2 text-xs text-muted-foreground">
-        Click a number to change it — <code>120k</code> or <code>€120,000</code> both work. Click a promo's name for all its details.
+        Numbers are in each promo's own currency (Cur.). Click a number to change it — <code>120k</code> or <code>€120,000</code> both work. Click a promo's name for all its details.
       </p>
       <PromoEditor promo={editing} open={!!editing} onOpenChange={(o) => !o && setEditing(null)} />
     </div>
