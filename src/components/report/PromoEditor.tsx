@@ -11,6 +11,7 @@ import { addDays, daysBetween, formatRange, isValidIsoDay } from "@/lib/dates";
 import { currencySymbol, moneyFull, multiple, pct, moneySigned } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { Delta, Field, inputCls } from "./bits";
+import { useConfirm } from "./Confirm";
 
 const NUM_FIELDS = [
   "windowDays",
@@ -53,6 +54,7 @@ export function PromoEditor({
   const { dataset, savePromo, deletePromo, editable } = useData();
   const [draft, setDraft] = useState<Draft>(() => toDraft(promo ?? emptyPromo()));
   const [customGame, setCustomGame] = useState("");
+  const confirm = useConfirm();
 
   useEffect(() => {
     if (open) setDraft(toDraft(promo ?? emptyPromo()));
@@ -254,8 +256,8 @@ export function PromoEditor({
             <Button
               variant="ghost"
               className="text-bad-ink"
-              onClick={() => {
-                if (confirm(`Delete "${promo.name}"? This can't be undone.`)) {
+              onClick={async () => {
+                if (await confirm({ title: `Delete "${promo.name}"?`, description: "This can't be undone.", confirmLabel: "Delete", destructive: true })) {
                   deletePromo(promo.id);
                   toast.success("Promo deleted");
                   onOpenChange(false);

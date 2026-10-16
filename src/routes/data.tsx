@@ -22,6 +22,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Delta, EmptyState, Field, inputCls } from "@/components/report/bits";
 import { PromoEditor } from "@/components/report/PromoEditor";
+import { useConfirm } from "@/components/report/Confirm";
 import { useData, type ImportMode } from "@/lib/store";
 import { computePromo, monthlyMap } from "@/lib/metrics";
 import { normalizeDataset, normalizeMonthly, normalizePromos, toNumber } from "@/lib/normalize";
@@ -45,6 +46,7 @@ const CURRENCIES = ["EUR", "USD", "GBP", "BRL", "MXN", "INR", "NGN", "KES", "PEN
 export function DataPage() {
   const { dataset, editable, config, copyRemoteToManual, setCurrency } = useData();
   const [tab, setTab] = useState("promos");
+  const confirm = useConfirm();
 
   return (
     <main className="mx-auto max-w-[1400px] space-y-5 px-4 py-6 lg:px-8">
@@ -85,8 +87,14 @@ export function DataPage() {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => {
-                if (confirm("Copy the synced data into manual mode? This replaces anything you'd typed in manually before.")) {
+              onClick={async () => {
+                if (
+                  await confirm({
+                    title: "Copy the synced data into manual mode?",
+                    description: "This replaces anything you'd typed in manually before.",
+                    confirmLabel: "Copy",
+                  })
+                ) {
                   copyRemoteToManual();
                   toast.success("Copied. Switch the source to Manual on the Connect page to edit it.");
                 }
@@ -192,6 +200,7 @@ function DateCell({ value, onCommit, disabled, min }: { value: string; onCommit:
 function PromosGrid() {
   const { dataset, editable, savePromo, deletePromo, duplicatePromo } = useData();
   const navigate = useNavigate();
+  const confirm = useConfirm();
   const [query, setQuery] = useState("");
   const [editing, setEditing] = useState<PromoRecord | null>(null);
   const [creating, setCreating] = useState(false);
@@ -333,8 +342,8 @@ function PromosGrid() {
                             </IconBtn>
                             <IconBtn
                               label="Delete"
-                              onClick={() => {
-                                if (confirm(`Delete "${p.name}"?`)) {
+                              onClick={async () => {
+                                if (await confirm({ title: `Delete "${p.name}"?`, description: "This can't be undone.", confirmLabel: "Delete", destructive: true })) {
                                   deletePromo(p.id);
                                   toast.success("Deleted");
                                 }
@@ -478,6 +487,7 @@ function ImportExport({ onDone }: { onDone: (tab: string) => void }) {
   const [mode, setMode] = useState<ImportMode>("merge");
   const [text, setText] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
+  const confirm = useConfirm();
 
   const parsed = useMemo(() => {
     if (!text.trim()) return null;
@@ -490,9 +500,18 @@ function ImportExport({ onDone }: { onDone: (tab: string) => void }) {
     return { count: r.records.length, warnings: r.warnings, promos: [] as PromoRecord[], monthly: r.records, headers: Object.keys(objs[0] ?? {}) };
   }, [text, target]);
 
-  const doImport = () => {
+  const doImport = async () => {
     if (!parsed?.count) return;
-    if (mode === "replace" && !confirm(`Replace all existing ${target === "promos" ? "promos" : "monthly totals"} with these ${parsed.count} rows?`)) return;
+    if (
+      mode === "replace" &&
+      !(await confirm({
+        title: `Replace all ${target === "promos" ? "promos" : "monthly totals"}?`,
+        description: `Everything currently there is replaced by these ${parsed.count} rows.`,
+        confirmLabel: "Replace",
+        destructive: true,
+      }))
+    )
+      return;
     if (target === "promos") importPromos(parsed.promos, mode);
     else importMonthly(parsed.monthly, mode);
     toast.success(`Imported ${parsed.count} ${target === "promos" ? "promo" : "month"}${parsed.count === 1 ? "" : "s"}`);
@@ -505,7 +524,13 @@ function ImportExport({ onDone }: { onDone: (tab: string) => void }) {
     if (/\.json$/i.test(file.name) || content.trim().startsWith("{") || content.trim().startsWith("[")) {
       try {
         const { dataset: d, warnings } = normalizeDataset(JSON.parse(content));
-        if (!confirm(`Restore ${d.promos.length} promos and ${d.monthly.length} months from ${file.name}? This replaces the current data.`)) return;
+        const ok = await confirm({
+          title: `Restore ${d.promos.length} promos and ${d.monthly.length} months?`,
+          description: `From ${file.name}. This replaces the current data.`,
+          confirmLabel: "Restore",
+          destructive: true,
+        });
+        if (!ok) return;
         importPromos(d.promos, "replace");
         importMonthly(d.monthly, "replace");
         toast.success(`Restored ${d.promos.length} promos`, { description: warnings.slice(0, 3).join(" ") || undefined });
@@ -588,7 +613,7 @@ function ImportExport({ onDone }: { onDone: (tab: string) => void }) {
                 </table>
               </div>
             )}
-            <Button className="mt-3" onClick={doImport} disabled={!parsed.count || !editable}>
+            <Button className="mt-3" onClick={() => void doImport()} disabled={!parsed.count || !editable}>
               Import {parsed.count} row{parsed.count === 1 ? "" : "s"}
             </Button>
           </div>
@@ -640,8 +665,8 @@ function ImportExport({ onDone }: { onDone: (tab: string) => void }) {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => {
-                  if (confirm("Load the sample numbers? This replaces the current data.")) {
+                onClick={async () => {
+                  if (await confirm({ title: "Load the sample numbers?", description: "This replaces the current data.", confirmLabel: "Load sample", destructive: true })) {
                     loadSample();
                     toast.success("Sample data loaded");
                   }
@@ -652,8 +677,15 @@ function ImportExport({ onDone }: { onDone: (tab: string) => void }) {
               <Button
                 variant="destructive"
                 size="sm"
-                onClick={() => {
-                  if (confirm("Delete ALL promos and monthly totals from this browser? Export a backup first if you need one.")) {
+                onClick={async () => {
+                  if (
+                    await confirm({
+                      title: "Delete all promos and monthly totals?",
+                      description: "This clears everything saved in this browser. Export a backup first if you need one.",
+                      confirmLabel: "Delete everything",
+                      destructive: true,
+                    })
+                  ) {
                     clearAll();
                     toast.success("All data cleared");
                   }

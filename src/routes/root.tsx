@@ -2,6 +2,7 @@ import { Link, Outlet } from "@tanstack/react-router";
 import { Toaster } from "sonner";
 import { FlaskConical } from "lucide-react";
 import { AppHeader } from "@/components/report/AppHeader";
+import { ConfirmProvider } from "@/components/report/Confirm";
 import { DataProvider, useData } from "@/lib/store";
 import { ThemeProvider, useTheme } from "@/lib/theme";
 
@@ -54,17 +55,19 @@ export function RootLayout() {
   return (
     <ThemeProvider>
       <DataProvider>
-        <div className="flex min-h-screen flex-col">
-          <AppHeader />
-          <SampleBanner />
-          <div className="flex-1">
-            <Outlet />
+        <ConfirmProvider>
+          <div className="flex min-h-screen flex-col">
+            <AppHeader />
+            <SampleBanner />
+            <div className="flex-1">
+              <Outlet />
+            </div>
+            <footer className="no-print border-t border-border px-4 py-5 text-center text-xs text-muted-foreground lg:px-8">
+              SPRIBE Promo Performance Report · internal tool · numbers stay in your browser unless a data source is connected
+            </footer>
+            <AppToaster />
           </div>
-          <footer className="no-print border-t border-border px-4 py-5 text-center text-xs text-muted-foreground lg:px-8">
-            SPRIBE Promo Performance Report · internal tool · numbers stay in your browser unless a data source is connected
-          </footer>
-          <AppToaster />
-        </div>
+        </ConfirmProvider>
       </DataProvider>
     </ThemeProvider>
   );
