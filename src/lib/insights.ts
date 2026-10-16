@@ -137,7 +137,7 @@ export function buildInsights(list: PromoMetrics[], allPromos: PromoRecord[], op
           severity: 2,
           tone: "warn",
           category: "Cost",
-          title: `High reward cost per player in ${m.promo.name}`,
+          title: `High promo contribution per player in ${m.promo.name}`,
           metric: `${money(m.costPerParticipant, cur)} per participant`,
           basis: `Typical promo: ${money(med, cur)} (median of ${withCpp.length}); flagged above 2.5×`,
           link: { kind: "promo", id: m.promo.id, tab: "financials" },

@@ -17,7 +17,7 @@ import { useData } from "@/lib/store";
 import { useView, selectPeriod } from "@/lib/view";
 import { aggregate, monthRows, type PromoMetrics } from "@/lib/metrics";
 import { monthLabel, monthRange, prevMonth } from "@/lib/dates";
-import { money, moneyFull, numCompact, pct } from "@/lib/format";
+import { money, moneyFull, multiple, numCompact, pct } from "@/lib/format";
 import { buildInsights, topInsights } from "@/lib/insights";
 import { executiveSummary } from "@/lib/reports";
 import { resultsCsv } from "@/lib/export";
@@ -143,10 +143,10 @@ export function OverviewPage() {
               />
               <StatCard
                 icon={Coins}
-                label="Reward cost"
+                label="Promo contribution"
                 value={agg.withCost ? money(agg.cost, cur) : "—"}
-                hint={agg.withCost ? (agg.roi != null ? `extra GGR ${agg.netImpact + agg.cost >= 0 ? "+" : ""}${money(agg.netImpact + agg.cost, cur)}` : "rewards paid") : "not reported yet"}
-                info={`Rewards paid (prize pools, free bets, cashback), converted to ${cur} with the rates in Settings.`}
+                hint={agg.withCost ? (agg.roi != null ? `Promo ROI ${multiple(agg.roi + 1)} · extra GGR ${agg.netImpact + agg.cost >= 0 ? "+" : ""}${money(agg.netImpact + agg.cost, cur)}` : "prize fund / rewards paid") : "not reported yet"}
+                info={`Prize fund contributed to the promos (prize pools, free bets, cashback), converted to ${cur} with the rates in Settings. Promo ROI (x) = extra GGR ÷ promo contribution.`}
               />
             </div>
 

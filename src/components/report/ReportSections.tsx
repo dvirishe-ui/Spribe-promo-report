@@ -455,10 +455,16 @@ export function FinancialsTab({ m, currency, fxNote, all }: { m: PromoMetrics; c
     <div className="space-y-4">
       <NotFinal m={m} />
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <Metric label="Promo cost" value={money(p.prizePool, currency)} hint={m.costPerParticipant != null ? `${money(m.costPerParticipant, currency)} per participant` : "rewards paid"} />
+        <Metric label="Promo contribution" value={money(p.prizePool, currency)} hint={m.costPerParticipant != null ? `${money(m.costPerParticipant, currency)} per participant` : "prize fund / rewards paid"} />
         <Metric label="Extra GGR" value={moneySigned(extra, currency)} hint={`${moneySigned(m.incrementalGgr, currency)} during · ${moneySigned(m.haloGgr, currency)} after`} />
-        <Metric label="Net impact" value={moneySigned(m.netImpact, currency)} hint="extra GGR − promo cost" />
-        <Metric label="Return on cost" value={m.roi == null ? "—" : multiple(m.roi)} hint="net impact ÷ promo cost" />
+        <Metric label="Net impact" value={moneySigned(m.netImpact, currency)} hint="extra GGR − promo contribution" />
+        <Metric label="Promo ROI (x)" value={multiple(m.promoRoi)} hint="extra GGR ÷ promo contribution · 1.0× = break-even" />
+      </div>
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <Metric label="Total wager" value={money(m.turnoverDuring, currency)} hint="wagered during the promo" />
+        <Metric label="RTP" value={m.rtp == null ? "—" : `${(m.rtp * 100).toFixed(2)}%${m.rtpReported ? " *" : ""}`} hint={m.rtpReported ? "* reported by the Back Office" : "(total wager − GGR during) ÷ total wager"} />
+        <Metric label="Part. rate" value={m.participationRate == null ? "—" : `${pctPlain(m.participationRate, 1)}${m.participationReported ? " *" : ""}`} hint={m.participationReported ? "* reported by the Back Office" : "participants ÷ active players during"} />
+        <Metric label="During vs before" value={pct(m.duringVsBefore)} hint={`after vs before ${pct(m.afterVsBefore)} · observed`} />
       </div>
 
       <Card title="Before, during and after" subtitle={`Totals per period, in ${currency}. % changes are per day.`}>
@@ -529,7 +535,7 @@ export function FinancialsTab({ m, currency, fxNote, all }: { m: PromoMetrics; c
                 {[
                   { l: "GGR change vs baseline", mine: m.primaryChange, p: peerMed((x) => x.primaryChange), f: (v: number | null) => pct(v) },
                   { l: "Cost per participant", mine: m.costPerParticipant, p: peerMed((x) => x.costPerParticipant), f: (v: number | null) => money(v, currency) },
-                  { l: "Return on rewards", mine: m.roi == null ? null : m.roi + 1, p: peerMed((x) => (x.roi == null ? null : x.roi + 1)), f: (v: number | null) => (v == null ? "—" : multiple(v)) },
+                  { l: "Promo ROI (x)", mine: m.promoRoi, p: peerMed((x) => x.promoRoi), f: (v: number | null) => (v == null ? "—" : multiple(v)) },
                   { l: "GGR margin during", mine: m.marginDuring, p: peerMed((x) => x.marginDuring), f: (v: number | null) => (v == null ? "—" : `${(v * 100).toFixed(2)}%`) },
                 ].map((r) => (
                   <tr key={r.l}>
@@ -603,8 +609,8 @@ export function summaryLines(m: PromoMetrics, cur: string): string[] {
   } else if (m.promo.prizePool && m.netImpact != null) {
     out.push(
       m.netImpact >= 0
-        ? `Extra GGR covered the ${money(m.promo.prizePool, cur)} promo cost, leaving ${money(m.netImpact, cur)}.`
-        : `Extra GGR didn't cover the ${money(m.promo.prizePool, cur)} promo cost (${moneySigned(m.netImpact, cur)}).`,
+        ? `Extra GGR covered the ${money(m.promo.prizePool, cur)} promo contribution, leaving ${money(m.netImpact, cur)}.`
+        : `Extra GGR didn't cover the ${money(m.promo.prizePool, cur)} promo contribution (${moneySigned(m.netImpact, cur)}).`,
     );
   }
   return out;

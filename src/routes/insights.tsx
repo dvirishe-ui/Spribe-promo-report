@@ -153,12 +153,14 @@ function Compare({ all, initial, currency }: { all: PromoMetrics[]; initial: str
     { label: "GGR change vs baseline", get: (m) => <ChangePill value={m.primaryChange} adjusted={m.isAdjusted} /> },
     { label: "After it ended", get: (m) => pct(m.afterVsBefore) },
     { label: "Players took part", get: (m) => num(m.participants) },
-    { label: "Participation", get: (m) => pctPlain(m.participationRate) },
+    { label: "Part. rate", get: (m) => pctPlain(m.participationRate, 1) },
     { label: "Came back after", get: (m) => pctPlain(m.retentionRate) },
     { label: "Mission completion", get: (m) => pctPlain(m.missionDays?.overallRate ?? m.missions?.completionRate ?? null) },
-    { label: "Reward cost", get: (m) => money(m.promo.prizePool, currency) },
+    { label: "Promo contribution", get: (m) => money(m.promo.prizePool, currency) },
     { label: "Cost per participant", get: (m) => money(m.costPerParticipant, currency) },
-    { label: "Return on rewards", get: (m) => (m.roi == null ? "—" : multiple(m.roi + 1)) },
+    { label: "Promo ROI (x)", get: (m) => multiple(m.promoRoi) },
+    { label: "Total wager", get: (m) => money(m.turnoverDuring, currency) },
+    { label: "RTP", get: (m) => pctPlain(m.rtp, 2) },
   ];
   return (
     <div className="grid gap-4 lg:grid-cols-[300px_1fr]">
@@ -234,8 +236,8 @@ const RANK_METRICS = {
   retention: { label: "Retention", hint: "participants who played again after", get: (m: PromoMetrics) => m.retentionRate, fmt: (v: number) => pctPlain(v) },
   efficiency: {
     label: "Cost efficiency",
-    hint: "extra GGR per 1 of reward cost",
-    get: (m: PromoMetrics) => (m.roi == null ? null : m.roi + 1),
+    hint: "extra GGR per 1 of promo contribution",
+    get: (m: PromoMetrics) => m.promoRoi,
     fmt: (v: number) => multiple(v),
   },
 } as const;
@@ -589,7 +591,7 @@ function Library({ all, currency }: { all: PromoMetrics[]; currency: string }) {
               <div>
                 <dt className="text-muted-foreground">{m.missionDays || m.missions ? "Completion" : "Return"}</dt>
                 <dd className="font-semibold tabular">
-                  {m.missionDays || m.missions ? pctPlain(m.missionDays?.overallRate ?? m.missions?.completionRate ?? null) : m.roi == null ? "—" : multiple(m.roi + 1)}
+                  {m.missionDays || m.missions ? pctPlain(m.missionDays?.overallRate ?? m.missions?.completionRate ?? null) : multiple(m.promoRoi)}
                 </dd>
               </div>
             </dl>

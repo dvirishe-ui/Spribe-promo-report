@@ -81,7 +81,7 @@ export interface PromoRecord {
   /** GGR in the window after the promo ended */
   ggrAfter: number | null;
 
-  /** Prize pool / promo cost, used for net impact and ROI */
+  /** Promo contribution: prize fund / rewards paid for the promo. Used for net impact and Promo ROI (x) */
   prizePool: number | null;
 
   /** Optional unique active players per window (everyone playing, not only promo participants) */
@@ -106,7 +106,7 @@ export interface PromoRecord {
   /** Bets placed by participants during the promo (engagement) */
   betsDuring?: number | null;
 
-  /** Amount wagered (turnover) in the same before / during / after windows */
+  /** Amount wagered (turnover) in the same before / during / after windows. turnoverDuring = "Total Wager" */
   turnoverBefore?: number | null;
   turnoverDuring?: number | null;
   turnoverAfter?: number | null;
@@ -129,6 +129,14 @@ export interface PromoRecord {
   gameGgr?: GameShare[];
   /** Leaderboard / tournament promos: winners and prizes per rank band */
   leaderboard?: RankBand[];
+
+  /**
+   * Rates as reported by the Back Office (fractions, 0.965 = 96.5%). Only used
+   * when the site can't calculate them itself: RTP needs total wager and GGR
+   * during; participation rate needs participants and active players.
+   */
+  reportedRtp?: number | null;
+  reportedParticipationRate?: number | null;
 
   /** Id of the Promo Calendar network campaign this promo belongs to (e.g. "spribe-adventure-2026") */
   calendarId?: string;

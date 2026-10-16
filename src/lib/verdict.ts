@@ -73,7 +73,7 @@ export function outcomeFor(m: PromoMetrics, currency: string): Outcome {
       headline: m.isAdjusted ? `It worked: GGR ${pct(c)} from the promo itself` : `GGR went up ${pctPlain(c, 1)} during the promo`,
       sub:
         payback != null
-          ? `Every ${money(1, currency)} of rewards brought back ${moneyCents(payback, currency)} in extra GGR${caveat}.`
+          ? `Every ${money(1, currency)} of promo contribution brought back ${moneyCents(payback, currency)} in extra GGR${caveat}.`
           : `Compared with the ${m.windowDays} days before${caveat}.`,
     };
     if (m.afterVsBefore != null && m.afterVsBefore >= FLAT) steps.push(`The lift lasted after it ended (${pct(m.afterVsBefore)}) — a strong candidate to run again.`);
@@ -85,7 +85,7 @@ export function outcomeFor(m: PromoMetrics, currency: string): Outcome {
       headline: `GGR went up ${pctPlain(c, 1)}, but the promo didn't pay back its cost`,
       sub: `It brought ${money(extra, currency)} extra GGR on a ${money(cost, currency)} cost${caveat}.`,
     };
-    steps.push(`To break even at this lift, the reward cost would need to be under ${money(Math.max(0, extra ?? 0), currency)}.`);
+    steps.push(`To break even at this lift, the promo contribution would need to be under ${money(Math.max(0, extra ?? 0), currency)}.`);
   } else if (Math.abs(c) < FLAT) {
     out = {
       tone: "neutral",

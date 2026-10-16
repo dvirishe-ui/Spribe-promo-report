@@ -53,10 +53,10 @@ export function ResultHero({ m, currency, showNextSteps = true }: { m: PromoMetr
         />
         {payback != null ? (
           <BigNumber
-            label="Return on rewards"
+            label="Promo ROI (x)"
             value={multiple(payback)}
             tone={payback >= 1 ? "good" : "bad"}
-            sub={`${moneySigned(extra, currency)} extra GGR on ${money(cost, currency)} rewards`}
+            sub={`${moneySigned(extra, currency)} extra GGR on ${money(cost, currency)} contribution`}
           />
         ) : (
           <BigNumber

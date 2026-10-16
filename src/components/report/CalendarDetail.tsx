@@ -188,7 +188,7 @@ function PromoResult({ m, cur }: { m: PromoMetrics; cur: string }) {
       <div className="grid grid-cols-3 gap-2">
         <Fact label="GGR vs before" value={<ChangePill value={m.primaryChange} adjusted={m.isAdjusted} />} />
         <Fact label="Players took part" value={num(m.participants)} />
-        <Fact label="Reward cost" value={money(m.promo.prizePool, cur)} />
+        <Fact label="Promo contribution" value={money(m.promo.prizePool, cur)} />
       </div>
       {md && (
         <p className="text-xs text-muted-foreground">

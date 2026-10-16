@@ -23,7 +23,7 @@ export function executiveSummary(list: PromoMetrics[], period: string, insights:
     `${list.length} promotions: ${parts.map((p) => p.text).join(", ")}.`,
     line(a.duringVsBefore != null && `GGR vs baseline: ${pct(a.duringVsBefore)} (observed, during vs before)${a.adjustedCount ? `; ${pct(a.adjustedChange)} with market trend removed for ${a.adjustedCount} promos` : ""}.`),
     line(a.withParticipants > 0 && `Players took part: ${num(a.participants)} across ${a.withParticipants} promos.`),
-    line(a.withCost > 0 && `Reward cost: ${money(a.cost, cur)}; extra GGR over baseline: ${moneySigned(a.netImpact + a.cost, cur)}.`),
+    line(a.withCost > 0 && `Promo contribution: ${money(a.cost, cur)}; extra GGR over baseline: ${moneySigned(a.netImpact + a.cost, cur)}.`),
     "",
     "What you need to know:",
     ...insights.slice(0, 3).map((i) => `• ${i.title} — ${i.metric} (${i.basis})`),
@@ -56,7 +56,8 @@ export function engagementReport(m: PromoMetrics, cur: string): string {
   }
   if (m.missions) lines.push("", `Progression: ${m.missions.steps.map((s) => `${s.name} ${num(s.reached)}`).join(" → ")} (${pctPlain(m.missions.completionRate)} completed).`);
   if (m.leaderboard) lines.push("", `Rankings: ${num(m.leaderboard.winners)} winners, ${money(m.leaderboard.totalPrize, cur)} paid.`);
-  if (p.prizePool != null) lines.push("", `Reward cost ${money(p.prizePool, cur)}${m.costPerParticipant != null ? ` (${money(m.costPerParticipant, cur)} per participant)` : ""}; net impact ${moneySigned(m.netImpact, cur)}.`);
+  if (p.prizePool != null) lines.push("", `Promo contribution ${money(p.prizePool, cur)}${m.costPerParticipant != null ? ` (${money(m.costPerParticipant, cur)} per participant)` : ""}; net impact ${moneySigned(m.netImpact, cur)}; Promo ROI ${m.promoRoi == null ? "—" : `${m.promoRoi.toFixed(1)}x`}.`);
+  if (m.turnoverDuring != null || m.rtp != null) lines.push(`Total wager ${money(m.turnoverDuring, cur)}; RTP ${m.rtp == null ? "—" : `${(m.rtp * 100).toFixed(2)}%`}.`);
   if (m.quality.missing.length) lines.push("", `Missing data: ${m.quality.missing.join(", ")}.`);
   lines.push("", "Next steps:", ...o.nextSteps.map((s) => `• ${s}`));
   return lines.join("\n");

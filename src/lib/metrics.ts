@@ -50,6 +50,8 @@ export interface PromoMetrics {
   netImpact: number | null;
   /** netImpact / prize pool */
   roi: number | null;
+  /** Promo ROI (x): extra GGR (during + after) ÷ promo contribution. 1.0× = break-even */
+  promoRoi: number | null;
 
   /** Indexed to before = 100 */
   index: { before: number; during: number | null; after: number | null } | null;
@@ -67,8 +69,9 @@ export interface PromoMetrics {
   isAdjusted: boolean;
 
   participants: number | null;
-  /** participants ÷ active players during */
+  /** Part. rate: participants ÷ active players during (or the BO-reported rate when that can't be calculated) */
   participationRate: number | null;
+  participationReported: boolean;
   /** new participants ÷ participants */
   newShare: number | null;
   /** participants active again after ÷ participants */
@@ -84,6 +87,9 @@ export interface PromoMetrics {
   /** GGR ÷ turnover per window (hold) */
   marginBefore: number | null;
   marginDuring: number | null;
+  /** RTP during the promo: (total wager − GGR during) ÷ total wager, or the BO-reported RTP */
+  rtp: number | null;
+  rtpReported: boolean;
 
   missions: MissionFunnel | null;
   leaderboard: LeaderboardSummary | null;
@@ -283,7 +289,7 @@ function qualityOf(p: PromoRecord, status: PromoStatus, ggrBefore: number | null
   if (ggrBefore == null) missing.push("GGR before");
   if (ggrDuring == null && status !== "live") missing.push("GGR during");
   if (ggrAfter == null && status === "complete") missing.push("GGR after");
-  if (p.prizePool == null) missing.push("reward cost");
+  if (p.prizePool == null) missing.push("promo contribution");
   if (p.participants == null) missing.push("participants");
   if (isMissionType(p.type) && !p.missions?.length && !p.missionDays?.length) missing.push("mission progress");
   if (isRankingType(p.type) && !p.leaderboard?.length) missing.push("ranking results");
@@ -397,6 +403,7 @@ export function computePromo(promo: PromoRecord, months?: Map<string, number | n
     haloGgr,
     netImpact,
     roi,
+    promoRoi: incrementalGgr != null && promo.prizePool && promo.prizePool > 0 ? (incrementalGgr + (haloGgr ?? 0)) / promo.prizePool : null,
     index,
     playersDuringVsBefore,
     playersAfterVsBefore,
@@ -405,7 +412,8 @@ export function computePromo(promo: PromoRecord, months?: Map<string, number | n
     primaryChange: adjustedChange ?? duringVsBefore,
     isAdjusted,
     participants,
-    participationRate: share(participants, promo.playersDuring),
+    participationRate: share(participants, promo.playersDuring) ?? promo.reportedParticipationRate ?? null,
+    participationReported: share(participants, promo.playersDuring) == null && promo.reportedParticipationRate != null,
     newShare: share(promo.newParticipants, participants),
     retentionRate: share(promo.retainedParticipants, participants),
     betsPerParticipant: share(promo.betsDuring, participants),
@@ -419,6 +427,8 @@ export function computePromo(promo: PromoRecord, months?: Map<string, number | n
     ),
     marginBefore: share(ggrBefore, turnoverBefore),
     marginDuring: share(ggrDuring, turnoverDuring),
+    rtp: ggrDuring != null && turnoverDuring ? 1 - ggrDuring / turnoverDuring : (promo.reportedRtp ?? null),
+    rtpReported: !(ggrDuring != null && turnoverDuring) && promo.reportedRtp != null,
     missions: missionFunnel(promo.missions),
     leaderboard: leaderboardSummary(promo.leaderboard, participants),
     eligiblePlayers: promo.eligiblePlayers ?? null,

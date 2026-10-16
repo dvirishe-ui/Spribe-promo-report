@@ -262,7 +262,7 @@ export function PromoEditor({
             {more && (
               <div className="mt-3 space-y-5">
                 <Group title="Cost and comparison">
-                  {moneyInput("prizePool", "Promo cost (rewards paid)", toNumber(draft.prizePool) != null ? `= ${moneyFull(toNumber(draft.prizePool), promoCurrency)}` : undefined)}
+                  {moneyInput("prizePool", "Promo contribution (prize fund / rewards paid)", toNumber(draft.prizePool) != null ? `= ${moneyFull(toNumber(draft.prizePool), promoCurrency)}` : undefined)}
                   {plainInput("windowDays", "Days to compare before/after", promoDays ? String(promoDays) : "same as promo")}
                 </Group>
                 <Group title="Players" hint="Totals only — never individual players.">
@@ -276,7 +276,7 @@ export function PromoEditor({
                 </Group>
                 <Group title="Turnover (amount wagered)">
                   {moneyInput("turnoverBefore", "Before")}
-                  {moneyInput("turnoverDuring", "During")}
+                  {moneyInput("turnoverDuring", "During (total wager)")}
                   {moneyInput("turnoverAfter", "After")}
                 </Group>
                 <Group title="Comparison group" hint="GGR of a similar group without the promo, same days. Lets the report remove the market trend.">

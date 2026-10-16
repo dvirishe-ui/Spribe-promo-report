@@ -21,11 +21,13 @@ export interface ViewState {
   filtersOpen: boolean;
   group: "none" | "market" | "aggregator" | "operator" | "type";
   sort: "newest" | "change" | "ggr" | "name";
+  /** Promotions page: cards or the full results table */
+  layout: "table" | "list";
 }
 
 const KEY = "spribe-report-view-v2";
 
-const DEFAULTS: ViewState = { filters: emptyFilters, mode: "month", month: null, from: "", to: "", filtersOpen: true, group: "none", sort: "newest" };
+const DEFAULTS: ViewState = { filters: emptyFilters, mode: "month", month: null, from: "", to: "", filtersOpen: true, group: "none", sort: "newest", layout: "table" };
 
 function load(): ViewState {
   try {

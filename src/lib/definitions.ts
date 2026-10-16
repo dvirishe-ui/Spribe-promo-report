@@ -56,12 +56,31 @@ export const METRICS: Definition[] = [
     meaning: "Players who took part in the promo, counted once. Summed across promos, so a player in two promos counts twice.",
   },
   {
-    term: "Promo cost",
-    meaning: "Rewards paid out (prize pool, free bets, cashback).",
+    term: "Promo Contribution",
+    meaning: "The prize fund contributed to the promo — rewards paid out (prize pool, free bets, cashback).",
   },
   {
-    term: "Net impact and ROI",
-    meaning: "Net impact = extra GGR during + extra GGR after − promo cost. ROI = net impact ÷ promo cost.",
+    term: "Promo ROI (x)",
+    meaning:
+      "Extra GGR (during + after, vs the before run-rate) ÷ promo contribution. 1.0× = break-even; 2.0× = every 1 contributed brought 2 of extra GGR. Totals = Σ extra GGR ÷ Σ contribution.",
+  },
+  {
+    term: "Net impact",
+    meaning: "Extra GGR during + extra GGR after − promo contribution.",
+  },
+  {
+    term: "Total Wager",
+    meaning: "Total amount wagered on the promo's games during the promo.",
+  },
+  {
+    term: "RTP",
+    meaning:
+      "Return to player during the promo = (total wager − GGR during) ÷ total wager. When the wager isn't available, the RTP reported by the Back Office is shown and marked *. Totals are recalculated from summed wager and GGR, not averaged.",
+  },
+  {
+    term: "Part. Rate (participation rate)",
+    meaning:
+      "Participants ÷ active players during the promo. When those counts aren't available, the rate reported by the Back Office is shown and marked *.",
   },
   {
     term: "Totals across promos",

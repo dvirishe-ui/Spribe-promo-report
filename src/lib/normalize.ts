@@ -75,6 +75,9 @@ const PROMO_ALIASES: Record<string, keyof PromoRecord> = {
   prizes: "prizePool",
   cost: "prizePool",
   promocost: "prizePool",
+  promocontribution: "prizePool",
+  contribution: "prizePool",
+  promofund: "prizePool",
   budget: "prizePool",
   playersbefore: "playersBefore",
   playersduring: "playersDuring",
@@ -94,6 +97,16 @@ const PROMO_ALIASES: Record<string, keyof PromoRecord> = {
   bets: "betsDuring",
   turnoverbefore: "turnoverBefore",
   turnoverduring: "turnoverDuring",
+  totalwager: "turnoverDuring",
+  totalwagered: "turnoverDuring",
+  wager: "turnoverDuring",
+  wagerduring: "turnoverDuring",
+  rtp: "reportedRtp",
+  rtpduring: "reportedRtp",
+  reportedrtp: "reportedRtp",
+  partrate: "reportedParticipationRate",
+  participationrate: "reportedParticipationRate",
+  reportedparticipationrate: "reportedParticipationRate",
   turnoverafter: "turnoverAfter",
   controlggrbefore: "controlGgrBefore",
   controlbefore: "controlGgrBefore",
@@ -231,6 +244,13 @@ function toMonth(v: unknown): string | null {
   if (my) return `${my[2]}-${my[1].padStart(2, "0")}`;
   const d = toIsoDate(v);
   return d ? d.slice(0, 7) : null;
+}
+
+/** "96.5%", "96.5" or "0.965" → 0.965. Values above 1.5 are read as percentages. */
+function toRate(v: unknown): number | null {
+  const n = toNumber(typeof v === "string" ? v.replace("%", "") : v);
+  if (n == null) return null;
+  return Math.abs(n) > 1.5 ? n / 100 : n;
 }
 
 function toText(v: unknown): string {
@@ -416,6 +436,8 @@ export function normalizePromos(rows: unknown[], fieldMap: Record<string, string
       playersDuring: toNumber(r.playersDuring),
       playersAfter: toNumber(r.playersAfter),
       eligiblePlayers: toNumber(r.eligiblePlayers),
+      reportedRtp: toRate(r.reportedRtp),
+      reportedParticipationRate: toRate(r.reportedParticipationRate),
       participants: toNumber(r.participants),
       newParticipants: toNumber(r.newParticipants),
       retainedParticipants: toNumber(r.retainedParticipants),

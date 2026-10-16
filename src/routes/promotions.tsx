@@ -3,6 +3,8 @@ import { BarChart3, Download, Inbox } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/report/bits";
 import { BeforeDuringAfter, PeriodVerdict, PromoList } from "@/components/report/PromoListing";
+import { ResultsTable } from "@/components/report/ResultsTable";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FilterLayout, defaultMonth, periodName } from "@/components/report/ViewControls";
 import { useData } from "@/lib/store";
 import { useView, selectPeriod } from "@/lib/view";
@@ -32,7 +34,7 @@ export function PromotionsPage() {
           <h1 className="font-display text-3xl font-bold sm:text-4xl">
             <span className="brand-gradient-text">Promotions</span>
           </h1>
-          <p className="mt-1.5 max-w-2xl text-sm text-muted-foreground">Every promotion in the period. Click one for its full report.</p>
+          <p className="mt-1.5 max-w-2xl text-sm text-muted-foreground">Every promotion in the period with its results. Click one for its full report.</p>
         </div>
         <Button variant="outline" onClick={() => downloadText(`spribe-promotions-${label.replace(/\W+/g, "-")}.csv`, resultsCsv(shown, cur))}>
           <Download className="size-4" /> CSV
@@ -60,6 +62,27 @@ export function PromotionsPage() {
                 <EmptyState icon={BarChart3} title="No promos match" />
               )}
             </section>
+            <div className={view.layout === "table" ? "flex flex-wrap items-center justify-between gap-3" : "-mb-2 flex justify-end"}>
+              {view.layout === "table" && (
+              <h3 className="font-display text-base font-semibold">
+                {list.length} promotion{list.length === 1 ? "" : "s"}
+                {outcome && (
+                  <button onClick={() => setPick(null)} className="ml-2 text-xs font-normal text-primary hover:underline">
+                    show all
+                  </button>
+                )}
+              </h3>
+              )}
+              <Tabs value={view.layout} onValueChange={(v) => set({ layout: v as "table" | "list" })}>
+                <TabsList>
+                  <TabsTrigger value="table">Table</TabsTrigger>
+                  <TabsTrigger value="list">List</TabsTrigger>
+                </TabsList>
+              </Tabs>
+            </div>
+            {view.layout === "table" ? (
+              <ResultsTable list={list} currency={cur} onSelect={openPromo} />
+            ) : (
             <PromoList
               list={list}
               outcome={outcome}
@@ -71,6 +94,7 @@ export function PromotionsPage() {
               onSort={(s) => set({ sort: s })}
               onSelect={openPromo}
             />
+            )}
           </>
         )}
       </FilterLayout>

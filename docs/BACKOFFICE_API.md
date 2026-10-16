@@ -36,7 +36,7 @@ Authorization: Bearer <token>        # optional — see "Auth" below
       "ggrBefore": 120000,              // GGR in the windowDays before startDate
       "ggrDuring": 151000,              // GGR from startDate to endDate
       "ggrAfter": 131000,               // GGR in the windowDays after endDate (null until that window has passed)
-      "prizePool": 15000,               // promo cost, for net impact / ROI
+      "prizePool": 15000,               // Promo Contribution (prize fund / rewards paid), for net impact and Promo ROI (x)
 
       "playersBefore": 8200,            // optional unique active players per window
       "playersDuring": 9900,
@@ -49,7 +49,7 @@ Authorization: Bearer <token>        # optional — see "Auth" below
       "retainedParticipants": 1150,     // participants who played again in the after window
       "betsDuring": 61000,              // bets by participants during the promo
       "turnoverBefore": 3400000,        // amount wagered, same windows as GGR
-      "turnoverDuring": 4450000,
+      "turnoverDuring": 4450000,         // Total Wager; with ggrDuring gives RTP
       "turnoverAfter": 3700000,
       "controlGgrBefore": 380000,       // comparison group (no promo), same before/during windows
       "controlGgrDuring": 392000,
@@ -183,3 +183,22 @@ promo record with `calendarId` set to the campaign's id. The calendar then
 shows one entry for the campaign with the combined result and a row per
 operator. Once both sites read from the Back Office, the campaign list should
 come from the same feed, for example a `campaigns` array next to `promos`.
+
+## Report columns
+
+The Promotions results table and its CSV use these columns, in this order.
+Spreadsheet imports accept the same headers (plus start and end dates, which
+are required).
+
+| Column | Source / formula |
+| --- | --- |
+| Promotion, Aggregator, Operator, Type | `name`, `aggregator`, `operator`, `type` |
+| Promo Contribution | `prizePool` (header aliases: "Promo Contribution", "Contribution") |
+| GGR Before / During / After | `ggrBefore`, `ggrDuring`, `ggrAfter` |
+| During vs Before, After vs Before | Calculated: GGR per day vs per day before (observed) |
+| Total Wager | `turnoverDuring` (aliases: "Total Wager", "Wager") |
+| Part. Rate | Calculated: `participants ÷ playersDuring`; otherwise `reportedParticipationRate` (alias "Part. Rate"), marked * |
+| RTP | Calculated: `(turnoverDuring − ggrDuring) ÷ turnoverDuring`; otherwise `reportedRtp` (alias "RTP"), marked * |
+| Promo ROI (x) | Calculated: extra GGR (during + after vs the before run-rate) ÷ Promo Contribution |
+
+Rates can be sent as `0.965`, `96.5` or `"96.5%"`.
