@@ -1,0 +1,217 @@
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { computeAll, type PromoMetrics } from "./metrics";
+import { newId } from "./normalize";
+import { sampleDataset } from "./sampleData";
+import { DEFAULT_CONFIG, fetchRemote, type SourceConfig } from "./sources";
+import type { Dataset, MonthlyRecord, PromoRecord } from "./types";
+
+const DATA_KEY = "spribe-report-data-v1";
+const CONFIG_KEY = "spribe-report-source-v1";
+const REMOTE_CACHE_KEY = "spribe-report-remote-cache-v1";
+
+function read<T>(key: string): T | null {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? (JSON.parse(raw) as T) : null;
+  } catch {
+    return null;
+  }
+}
+
+function write(key: string, value: unknown) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch {
+    // storage full or blocked — the in-memory state still works for this visit
+  }
+}
+
+function loadManual(): Dataset {
+  const stored = read<Dataset>(DATA_KEY);
+  if (stored && Array.isArray(stored.promos) && Array.isArray(stored.monthly)) {
+    return { ...stored, currency: stored.currency || "EUR" };
+  }
+  return sampleDataset();
+}
+
+function loadConfig(): SourceConfig {
+  return { ...DEFAULT_CONFIG, ...(read<Partial<SourceConfig>>(CONFIG_KEY) ?? {}) };
+}
+
+export type SyncStatus = "idle" | "loading" | "ready" | "error";
+export type ImportMode = "merge" | "replace";
+
+interface DataContextValue {
+  dataset: Dataset;
+  metrics: PromoMetrics[];
+  /** true while any of the built-in sample promos are still loaded */
+  hasSample: boolean;
+  config: SourceConfig;
+  setConfig: (c: SourceConfig) => void;
+  status: SyncStatus;
+  error: string | null;
+  warnings: string[];
+  lastSynced: string | null;
+  refresh: () => Promise<void>;
+  /** Only the manual source can be edited from the site; remote sources are read-only mirrors. */
+  editable: boolean;
+
+  savePromo: (p: PromoRecord) => void;
+  deletePromo: (id: string) => void;
+  duplicatePromo: (id: string) => string | null;
+  importPromos: (list: PromoRecord[], mode: ImportMode) => void;
+  saveMonthly: (m: MonthlyRecord, previousMonth?: string) => void;
+  deleteMonthly: (month: string) => void;
+  importMonthly: (list: MonthlyRecord[], mode: ImportMode) => void;
+  setCurrency: (c: string) => void;
+  loadSample: () => void;
+  removeSample: () => void;
+  clearAll: () => void;
+  copyRemoteToManual: () => void;
+}
+
+const DataContext = createContext<DataContextValue | null>(null);
+
+export function DataProvider({ children }: { children: ReactNode }) {
+  const [config, setConfigState] = useState<SourceConfig>(loadConfig);
+  const [manual, setManual] = useState<Dataset>(loadManual);
+  const [remote, setRemote] = useState<Dataset | null>(() => read<Dataset>(REMOTE_CACHE_KEY));
+  const [status, setStatus] = useState<SyncStatus>("idle");
+  const [error, setError] = useState<string | null>(null);
+  const [warnings, setWarnings] = useState<string[]>([]);
+  const [lastSynced, setLastSynced] = useState<string | null>(() => remote?.generatedAt ?? null);
+  const requestId = useRef(0);
+
+  const isRemote = config.kind !== "manual";
+
+  const updateManual = useCallback((fn: (d: Dataset) => Dataset) => {
+    setManual((prev) => {
+      const next = fn(prev);
+      write(DATA_KEY, next);
+      return next;
+    });
+  }, []);
+
+  const setConfig = useCallback((c: SourceConfig) => {
+    setConfigState(c);
+    write(CONFIG_KEY, c);
+  }, []);
+
+  const refresh = useCallback(async () => {
+    if (config.kind === "manual") {
+      setStatus("ready");
+      setError(null);
+      setWarnings([]);
+      return;
+    }
+    const id = ++requestId.current;
+    setStatus("loading");
+    try {
+      const { dataset, warnings } = await fetchRemote(config, manual.currency);
+      if (id !== requestId.current) return;
+      setRemote(dataset);
+      write(REMOTE_CACHE_KEY, dataset);
+      setWarnings(warnings);
+      setError(null);
+      setStatus("ready");
+      setLastSynced(new Date().toISOString());
+    } catch (e) {
+      if (id !== requestId.current) return;
+      setError(e instanceof Error ? e.message : String(e));
+      setStatus("error");
+    }
+    // manual.currency is intentionally not a dependency: changing display currency shouldn't refetch.
+  }, [config]);
+
+  useEffect(() => {
+    void refresh();
+  }, [refresh]);
+
+  useEffect(() => {
+    if (!isRemote || !config.refreshMinutes) return;
+    const t = setInterval(() => void refresh(), config.refreshMinutes * 60_000);
+    return () => clearInterval(t);
+  }, [isRemote, config.refreshMinutes, refresh]);
+
+  const dataset: Dataset = useMemo(() => {
+    if (!isRemote) return manual;
+    return remote ? { ...remote, currency: remote.currency || manual.currency } : { promos: [], monthly: [], currency: manual.currency };
+  }, [isRemote, manual, remote]);
+
+  const metrics = useMemo(() => computeAll(dataset), [dataset]);
+  const hasSample = dataset.promos.some((p) => p.id.startsWith("sample-"));
+
+  const value: DataContextValue = {
+    dataset,
+    metrics,
+    hasSample,
+    config,
+    setConfig,
+    status,
+    error,
+    warnings,
+    lastSynced,
+    refresh,
+    editable: !isRemote,
+
+    savePromo: (p) =>
+      updateManual((d) => {
+        const exists = d.promos.some((x) => x.id === p.id);
+        return { ...d, promos: exists ? d.promos.map((x) => (x.id === p.id ? p : x)) : [...d.promos, p] };
+      }),
+    deletePromo: (id) => updateManual((d) => ({ ...d, promos: d.promos.filter((p) => p.id !== id) })),
+    duplicatePromo: (id) => {
+      const src = manual.promos.find((p) => p.id === id);
+      if (!src) return null;
+      const copy: PromoRecord = { ...src, id: newId(), name: `${src.name} (copy)` };
+      updateManual((d) => {
+        const i = d.promos.findIndex((p) => p.id === id);
+        const promos = [...d.promos];
+        promos.splice(i + 1, 0, copy);
+        return { ...d, promos };
+      });
+      return copy.id;
+    },
+    importPromos: (list, mode) =>
+      updateManual((d) => {
+        if (mode === "replace") return { ...d, promos: list };
+        const byId = new Map(d.promos.map((p) => [p.id, p]));
+        for (const p of list) byId.set(p.id, p);
+        return { ...d, promos: [...byId.values()] };
+      }),
+    saveMonthly: (m, previousMonth) =>
+      updateManual((d) => {
+        const rest = d.monthly.filter((x) => x.month !== m.month && x.month !== previousMonth);
+        return { ...d, monthly: [...rest, m].sort((a, b) => a.month.localeCompare(b.month)) };
+      }),
+    deleteMonthly: (month) => updateManual((d) => ({ ...d, monthly: d.monthly.filter((m) => m.month !== month) })),
+    importMonthly: (list, mode) =>
+      updateManual((d) => {
+        const map = new Map((mode === "replace" ? [] : d.monthly).map((m) => [m.month, m]));
+        for (const m of list) map.set(m.month, m);
+        return { ...d, monthly: [...map.values()].sort((a, b) => a.month.localeCompare(b.month)) };
+      }),
+    setCurrency: (c) => updateManual((d) => ({ ...d, currency: c })),
+    loadSample: () => updateManual((d) => ({ ...sampleDataset(), currency: d.currency })),
+    removeSample: () =>
+      updateManual((d) => {
+        // Drop sample months only where the number is still the untouched sample value.
+        const sample = new Map(sampleDataset().monthly.map((m) => [m.month, m.ggr]));
+        const monthly = d.monthly.filter((m) => sample.get(m.month) !== m.ggr);
+        return { ...d, isSample: false, promos: d.promos.filter((p) => !p.id.startsWith("sample-")), monthly };
+      }),
+    clearAll: () => updateManual((d) => ({ promos: [], monthly: [], currency: d.currency, isSample: false })),
+    copyRemoteToManual: () => {
+      if (!remote) return;
+      updateManual(() => ({ ...remote, isSample: false }));
+    },
+  };
+
+  return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
+}
+
+export function useData() {
+  const ctx = useContext(DataContext);
+  if (!ctx) throw new Error("useData must be used within DataProvider");
+  return ctx;
+}

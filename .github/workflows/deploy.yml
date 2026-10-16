@@ -1,0 +1,48 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+        env:
+          # Set these under Settings → Secrets and variables → Actions → Variables
+          VITE_DATA_SOURCE: ${{ vars.VITE_DATA_SOURCE }}
+          VITE_BACKOFFICE_URL: ${{ vars.VITE_BACKOFFICE_URL }}
+          VITE_SHEET_PROMOS_URL: ${{ vars.VITE_SHEET_PROMOS_URL }}
+          VITE_SHEET_MONTHLY_URL: ${{ vars.VITE_SHEET_MONTHLY_URL }}
+          VITE_REFRESH_MINUTES: ${{ vars.VITE_REFRESH_MINUTES }}
+          VITE_FIELD_MAP: ${{ vars.VITE_FIELD_MAP }}
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
