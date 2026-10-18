@@ -4,6 +4,7 @@ import { AlertTriangle, BookOpen, Check, Database, ListChecks, Loader2, Menu, Mo
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { LogoMark, Wordmark } from "./Logo";
 import { DefinitionsDialog } from "./DefinitionsDialog";
+import { AskPanel } from "./AskPanel";
 import { useTheme } from "@/lib/theme";
 import { useData } from "@/lib/store";
 import { useActions } from "@/lib/actions";
@@ -124,6 +125,7 @@ export function AppHeader() {
         </nav>
         <div className="flex shrink-0 items-center gap-2">
           <SyncIndicator />
+          <AskPanel />
           <button
             onClick={() => setOpen(true)}
             className="relative grid size-9 place-items-center rounded-md border border-border text-muted-foreground transition-colors hover:text-foreground md:flex md:w-auto md:gap-1.5 md:px-2.5"

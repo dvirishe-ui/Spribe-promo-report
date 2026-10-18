@@ -1,5 +1,5 @@
 import { formatDay } from "./dates";
-import { money, pct, pctPlain } from "./format";
+import { currencySymbol, money, pct, pctPlain } from "./format";
 import type { PromoMetrics } from "./metrics";
 
 /**
@@ -73,7 +73,7 @@ export function outcomeFor(m: PromoMetrics, currency: string): Outcome {
       headline: m.isAdjusted ? `It worked: GGR ${pct(c)} from the promo itself` : `GGR went up ${pctPlain(c, 1)} during the promo`,
       sub:
         payback != null
-          ? `Every ${money(1, currency)} of promo contribution brought back ${moneyCents(payback, currency)} in extra GGR${caveat}.`
+          ? `Every ${currencySymbol(currency)}1 of promo contribution brought back ${moneyCents(payback, currency)} in extra GGR${caveat}.`
           : `Compared with the ${m.windowDays} days before${caveat}.`,
     };
     if (m.afterVsBefore != null && m.afterVsBefore >= FLAT) steps.push(`The lift lasted after it ended (${pct(m.afterVsBefore)}) — a strong candidate to run again.`);
