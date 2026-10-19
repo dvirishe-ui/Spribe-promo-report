@@ -6,7 +6,6 @@ import { ExplorePage } from "@/routes/explore";
 import { CalendarPage } from "@/routes/calendar";
 import { DataPage } from "@/routes/data";
 import { NotFoundPage } from "@/routes/not-found";
-import { SharePage } from "@/routes/share";
 
 const rootRoute = createRootRoute({
   component: RootLayout,
@@ -63,7 +62,6 @@ const calendarRoute = createRoute({
   component: CalendarPage,
 });
 const dataRoute = createRoute({ getParentRoute: () => rootRoute, path: "/data", component: DataPage });
-const shareRoute = createRoute({ getParentRoute: () => rootRoute, path: "/share/$promoId", component: SharePage });
 
 const routeTree = rootRoute.addChildren([
   overviewRoute,
@@ -73,7 +71,6 @@ const routeTree = rootRoute.addChildren([
   insightsRoute,
   calendarRoute,
   dataRoute,
-  shareRoute,
 ]);
 
 export const router = createRouter({

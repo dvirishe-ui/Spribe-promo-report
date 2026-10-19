@@ -66,7 +66,7 @@ export function ExplorePage() {
               key={t.v}
               onClick={() => navigate({ to: "/explore", search: { tab: t.v === "promotions" ? undefined : t.v }, replace: true })}
               className={cn(
-                "h-6 whitespace-nowrap rounded px-2.5 text-xs transition-colors",
+                "press h-6 whitespace-nowrap rounded px-2.5 text-xs",
                 tab === t.v ? "bg-background font-medium text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground",
               )}
             >
@@ -113,7 +113,7 @@ function PromotionsTab({ shown, label, currency }: { shown: PromoMetrics[]; labe
     <button
       key={v}
       onClick={() => set({ layout: v })}
-      className={cn("h-6 rounded px-2 text-xs transition-colors", view.layout === v ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}
+      className={cn("press h-6 rounded px-2 text-xs", view.layout === v ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}
     >
       {text}
     </button>
@@ -152,10 +152,10 @@ function PromotionsTab({ shown, label, currency }: { shown: PromoMetrics[]; labe
         <PromoChartCard
           list={list}
           currency={currency}
-          metricKey={view.promoChartMetric}
-          onMetric={(k) => set({ promoChartMetric: k })}
+          metricKeys={view.promoCharts}
+          onMetrics={(k) => set({ promoCharts: k })}
           onSelect={openPromo}
-          triptych={(toolbar) => (
+          triptych={() => (
             <GgrTriptych
               list={list}
               currency={currency}
@@ -165,7 +165,6 @@ function PromotionsTab({ shown, label, currency }: { shown: PromoMetrics[]; labe
               onToggle={sel.toggle}
               onOpen={openPromo}
               limit={12}
-              toolbar={toolbar}
             />
           )}
         />

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate, useParams, useSearch } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { ArrowLeft, CalendarDays, GitCompareArrows, ClipboardCopy, Download, FileText, Pencil, Presentation, Printer } from "lucide-react";
+import { ArrowLeft, CalendarDays, GitCompareArrows, ClipboardCopy, Download, FileText, Pencil, Printer } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PromoEditor } from "@/components/report/PromoEditor";
@@ -87,11 +87,6 @@ export function PromoReportPage() {
         <div className="flex flex-wrap gap-2">
           <Button variant={sel.ids.includes(p.id) ? "default" : "outline"} size="sm" onClick={() => sel.toggle(p.id)}>
             <GitCompareArrows className="size-3.5" /> {sel.ids.includes(p.id) ? "In comparison" : "Add to compare"}
-          </Button>
-          <Button asChild size="sm">
-            <Link to="/share/$promoId" params={{ promoId: p.id }}>
-              <Presentation className="size-3.5" /> Partner view
-            </Link>
           </Button>
           <Button variant="outline" size="sm" onClick={copySummary}>
             <ClipboardCopy className="size-3.5" /> Copy summary

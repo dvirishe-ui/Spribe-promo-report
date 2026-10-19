@@ -37,7 +37,7 @@ function SelectContent({
       <SelectPrimitive.Content
         position={position}
         className={cn(
-          "relative z-50 max-h-96 min-w-[8rem] overflow-hidden rounded-md border border-border bg-popover text-popover-foreground shadow-panel",
+          "relative z-50 max-h-96 min-w-[8rem] origin-(--radix-select-content-transform-origin) overflow-hidden rounded-md border border-border bg-popover text-popover-foreground shadow-panel data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:duration-150 ease-(--ease-out-strong)",
           position === "popper" &&
             "data-[side=bottom]:translate-y-1 data-[side=top]:-translate-y-1",
           className,

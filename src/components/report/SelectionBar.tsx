@@ -40,7 +40,7 @@ export function SelectionBar() {
             disabled={list.length < 2}
             onClick={() => setOpen(true)}
             title={list.length < 2 ? "Select at least two promos" : undefined}
-            className="inline-flex shrink-0 items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground disabled:opacity-40"
+            className="press inline-flex shrink-0 items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground disabled:opacity-40"
           >
             <GitCompareArrows className="size-3.5" /> Compare
           </button>

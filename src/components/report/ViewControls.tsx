@@ -54,7 +54,7 @@ function PeriodControl({ month, hidePeriod }: { month: string; hidePeriod: boole
   const seg = (m: PeriodMode, label: string) => (
     <button
       onClick={() => set({ mode: m })}
-      className={cn("h-6 rounded px-2 text-xs transition-colors", view.mode === m ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}
+      className={cn("press h-6 rounded px-2 text-xs", view.mode === m ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}
     >
       {label}
     </button>

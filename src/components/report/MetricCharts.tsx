@@ -1,66 +1,42 @@
 import { useState, type ReactNode } from "react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { MonthColumns } from "@/components/charts/MonthColumns";
 import { linear, niceTicks, useWidth } from "@/components/charts/core";
 import { CHART_METRICS, formatMetric, formatTick, rollup, type ChartMetric } from "@/lib/rollup";
 import { monthLabel, prevMonth } from "@/lib/dates";
 import type { MonthRow, PromoMetrics } from "@/lib/metrics";
 import { cn } from "@/lib/utils";
+import { MetricChips } from "./MetricChips";
 
 const COLOR = "var(--series-before)";
 
-/** Compact dropdown for choosing which metric a chart shows. */
-export function MetricPicker({
-  value,
-  onChange,
-  options,
-  className,
-}: {
-  value: string;
-  onChange: (key: string) => void;
-  options: Array<{ key: string; label: string }>;
-  className?: string;
-}) {
-  return (
-    <Select value={value} onValueChange={onChange}>
-      <SelectTrigger aria-label="Choose a metric" className={cn("h-8 w-auto min-w-44 gap-2 bg-surface-raised text-xs", className)}>
-        <SelectValue />
-      </SelectTrigger>
-      <SelectContent>
-        {options.map((o) => (
-          <SelectItem key={o.key} value={o.key} className="text-xs">
-            {o.label}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
-  );
-}
+const OPTIONS = CHART_METRICS.map((m) => ({ key: m.key, label: m.label, hint: m.hint }));
 
-function ChartHeader({ title, sub, picker }: { title: ReactNode; sub: ReactNode; picker: ReactNode }) {
+function ChartHeader({ title, sub, picker }: { title: ReactNode; sub?: ReactNode; picker: ReactNode }) {
   return (
     <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
-      <div className="min-w-0 basis-full sm:basis-0 sm:flex-1">
+      <div className="min-w-0">
         <h3 className="text-sm font-semibold">{title}</h3>
-        <p className="mt-0.5 text-xs text-muted-foreground">{sub}</p>
+        {sub && <p className="mt-0.5 text-xs text-muted-foreground">{sub}</p>}
       </div>
       {picker}
     </div>
   );
 }
 
-/** "+3.5% vs August" for amounts; "+2.1 pts vs August" for rates and changes. */
-function vsPrevious(metric: ChartMetric, cur: number | null, prev: number | null, prevName: string): string {
-  if (cur == null || prev == null) return "";
-  if (metric.format === "money" || metric.format === "count") return prev > 0 ? `, ${formatMetric("change", cur / prev - 1, "")} vs ${prevName}` : "";
-  if (metric.format === "roi") return `, ${cur - prev >= 0 ? "+" : "−"}${Math.abs(cur - prev).toFixed(1)}× vs ${prevName}`;
+/** "+3.5% vs Aug" for amounts; "+2.1 pts vs Aug" for rates and changes. */
+function vsPrevious(metric: ChartMetric, cur: number | null, prev: number | null, prevName: string): string | null {
+  if (cur == null || prev == null) return null;
+  if (metric.format === "money" || metric.format === "count") return prev > 0 ? `${formatMetric("change", cur / prev - 1, "")} vs ${prevName}` : null;
+  if (metric.format === "roi") return `${cur - prev >= 0 ? "+" : "−"}${Math.abs(cur - prev).toFixed(1)}× vs ${prevName}`;
   const pts = (cur - prev) * 100;
-  return `, ${pts >= 0 ? "+" : "−"}${Math.abs(pts).toFixed(1)} pts vs ${prevName}`;
+  return `${pts >= 0 ? "+" : "−"}${Math.abs(pts).toFixed(1)} pts vs ${prevName}`;
 }
 
 /**
- * Overview trend: one chart, any metric, by the month promos started. Total
- * GGR comes from the monthly totals; everything else is rolled up from the
+ * Overview trend by the month promos started. Pick one or several metrics:
+ * each gets its own small chart (different units never share an axis), all
+ * on the same months, and hovering a month highlights it in every chart.
+ * Total GGR comes from the monthly totals; the rest is rolled up from the
  * promos in view (filters apply).
  */
 export function TrendCard({
@@ -68,68 +44,73 @@ export function TrendCard({
   promos,
   currency,
   highlight,
-  metricKey,
-  onMetric,
+  metricKeys,
+  onMetrics,
   onSelectMonth,
 }: {
   rows: MonthRow[];
   promos: PromoMetrics[];
   currency: string;
   highlight: string | null;
-  metricKey: string;
-  onMetric: (key: string) => void;
+  metricKeys: string[];
+  onMetrics: (keys: string[]) => void;
   onSelectMonth: (month: string) => void;
 }) {
-  const metric = CHART_METRICS.find((x) => x.key === metricKey) ?? CHART_METRICS[0];
+  const [hover, setHover] = useState<string | null>(null);
+  const metrics = metricKeys.map((k) => CHART_METRICS.find((x) => x.key === k)).filter((m): m is ChartMetric => !!m);
+  const chosen = metrics.length ? metrics : [CHART_METRICS[0]];
   const byMonth = new Map<string, PromoMetrics[]>();
   for (const p of promos) byMonth.set(p.month, [...(byMonth.get(p.month) ?? []), p]);
-  const data = rows.map((r) => {
-    const list = byMonth.get(r.month) ?? [];
-    const value = metric.key === "monthGgr" ? r.ggr : list.length ? rollup(list)[metric.key] : null;
-    return {
-      month: r.month,
-      value: value ?? null,
-      extra: [{ label: "Promos started", value: String(list.length) }],
-    };
-  });
-  const focus = data.find((d) => d.month === highlight) ?? [...data].reverse().find((d) => d.value != null);
-  const prev = focus ? data.find((d) => d.month === prevMonth(focus.month)) : undefined;
-  const fmt = (v: number) => formatMetric(metric.format, v, currency);
+  const single = chosen.length === 1;
 
   return (
     <>
       <ChartHeader
-        title={metric.key === "monthGgr" ? "GGR trend" : `${metric.label} by month`}
-        sub={
-          <>
-            {metric.about}
-            {focus?.value != null && (
-              <>
-                {" "}
-                <span className="text-foreground">
-                  {monthLabel(focus.month, "long")}: {formatMetric(metric.format, focus.value, currency)}
-                  {vsPrevious(metric, focus.value, prev?.value ?? null, monthLabel(prevMonth(focus.month), "long", false))}.
-                </span>
-              </>
-            )}{" "}
-            Click a month to open it.
-          </>
-        }
-        picker={<MetricPicker value={metric.key} onChange={onMetric} options={CHART_METRICS} />}
+        title="Trend by month"
+        sub={single ? chosen[0].about : "Hover a month to see it in every chart · click to open it"}
+        picker={<MetricChips options={OPTIONS} value={chosen.map((m) => m.key)} onChange={onMetrics} className="w-full sm:w-auto sm:max-w-[32rem]" />}
       />
-      <MonthColumns
-        data={data}
-        valueName={metric.label}
-        format={fmt}
-        formatFull={(v) => formatMetric(metric.format, v, currency, true)}
-        formatTick={(v) => formatTick(metric.format, v, currency)}
-        highlight={highlight}
-        label={(d) => fmt(d.value!)}
-        onSelect={onSelectMonth}
-        shape={metric.shape}
-        refLine={metric.ref}
-        height={180}
-      />
+      <div className={cn("grid gap-x-5 gap-y-4", !single && "sm:grid-cols-2")}>
+        {chosen.map((metric) => {
+          const data = rows.map((r) => {
+            const list = byMonth.get(r.month) ?? [];
+            const value = metric.key === "monthGgr" ? r.ggr : list.length ? rollup(list)[metric.key] : null;
+            return { month: r.month, value: value ?? null, extra: [{ label: "Promos started", value: String(list.length) }] };
+          });
+          const focus = data.find((d) => d.month === highlight) ?? [...data].reverse().find((d) => d.value != null);
+          const prev = focus ? data.find((d) => d.month === prevMonth(focus.month)) : undefined;
+          const delta = focus ? vsPrevious(metric, focus.value, prev?.value ?? null, monthLabel(prevMonth(focus.month), "short", false)) : null;
+          const fmt = (v: number) => formatMetric(metric.format, v, currency);
+          return (
+            <div key={metric.key} className="min-w-0">
+              <div className="mb-1 flex flex-wrap items-baseline justify-between gap-x-3">
+                <p className="text-xs font-semibold">{metric.label}</p>
+                {focus?.value != null && (
+                  <p className="text-[11px] text-muted-foreground">
+                    {monthLabel(focus.month, "short", false)} <span className="font-semibold text-foreground">{fmt(focus.value)}</span>
+                    {delta && ` · ${delta}`}
+                  </p>
+                )}
+              </div>
+              <MonthColumns
+                data={data}
+                valueName={metric.label}
+                format={fmt}
+                formatFull={(v) => formatMetric(metric.format, v, currency, true)}
+                formatTick={(v) => formatTick(metric.format, v, currency)}
+                highlight={highlight}
+                label={single ? (d) => fmt(d.value!) : undefined}
+                onSelect={onSelectMonth}
+                shape={metric.shape}
+                refLine={metric.ref}
+                height={single ? 180 : 140}
+                hoverMonth={hover}
+                onHoverMonth={setHover}
+              />
+            </div>
+          );
+        })}
+      </div>
     </>
   );
 }
@@ -244,42 +225,56 @@ function truncate(s: string, px: number): string {
 }
 
 /**
- * Per-promo chart card for Explore → Promotions: the three linked
- * Before / During / After charts, or any single metric as one bar per promo.
+ * Per-promo charts for Explore → Promotions. Pick what to see: the linked
+ * Before / During / After charts and/or any metric as one bar per promo.
  */
 export function PromoChartCard({
   list,
   currency,
-  metricKey,
-  onMetric,
+  metricKeys,
+  onMetrics,
   onSelect,
   triptych,
 }: {
   list: PromoMetrics[];
   currency: string;
-  metricKey: string;
-  onMetric: (key: string) => void;
+  metricKeys: string[];
+  onMetrics: (keys: string[]) => void;
   onSelect: (id: string) => void;
-  /** Renders the before/during/after charts, given the metric picker to place in their header */
-  triptych: (toolbar: ReactNode) => ReactNode;
+  /** Renders the linked before/during/after charts */
+  triptych: () => ReactNode;
 }) {
-  const options = [{ key: "bda", label: "GGR before · during · after" }, ...CHART_METRICS.filter((x) => x.perPromo)];
-  const metric = CHART_METRICS.find((x) => x.key === metricKey && x.perPromo);
-  const picker = <MetricPicker value={metric ? metric.key : "bda"} onChange={onMetric} options={options} className="h-7" />;
-  if (!metric) return <>{triptych(picker)}</>;
-  const r = rollup(list)[metric.key as keyof ReturnType<typeof rollup>];
+  const options = [
+    { key: "bda", label: "GGR before · during · after", hint: "Three linked charts, same promos, one scale" },
+    ...CHART_METRICS.filter((x) => x.perPromo).map((m) => ({ key: m.key, label: m.label, hint: m.hint })),
+  ];
+  const keys = metricKeys.filter((k) => options.some((o) => o.key === k));
+  const chosen = keys.length ? keys : ["bda"];
+  const bars = chosen.map((k) => CHART_METRICS.find((x) => x.key === k && x.perPromo)).filter((m): m is ChartMetric => !!m);
   return (
     <>
-      <ChartHeader
-        title={`${metric.label} by promotion`}
-        sub={
-          <>
-            All in view: <span className="font-medium text-foreground">{formatMetric(metric.format, r as number | null, currency)}</span>
-          </>
-        }
-        picker={picker}
-      />
-      <PromoBars list={list} metric={metric} currency={currency} onSelect={onSelect} />
+      <ChartHeader title="Charts" picker={<MetricChips options={options} value={chosen} onChange={onMetrics} className="w-full sm:w-auto sm:max-w-[36rem]" />} />
+      <div className="space-y-5">
+        {chosen.includes("bda") && triptych()}
+        {bars.length > 0 && (
+          <div className={cn("grid gap-x-6 gap-y-5", bars.length > 1 && "lg:grid-cols-2")}>
+            {bars.map((metric) => {
+              const r = rollup(list)[metric.key as keyof ReturnType<typeof rollup>];
+              return (
+                <div key={metric.key} className="min-w-0">
+                  <div className="mb-1 flex items-baseline justify-between gap-2">
+                    <p className="text-xs font-semibold">{metric.label} by promotion</p>
+                    <p className="text-[11px] text-muted-foreground">
+                      All in view <span className="font-semibold text-foreground">{formatMetric(metric.format, r as number | null, currency)}</span>
+                    </p>
+                  </div>
+                  <PromoBars list={list} metric={metric} currency={currency} onSelect={onSelect} />
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
     </>
   );
 }

@@ -35,7 +35,7 @@ export function CompletionByDay({ m, selected, onSelect }: { m: PromoMetrics; se
               <span className={cn("text-[11px] font-semibold tabular", isDrop ? "text-bad-ink" : "text-muted-foreground")}>{pctPlain(d.rate)}</span>
               <span className="flex h-28 w-full max-w-10 items-end rounded-t-md bg-surface-raised">
                 <span
-                  className="w-full rounded-t-md transition-all duration-500 group-hover:brightness-110"
+                  className="w-full rounded-t-md transition-[filter] duration-150 group-hover:brightness-110"
                   style={{ height: `${d.rate * 100}%`, background: isDrop ? "var(--series-during)" : "var(--series-before)" }}
                 />
               </span>

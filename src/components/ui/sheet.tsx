@@ -27,7 +27,7 @@ function SheetContent({
       <SheetOverlay />
       <DialogPrimitive.Content
         className={cn(
-          "fixed inset-y-0 right-0 z-50 h-full border-l shadow-panel outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right data-[state=closed]:duration-200 data-[state=open]:duration-300",
+          "fixed inset-y-0 right-0 z-50 h-full border-l shadow-panel outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right data-[state=closed]:duration-200 data-[state=open]:duration-[260ms] ease-(--ease-drawer)",
           className,
         )}
         {...props}

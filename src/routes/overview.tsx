@@ -197,8 +197,8 @@ export function OverviewPage() {
                   promos={filtered}
                   currency={cur}
                   highlight={view.mode === "month" ? month : null}
-                  metricKey={view.trendMetric}
-                  onMetric={(k) => set({ trendMetric: k })}
+                  metricKeys={view.trendMetrics}
+                  onMetrics={(k) => set({ trendMetrics: k })}
                   onSelectMonth={(m) => set({ mode: "month", month: m })}
                 />
               </section>

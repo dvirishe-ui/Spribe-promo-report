@@ -80,6 +80,8 @@ export interface ChartMetric {
   label: string;
   /** One line under the chart title */
   about: string;
+  /** What it tells you, in a few words — shown in the metric picker */
+  hint?: string;
   format: MetricFormat;
   /**
    * Bars when the value is a quantity read from zero; a line on a fitted
@@ -95,31 +97,31 @@ export interface ChartMetric {
 
 /** Every metric that can be charted, in the order the picker lists them. */
 export const CHART_METRICS: ChartMetric[] = [
-  { key: "monthGgr", label: "Total GGR (all operators)", about: "Total monthly GGR across all operators, promos or not.", format: "money", shape: "bar" },
-  { key: "count", label: "Number of promotions", about: "Promotions that started in the month.", format: "count", shape: "bar" },
+  { key: "monthGgr", hint: "Market backdrop — all GGR, promos or not", label: "Total GGR (all operators)", about: "Total monthly GGR across all operators, promos or not.", format: "money", shape: "bar" },
+  { key: "count", hint: "How busy the month was", label: "Number of promotions", about: "Promotions that started in the month.", format: "count", shape: "bar" },
   {
-    key: "contribution",
+    key: "contribution", hint: "What was spent on prize funds",
     label: "Promo Contribution",
     about: "Prize fund contributed to promos that started in the month.",
     format: "money",
     shape: "bar",
     perPromo: (m) => m.promo.prizePool,
   },
-  { key: "before", label: "GGR Before", about: "GGR in the comparison days before each promo, added up.", format: "money", shape: "bar", perPromo: (m) => m.ggrBefore },
-  { key: "during", label: "GGR During", about: "GGR while the promos ran, added up.", format: "money", shape: "bar", perPromo: (m) => m.ggrDuring },
-  { key: "after", label: "GGR After", about: "GGR in the comparison days after each promo, added up.", format: "money", shape: "bar", perPromo: (m) => m.ggrAfter },
+  { key: "before", hint: "Baseline before the promo", label: "GGR Before", about: "GGR in the comparison days before each promo, added up.", format: "money", shape: "bar", perPromo: (m) => m.ggrBefore },
+  { key: "during", hint: "GGR while the promo ran", label: "GGR During", about: "GGR while the promos ran, added up.", format: "money", shape: "bar", perPromo: (m) => m.ggrDuring },
+  { key: "after", hint: "GGR once it ended", label: "GGR After", about: "GGR in the comparison days after each promo, added up.", format: "money", shape: "bar", perPromo: (m) => m.ggrAfter },
   {
-    key: "dvb",
+    key: "dvb", hint: "Did GGR rise while it ran?",
     label: "During vs Before",
     about: "GGR per day during vs before, weighted by each promo's before GGR. Observed — not adjusted for the market trend.",
     format: "change",
     shape: "bar",
     perPromo: (m) => m.duringVsBefore,
   },
-  { key: "avb", label: "After vs Before", about: "GGR per day after vs before — whether the change lasted.", format: "change", shape: "bar", perPromo: (m) => m.afterVsBefore },
-  { key: "wager", label: "Total Wager", about: "Amount wagered during the promos, added up.", format: "money", shape: "bar", perPromo: (m) => m.turnoverDuring },
+  { key: "avb", hint: "Did the lift last afterwards?", label: "After vs Before", about: "GGR per day after vs before — whether the change lasted.", format: "change", shape: "bar", perPromo: (m) => m.afterVsBefore },
+  { key: "wager", hint: "How much was bet", label: "Total Wager", about: "Amount wagered during the promos, added up.", format: "money", shape: "bar", perPromo: (m) => m.turnoverDuring },
   {
-    key: "participants",
+    key: "participants", hint: "Reach — how many joined",
     label: "Players took part",
     about: "Unique participants per promo, added up (a player in two promos counts twice).",
     format: "count",
@@ -127,7 +129,7 @@ export const CHART_METRICS: ChartMetric[] = [
     perPromo: (m) => m.participants,
   },
   {
-    key: "part",
+    key: "part", hint: "Share of active players who joined",
     label: "Part. Rate",
     about: "Participants ÷ active players during, from the summed counts.",
     format: "rate",
@@ -135,7 +137,7 @@ export const CHART_METRICS: ChartMetric[] = [
     perPromo: (m) => m.participationRate,
   },
   {
-    key: "rtp",
+    key: "rtp", hint: "Share of wagers paid back to players",
     label: "RTP",
     about: "(Total wager − GGR during) ÷ total wager, from the summed numbers. Axis is zoomed in — RTP moves in a narrow band.",
     format: "rate",
@@ -143,7 +145,7 @@ export const CHART_METRICS: ChartMetric[] = [
     perPromo: (m) => m.rtp,
   },
   {
-    key: "extra",
+    key: "extra", hint: "GGR above the normal run-rate",
     label: "Extra GGR",
     about: "GGR above the before run-rate, during and after the promos.",
     format: "money",
@@ -151,7 +153,7 @@ export const CHART_METRICS: ChartMetric[] = [
     perPromo: (m) => (m.incrementalGgr == null ? null : m.incrementalGgr + (m.haloGgr ?? 0)),
   },
   {
-    key: "roi",
+    key: "roi", hint: "Extra GGR per 1 spent · 1.0× = break-even",
     label: "Promo ROI (x)",
     about: "Extra GGR ÷ promo contribution, from the summed numbers. The dashed line is break-even (1.0×).",
     format: "roi",

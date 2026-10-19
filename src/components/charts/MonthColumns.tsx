@@ -30,6 +30,9 @@ interface Props {
   shape?: "bar" | "line";
   /** Dashed reference line, e.g. break-even */
   refLine?: { value: number; label: string };
+  /** Shared hover, so several month charts highlight the same month together */
+  hoverMonth?: string | null;
+  onHoverMonth?: (month: string | null) => void;
 }
 
 /** One series per month. The selected/latest month is in the accent color and labelled; others are tinted. */
@@ -46,10 +49,14 @@ export function MonthColumns({
   valueName,
   shape = "bar",
   refLine,
+  hoverMonth,
+  onHoverMonth,
 }: Props) {
   const [ref, width] = useWidth<HTMLDivElement>();
   const [tip, setTip] = useState<TipState | null>(null);
-  const [hover, setHover] = useState<string | null>(null);
+  const [ownHover, setOwnHover] = useState<string | null>(null);
+  const hover = hoverMonth !== undefined ? hoverMonth : ownHover;
+  const setHover = (m: string | null) => (onHoverMonth ? onHoverMonth(m) : setOwnHover(m));
 
   const vals = data.map((d) => d.value).filter((v): v is number => v != null && Number.isFinite(v));
   if (refLine) vals.push(refLine.value);

@@ -116,11 +116,12 @@ export function GgrTriptych({
 
   const hovered = hover ? rows.find((m) => m.promo.id === hover.id) : undefined;
   const grid = "grid grid-cols-[1.25rem_minmax(5.5rem,10rem)_repeat(3,minmax(0,1fr))] items-center gap-x-2 sm:grid-cols-[1.25rem_minmax(7rem,13rem)_repeat(3,minmax(0,1fr))] sm:gap-x-3";
-  const seg = (m: GgrMode, label: string) => (
+  const seg = (m: GgrMode, label: string, help: string) => (
     <button
       key={m}
+      title={help}
       onClick={() => onMode(m)}
-      className={cn("h-6 rounded px-2 text-xs transition-colors", mode === m ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}
+      className={cn("press h-6 rounded px-2 text-xs", mode === m ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}
     >
       {label}
     </button>
@@ -152,9 +153,9 @@ export function GgrTriptych({
             <option value="name">Sort: name</option>
           </select>
           <div className="flex h-7 items-center gap-0.5 rounded-md border border-border bg-surface-raised p-0.5">
-            {seg("total", "Total")}
-            {seg("perDay", "Per day")}
-            {seg("change", "% change")}
+            {seg("total", "Totals", "GGR added up over each window")}
+            {seg("perDay", "Daily avg", "GGR per day — fair when promos ran for different lengths")}
+            {seg("change", "% vs before", "How much GGR per day moved during and after, vs before")}
           </div>
         </div>
       </div>

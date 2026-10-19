@@ -30,7 +30,7 @@ export function MultiSelect({
       <PopoverTrigger asChild>
         <button
           className={cn(
-            "inline-flex h-8 max-w-[11rem] items-center gap-1.5 rounded-md border px-2.5 text-xs transition-colors",
+            "press inline-flex h-8 max-w-[11rem] items-center gap-1.5 rounded-md border px-2.5 text-xs",
             active ? "border-primary/60 bg-primary/10 text-foreground" : "border-border bg-surface text-muted-foreground hover:text-foreground",
             className,
           )}
