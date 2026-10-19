@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { ClipboardCopy, Download, FileText, Inbox, Share2 } from "lucide-react";
@@ -29,6 +29,11 @@ import { downloadText } from "@/lib/csv";
 export function OverviewPage() {
   const { dataset, metrics, status, error } = useData();
   const { view, set } = useView();
+  // The Overview always opens on a single month, even if "All" or dates were chosen elsewhere.
+  useEffect(() => {
+    if (view.mode !== "month") set({ mode: "month" });
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- only when the page opens
+  }, []);
   const navigate = useNavigate();
   const cur = dataset.currency;
   const month = view.month ?? defaultMonth(metrics);

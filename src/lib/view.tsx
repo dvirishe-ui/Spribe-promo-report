@@ -45,6 +45,9 @@ function load(): ViewState {
         ...DEFAULTS,
         ...raw,
         filters: normalizeFilters(raw.filters),
+        // A new visit always opens on one month — the latest with finished promos.
+        mode: "month",
+        month: null,
         promoCharts: Array.isArray(raw.promoCharts) ? raw.promoCharts : typeof raw.promoChartMetric === "string" ? [raw.promoChartMetric] : ["bda"],
         selected: Array.isArray(raw.selected) ? raw.selected.filter((x: unknown) => typeof x === "string") : [],
         // The old Promotions "list" layout is now "grouped"
