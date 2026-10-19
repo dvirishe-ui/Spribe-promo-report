@@ -8,13 +8,8 @@ import { EmptyState, StatusBadge } from "@/components/report/bits";
 import { InsightCard } from "@/components/report/InsightCard";
 import { OutcomeChip } from "@/components/report/ResultHero";
 import { FilterLayout, PageHeader, defaultMonth, periodName } from "@/components/report/ViewControls";
-import { PromoTable } from "@/components/report/PromoTable";
-import { ResultsTable } from "@/components/report/ResultsTable";
-import { PromoList } from "@/components/report/PromoListing";
-import { PromoChartCard } from "@/components/report/MetricCharts";
-import { GgrTriptych } from "@/components/charts/GgrTriptych";
 import { ComparisonView, SelectionChips } from "@/components/report/Comparison";
-import { OutcomeStrip } from "@/components/report/Outcome";
+import { PromoPhaseCard } from "@/components/report/PromoPhaseCard";
 import { useSelection } from "@/components/report/SelectionBar";
 import { useData } from "@/lib/store";
 import { useView, selectPeriod } from "@/lib/view";
@@ -25,7 +20,7 @@ import { marketLabel } from "@/lib/markets";
 import { multiple, num, pct, pctPlain } from "@/lib/format";
 import { outcomeFor, type OutcomeTone } from "@/lib/verdict";
 import { newId } from "@/lib/normalize";
-import { resultsCsv } from "@/lib/export";
+import { phaseCsv } from "@/lib/export";
 import { downloadText } from "@/lib/csv";
 import { cn } from "@/lib/utils";
 
@@ -93,14 +88,16 @@ export function ExplorePage() {
 
 /* -------------------------------------------------------------- promotions */
 
+type PromoSort = "newest" | "change" | "ggr" | "name";
+
+/**
+ * Each promotion on its own: one table per promo with every metric Before /
+ * During / After and the change. The Overview has the month as a whole;
+ * this is the same thing promo by promo.
+ */
 function PromotionsTab({ shown, label, currency }: { shown: PromoMetrics[]; label: string; currency: string }) {
-  const { view, set } = useView();
   const sel = useSelection();
-  const navigate = useNavigate();
-  const [pick, setPick] = useState<OutcomeTone | null>(null);
-  const outcome = pick && shown.some((m) => outcomeFor(m, currency).tone === pick) ? pick : null;
-  const list = outcome ? shown.filter((m) => outcomeFor(m, currency).tone === outcome) : shown;
-  const openPromo = (id: string) => navigate({ to: "/promo/$promoId", params: { promoId: id } });
+  const [sort, setSort] = useState<PromoSort>("newest");
   if (!shown.length)
     return (
       <div className="panel">
@@ -109,66 +106,43 @@ function PromotionsTab({ shown, label, currency }: { shown: PromoMetrics[]; labe
         </EmptyState>
       </div>
     );
-  const seg = (v: typeof view.layout, text: string) => (
-    <button
-      key={v}
-      onClick={() => set({ layout: v })}
-      className={cn("press h-6 rounded px-2 text-xs", view.layout === v ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}
-    >
-      {text}
-    </button>
+  const list = [...shown].sort((a, b) =>
+    sort === "name"
+      ? a.promo.name.localeCompare(b.promo.name)
+      : sort === "change"
+        ? (b.duringVsBefore ?? -Infinity) - (a.duringVsBefore ?? -Infinity)
+        : sort === "ggr"
+          ? (b.ggrDuring ?? -Infinity) - (a.ggrDuring ?? -Infinity)
+          : b.promo.startDate.localeCompare(a.promo.startDate),
   );
   return (
     <div className="space-y-3">
-      <OutcomeStrip list={shown} currency={currency} active={outcome} onPick={(t) => setPick(outcome === t ? null : t)} />
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <div className="flex h-7 items-center gap-0.5 rounded-md border border-border bg-surface-raised p-0.5">
-          {seg("compact", "List")}
-          {seg("table", "All metrics")}
-          {seg("grouped", "Grouped")}
+        <h2 className="text-sm font-semibold uppercase tracking-wide">
+          Each promotion · {label} <span className="font-normal normal-case text-muted-foreground">· {list.length}</span>
+        </h2>
+        <div className="flex items-center gap-1.5">
+          <select
+            aria-label="Sort promotions"
+            value={sort}
+            onChange={(e) => setSort(e.target.value as PromoSort)}
+            className="h-7 rounded-md border border-border bg-surface px-1.5 text-xs text-muted-foreground"
+          >
+            <option value="newest">Newest first</option>
+            <option value="change">Biggest GGR change</option>
+            <option value="ggr">Most GGR during</option>
+            <option value="name">Name</option>
+          </select>
+          <Button variant="outline" size="sm" className="h-7 text-xs" onClick={() => downloadText(`spribe-promo-tables-${label.replace(/\W+/g, "-")}.csv`, phaseCsv(list, currency))}>
+            <Download className="size-3.5" /> CSV
+          </Button>
         </div>
-        <Button variant="outline" size="sm" className="h-7 text-xs" onClick={() => downloadText(`spribe-promotions-${label.replace(/\W+/g, "-")}.csv`, resultsCsv(list, currency))}>
-          <Download className="size-3.5" /> CSV
-        </Button>
       </div>
-      {view.layout === "table" ? (
-        <ResultsTable list={list} currency={currency} onSelect={openPromo} />
-      ) : view.layout === "grouped" ? (
-        <PromoList
-          list={list}
-          outcome={outcome}
-          onClearOutcome={() => setPick(null)}
-          currency={currency}
-          group={view.group}
-          sort={view.sort}
-          onGroup={(g) => set({ group: g })}
-          onSort={(s) => set({ sort: s })}
-          onSelect={openPromo}
-        />
-      ) : (
-        <PromoTable list={list} currency={currency} selected={sel.ids} onToggle={sel.toggle} onOpen={openPromo} limit={15} title={outcome ? "Promotions (filtered by result)" : "Promotions"} />
-      )}
-      <section className="panel min-w-0 p-3 sm:p-4">
-        <PromoChartCard
-          list={list}
-          currency={currency}
-          metricKeys={view.promoCharts}
-          onMetrics={(k) => set({ promoCharts: k })}
-          onSelect={openPromo}
-          triptych={() => (
-            <GgrTriptych
-              list={list}
-              currency={currency}
-              mode={view.ggrMode}
-              onMode={(m) => set({ ggrMode: m })}
-              selected={sel.ids}
-              onToggle={sel.toggle}
-              onOpen={openPromo}
-              limit={12}
-            />
-          )}
-        />
-      </section>
+      <div className="grid gap-3 xl:grid-cols-2">
+        {list.map((m) => (
+          <PromoPhaseCard key={m.promo.id} m={m} currency={currency} selected={sel.ids.includes(m.promo.id)} onToggle={() => sel.toggle(m.promo.id)} />
+        ))}
+      </div>
     </div>
   );
 }

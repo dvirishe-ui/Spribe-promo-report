@@ -14,7 +14,7 @@ const UNIT_TITLE: Record<PhaseUnit, string> = {
   pct: "RTP",
 };
 
-function fmt(unit: PhaseUnit, v: number, cur: string, full = false): string {
+export function formatPhase(unit: PhaseUnit, v: number, cur: string, full = false): string {
   if (unit === "pct") return `${(v * 100).toFixed(full ? 2 : 1)}%`;
   if (unit === "avg") return new Intl.NumberFormat("en-US", { style: "currency", currency: cur, minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(v);
   if (unit === "money" || unit === "ggr") return full ? new Intl.NumberFormat("en-US", { style: "currency", currency: cur, maximumFractionDigits: 0 }).format(v) : money(v, cur);
@@ -22,11 +22,11 @@ function fmt(unit: PhaseUnit, v: number, cur: string, full = false): string {
 }
 
 /** "+18.2%" for amounts, "+0.4 pts" for RTP. */
-function change(unit: PhaseUnit, from: number | null, to: number | null): string | null {
+export function phaseChange(unit: PhaseUnit, from: number | null, to: number | null): string | null {
   if (from == null || to == null) return null;
   if (unit === "pct") {
-    const pts = (to - from) * 100;
-    return `${pts >= 0 ? "+" : "−"}${Math.abs(pts).toFixed(1)} pts`;
+    const pts = Math.round((to - from) * 1000) / 10;
+    return `${pts > 0 ? "+" : pts < 0 ? "−" : "±"}${Math.abs(pts).toFixed(1)} pts`;
   }
   return from > 0 ? pct(to / from - 1) : null;
 }
@@ -95,19 +95,19 @@ export function PhaseComparison({
                       extra:
                         phase === "before"
                           ? undefined
-                          : vals.map(({ m, v }) => ({ label: `${m.label} vs before`, value: change(unit, v.before, v[phase]) ?? "—" })),
+                          : vals.map(({ m, v }) => ({ label: `${m.label} vs before`, value: phaseChange(unit, v.before, v[phase]) ?? "—" })),
                     }))}
                     series={metrics.map((m) => ({ key: m.key, label: m.label, color: m.color }))}
-                    format={(v) => fmt(unit, v, currency)}
-                    formatFull={(v) => fmt(unit, v, currency, true)}
+                    format={(v) => formatPhase(unit, v, currency)}
+                    formatFull={(v) => formatPhase(unit, v, currency, true)}
                     labelAll
                     maxCol={56}
                     height={210}
                   />
                   <div className="mt-1.5 flex flex-wrap gap-x-4 gap-y-0.5 text-[11px] text-muted-foreground">
                     {vals.map(({ m, v }) => {
-                      const d = change(unit, v.before, v.during);
-                      const a = change(unit, v.before, v.after);
+                      const d = phaseChange(unit, v.before, v.during);
+                      const a = phaseChange(unit, v.before, v.after);
                       return (
                         <span key={m.key}>
                           <span className="font-medium text-foreground">{m.label}</span> during {d ?? "—"} · after {a ?? "—"}

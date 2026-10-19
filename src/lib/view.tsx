@@ -19,23 +19,15 @@ export interface ViewState {
   from: string;
   to: string;
   filtersOpen: boolean;
-  group: "none" | "market" | "aggregator" | "operator" | "type";
-  sort: "newest" | "change" | "ggr" | "name";
-  /** Explore → Promotions: compact list, full metrics table, or grouped cards */
-  layout: "compact" | "table" | "grouped";
-  /** Metrics shown in the Explore promo charts */
-  promoCharts: string[];
   /** Overview → metrics comparison (Before / During / After) */
   phaseMetrics: string[];
   /** Promos picked for comparison — kept while moving between pages */
   selected: string[];
-  /** Main GGR charts: totals, per day, or % change */
-  ggrMode: "total" | "perDay" | "change";
 }
 
 const KEY = "spribe-report-view-v2";
 
-const DEFAULTS: ViewState = { filters: emptyFilters, mode: "month", month: null, from: "", to: "", filtersOpen: true, group: "none", sort: "newest", layout: "compact", promoCharts: ["bda"], phaseMetrics: ["wager", "ggr", "rtp"], selected: [], ggrMode: "total" };
+const DEFAULTS: ViewState = { filters: emptyFilters, mode: "month", month: null, from: "", to: "", filtersOpen: true, phaseMetrics: ["wager", "ggr", "rtp"], selected: [] };
 
 function load(): ViewState {
   try {
@@ -48,10 +40,7 @@ function load(): ViewState {
         // A new visit always opens on one month — the latest with finished promos.
         mode: "month",
         month: null,
-        promoCharts: Array.isArray(raw.promoCharts) ? raw.promoCharts : typeof raw.promoChartMetric === "string" ? [raw.promoChartMetric] : ["bda"],
         selected: Array.isArray(raw.selected) ? raw.selected.filter((x: unknown) => typeof x === "string") : [],
-        // The old Promotions "list" layout is now "grouped"
-        layout: raw.layout === "list" ? "grouped" : raw.layout === "table" || raw.layout === "compact" || raw.layout === "grouped" ? raw.layout : "compact",
       };
   } catch {
     // defaults

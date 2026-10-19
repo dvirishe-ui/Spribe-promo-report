@@ -92,3 +92,6 @@ Goal: more visible, less text, fewer clicks, less scrolling — readable on a 13
 - New optional fields `totalBetsBefore/During/After` (number of bets) give Number of Bets and
   Avg Bet (wager ÷ bets). Total Win = wager − GGR; RTP = total win ÷ wager.
 - The Actions (follow-ups) feature was removed.
+- Explore → Promotions no longer repeats the Overview (result strip, list / table views, GGR
+  charts). It shows each promotion's own Before / During / After table instead, for every promo
+  in the chosen month or period.

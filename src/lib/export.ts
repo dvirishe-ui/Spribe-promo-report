@@ -1,5 +1,6 @@
 import { toCsv } from "./csv";
 import { STATUS_LABEL, type PromoMetrics } from "./metrics";
+import { PHASE_METRICS, phaseValues } from "./phases";
 
 /**
  * Report exports: computed results per promo, in the display currency, using
@@ -73,5 +74,22 @@ export function resultsCsv(list: PromoMetrics[], currency: string): string {
         .filter(Boolean)
         .join("; "),
     ]),
+  );
+}
+
+/** One row per promo and metric: Before / During / After and the changes — the Explore promo tables as CSV. */
+export function phaseCsv(list: PromoMetrics[], currency: string): string {
+  const rows: unknown[][] = [];
+  for (const m of list)
+    for (const metric of PHASE_METRICS) {
+      const v = phaseValues(metric, [m]);
+      if (!v.n) continue;
+      const val = (x: number | null) => (x == null ? "" : metric.unit === "pct" ? (x * 100).toFixed(2) : metric.unit === "avg" ? x.toFixed(2) : Math.round(x));
+      const ch = (x: number | null) => (x == null || v.before == null ? "" : metric.unit === "pct" ? ((x - v.before) * 100).toFixed(2) : v.before > 0 ? ((x / v.before - 1) * 100).toFixed(1) : "");
+      rows.push([m.promo.name, m.promo.operator, m.promo.market, m.promo.startDate, m.promo.endDate, metric.label, val(v.before), val(v.during), val(v.after), ch(v.during), ch(v.after)]);
+    }
+  return toCsv(
+    ["Promotion", "Operator", "Market", "Start date", "End date", "Metric", `Before (${currency} / count / %)`, "During", "After", "During vs Before (% or pts for RTP)", "After vs Before (% or pts for RTP)"],
+    rows,
   );
 }
