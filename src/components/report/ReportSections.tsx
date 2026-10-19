@@ -1,14 +1,14 @@
 import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
-import { CircleAlert, ShieldCheck } from "lucide-react";
-import { DailyTimeline } from "@/components/charts/DailyTimeline";
 import { PHASES } from "@/components/charts/core";
-import { formatDay, formatRange, monthLabel, prevMonth } from "@/lib/dates";
-import { money, moneyFull, moneySigned, multiple, num, pct, pctPlain } from "@/lib/format";
+import { CircleAlert, ShieldCheck } from "lucide-react";
+import { formatDay, monthLabel, prevMonth } from "@/lib/dates";
+import { money, moneySigned, multiple, num, pct, pctPlain } from "@/lib/format";
 import { aggregate, median, type PromoMetrics } from "@/lib/metrics";
 import { cn } from "@/lib/utils";
 import { ChangePill, Delta } from "./bits";
 import { CompletionByDay, DayDetail } from "./MissionInvestigation";
+import { PhaseTable } from "./PhaseTable";
 
 /*
  * The sections of one promo's report. Each tab is only offered when the promo
@@ -89,45 +89,20 @@ function NotFinal({ m }: { m: PromoMetrics }) {
 
 export function OverviewTab({ m, currency, all }: { m: PromoMetrics; currency: string; all: PromoMetrics[] }) {
   const p = m.promo;
-  const windows = [
-    { ...PHASES[0], value: m.ggrBefore, dates: formatRange(m.beforeStart, m.beforeEnd), change: null as number | null },
-    { ...PHASES[1], value: m.ggrDuring, dates: formatRange(p.startDate, p.endDate), change: m.duringVsBefore },
-    { ...PHASES[2], value: m.ggrAfter, dates: formatRange(m.afterStart, m.afterEnd), change: m.afterVsBefore },
-  ];
   return (
     <div className="space-y-4">
       <NotFinal m={m} />
       <ImpactNote m={m} />
 
       <div className="grid gap-4 lg:grid-cols-5">
-        <Card title="GGR before, during and after" subtitle={`${m.windowDays}-day before and after periods vs the ${m.promoDays}-day promo`} className="lg:col-span-3">
-          <div className="mb-4 grid grid-cols-3 gap-2">
-            {windows.map((w) => (
-              <div key={w.key} className="min-w-0 rounded-xl border border-border bg-surface p-2.5 sm:p-3">
-                <p className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
-                  <span className="size-2 rounded-full" style={{ background: w.color }} />
-                  {w.label}
-                </p>
-                <p className="mt-1 font-display text-lg font-bold sm:text-xl">{money(w.value, currency)}</p>
-                <p className="text-xs">{w.change == null ? <span className="text-muted-foreground">{w.key === "before" ? "baseline" : "—"}</span> : <Delta value={w.change} />}</p>
-                <p className="mt-1 hidden text-[11px] text-muted-foreground sm:block">{w.dates}</p>
-              </div>
-            ))}
+        <Card
+          title="Before · During · After"
+          subtitle={`Every metric for the ${m.windowDays} days before, the ${m.promoDays}-day promo and the ${m.windowDays} days after`}
+          className="lg:col-span-3 lg:self-start"
+        >
+          <div className="-mx-4 -mb-4 border-t border-border sm:-mx-5 sm:-mb-5">
+            <PhaseTable m={m} currency={currency} />
           </div>
-          {p.daily?.length ? (
-            <DailyTimeline
-              daily={p.daily}
-              before={{ start: m.beforeStart, end: m.beforeEnd }}
-              during={{ start: p.startDate, end: p.endDate }}
-              after={{ start: m.afterStart, end: m.afterEnd }}
-              perDay={{ before: m.perDayBefore, during: m.perDayDuring, after: m.perDayAfter }}
-              format={(v) => money(v, currency)}
-              formatFull={(v) => moneyFull(v, currency)}
-              height={210}
-            />
-          ) : (
-            <p className="text-xs text-muted-foreground">A day-by-day chart appears when daily GGR is available (from the Back Office).</p>
-          )}
         </Card>
         <div className="min-w-0 space-y-4 lg:col-span-2">
           <Card title="In short">

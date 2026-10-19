@@ -95,3 +95,7 @@ Goal: more visible, less text, fewer clicks, less scrolling — readable on a 13
 - Explore → Promotions no longer repeats the Overview (result strip, list / table views, GGR
   charts). It shows each promotion's own Before / During / After table instead, for every promo
   in the chosen month or period.
+- The promo report's Overview tab replaces the GGR before/during/after tiles and daily chart with
+  the same Before / During / After table (all metrics, change chips, During column highlighted).
+- Overview metrics comparison: the money chart is titled by what it shows ("Total Wager"),
+  not "Wager and win".

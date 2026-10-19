@@ -1,20 +1,27 @@
+import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, Check } from "lucide-react";
 import { ResultTag } from "./Outcome";
-import { formatPhase, phaseChange } from "./PhaseComparison";
-import { PHASE_METRICS, phaseValues } from "@/lib/phases";
+import { PhaseTable } from "./PhaseTable";
 import type { PromoMetrics } from "@/lib/metrics";
-import { formatRange } from "@/lib/dates";
 import { flagFor } from "@/lib/markets";
 import { money, multiple, num, pctPlain } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
-/** Metrics where "up" is simply good for the business; the rest are shown without colour. */
-const GOOD_WHEN_UP = new Set(["wager", "ggr", "bets", "players"]);
+function Stat({ label, children, sub, tone }: { label: string; children: ReactNode; sub?: ReactNode; tone?: "good" | "bad" }) {
+  return (
+    <div className="min-w-0 rounded-lg bg-surface-raised/70 px-3 py-2">
+      <p className="text-[11px] text-muted-foreground">{label}</p>
+      <p className={cn("font-display text-base font-bold tabular", tone === "good" && "text-good-ink", tone === "bad" && "text-bad-ink")}>{children}</p>
+      {sub && <p className="truncate text-[11px] text-muted-foreground">{sub}</p>}
+    </div>
+  );
+}
 
 /**
- * One promotion's own numbers: every phase metric Before / During / After
- * with the change vs before, plus contribution, participation and ROI.
+ * One promotion's report card: who/where/when, the headline figures that
+ * aren't in the table (contribution, participants, ROI), then every metric
+ * Before / During / After.
  */
 export function PromoPhaseCard({
   m,
@@ -28,21 +35,27 @@ export function PromoPhaseCard({
   onToggle: () => void;
 }) {
   const p = m.promo;
-  const rows = PHASE_METRICS.map((metric) => ({ metric, v: phaseValues(metric, [m]) }));
   const notFinal = m.status !== "complete";
   return (
-    <article className={cn("panel min-w-0 overflow-hidden", selected && "ring-1 ring-primary/50")}>
-      <header className="flex items-start justify-between gap-3 border-b border-border px-3 py-2.5">
+    <article className={cn("panel min-w-0 overflow-hidden transition-shadow", selected && "ring-2 ring-primary/50")}>
+      <header className="flex flex-col gap-2 px-4 pb-3 pt-3.5 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
         <div className="min-w-0">
-          <p className="flex items-center gap-2">
-            <Link to="/promo/$promoId" params={{ promoId: p.id }} className="truncate text-sm font-semibold hover:text-primary">
+          <div className="flex items-center gap-2">
+            <Link to="/promo/$promoId" params={{ promoId: p.id }} className="truncate font-display text-base font-bold hover:text-primary">
               {p.name}
             </Link>
             <ResultTag m={m} currency={currency} />
-          </p>
-          <p className="truncate text-[11px] text-muted-foreground">
-            {p.operator} · {flagFor(p.market)} {p.market} · {p.type} · {formatRange(p.startDate, p.endDate)} ({m.promoDays} d)
-          </p>
+          </div>
+          <div className="mt-1 flex flex-wrap gap-1.5 text-[11px] text-muted-foreground">
+            {[p.operator, `${flagFor(p.market)} ${p.market}`, p.type, `${m.promoDays} days`].filter(Boolean).map((t) => (
+              <span key={t} className="rounded-full border border-border px-2 py-0.5">
+                {t}
+              </span>
+            ))}
+            {notFinal && (
+              <span className="rounded-full bg-accent/15 px-2 py-0.5 font-medium text-foreground">{m.status === "upcoming" ? "Not started yet" : "Not final yet"}</span>
+            )}
+          </div>
         </div>
         <div className="flex shrink-0 items-center gap-1">
           <button
@@ -56,66 +69,25 @@ export function PromoPhaseCard({
             </span>
             Compare
           </button>
-          <Link to="/promo/$promoId" params={{ promoId: p.id }} className="press inline-flex h-7 items-center gap-1 rounded-md px-2 text-[11px] text-primary hover:bg-primary/10">
-            Report <ArrowRight className="size-3" />
+          <Link to="/promo/$promoId" params={{ promoId: p.id }} className="press inline-flex h-7 items-center gap-1 rounded-md px-2 text-[11px] font-medium text-primary hover:bg-primary/10">
+            Full report <ArrowRight className="size-3" />
           </Link>
         </div>
       </header>
 
-      <table className="w-full table-fixed text-[12.5px]">
-        <colgroup>
-          <col className="w-[28%]" />
-          <col />
-          <col />
-          <col />
-          <col />
-          <col />
-        </colgroup>
-        <thead>
-          <tr className="bg-surface-raised text-[10px] uppercase tracking-wide text-muted-foreground">
-            <th className="px-3 py-1.5 text-left font-medium">Metric</th>
-            <th className="px-2 py-1.5 text-right font-medium">Before</th>
-            <th className="px-2 py-1.5 text-right font-medium">During</th>
-            <th className="px-2 py-1.5 text-right font-medium">After</th>
-            <th className="px-2 py-1.5 text-right font-medium">During vs before</th>
-            <th className="px-3 py-1.5 text-right font-medium">After vs before</th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-border/70">
-          {rows.map(({ metric, v }) => {
-            const has = v.n > 0;
-            const d = has ? phaseChange(metric.unit, v.before, v.during) : null;
-            const a = has ? phaseChange(metric.unit, v.before, v.after) : null;
-            const color = (s: string | null) =>
-              !s || !GOOD_WHEN_UP.has(metric.key) ? "text-muted-foreground" : s.startsWith("+") ? "text-good-ink" : s.startsWith("−") || s.startsWith("-") ? "text-bad-ink" : "";
-            const cell = (x: number | null) => (has && x != null ? formatPhase(metric.unit, x, currency) : "—");
-            return (
-              <tr key={metric.key} title={metric.hint}>
-                <td className="truncate px-3 py-1.5">{metric.label}</td>
-                <td className="px-2 py-1.5 text-right tabular">{cell(v.before)}</td>
-                <td className="px-2 py-1.5 text-right font-semibold tabular">{cell(v.during)}</td>
-                <td className="px-2 py-1.5 text-right tabular">{cell(v.after)}</td>
-                <td className={cn("px-2 py-1.5 text-right tabular", color(d))}>{d ?? "—"}</td>
-                <td className={cn("px-3 py-1.5 text-right tabular", color(a))}>{a ?? "—"}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <div className="grid grid-cols-3 gap-2 px-4 pb-3">
+        <Stat label="Promo contribution">{money(p.prizePool, currency)}</Stat>
+        <Stat label="Participants" sub={m.participationRate != null ? `${pctPlain(m.participationRate, 1)} of active players` : undefined}>
+          {num(m.participants)}
+        </Stat>
+        <Stat label="Promo ROI" sub="extra GGR ÷ contribution" tone={m.promoRoi == null ? undefined : m.promoRoi >= 1 ? "good" : "bad"}>
+          {multiple(m.promoRoi)}
+        </Stat>
+      </div>
 
-      <footer className="flex flex-wrap gap-x-4 gap-y-0.5 border-t border-border bg-surface-raised/50 px-3 py-1.5 text-[11px] text-muted-foreground">
-        <span>
-          Contribution <span className="font-semibold text-foreground">{money(p.prizePool, currency)}</span>
-        </span>
-        <span>
-          Participants <span className="font-semibold text-foreground">{num(m.participants)}</span>
-          {m.participationRate != null && ` (${pctPlain(m.participationRate, 1)})`}
-        </span>
-        <span>
-          Promo ROI <span className="font-semibold text-foreground">{multiple(m.promoRoi)}</span>
-        </span>
-        {notFinal && <span className="text-accent">{m.status === "upcoming" ? "Not started yet" : "Results not final yet"}</span>}
-      </footer>
+      <div className="border-t border-border">
+        <PhaseTable m={m} currency={currency} />
+      </div>
     </article>
   );
 }

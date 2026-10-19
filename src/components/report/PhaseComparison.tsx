@@ -6,7 +6,7 @@ import { money, num, numCompact, pct } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
 const UNIT_TITLE: Record<PhaseUnit, string> = {
-  money: "Wager and win",
+  money: "Total Wager",
   ggr: "GGR",
   avg: "Avg bet",
   bets: "Number of bets",
@@ -82,7 +82,7 @@ export function PhaseComparison({
           const n = Math.min(...vals.map((x) => x.v.n));
           return (
             <div key={unit} className="min-w-0">
-              <p className="mb-1 text-xs font-semibold">{UNIT_TITLE[unit]}</p>
+              <p className="mb-1 text-xs font-semibold">{unit === "money" ? metrics.map((x) => x.label).join(" and ") : UNIT_TITLE[unit]}</p>
               {n === 0 ? (
                 <p className="py-10 text-center text-xs text-muted-foreground">Not reported for these promotions yet.</p>
               ) : (
