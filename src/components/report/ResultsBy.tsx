@@ -44,7 +44,7 @@ export function ResultsBy({
   list: PromoMetrics[];
   currency: string;
   /** Currently filtered value per dimension, to highlight it */
-  active: Partial<Record<Dimension, string>>;
+  active: Partial<Record<Dimension, string[]>>;
   onPick: (d: Dimension, key: string) => void;
 }) {
   const [dim, setDim] = useState<Dimension>("market");
@@ -53,11 +53,11 @@ export function ResultsBy({
   const hasNeg = rows.some((r) => (r.agg.duringVsBefore ?? 0) < 0);
 
   return (
-    <section className="panel min-w-0 p-4 sm:p-5">
-      <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
+    <section className="panel min-w-0 p-3 sm:p-4">
+      <div className="mb-2 flex flex-wrap items-start justify-between gap-2">
         <div>
-          <h3 className="font-display text-base font-semibold">Results by {DIMENSION_LABEL[dim].toLowerCase()}</h3>
-          <p className="mt-0.5 text-xs text-muted-foreground">GGR during vs before. Click a row to filter by it.</p>
+          <h3 className="text-sm font-semibold">Results by {DIMENSION_LABEL[dim].toLowerCase()}</h3>
+          <p className="text-[11px] text-muted-foreground">GGR during vs before · click to filter</p>
         </div>
         <Tabs value={dim} onValueChange={(v) => setDim(v as Dimension)}>
           <TabsList className="h-8">
@@ -75,13 +75,13 @@ export function ResultsBy({
           {rows.map((r) => {
             const v = r.agg.duringVsBefore;
             const w = v == null ? 0 : (Math.abs(v) / max) * (hasNeg ? 50 : 100);
-            const isActive = active[dim] === r.key;
+            const isActive = !!active[dim]?.includes(r.key);
             return (
               <button
                 key={r.key}
                 onClick={() => onPick(dim, r.key)}
                 className={cn(
-                  "grid w-full grid-cols-[minmax(0,9rem)_1fr_4.5rem] items-center gap-3 rounded-md px-2 py-1.5 text-left text-sm transition-colors hover:bg-surface-raised sm:grid-cols-[minmax(0,11rem)_1fr_4.5rem]",
+                  "grid w-full grid-cols-[minmax(0,9rem)_1fr_4.5rem] items-center gap-3 rounded-md px-2 py-1 text-left text-sm transition-colors hover:bg-surface-raised sm:grid-cols-[minmax(0,11rem)_1fr_4.5rem]",
                   isActive && "bg-primary/10",
                 )}
               >

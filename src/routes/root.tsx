@@ -5,6 +5,7 @@ import { AppHeader } from "@/components/report/AppHeader";
 import { ConfirmProvider } from "@/components/report/Confirm";
 import { DefinitionsDialog } from "@/components/report/DefinitionsDialog";
 import { ActionsPanel } from "@/components/report/ActionsPanel";
+import { SelectionBar } from "@/components/report/SelectionBar";
 import { ActionsProvider } from "@/lib/actions";
 import { ViewProvider } from "@/lib/view";
 import { DataProvider, useData } from "@/lib/store";
@@ -31,7 +32,7 @@ function AccessBanner() {
   if (!accessOperator) return null;
   return (
     <div className="no-print border-b border-primary/30 bg-primary/10">
-      <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-2 px-4 py-1.5 text-xs lg:px-8">
+      <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-2 px-4 py-1.5 text-xs lg:px-8">
         <p>
           <strong className="font-semibold">Viewing as {accessOperator}.</strong> Other operators are hidden — this previews an operator-restricted login.
         </p>
@@ -48,7 +49,7 @@ function SampleBanner() {
   if (!hasSample || !editable) return null;
   return (
     <div className="no-print border-b border-border bg-surface-raised/60">
-      <div className="mx-auto flex max-w-[1400px] flex-wrap items-center justify-between gap-2 px-4 py-1.5 text-xs text-muted-foreground lg:px-8">
+      <div className="mx-auto flex max-w-[1600px] flex-wrap items-center justify-between gap-2 px-4 py-1.5 text-xs text-muted-foreground lg:px-8">
         <p className="flex items-center gap-2">
           <FlaskConical className="size-3.5" />
           <span>
@@ -83,7 +84,7 @@ export function RootLayout() {
             <div className="flex-1">
               <Outlet />
             </div>
-            <footer hidden={bare} className="no-print flex flex-wrap items-center justify-center gap-x-3 gap-y-1 border-t border-border px-4 py-5 text-center text-xs text-muted-foreground lg:px-8">
+            <footer hidden={bare} className="no-print flex flex-wrap items-center justify-center gap-x-3 gap-y-1 border-t border-border px-4 pb-16 pt-5 text-center text-xs text-muted-foreground lg:px-8">
               <span>SPRIBE Promo Reports · aggregate data only, no individual players</span>
               <DefinitionsDialog>
                 <button className="text-primary hover:underline">How numbers are calculated</button>
@@ -91,6 +92,7 @@ export function RootLayout() {
             </footer>
             <AppToaster />
             {!bare && <ActionsPanel />}
+            {!bare && <SelectionBar />}
           </div>
         </ConfirmProvider>
         </ActionsProvider>

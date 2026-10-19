@@ -19,6 +19,7 @@ import type { PromoRecord } from "@/lib/types";
 import { marketLabel } from "@/lib/markets";
 import { findDuplicates } from "@/lib/quality";
 import { cn } from "@/lib/utils";
+import { PageHeader } from "@/components/report/ViewControls";
 
 export function DataPage() {
   const { dataset, editable, config, copyRemoteToManual } = useData();
@@ -26,16 +27,8 @@ export function DataPage() {
   const [creating, setCreating] = useState(false);
 
   return (
-    <main className="mx-auto max-w-[1400px] space-y-4 px-4 py-5 lg:px-8">
-      <div>
-        <h1 className="font-display text-3xl font-bold sm:text-4xl">
-          <span className="brand-gradient-text">Data</span>
-        </h1>
-        <p className="mt-1.5 max-w-2xl text-sm text-muted-foreground">
-          Where the report's numbers come from. Once the Back Office is connected it fills the report automatically; manual entry and
-          import are the fallback.
-        </p>
-      </div>
+    <main className="mx-auto max-w-[1600px] space-y-4 px-4 py-5 lg:px-8">
+      <PageHeader title="Data & Back Office" after={<span className="hidden text-xs text-muted-foreground sm:inline">Source, import, manual entry and settings</span>} />
 
       <SourceCard />
 

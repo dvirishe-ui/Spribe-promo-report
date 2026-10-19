@@ -29,11 +29,11 @@ export function useOpenLink() {
     if (l.kind === "promo") navigate({ to: "/promo/$promoId", params: { promoId: l.id }, search: { tab: l.tab, day: l.day } });
     else if (l.kind === "operator") {
       // An operator's promos: the Promotions list filtered to them.
-      set({ filters: { ...emptyFilters, operator: l.operator } });
-      navigate({ to: "/promotions" });
+      set({ filters: { ...emptyFilters, operator: [l.operator] } });
+      navigate({ to: "/explore" });
     }
     else if (l.kind === "data") navigate({ to: "/data" });
-    else navigate({ to: "/promotions" });
+    else navigate({ to: "/explore" });
   };
 }
 

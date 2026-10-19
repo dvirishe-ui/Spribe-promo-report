@@ -117,6 +117,16 @@
   --type-regional: oklch(0.8 0.15 175);
   --type-seasonal: oklch(0.76 0.17 330);
   --type-launch: oklch(0.85 0.17 115);
+
+  /* Categorical series (one per compared promo) — validated reference palette, dark steps */
+  --cat-1: #3987e5;
+  --cat-2: #d95926;
+  --cat-3: #199e70;
+  --cat-4: #c98500;
+  --cat-5: #d55181;
+  --cat-6: #008300;
+  --cat-7: #9085e9;
+  --cat-8: #e66767;
 }
 
 /* Light mode: same SPRIBE orange identity, warm off-white surfaces instead of charcoal. */
@@ -170,6 +180,16 @@
   --type-regional: oklch(0.45 0.13 175);
   --type-seasonal: oklch(0.52 0.17 330);
   --type-launch: oklch(0.46 0.15 115);
+
+  /* Categorical series — light steps */
+  --cat-1: #2a78d6;
+  --cat-2: #eb6834;
+  --cat-3: #1baf7a;
+  --cat-4: #eda100;
+  --cat-5: #e87ba4;
+  --cat-6: #008300;
+  --cat-7: #6250d6;
+  --cat-8: #e34948;
 }
 
 @layer base {

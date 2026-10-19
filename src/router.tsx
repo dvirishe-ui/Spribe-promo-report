@@ -1,9 +1,8 @@
-import { createHashHistory, createRootRoute, createRoute, createRouter } from "@tanstack/react-router";
+import { createHashHistory, createRootRoute, createRoute, createRouter, redirect } from "@tanstack/react-router";
 import { RootLayout } from "@/routes/root";
 import { OverviewPage } from "@/routes/overview";
-import { PromotionsPage } from "@/routes/promotions";
 import { PromoReportPage } from "@/routes/promo-report";
-import { InsightsPage } from "@/routes/insights";
+import { ExplorePage } from "@/routes/explore";
 import { CalendarPage } from "@/routes/calendar";
 import { DataPage } from "@/routes/data";
 import { NotFoundPage } from "@/routes/not-found";
@@ -21,7 +20,21 @@ const int = (v: unknown) => {
 };
 
 const overviewRoute = createRoute({ getParentRoute: () => rootRoute, path: "/", component: OverviewPage });
-const promotionsRoute = createRoute({ getParentRoute: () => rootRoute, path: "/promotions", component: PromotionsPage });
+const exploreRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/explore",
+  // ?tab=compare|rank|missions|library|alerts (promotions when absent)
+  validateSearch: (s: Record<string, unknown>): { tab?: string } => ({ tab: str(s.tab) }),
+  component: ExplorePage,
+});
+// Old addresses keep working: Promotions and Insights now live in Explore.
+const promotionsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/promotions",
+  beforeLoad: () => {
+    throw redirect({ to: "/explore", replace: true });
+  },
+});
 const promoRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/promo/$promoId",
@@ -32,8 +45,10 @@ const promoRoute = createRoute({
 const insightsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/insights",
-  validateSearch: (s: Record<string, unknown>): { tab?: string; ids?: string } => ({ tab: str(s.tab), ids: str(s.ids) }),
-  component: InsightsPage,
+  validateSearch: (s: Record<string, unknown>): { tab?: string } => ({ tab: str(s.tab) }),
+  beforeLoad: ({ search }) => {
+    throw redirect({ to: "/explore", search: { tab: search.tab ?? "alerts" }, replace: true });
+  },
 });
 const calendarRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -52,6 +67,7 @@ const shareRoute = createRoute({ getParentRoute: () => rootRoute, path: "/share/
 
 const routeTree = rootRoute.addChildren([
   overviewRoute,
+  exploreRoute,
   promotionsRoute,
   promoRoute,
   insightsRoute,

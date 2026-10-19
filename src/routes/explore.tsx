@@ -1,66 +1,251 @@
 import { useMemo, useState } from "react";
 import { Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { AlertTriangle, ArrowRight, Copy, Search, X } from "lucide-react";
+import { ArrowRight, Copy, Download, Inbox, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
-import { ChangePill, EmptyState, StatusBadge } from "@/components/report/bits";
+import { EmptyState, StatusBadge } from "@/components/report/bits";
 import { InsightCard } from "@/components/report/InsightCard";
 import { OutcomeChip } from "@/components/report/ResultHero";
+import { FilterLayout, PageHeader, defaultMonth, periodName } from "@/components/report/ViewControls";
+import { PromoTable } from "@/components/report/PromoTable";
+import { ResultsTable } from "@/components/report/ResultsTable";
+import { PromoList } from "@/components/report/PromoListing";
+import { PromoChartCard } from "@/components/report/MetricCharts";
+import { GgrTriptych } from "@/components/charts/GgrTriptych";
+import { ComparisonView, SelectionChips } from "@/components/report/Comparison";
+import { OutcomeStrip } from "@/components/report/Outcome";
+import { useSelection } from "@/components/report/SelectionBar";
 import { useData } from "@/lib/store";
+import { useView, selectPeriod } from "@/lib/view";
 import { buildInsights, type Insight } from "@/lib/insights";
 import { isMissionType, isRankingType, median, type PromoMetrics } from "@/lib/metrics";
 import { formatRange, todayIso, addDays, daysBetween } from "@/lib/dates";
 import { marketLabel } from "@/lib/markets";
-import { money, multiple, num, pct, pctPlain } from "@/lib/format";
+import { multiple, num, pct, pctPlain } from "@/lib/format";
 import { outcomeFor, type OutcomeTone } from "@/lib/verdict";
 import { newId } from "@/lib/normalize";
+import { resultsCsv } from "@/lib/export";
+import { downloadText } from "@/lib/csv";
 import { cn } from "@/lib/utils";
 
-export type InsightsTab = "alerts" | "compare" | "rank" | "missions" | "library";
+export type ExploreTab = "promotions" | "compare" | "rank" | "missions" | "library" | "alerts";
+const TABS: Array<{ v: ExploreTab; label: string }> = [
+  { v: "promotions", label: "Promotions" },
+  { v: "compare", label: "Compare" },
+  { v: "rank", label: "Rankings" },
+  { v: "missions", label: "Missions" },
+  { v: "library", label: "Library" },
+  { v: "alerts", label: "Insights" },
+];
 
-/** Level 2–3 — for investigating across promotions. */
-export function InsightsPage() {
-  const search = useSearch({ from: "/insights" });
+/**
+ * Level 2–3 — everything for working across promotions in one place: the full
+ * promotion list and charts, comparisons, rankings, mission analysis, the
+ * historical library and every insight. Filters at the top apply to all tabs;
+ * the period applies to the promotion list.
+ */
+export function ExplorePage() {
+  const search = useSearch({ from: "/explore" });
   const navigate = useNavigate();
-  const tab: InsightsTab = (search.tab as InsightsTab) ?? "alerts";
+  const tab: ExploreTab = TABS.some((t) => t.v === search.tab) ? (search.tab as ExploreTab) : "promotions";
   const { metrics, dataset, status, error } = useData();
-  const insights = buildInsights(metrics, dataset.promos, { syncError: status === "error" ? error : null, currency: dataset.currency });
+  const { view } = useView();
+  const month = view.month ?? defaultMonth(metrics);
+  const { filtered, shown } = selectPeriod(metrics, view, month);
+  const insights = buildInsights(filtered, dataset.promos, { syncError: status === "error" ? error : null, currency: dataset.currency });
+  const label = periodName(view.mode, month, view.from, view.to);
+  const periodTab = tab === "promotions";
 
   return (
-    <main className="mx-auto max-w-[1400px] space-y-4 px-4 py-5 lg:px-8">
-      <div>
-        <h1 className="font-display text-3xl font-bold sm:text-4xl">
-          <span className="brand-gradient-text">Insights</span>
-        </h1>
-        <p className="mt-1.5 max-w-2xl text-sm text-muted-foreground">Compare promotions, rank them on what matters to you, dig into missions and find past examples to reuse.</p>
-      </div>
-      <Tabs value={tab} onValueChange={(v) => navigate({ to: "/insights", search: { tab: v as InsightsTab, ids: search.ids }, replace: true })}>
-        <TabsList className="h-10 max-w-full overflow-x-auto">
-          <TabsTrigger value="alerts" className="h-8 px-3">All insights ({insights.length})</TabsTrigger>
-          <TabsTrigger value="compare" className="h-8 px-3">Compare</TabsTrigger>
-          <TabsTrigger value="rank" className="h-8 px-3">Winners & losers</TabsTrigger>
-          <TabsTrigger value="missions" className="h-8 px-3">Missions</TabsTrigger>
-          <TabsTrigger value="library" className="h-8 px-3">Library</TabsTrigger>
-        </TabsList>
-        <TabsContent value="alerts" className="mt-3">
-          <AllInsights insights={insights} />
-        </TabsContent>
-        <TabsContent value="compare" className="mt-3">
-          <Compare all={metrics} initial={search.ids?.split(",").filter(Boolean) ?? []} currency={dataset.currency} />
-        </TabsContent>
-        <TabsContent value="rank" className="mt-3">
-          <Rank all={metrics} currency={dataset.currency} />
-        </TabsContent>
-        <TabsContent value="missions" className="mt-3">
-          <MissionAnalysis all={metrics} />
-        </TabsContent>
-        <TabsContent value="library" className="mt-3">
-          <Library all={metrics} currency={dataset.currency} />
-        </TabsContent>
-      </Tabs>
+    <main className="mx-auto max-w-[1600px] space-y-3 px-4 py-4 lg:px-8">
+      <PageHeader title="Explore">
+        <div className="flex h-8 max-w-full items-center gap-0.5 overflow-x-auto rounded-md border border-border bg-surface-raised p-0.5">
+          {TABS.map((t) => (
+            <button
+              key={t.v}
+              onClick={() => navigate({ to: "/explore", search: { tab: t.v === "promotions" ? undefined : t.v }, replace: true })}
+              className={cn(
+                "h-6 whitespace-nowrap rounded px-2.5 text-xs transition-colors",
+                tab === t.v ? "bg-background font-medium text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground",
+              )}
+            >
+              {t.label}
+              {t.v === "alerts" && insights.length > 0 && <span className="ml-1 text-muted-foreground">{insights.length}</span>}
+            </button>
+          ))}
+        </div>
+      </PageHeader>
+      {tab === "compare" ? (
+        <CompareTab all={metrics} currency={dataset.currency} />
+      ) : (
+        <FilterLayout metrics={metrics} month={month} count={periodTab ? shown.length : filtered.length} hidePeriod={!periodTab}>
+          {tab === "promotions" && <PromotionsTab shown={shown} label={label} currency={dataset.currency} />}
+          {tab === "rank" && <Rank all={filtered} currency={dataset.currency} />}
+          {tab === "missions" && <MissionAnalysis all={filtered} />}
+          {tab === "library" && <Library all={filtered} currency={dataset.currency} />}
+          {tab === "alerts" && <AllInsights insights={insights} />}
+        </FilterLayout>
+      )}
     </main>
+  );
+}
+
+/* -------------------------------------------------------------- promotions */
+
+function PromotionsTab({ shown, label, currency }: { shown: PromoMetrics[]; label: string; currency: string }) {
+  const { view, set } = useView();
+  const sel = useSelection();
+  const navigate = useNavigate();
+  const [pick, setPick] = useState<OutcomeTone | null>(null);
+  const outcome = pick && shown.some((m) => outcomeFor(m, currency).tone === pick) ? pick : null;
+  const list = outcome ? shown.filter((m) => outcomeFor(m, currency).tone === outcome) : shown;
+  const openPromo = (id: string) => navigate({ to: "/promo/$promoId", params: { promoId: id } });
+  if (!shown.length)
+    return (
+      <div className="panel">
+        <EmptyState icon={Inbox} title={`No promotions in ${label}`}>
+          Try another period or clear the filters.
+        </EmptyState>
+      </div>
+    );
+  const seg = (v: typeof view.layout, text: string) => (
+    <button
+      key={v}
+      onClick={() => set({ layout: v })}
+      className={cn("h-6 rounded px-2 text-xs transition-colors", view.layout === v ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}
+    >
+      {text}
+    </button>
+  );
+  return (
+    <div className="space-y-3">
+      <OutcomeStrip list={shown} currency={currency} active={outcome} onPick={(t) => setPick(outcome === t ? null : t)} />
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <div className="flex h-7 items-center gap-0.5 rounded-md border border-border bg-surface-raised p-0.5">
+          {seg("compact", "List")}
+          {seg("table", "All metrics")}
+          {seg("grouped", "Grouped")}
+        </div>
+        <Button variant="outline" size="sm" className="h-7 text-xs" onClick={() => downloadText(`spribe-promotions-${label.replace(/\W+/g, "-")}.csv`, resultsCsv(list, currency))}>
+          <Download className="size-3.5" /> CSV
+        </Button>
+      </div>
+      {view.layout === "table" ? (
+        <ResultsTable list={list} currency={currency} onSelect={openPromo} />
+      ) : view.layout === "grouped" ? (
+        <PromoList
+          list={list}
+          outcome={outcome}
+          onClearOutcome={() => setPick(null)}
+          currency={currency}
+          group={view.group}
+          sort={view.sort}
+          onGroup={(g) => set({ group: g })}
+          onSort={(s) => set({ sort: s })}
+          onSelect={openPromo}
+        />
+      ) : (
+        <PromoTable list={list} currency={currency} selected={sel.ids} onToggle={sel.toggle} onOpen={openPromo} limit={15} title={outcome ? "Promotions (filtered by result)" : "Promotions"} />
+      )}
+      <section className="panel min-w-0 p-3 sm:p-4">
+        <PromoChartCard
+          list={list}
+          currency={currency}
+          metricKey={view.promoChartMetric}
+          onMetric={(k) => set({ promoChartMetric: k })}
+          onSelect={openPromo}
+          triptych={(toolbar) => (
+            <GgrTriptych
+              list={list}
+              currency={currency}
+              mode={view.ggrMode}
+              onMode={(m) => set({ ggrMode: m })}
+              selected={sel.ids}
+              onToggle={sel.toggle}
+              onOpen={openPromo}
+              limit={12}
+              toolbar={toolbar}
+            />
+          )}
+        />
+      </section>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ compare */
+
+/**
+ * Compare: a search box to add promos, the selection as chips, then the
+ * comparison itself. Uses the same selection as the rest of the site, so
+ * promos ticked on any page are already here.
+ */
+function CompareTab({ all, currency }: { all: PromoMetrics[]; currency: string }) {
+  const sel = useSelection();
+  const navigate = useNavigate();
+  const [q, setQ] = useState("");
+  const [focus, setFocus] = useState(false);
+  const matches = all
+    .filter((m) => m.status !== "upcoming" && !sel.ids.includes(m.promo.id))
+    .filter((m) => !q || [m.promo.name, m.promo.operator, m.promo.market, m.promo.type].join(" ").toLowerCase().includes(q.toLowerCase()))
+    .sort((a, b) => b.promo.startDate.localeCompare(a.promo.startDate))
+    .slice(0, 8);
+  const latest = all.filter((m) => m.status === "complete").sort((a, b) => b.promo.startDate.localeCompare(a.promo.startDate));
+  return (
+    <div className="space-y-3">
+      <div className="flex flex-wrap items-center gap-2">
+        <div className="relative w-full sm:w-80">
+          <Search className="pointer-events-none absolute left-2 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground" />
+          <input
+            className="h-8 w-full rounded-md border border-border bg-surface pl-7 pr-2 text-xs outline-none focus:ring-2 focus:ring-ring"
+            placeholder="Add a promotion — search name, operator, market"
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            onFocus={() => setFocus(true)}
+            onBlur={() => setTimeout(() => setFocus(false), 150)}
+          />
+          {focus && matches.length > 0 && (
+            <div className="absolute left-0 right-0 top-9 z-20 rounded-md border border-border bg-popover p-1 shadow-lg">
+              {matches.map((m) => (
+                <button
+                  key={m.promo.id}
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => {
+                    sel.toggle(m.promo.id);
+                    setQ("");
+                  }}
+                  className="flex w-full items-center justify-between gap-2 rounded px-2 py-1.5 text-left text-xs hover:bg-surface-raised"
+                >
+                  <span className="truncate">{m.promo.name}</span>
+                  <span className="shrink-0 text-[11px] text-muted-foreground">
+                    {m.promo.operator} · {formatRange(m.promo.startDate, m.promo.endDate)}
+                  </span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+        <SelectionChips list={sel.list} onRemove={sel.toggle} />
+        {sel.list.length > 0 && (
+          <button onClick={sel.clear} className="text-xs text-muted-foreground hover:text-foreground">
+            Clear selection
+          </button>
+        )}
+      </div>
+      {sel.list.length < 2 ? (
+        <div className="panel p-6 text-center text-sm text-muted-foreground">
+          Add two or more promotions — or tick them in any list or chart.{" "}
+          {latest.length >= 2 && (
+            <button onClick={() => sel.set([...sel.ids, ...latest.slice(0, 3).map((m) => m.promo.id)])} className="text-primary hover:underline">
+              Compare the latest three
+            </button>
+          )}
+        </div>
+      ) : (
+        <ComparisonView list={sel.list} currency={currency} onOpen={(id) => navigate({ to: "/promo/$promoId", params: { promoId: id } })} />
+      )}
+    </div>
   );
 }
 
@@ -73,7 +258,7 @@ function AllInsights({ insights }: { insights: Insight[] }) {
   return (
     <section className="panel p-4 sm:p-5">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <p className="text-sm text-muted-foreground">Most important first. Each one shows the metric that triggered it, the threshold, and a link to the evidence.</p>
+        <p className="text-xs text-muted-foreground">Most important first · metric, threshold and evidence link on each.</p>
         <div className="flex flex-wrap gap-1 text-xs">
           {["all", ...cats].map((c) => (
             <button key={c} onClick={() => setCat(c)} className={cn("rounded-full border px-2.5 py-1", cat === c ? "border-primary bg-primary/10" : "border-border text-muted-foreground hover:text-foreground")}>
@@ -92,138 +277,6 @@ function AllInsights({ insights }: { insights: Insight[] }) {
         <p className="py-6 text-sm text-muted-foreground">Nothing flagged. Insights appear when a rule's threshold is crossed and there's enough data to compare.</p>
       )}
     </section>
-  );
-}
-
-/* ----------------------------------------------------------------- compare */
-
-function Picker({ all, selected, onToggle, max = 4 }: { all: PromoMetrics[]; selected: string[]; onToggle: (id: string) => void; max?: number }) {
-  const [q, setQ] = useState("");
-  const list = all
-    .filter((m) => m.status !== "upcoming")
-    .filter((m) => !q || [m.promo.name, m.promo.operator, m.promo.market, m.promo.type].join(" ").toLowerCase().includes(q.toLowerCase()))
-    .sort((a, b) => b.promo.startDate.localeCompare(a.promo.startDate))
-    .slice(0, 40);
-  return (
-    <div className="panel p-3">
-      <div className="relative">
-        <Search className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-        <input className="h-9 w-full rounded-md border border-border bg-surface-raised pl-8 pr-2 text-sm outline-none focus:ring-2 focus:ring-ring" placeholder="Find promotions to compare" value={q} onChange={(e) => setQ(e.target.value)} />
-      </div>
-      <div className="mt-2 max-h-64 space-y-0.5 overflow-y-auto">
-        {list.map((m) => {
-          const on = selected.includes(m.promo.id);
-          return (
-            <label key={m.promo.id} className={cn("flex cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-sm hover:bg-surface-raised", !on && selected.length >= max && "opacity-50")}>
-              <input type="checkbox" checked={on} disabled={!on && selected.length >= max} onChange={() => onToggle(m.promo.id)} className="accent-[var(--color-primary)]" />
-              <span className="min-w-0 flex-1 truncate">{m.promo.name}</span>
-              <span className="shrink-0 text-xs text-muted-foreground">{m.promo.operator}</span>
-            </label>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
-/** Differences that make a side-by-side comparison less fair. Flags, not blockers. */
-function comparability(list: PromoMetrics[]): string[] {
-  const out: string[] = [];
-  const set = (f: (m: PromoMetrics) => string) => new Set(list.map(f));
-  if (set((m) => m.promo.market).size > 1) out.push("Different markets — player behaviour and seasonality differ.");
-  if (set((m) => m.promo.type).size > 1) out.push("Different mechanics — they aim at different things.");
-  const days = list.map((m) => m.promoDays);
-  if (Math.max(...days) > Math.min(...days) * 1.5) out.push(`Different lengths (${Math.min(...days)}–${Math.max(...days)} days) — compared per day, but longer promos can fade.`);
-  const pops = list.map((m) => m.participants).filter((v): v is number => v != null);
-  if (pops.length > 1 && Math.max(...pops) > Math.min(...pops) * 3) out.push("Very different player numbers — percentages from small promos move more easily.");
-  if (set((m) => String(m.isAdjusted)).size > 1) out.push("Some GGR changes are adjusted for the market trend, others aren't.");
-  if (set((m) => m.promo.currency).size > 1) out.push("Different currencies — converted with the rates in Settings.");
-  if (list.some((m) => m.status !== "complete")) out.push("Some results aren't final yet.");
-  return out;
-}
-
-function Compare({ all, initial, currency }: { all: PromoMetrics[]; initial: string[]; currency: string }) {
-  const [ids, setIds] = useState<string[]>(initial.length ? initial : all.filter((m) => m.status === "complete").sort((a, b) => b.promo.startDate.localeCompare(a.promo.startDate)).slice(0, 2).map((m) => m.promo.id));
-  const list = ids.map((id) => all.find((m) => m.promo.id === id)).filter((m): m is PromoMetrics => !!m);
-  const flags = list.length > 1 ? comparability(list) : [];
-  const rows: Array<{ label: string; get: (m: PromoMetrics) => React.ReactNode }> = [
-    { label: "Operator · market", get: (m) => `${m.promo.operator} · ${marketLabel(m.promo.market)}` },
-    { label: "Type · games", get: (m) => `${m.promo.type} · ${m.promo.games.join(", ")}` },
-    { label: "Dates", get: (m) => `${formatRange(m.promo.startDate, m.promo.endDate)} (${m.promoDays} d)` },
-    { label: "GGR change vs baseline", get: (m) => <ChangePill value={m.primaryChange} adjusted={m.isAdjusted} /> },
-    { label: "After it ended", get: (m) => pct(m.afterVsBefore) },
-    { label: "Players took part", get: (m) => num(m.participants) },
-    { label: "Part. rate", get: (m) => pctPlain(m.participationRate, 1) },
-    { label: "Came back after", get: (m) => pctPlain(m.retentionRate) },
-    { label: "Mission completion", get: (m) => pctPlain(m.missionDays?.overallRate ?? m.missions?.completionRate ?? null) },
-    { label: "Promo contribution", get: (m) => money(m.promo.prizePool, currency) },
-    { label: "Cost per participant", get: (m) => money(m.costPerParticipant, currency) },
-    { label: "Promo ROI (x)", get: (m) => multiple(m.promoRoi) },
-    { label: "Total wager", get: (m) => money(m.turnoverDuring, currency) },
-    { label: "RTP", get: (m) => pctPlain(m.rtp, 2) },
-  ];
-  return (
-    <div className="grid gap-4 lg:grid-cols-[300px_1fr]">
-      <Picker all={all} selected={ids} onToggle={(id) => setIds((s) => (s.includes(id) ? s.filter((x) => x !== id) : [...s, id]))} />
-      <div className="min-w-0 space-y-3">
-        {list.length < 2 ? (
-          <div className="panel">
-            <EmptyState icon={Search} title="Pick two to four promotions">
-              Choose from the list to see them side by side.
-            </EmptyState>
-          </div>
-        ) : (
-          <>
-            {flags.length > 0 && (
-              <div className="rounded-lg border border-accent/40 bg-accent/10 p-3 text-sm">
-                <p className="flex items-center gap-1.5 font-medium">
-                  <AlertTriangle className="size-4 text-accent" /> Read with care
-                </p>
-                <ul className="mt-1 list-disc space-y-0.5 pl-5 text-xs text-muted-foreground">
-                  {flags.map((f) => (
-                    <li key={f}>{f}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            <div className="panel overflow-x-auto">
-              <table className="w-full min-w-[640px] text-sm">
-                <thead>
-                  <tr className="border-b border-border">
-                    <th className="w-44 px-4 py-3" />
-                    {list.map((m) => (
-                      <th key={m.promo.id} className="px-3 py-3 text-left align-top font-normal">
-                        <div className="flex items-start justify-between gap-2">
-                          <Link to="/promo/$promoId" params={{ promoId: m.promo.id }} className="font-display font-semibold hover:text-primary">
-                            {m.promo.name}
-                          </Link>
-                          <button aria-label="Remove" onClick={() => setIds((s) => s.filter((x) => x !== m.promo.id))} className="text-muted-foreground hover:text-foreground">
-                            <X className="size-3.5" />
-                          </button>
-                        </div>
-                        <div className="mt-1">{m.status === "complete" ? <OutcomeChip m={m} currency={currency} /> : <StatusBadge status={m.status} />}</div>
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border">
-                  {rows.map((r) => (
-                    <tr key={r.label}>
-                      <td className="px-4 py-2.5 text-xs text-muted-foreground">{r.label}</td>
-                      {list.map((m) => (
-                        <td key={m.promo.id} className="px-3 py-2.5 tabular">
-                          {r.get(m)}
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </>
-        )}
-      </div>
-    </div>
   );
 }
 
@@ -255,9 +308,7 @@ function Rank({ all, currency }: { all: PromoMetrics[]; currency: string }) {
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h3 className="font-display text-base font-semibold">Winners & losers</h3>
-          <p className="mt-0.5 max-w-xl text-xs text-muted-foreground">
-            Pick what “good” means for your question. No single metric is the definition of success — a promo can win on growth and lose on cost.
-          </p>
+          <p className="mt-0.5 text-xs text-muted-foreground">No single metric defines success — pick the one your question needs.</p>
         </div>
         <div className="flex flex-wrap gap-1">
           {(Object.keys(RANK_METRICS) as RankKey[]).map((k) => (
@@ -349,7 +400,7 @@ function MissionAnalysis({ all }: { all: PromoMetrics[] }) {
       </p>
       <section className="panel p-4 sm:p-5">
         <h3 className="font-display text-base font-semibold">Missions worth a look</h3>
-        <p className="mt-0.5 text-xs text-muted-foreground">Low completion (under 50%), a drop of 25+ points from the day before, or completed in under a quarter of that promo's typical time.</p>
+        <p className="mt-0.5 text-xs text-muted-foreground">Under 50% completion, a 25+ pt drop, or unusually quick.</p>
         {flagged.length === 0 ? (
           <p className="py-4 text-sm text-muted-foreground">Nothing flagged.</p>
         ) : (
@@ -455,6 +506,7 @@ const DURATION: Record<string, (d: number) => boolean> = {
 
 function Library({ all, currency }: { all: PromoMetrics[]; currency: string }) {
   const { editable, savePromo, dataset } = useData();
+  const { ids: selected, toggle } = useSelection();
   const navigate = useNavigate();
   const [q, setQ] = useState("");
   const [f, setF] = useState({ game: "all", market: "all", operator: "all", type: "all", duration: "all", mechanic: "all", result: "all" });
@@ -601,10 +653,8 @@ function Library({ all, currency }: { all: PromoMetrics[]; currency: string }) {
                   Open report
                 </Link>
               </Button>
-              <Button asChild variant="ghost" size="sm">
-                <Link to="/insights" search={{ tab: "compare", ids: m.promo.id }}>
-                  Compare
-                </Link>
+              <Button variant="ghost" size="sm" onClick={() => toggle(m.promo.id)}>
+                {selected.includes(m.promo.id) ? "✓ In comparison" : "Add to compare"}
               </Button>
               {editable && (
                 <Button variant="ghost" size="sm" onClick={() => reuse(m)}>

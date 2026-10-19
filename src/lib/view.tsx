@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import { emptyFilters, applyFilters, type FilterState } from "./filters";
+import { emptyFilters, applyFilters, normalizeFilters, type FilterState } from "./filters";
 import type { PromoMetrics } from "./metrics";
 
 /**
@@ -21,21 +21,33 @@ export interface ViewState {
   filtersOpen: boolean;
   group: "none" | "market" | "aggregator" | "operator" | "type";
   sort: "newest" | "change" | "ggr" | "name";
-  /** Promotions page: cards or the full results table */
-  layout: "table" | "list";
+  /** Explore → Promotions: compact list, full metrics table, or grouped cards */
+  layout: "compact" | "table" | "grouped";
   /** Metric shown in the Overview trend chart and the Promotions chart */
   trendMetric: string;
   promoChartMetric: string;
+  /** Promos picked for comparison — kept while moving between pages */
+  selected: string[];
+  /** Main GGR charts: totals, per day, or % change */
+  ggrMode: "total" | "perDay" | "change";
 }
 
 const KEY = "spribe-report-view-v2";
 
-const DEFAULTS: ViewState = { filters: emptyFilters, mode: "month", month: null, from: "", to: "", filtersOpen: true, group: "none", sort: "newest", layout: "table", trendMetric: "monthGgr", promoChartMetric: "bda" };
+const DEFAULTS: ViewState = { filters: emptyFilters, mode: "month", month: null, from: "", to: "", filtersOpen: true, group: "none", sort: "newest", layout: "compact", trendMetric: "monthGgr", promoChartMetric: "bda", selected: [], ggrMode: "total" };
 
 function load(): ViewState {
   try {
     const raw = JSON.parse(localStorage.getItem(KEY) ?? "null");
-    if (raw && typeof raw === "object") return { ...DEFAULTS, ...raw, filters: { ...emptyFilters, ...(raw.filters ?? {}) } };
+    if (raw && typeof raw === "object")
+      return {
+        ...DEFAULTS,
+        ...raw,
+        filters: normalizeFilters(raw.filters),
+        selected: Array.isArray(raw.selected) ? raw.selected.filter((x: unknown) => typeof x === "string") : [],
+        // The old Promotions "list" layout is now "grouped"
+        layout: raw.layout === "list" ? "grouped" : raw.layout === "table" || raw.layout === "compact" || raw.layout === "grouped" ? raw.layout : "compact",
+      };
   } catch {
     // defaults
   }
@@ -45,6 +57,9 @@ function load(): ViewState {
 interface ViewValue {
   view: ViewState;
   set: (patch: Partial<ViewState>) => void;
+  /** Add or remove one promo from the comparison selection */
+  toggleSelect: (id: string) => void;
+  setSelected: (ids: string[]) => void;
 }
 
 const Ctx = createContext<ViewValue | null>(null);
@@ -58,7 +73,18 @@ export function ViewProvider({ children }: { children: ReactNode }) {
       // convenience only
     }
   }, [view]);
-  return <Ctx.Provider value={{ view, set: (patch) => setView((v) => ({ ...v, ...patch })) }}>{children}</Ctx.Provider>;
+  return (
+    <Ctx.Provider
+      value={{
+        view,
+        set: (patch) => setView((v) => ({ ...v, ...patch })),
+        toggleSelect: (id) => setView((v) => ({ ...v, selected: v.selected.includes(id) ? v.selected.filter((x) => x !== id) : [...v.selected, id] })),
+        setSelected: (ids) => setView((v) => ({ ...v, selected: [...new Set(ids)] })),
+      }}
+    >
+      {children}
+    </Ctx.Provider>
+  );
 }
 
 export function useView() {

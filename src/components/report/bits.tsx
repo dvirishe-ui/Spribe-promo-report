@@ -105,14 +105,25 @@ export function LiveBadge({ status }: { status: PromoStatus }) {
 }
 
 /** The headline change, marked when it is adjusted for the market trend. */
-export function ChangePill({ value, adjusted, className }: { value: number | null; adjusted: boolean; className?: string }) {
+export function ChangePill({
+  value,
+  adjusted,
+  className,
+  compact = false,
+}: {
+  value: number | null;
+  adjusted: boolean;
+  className?: string;
+  /** Hide the adj./raw label on phones (still in the tooltip) */
+  compact?: boolean;
+}) {
   return (
     <span className={cn("inline-flex items-center gap-1.5", className)}>
       <ResultPill value={value} />
       {value != null && (
         <span
           title={adjusted ? "Adjusted for the market trend with a comparison group" : "Before vs during only — not adjusted for the market trend"}
-          className={cn("text-[10px] font-medium uppercase tracking-wide", adjusted ? "text-good-ink" : "text-muted-foreground")}
+          className={cn("text-[10px] font-medium uppercase tracking-wide", adjusted ? "text-good-ink" : "text-muted-foreground", compact && "hidden sm:inline")}
         >
           {adjusted ? "adj." : "raw"}
         </span>

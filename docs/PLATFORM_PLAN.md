@@ -3,8 +3,7 @@
 > Simple enough for a CEO to understand in 30 seconds, powerful enough for an
 > Engagement Manager to investigate for 30 minutes.
 
-One experience, three depths: **Overview** (level 1) → **Promotions / Insights /
-Calendar** (level 2) → **promo report tabs, investigations, tables and
+One experience, three depths: **Overview** (level 1) → **Explore / Calendar** (level 2) → **promo report tabs, investigations, tables and
 exports** (level 3). No separate dashboards per role.
 
 ## Analysis of the site before this upgrade
@@ -58,3 +57,21 @@ PDF generation beyond print-to-PDF.
 - Possible explanations in investigations are labelled hypotheses, never causes.
 - Aggregate player data only; engagement far above normal is flagged as a responsible-gaming check.
 - The partner view of a promo contains only that promo's own data.
+
+## CCO-first redesign (October 2026)
+
+Goal: more visible, less text, fewer clicks, less scrolling — readable on a 1366×768 laptop.
+
+- **Navigation** cut to Overview · Explore · Calendar. Explore holds Promotions, Compare, Rankings,
+  Missions, Library and Insights as tabs; old `/promotions` and `/insights` links redirect.
+- **Filters** moved from the left sidebar to a compact bar under the title; every dimension is
+  multi-select with search; chips + Reset; secondary filters in "More" below 1280px.
+- **Main GGR graph** split into three linked charts (Before · During · After), same promos in the
+  same order, one shared scale; Total / Per day / % change; hover highlights a promo across all three
+  with exact values; tick to select, click to open.
+- **Multi-selection** shared by every list, chart and report and kept between pages; a bottom bar
+  with chips opens the comparison drawer. Large selections show the median first.
+- **Overview** reordered for the CCO: KPI strip with sparklines → result summary → needs attention
+  and highlights → promotion list → linked charts → trend and breakdown.
+- **Result labels** (Positive / Mixed / Flat / Negative / Pending) always show an icon and label and
+  state their criteria; "Positive" needs GGR up ≥3% *and* extra GGR covering the contribution.

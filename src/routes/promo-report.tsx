@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate, useParams, useSearch } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { ArrowLeft, CalendarDays, ClipboardCopy, Download, FileText, Pencil, Presentation, Printer } from "lucide-react";
+import { ArrowLeft, CalendarDays, GitCompareArrows, ClipboardCopy, Download, FileText, Pencil, Presentation, Printer } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PromoEditor } from "@/components/report/PromoEditor";
@@ -19,6 +19,7 @@ import {
 } from "@/components/report/ReportSections";
 import { NotFoundPage } from "@/routes/not-found";
 import { useData } from "@/lib/store";
+import { useSelection } from "@/components/report/SelectionBar";
 import { formatRange } from "@/lib/dates";
 import { moneyFull, pct, pctPlain } from "@/lib/format";
 import { buildInsights } from "@/lib/insights";
@@ -36,6 +37,7 @@ export function PromoReportPage() {
   const search = useSearch({ from: "/promo/$promoId" });
   const navigate = useNavigate();
   const { metrics, dataset, editable, hasSample, status, error } = useData();
+  const sel = useSelection();
   const [editing, setEditing] = useState(false);
   const tab = (search.tab as TabKey) ?? "overview";
   const day = search.day ?? null;
@@ -78,11 +80,14 @@ export function PromoReportPage() {
     <main className="mx-auto max-w-[1200px] space-y-5 px-4 py-5 lg:px-8">
       <div className="no-print flex flex-wrap items-center justify-between gap-2">
         <Button asChild variant="ghost" size="sm">
-          <Link to="/promotions">
+          <Link to="/explore">
             <ArrowLeft className="size-4" /> All promotions
           </Link>
         </Button>
         <div className="flex flex-wrap gap-2">
+          <Button variant={sel.ids.includes(p.id) ? "default" : "outline"} size="sm" onClick={() => sel.toggle(p.id)}>
+            <GitCompareArrows className="size-3.5" /> {sel.ids.includes(p.id) ? "In comparison" : "Add to compare"}
+          </Button>
           <Button asChild size="sm">
             <Link to="/share/$promoId" params={{ promoId: p.id }}>
               <Presentation className="size-3.5" /> Partner view
@@ -115,7 +120,7 @@ export function PromoReportPage() {
             <span className="rounded-full border border-accent/40 bg-accent/10 px-2 py-0.5 text-[11px] font-medium text-accent">Demo data · fictional</span>
           )}
         </div>
-        <h1 className="mt-2 font-display text-3xl font-bold">{p.name}</h1>
+        <h1 className="mt-1.5 font-display text-2xl font-bold">{p.name}</h1>
         <div className="mt-2 flex flex-wrap gap-1.5 text-xs">
           {[p.type, p.market && marketLabel(p.market), p.operator, p.aggregator, p.games.join(", ")].filter(Boolean).map((t) => (
             <span key={t} className="rounded-full border border-border bg-surface px-2.5 py-0.5 text-muted-foreground">

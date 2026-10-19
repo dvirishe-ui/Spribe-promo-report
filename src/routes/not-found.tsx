@@ -5,7 +5,7 @@ import { EmptyState } from "@/components/report/bits";
 
 export function NotFoundPage() {
   return (
-    <main className="mx-auto max-w-[1400px] px-4 py-16 lg:px-8">
+    <main className="mx-auto max-w-[1600px] px-4 py-16 lg:px-8">
       <EmptyState icon={SearchX} title="Nothing here">
         That page or promo doesn't exist — it may have been deleted or renamed.
         <div className="mt-4">

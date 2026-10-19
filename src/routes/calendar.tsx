@@ -4,7 +4,7 @@ import { ArrowRight, ChevronLeft, ChevronRight, ExternalLink, Globe2, Layers } f
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { FilterLayout } from "@/components/report/ViewControls";
+import { FilterLayout, PageHeader } from "@/components/report/ViewControls";
 import { CalendarDetail } from "@/components/report/CalendarDetail";
 import { TypeBadge, typeStyle } from "@/components/report/PromoType";
 import { ChangePill, StatusBadge } from "@/components/report/bits";
@@ -90,13 +90,13 @@ function promoItem(m: PromoMetrics): CalItem {
  */
 function buildItems(metrics: PromoMetrics[], f: FilterState): CalItem[] {
   const passing = applyFilters(metrics, f);
-  const narrowed = f.operator !== "all" || f.market !== "all" || f.aggregator !== "all";
+  const narrowed = f.operator.length > 0 || f.market.length > 0 || f.aggregator.length > 0;
   const q = f.q.trim().toLowerCase();
   const items: CalItem[] = [];
   for (const c of CALENDAR_CAMPAIGNS) {
     const linked = passing.filter((m) => m.promo.calendarId === c.id);
-    if (f.type !== "all" && c.type !== f.type) continue;
-    if (f.game !== "all" && !c.games.includes(f.game)) continue;
+    if (f.type.length && !f.type.includes(c.type)) continue;
+    if (f.game.length && !c.games.some((g) => f.game.includes(g))) continue;
     if (narrowed && !linked.length) continue;
     if (q && !linked.length && ![c.name, c.type, c.region, ...c.games, ...c.countries].join(" ").toLowerCase().includes(q)) continue;
     items.push(campaignItem(c, linked));
@@ -166,22 +166,14 @@ export function CalendarPage() {
     calView === "list" ? "All promotions" : calView === "week" ? `Week of ${formatDay(weekFrom, true)}` : monthLabel(month, "long");
 
   return (
-    <main className="mx-auto max-w-[1400px] space-y-4 px-4 py-5 lg:px-8">
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <h1 className="font-display text-3xl font-bold sm:text-4xl">
-            <span className="brand-gradient-text">Promo Calendar</span>
-          </h1>
-          <p className="mt-1.5 max-w-2xl text-sm text-muted-foreground">
-            Network campaigns from the Promo Calendar and every operator promo, with how the past ones went. Click one for details and similar past promos.
-          </p>
-        </div>
-        <Button asChild variant="outline">
+    <main className="mx-auto max-w-[1600px] space-y-3 px-4 py-4 lg:px-8">
+      <PageHeader title="Calendar">
+        <Button asChild variant="outline" size="sm" className="h-8 text-xs">
           <a href={CALENDAR_SITE_URL} target="_blank" rel="noopener noreferrer">
-            Full calendar site <ExternalLink className="ml-1.5 size-4" />
+            Full calendar site <ExternalLink className="ml-1 size-3.5" />
           </a>
         </Button>
-      </div>
+      </PageHeader>
 
       <FilterLayout metrics={metrics} month={month} count={shown.length} hidePeriod>
         <div className="flex flex-wrap items-center justify-between gap-3">

@@ -41,7 +41,7 @@ function ChartHeader({ title, sub, picker }: { title: ReactNode; sub: ReactNode;
   return (
     <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
       <div className="min-w-0 basis-full sm:basis-0 sm:flex-1">
-        <h3 className="font-display text-base font-semibold">{title}</h3>
+        <h3 className="text-sm font-semibold">{title}</h3>
         <p className="mt-0.5 text-xs text-muted-foreground">{sub}</p>
       </div>
       {picker}
@@ -243,45 +243,43 @@ function truncate(s: string, px: number): string {
   return s.length > max ? `${s.slice(0, max - 1)}…` : s;
 }
 
-/** Per-promo chart card for the Promotions page: the before/during/after view or any single metric. */
+/**
+ * Per-promo chart card for Explore → Promotions: the three linked
+ * Before / During / After charts, or any single metric as one bar per promo.
+ */
 export function PromoChartCard({
   list,
   currency,
   metricKey,
   onMetric,
   onSelect,
-  bda,
-  bdaSub,
+  triptych,
 }: {
   list: PromoMetrics[];
   currency: string;
   metricKey: string;
   onMetric: (key: string) => void;
   onSelect: (id: string) => void;
-  /** The existing before/during/after chart, shown for the first option */
-  bda: ReactNode;
-  bdaSub: string;
+  /** Renders the before/during/after charts, given the metric picker to place in their header */
+  triptych: (toolbar: ReactNode) => ReactNode;
 }) {
-  const options = [{ key: "bda", label: "GGR before, during and after" }, ...CHART_METRICS.filter((x) => x.perPromo)];
+  const options = [{ key: "bda", label: "GGR before · during · after" }, ...CHART_METRICS.filter((x) => x.perPromo)];
   const metric = CHART_METRICS.find((x) => x.key === metricKey && x.perPromo);
-  const r = metric ? rollup(list)[metric.key as keyof ReturnType<typeof rollup>] : null;
+  const picker = <MetricPicker value={metric ? metric.key : "bda"} onChange={onMetric} options={options} className="h-7" />;
+  if (!metric) return <>{triptych(picker)}</>;
+  const r = rollup(list)[metric.key as keyof ReturnType<typeof rollup>];
   return (
     <>
       <ChartHeader
-        title={metric ? `${metric.label} by promotion` : "GGR before, during and after"}
+        title={`${metric.label} by promotion`}
         sub={
-          metric ? (
-            <>
-              {metric.about} All in view:{" "}
-              <span className="font-medium text-foreground">{formatMetric(metric.format, r as number | null, currency)}</span>. Click a promo to open it.
-            </>
-          ) : (
-            bdaSub
-          )
+          <>
+            All in view: <span className="font-medium text-foreground">{formatMetric(metric.format, r as number | null, currency)}</span>
+          </>
         }
-        picker={<MetricPicker value={metric ? metric.key : "bda"} onChange={onMetric} options={options} />}
+        picker={picker}
       />
-      {metric ? <PromoBars list={list} metric={metric} currency={currency} onSelect={onSelect} /> : bda}
+      <PromoBars list={list} metric={metric} currency={currency} onSelect={onSelect} />
     </>
   );
 }

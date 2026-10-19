@@ -3,7 +3,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ChangePill, ResultPill, StatusBadge } from "@/components/report/bits";
 import { OutcomeChip } from "@/components/report/ResultHero";
 import { DIMENSION_LABEL, displayKey, groupBy, type Dimension } from "@/components/report/ResultsBy";
-import { emptyFilters, type FilterState } from "@/lib/filters";
 import { GroupedColumns } from "@/components/charts/GroupedColumns";
 import { PHASES } from "@/components/charts/core";
 import { aggregate, type PromoMetrics } from "@/lib/metrics";
@@ -20,34 +19,6 @@ import { cn } from "@/lib/utils";
 
 export type SortKey = "newest" | "change" | "ggr" | "name";
 export type GroupKey = "none" | Dimension;
-
-export function ActiveFilters({ filters, onChange }: { filters: FilterState; onChange: (f: FilterState) => void }) {
-  const chips: Array<{ key: keyof FilterState; label: string }> = [];
-  if (filters.q.trim()) chips.push({ key: "q", label: `“${filters.q.trim()}”` });
-  if (filters.market !== "all") chips.push({ key: "market", label: marketLabel(filters.market) });
-  if (filters.aggregator !== "all") chips.push({ key: "aggregator", label: filters.aggregator });
-  if (filters.operator !== "all") chips.push({ key: "operator", label: filters.operator });
-  if (filters.type !== "all") chips.push({ key: "type", label: filters.type });
-  if (filters.game !== "all") chips.push({ key: "game", label: filters.game });
-  return (
-    <div className="flex flex-wrap items-center gap-1.5">
-      <span className="text-xs text-muted-foreground">Showing only:</span>
-      {chips.map((c) => (
-        <button
-          key={c.key}
-          onClick={() => onChange({ ...filters, [c.key]: c.key === "q" ? "" : "all" })}
-          className="inline-flex items-center gap-1 rounded-full border border-primary/40 bg-primary/10 px-2.5 py-0.5 text-xs hover:bg-primary/20"
-        >
-          {c.label}
-          <X className="size-3" />
-        </button>
-      ))}
-      <button onClick={() => onChange(emptyFilters)} className="ml-1 text-xs text-muted-foreground hover:text-foreground hover:underline">
-        Clear all
-      </button>
-    </div>
-  );
-}
 
 export function BeforeDuringAfter({
   list,

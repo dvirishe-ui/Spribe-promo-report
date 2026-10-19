@@ -13,8 +13,7 @@ import { cn } from "@/lib/utils";
 
 const NAV = [
   { to: "/", label: "Overview" },
-  { to: "/promotions", label: "Promotions" },
-  { to: "/insights", label: "Insights" },
+  { to: "/explore", label: "Explore" },
   { to: "/calendar", label: "Calendar" },
 ] as const;
 
@@ -96,12 +95,12 @@ export function AppHeader() {
   const { actions, setOpen } = useActions();
   const openCount = actions.filter((a) => a.status !== "done").length;
   const active = (to: string) =>
-    to === "/" ? pathname === "/" : to === "/promotions" ? pathname.startsWith("/promotions") || pathname.startsWith("/promo/") : pathname.startsWith(to);
+    to === "/" ? pathname === "/" : to === "/explore" ? pathname.startsWith("/explore") || pathname.startsWith("/promo/") : pathname.startsWith(to);
 
   return (
     <header className="no-print sticky top-0 z-20 border-b border-border bg-background/85 backdrop-blur-xl">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
-      <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-2 px-4 py-3 sm:gap-4 lg:px-8">
+      <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-2 px-4 py-3 sm:gap-4 lg:px-8">
         <Link to="/" className="flex shrink-0 items-center gap-3">
           <LogoMark className="size-9 shadow-glow rounded-[11px]" />
           <div className="hidden xl:block">
