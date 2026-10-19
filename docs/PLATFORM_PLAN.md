@@ -10,7 +10,7 @@ exports** (level 3). No separate dashboards per role.
 
 | | |
 | --- | --- |
-| **Kept** | SPRIBE design system and orange accent; light/dark; before/during/after method on per-day GGR; adjusted vs raw labelling; plain-language outcomes (`verdict.ts`); filters (market, aggregator, operator, type, game); promo report tabs; partner view; the data layer (manual entry, CSV/Excel import, Back Office contract, currency conversion, demo-data labelling). |
+| **Kept** | SPRIBE design system and orange accent; light/dark; before/during/after method on per-day GGR; adjusted vs raw labelling; plain-language outcomes (`verdict.ts`); filters (market, aggregator, operator, type, game); promo report tabs; the data layer (manual entry, CSV/Excel import, Back Office contract, currency conversion, demo-data labelling). |
 | **Changed** | Navigation → Overview · Promotions · Insights · Calendar, with Data/BO/definitions/access in a secondary menu. The homepage became a 30-second Overview; the full list, grouping and before/during/after chart moved to Promotions. Key findings became an insight system (metric, threshold, evidence link, next step). Filters and period are shared across pages, with a date-range option. Status "Complete" → "Completed". |
 | **Added** | Insights (all insights, compare with comparability flags, winners & losers by chosen metric, mission analysis, searchable library with "reuse setup"); calendar with same-operator overlap markers; action tracker; one-click mission investigation; executive and engagement exports; data completeness, duplicate detection and time-zone notes; operator-scoped "view as" access preview; responsible-gaming rule. |
 | **Removed** | The Operators section (operator profiles, meeting brief, shareable operator report) — removed on request; an operator's promos are one filter away in Promotions. Nothing else that worked. The homepage no longer carries the full list, the grouped chart or the market-results card at full size — they live one click away. |
@@ -56,7 +56,6 @@ PDF generation beyond print-to-PDF.
 - Insights need minimum sample sizes and state their threshold; benchmarks and rankings show n.
 - Possible explanations in investigations are labelled hypotheses, never causes.
 - Aggregate player data only; engagement far above normal is flagged as a responsible-gaming check.
-- The partner view of a promo contains only that promo's own data.
 
 ## CCO-first redesign (October 2026)
 
@@ -75,3 +74,11 @@ Goal: more visible, less text, fewer clicks, less scrolling — readable on a 13
   and highlights → promotion list → linked charts → trend and breakdown.
 - **Result labels** (Positive / Mixed / Flat / Negative / Pending) always show an icon and label and
   state their criteria; "Positive" needs GGR up ≥3% *and* extra GGR covering the contribution.
+
+### Follow-up (October 2026)
+
+- The standalone partner view (`/share/:id`) was removed on request; old links show "not found".
+- Chart pickers are chip multi-selects with search and a one-line hint per metric. Several metrics
+  are drawn as small charts (never on one dual axis), sharing months and hover.
+- Motion pass: press feedback (`press` utility, scale 0.97), popovers and selects grow from their
+  trigger in 150ms with a strong ease-out, drawers use a 260ms drawer curve, no `transition-all`.
