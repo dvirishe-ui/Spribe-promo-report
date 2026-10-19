@@ -50,6 +50,9 @@ Authorization: Bearer <token>        # optional — see "Auth" below
       "betsDuring": 61000,              // bets by participants during the promo
       "turnoverBefore": 3400000,        // amount wagered, same windows as GGR
       "turnoverDuring": 4450000,         // Total Wager; with ggrDuring gives RTP
+      "totalBetsBefore": 1410000,         // number of bets per window (all players) — Number of Bets, Avg Bet
+      "totalBetsDuring": 1890000,
+      "totalBetsAfter": 1530000,
       "turnoverAfter": 3700000,
       "controlGgrBefore": 380000,       // comparison group (no promo), same before/during windows
       "controlGgrDuring": 392000,

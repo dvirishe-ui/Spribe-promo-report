@@ -187,6 +187,16 @@ function buildPromo(spec: Spec, i: number): PromoRecord {
     turnoverBefore: Math.round(ggrBefore / hold),
     turnoverDuring: ggrDuring == null ? null : Math.round(ggrDuring / (hold * 0.96)),
     turnoverAfter: ggrAfter == null ? null : Math.round(ggrAfter / hold),
+    // Number of bets: wager ÷ an average bet (~€1.8–3.2, a little lower during — more small bets).
+    ...(() => {
+      const avgBet = (1.8 + rand() * 1.4) * toLocal;
+      const bets = (wager: number | null, f: number) => (wager == null ? null : Math.round(wager / (avgBet * f)));
+      return {
+        totalBetsBefore: bets(Math.round(ggrBefore / hold), 1),
+        totalBetsDuring: bets(ggrDuring == null ? null : Math.round(ggrDuring / (hold * 0.96)), 0.9 + rand() * 0.06),
+        totalBetsAfter: bets(ggrAfter == null ? null : Math.round(ggrAfter / hold), 0.97),
+      };
+    })(),
     ...(control
       ? {
           controlGgrBefore: controlBefore,

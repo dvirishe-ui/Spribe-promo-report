@@ -24,6 +24,10 @@ interface Props {
   onSelect?: (key: string) => void;
   /** Label the tip of each column of this series (selective labelling, e.g. only "during"). */
   labelSeries?: string;
+  /** Label every column with its value (few categories, e.g. Before / During / After) */
+  labelAll?: boolean;
+  /** Widest a column may get (default 24px) */
+  maxCol?: number;
   showLegend?: boolean;
 }
 
@@ -39,6 +43,8 @@ export function GroupedColumns({
   height = 280,
   onSelect,
   labelSeries,
+  labelAll = false,
+  maxCol = 24,
   showLegend = true,
 }: Props) {
   const [ref, width] = useWidth<HTMLDivElement>();
@@ -56,7 +62,7 @@ export function GroupedColumns({
   const y = linear(yMin, yMax, m.top + innerH, m.top);
   const band = innerW / Math.max(1, categories.length);
   const gap = 2;
-  const colW = Math.max(4, Math.min(24, (band * 0.72 - gap * (series.length - 1)) / series.length));
+  const colW = Math.max(4, Math.min(maxCol, (band * 0.72 - gap * (series.length - 1)) / series.length));
   const groupW = colW * series.length + gap * (series.length - 1);
   const y0 = y(0);
 
@@ -115,7 +121,7 @@ export function GroupedColumns({
                   return (
                     <g key={s.key}>
                       <path d={columnPath(x, colW, y0, y(v))} fill={s.color} />
-                      {labelSeries === s.key && band > 46 && (
+                      {(labelAll ? colW >= 26 : labelSeries === s.key && band > 46) && (
                         <text
                           x={x + colW / 2}
                           y={v >= 0 ? y(v) - 6 : y(v) + 13}

@@ -1,15 +1,11 @@
 import { useState, type ReactNode } from "react";
-import { MonthColumns } from "@/components/charts/MonthColumns";
 import { linear, niceTicks, useWidth } from "@/components/charts/core";
 import { CHART_METRICS, formatMetric, formatTick, rollup, type ChartMetric } from "@/lib/rollup";
-import { monthLabel, prevMonth } from "@/lib/dates";
-import type { MonthRow, PromoMetrics } from "@/lib/metrics";
+import type { PromoMetrics } from "@/lib/metrics";
 import { cn } from "@/lib/utils";
 import { MetricChips } from "./MetricChips";
 
 const COLOR = "var(--series-before)";
-
-const OPTIONS = CHART_METRICS.map((m) => ({ key: m.key, label: m.label, hint: m.hint }));
 
 function ChartHeader({ title, sub, picker }: { title: ReactNode; sub?: ReactNode; picker: ReactNode }) {
   return (
@@ -20,98 +16,6 @@ function ChartHeader({ title, sub, picker }: { title: ReactNode; sub?: ReactNode
       </div>
       {picker}
     </div>
-  );
-}
-
-/** "+3.5% vs Aug" for amounts; "+2.1 pts vs Aug" for rates and changes. */
-function vsPrevious(metric: ChartMetric, cur: number | null, prev: number | null, prevName: string): string | null {
-  if (cur == null || prev == null) return null;
-  if (metric.format === "money" || metric.format === "count") return prev > 0 ? `${formatMetric("change", cur / prev - 1, "")} vs ${prevName}` : null;
-  if (metric.format === "roi") return `${cur - prev >= 0 ? "+" : "−"}${Math.abs(cur - prev).toFixed(1)}× vs ${prevName}`;
-  const pts = (cur - prev) * 100;
-  return `${pts >= 0 ? "+" : "−"}${Math.abs(pts).toFixed(1)} pts vs ${prevName}`;
-}
-
-/**
- * Overview trend by the month promos started. Pick one or several metrics:
- * each gets its own small chart (different units never share an axis), all
- * on the same months, and hovering a month highlights it in every chart.
- * Total GGR comes from the monthly totals; the rest is rolled up from the
- * promos in view (filters apply).
- */
-export function TrendCard({
-  rows,
-  promos,
-  currency,
-  highlight,
-  metricKeys,
-  onMetrics,
-  onSelectMonth,
-}: {
-  rows: MonthRow[];
-  promos: PromoMetrics[];
-  currency: string;
-  highlight: string | null;
-  metricKeys: string[];
-  onMetrics: (keys: string[]) => void;
-  onSelectMonth: (month: string) => void;
-}) {
-  const [hover, setHover] = useState<string | null>(null);
-  const metrics = metricKeys.map((k) => CHART_METRICS.find((x) => x.key === k)).filter((m): m is ChartMetric => !!m);
-  const chosen = metrics.length ? metrics : [CHART_METRICS[0]];
-  const byMonth = new Map<string, PromoMetrics[]>();
-  for (const p of promos) byMonth.set(p.month, [...(byMonth.get(p.month) ?? []), p]);
-  const single = chosen.length === 1;
-
-  return (
-    <>
-      <ChartHeader
-        title="Trend by month"
-        sub={single ? chosen[0].about : "Hover a month to see it in every chart · click to open it"}
-        picker={<MetricChips options={OPTIONS} value={chosen.map((m) => m.key)} onChange={onMetrics} className="w-full sm:w-auto sm:max-w-[32rem]" />}
-      />
-      <div className={cn("grid gap-x-5 gap-y-4", !single && "sm:grid-cols-2")}>
-        {chosen.map((metric) => {
-          const data = rows.map((r) => {
-            const list = byMonth.get(r.month) ?? [];
-            const value = metric.key === "monthGgr" ? r.ggr : list.length ? rollup(list)[metric.key] : null;
-            return { month: r.month, value: value ?? null, extra: [{ label: "Promos started", value: String(list.length) }] };
-          });
-          const focus = data.find((d) => d.month === highlight) ?? [...data].reverse().find((d) => d.value != null);
-          const prev = focus ? data.find((d) => d.month === prevMonth(focus.month)) : undefined;
-          const delta = focus ? vsPrevious(metric, focus.value, prev?.value ?? null, monthLabel(prevMonth(focus.month), "short", false)) : null;
-          const fmt = (v: number) => formatMetric(metric.format, v, currency);
-          return (
-            <div key={metric.key} className="min-w-0">
-              <div className="mb-1 flex flex-wrap items-baseline justify-between gap-x-3">
-                <p className="text-xs font-semibold">{metric.label}</p>
-                {focus?.value != null && (
-                  <p className="text-[11px] text-muted-foreground">
-                    {monthLabel(focus.month, "short", false)} <span className="font-semibold text-foreground">{fmt(focus.value)}</span>
-                    {delta && ` · ${delta}`}
-                  </p>
-                )}
-              </div>
-              <MonthColumns
-                data={data}
-                valueName={metric.label}
-                format={fmt}
-                formatFull={(v) => formatMetric(metric.format, v, currency, true)}
-                formatTick={(v) => formatTick(metric.format, v, currency)}
-                highlight={highlight}
-                label={single ? (d) => fmt(d.value!) : undefined}
-                onSelect={onSelectMonth}
-                shape={metric.shape}
-                refLine={metric.ref}
-                height={single ? 180 : 140}
-                hoverMonth={hover}
-                onHoverMonth={setHover}
-              />
-            </div>
-          );
-        })}
-      </div>
-    </>
   );
 }
 

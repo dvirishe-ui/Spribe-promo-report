@@ -1,7 +1,6 @@
 import { useNavigate } from "@tanstack/react-router";
-import { ArrowRight, BookmarkPlus, CircleAlert, Database, HeartPulse, Lightbulb, Target, TrendingDown, TrendingUp, Users } from "lucide-react";
+import { ArrowRight, CircleAlert, Database, HeartPulse, Lightbulb, Target, TrendingDown, TrendingUp, Users } from "lucide-react";
 import type { Insight, InsightLink } from "@/lib/insights";
-import { useActions } from "@/lib/actions";
 import { useView } from "@/lib/view";
 import { emptyFilters } from "@/lib/filters";
 import { cn } from "@/lib/utils";
@@ -43,7 +42,6 @@ export function useOpenLink() {
  */
 export function InsightCard({ insight: i, compact = false }: { insight: Insight; compact?: boolean }) {
   const open = useOpenLink();
-  const { startDraft } = useActions();
   const Icon = i.tone === "bad" && i.category === "Performance" ? TrendingDown : (ICON[i.category] ?? Lightbulb);
   return (
     <div className="group flex items-start gap-3 py-3">
@@ -64,21 +62,6 @@ export function InsightCard({ insight: i, compact = false }: { insight: Insight;
           >
             {i.linkLabel} <ArrowRight className="size-3 transition-transform group-hover:translate-x-0.5" />
           </button>
-          {i.action && (
-            <button
-              onClick={() =>
-                startDraft({
-                  title: i.action!.replace(/\.$/, ""),
-                  promoId: i.promoId,
-                  operator: i.operator,
-                  notes: `${i.title}. ${i.metric} (${i.basis}).`,
-                })
-              }
-              className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-surface-raised hover:text-foreground"
-            >
-              <BookmarkPlus className="size-3" /> Save as action
-            </button>
-          )}
         </div>
       </div>
     </div>

@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { AlertTriangle, BookOpen, Check, Database, ListChecks, Loader2, Menu, Moon, RefreshCw, ShieldCheck, Sun } from "lucide-react";
+import { AlertTriangle, BookOpen, Check, Database, Loader2, Menu, Moon, RefreshCw, ShieldCheck, Sun } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { LogoMark, Wordmark } from "./Logo";
 import { DefinitionsDialog } from "./DefinitionsDialog";
 import { AskPanel } from "./AskPanel";
 import { useTheme } from "@/lib/theme";
 import { useData } from "@/lib/store";
-import { useActions } from "@/lib/actions";
 import { SOURCE_LABEL } from "@/lib/sources";
 import { cn } from "@/lib/utils";
 
@@ -92,8 +91,6 @@ function SecondaryMenu() {
 export function AppHeader() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { theme, toggleTheme } = useTheme();
-  const { actions, setOpen } = useActions();
-  const openCount = actions.filter((a) => a.status !== "done").length;
   const active = (to: string) =>
     to === "/" ? pathname === "/" : to === "/explore" ? pathname.startsWith("/explore") || pathname.startsWith("/promo/") : pathname.startsWith(to);
 
@@ -125,19 +122,6 @@ export function AppHeader() {
         <div className="flex shrink-0 items-center gap-2">
           <SyncIndicator />
           <AskPanel />
-          <button
-            onClick={() => setOpen(true)}
-            className="relative grid size-9 place-items-center rounded-md border border-border text-muted-foreground transition-colors hover:text-foreground md:flex md:w-auto md:gap-1.5 md:px-2.5"
-            aria-label="Follow-up actions"
-          >
-            <ListChecks className="size-4" />
-            <span className="hidden text-sm md:inline">Actions</span>
-            {openCount > 0 && (
-              <span className="absolute -right-1.5 -top-1.5 grid min-w-4 place-items-center rounded-full bg-primary px-1 text-[10px] font-semibold text-primary-foreground md:static md:ml-0.5">
-                {openCount}
-              </span>
-            )}
-          </button>
           <button
             onClick={toggleTheme}
             aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}

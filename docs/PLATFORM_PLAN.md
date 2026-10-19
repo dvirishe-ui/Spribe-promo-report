@@ -82,3 +82,13 @@ Goal: more visible, less text, fewer clicks, less scrolling — readable on a 13
   are drawn as small charts (never on one dual axis), sharing months and hover.
 - Motion pass: press feedback (`press` utility, scale 0.97), popovers and selects grow from their
   trigger in 150ms with a strong ease-out, drawers use a 260ms drawer curve, no `transition-all`.
+
+### Sheet-style Overview (October 2026)
+
+- The Overview now follows the team's promo sheet: filters (incl. region and promotion), one
+  summary row, metrics comparison by phase (Before / During / After — not by month), and the
+  promotion details table. The month-trend chart, KPI tiles, highlights and needs-attention panel
+  were removed from the Overview; insights, rankings, missions and comparisons remain in Explore.
+- New optional fields `totalBetsBefore/During/After` (number of bets) give Number of Bets and
+  Avg Bet (wager ÷ bets). Total Win = wager − GGR; RTP = total win ÷ wager.
+- The Actions (follow-ups) feature was removed.

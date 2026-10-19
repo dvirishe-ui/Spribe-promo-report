@@ -4,9 +4,7 @@ import { FlaskConical } from "lucide-react";
 import { AppHeader } from "@/components/report/AppHeader";
 import { ConfirmProvider } from "@/components/report/Confirm";
 import { DefinitionsDialog } from "@/components/report/DefinitionsDialog";
-import { ActionsPanel } from "@/components/report/ActionsPanel";
 import { SelectionBar } from "@/components/report/SelectionBar";
-import { ActionsProvider } from "@/lib/actions";
 import { ViewProvider } from "@/lib/view";
 import { DataProvider, useData } from "@/lib/store";
 import { ThemeProvider, useTheme } from "@/lib/theme";
@@ -73,7 +71,6 @@ export function RootLayout() {
     <ThemeProvider>
       <DataProvider>
         <ViewProvider>
-        <ActionsProvider>
         <ConfirmProvider>
           <div className="flex min-h-screen flex-col">
             <AppHeader />
@@ -89,11 +86,9 @@ export function RootLayout() {
               </DefinitionsDialog>
             </footer>
             <AppToaster />
-            <ActionsPanel />
             <SelectionBar />
           </div>
         </ConfirmProvider>
-        </ActionsProvider>
         </ViewProvider>
       </DataProvider>
     </ThemeProvider>

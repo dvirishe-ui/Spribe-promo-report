@@ -23,9 +23,10 @@ export interface ViewState {
   sort: "newest" | "change" | "ggr" | "name";
   /** Explore → Promotions: compact list, full metrics table, or grouped cards */
   layout: "compact" | "table" | "grouped";
-  /** Metrics shown in the Overview trend and the Explore promo charts */
-  trendMetrics: string[];
+  /** Metrics shown in the Explore promo charts */
   promoCharts: string[];
+  /** Overview → metrics comparison (Before / During / After) */
+  phaseMetrics: string[];
   /** Promos picked for comparison — kept while moving between pages */
   selected: string[];
   /** Main GGR charts: totals, per day, or % change */
@@ -34,7 +35,7 @@ export interface ViewState {
 
 const KEY = "spribe-report-view-v2";
 
-const DEFAULTS: ViewState = { filters: emptyFilters, mode: "month", month: null, from: "", to: "", filtersOpen: true, group: "none", sort: "newest", layout: "compact", trendMetrics: ["monthGgr"], promoCharts: ["bda"], selected: [], ggrMode: "total" };
+const DEFAULTS: ViewState = { filters: emptyFilters, mode: "month", month: null, from: "", to: "", filtersOpen: true, group: "none", sort: "newest", layout: "compact", promoCharts: ["bda"], phaseMetrics: ["wager", "ggr", "rtp"], selected: [], ggrMode: "total" };
 
 function load(): ViewState {
   try {
@@ -44,7 +45,6 @@ function load(): ViewState {
         ...DEFAULTS,
         ...raw,
         filters: normalizeFilters(raw.filters),
-        trendMetrics: Array.isArray(raw.trendMetrics) ? raw.trendMetrics : typeof raw.trendMetric === "string" ? [raw.trendMetric] : ["monthGgr"],
         promoCharts: Array.isArray(raw.promoCharts) ? raw.promoCharts : typeof raw.promoChartMetric === "string" ? [raw.promoChartMetric] : ["bda"],
         selected: Array.isArray(raw.selected) ? raw.selected.filter((x: unknown) => typeof x === "string") : [],
         // The old Promotions "list" layout is now "grouped"

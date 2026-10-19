@@ -1,9 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, BookmarkPlus, ChevronRight, CircleAlert, Clock, Lightbulb, Search, Target, X } from "lucide-react";
+import { ArrowRight, ChevronRight, CircleAlert, Clock, Lightbulb, Search, Target, X } from "lucide-react";
 import { investigateDay } from "@/lib/explain";
 import type { PromoMetrics } from "@/lib/metrics";
 import { num, pctPlain } from "@/lib/format";
-import { useActions } from "@/lib/actions";
 import { cn } from "@/lib/utils";
 
 /**
@@ -55,7 +54,6 @@ export function CompletionByDay({ m, selected, onSelect }: { m: PromoMetrics; se
 
 export function DayDetail({ m, day, all, onClose }: { m: PromoMetrics; day: number; all: PromoMetrics[]; onClose: () => void }) {
   const inv = investigateDay(m, day, all);
-  const { startDraft } = useActions();
   const d = m.missionDays?.days.find((x) => x.day === day);
   if (!inv || !d) return null;
   const typical = m.missionDays!.typicalMinutes;
@@ -119,19 +117,6 @@ export function DayDetail({ m, day, all, onClose }: { m: PromoMetrics; day: numb
         </Step>
         <Step n={4} icon={ChevronRight} title="Suggested next step">
           <p>{inv.nextStep}</p>
-          <button
-            onClick={() =>
-              startDraft({
-                title: `Review Day ${day} of ${m.promo.name}: ${inv.nextStep.replace(/\.$/, "")}`,
-                promoId: m.promo.id,
-                operator: m.promo.operator,
-                notes: `${inv.problem} Requirement: “${d.requirement}”.`,
-              })
-            }
-            className="mt-2 inline-flex items-center gap-1 rounded-md border border-border px-2 py-1 text-xs hover:bg-surface-raised"
-          >
-            <BookmarkPlus className="size-3.5" /> Save as action
-          </button>
         </Step>
       </ol>
     </section>

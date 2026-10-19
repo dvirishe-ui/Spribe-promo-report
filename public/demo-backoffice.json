@@ -31,10 +31,13 @@
       "turnoverBefore": 74810671,
       "turnoverDuring": 94273059,
       "turnoverAfter": 79232029,
+      "totalBetsBefore": 4324257,
+      "totalBetsDuring": 5783656,
+      "totalBetsAfter": 4721467,
       "controlGgrBefore": 9874522,
       "controlGgrDuring": 9743951,
       "controlLabel": "Same games at comparable Brazil operators without the promo",
-      "eligiblePlayers": 45649,
+      "eligiblePlayers": 45907,
       "leaderboard": [
         {
           "band": "1st",
@@ -226,7 +229,10 @@
       "turnoverBefore": 1643822,
       "turnoverDuring": 1737820,
       "turnoverAfter": 1659433,
-      "eligiblePlayers": 4641,
+      "totalBetsBefore": 661214,
+      "totalBetsDuring": 769865,
+      "totalBetsAfter": 688138,
+      "eligiblePlayers": 5085,
       "notes": "",
       "daily": [
         {
@@ -344,10 +350,13 @@
       "turnoverBefore": 71432971,
       "turnoverDuring": 85150891,
       "turnoverAfter": 74800120,
+      "totalBetsBefore": 1424798,
+      "totalBetsDuring": 1787088,
+      "totalBetsAfter": 1538103,
       "controlGgrBefore": 8378134,
       "controlGgrDuring": 8527850,
       "controlLabel": "Same games at comparable Mexico operators without the promo",
-      "eligiblePlayers": 11172,
+      "eligiblePlayers": 10754,
       "missions": [
         {
           "name": "Opted in",
@@ -355,15 +364,15 @@
         },
         {
           "name": "Play Mines",
-          "reached": 1598
+          "reached": 1864
         },
         {
           "name": "Play Hilo",
-          "reached": 727
+          "reached": 730
         },
         {
           "name": "All missions done",
-          "reached": 569
+          "reached": 559
         }
       ],
       "missionDays": [
@@ -372,90 +381,90 @@
           "game": "Mines",
           "requirement": "Place 10 bets on Mines",
           "started": 2380,
-          "completed": 1831,
-          "medianMinutes": 44
+          "completed": 2055,
+          "medianMinutes": 33
         },
         {
           "day": 2,
           "game": "Hilo",
           "requirement": "Place 3 bets on Hilo",
-          "started": 2270,
-          "completed": 2158,
-          "medianMinutes": 5
+          "started": 2269,
+          "completed": 2198,
+          "medianMinutes": 4
         },
         {
           "day": 3,
           "game": "Mines",
           "requirement": "Win ×3 on Mines",
-          "started": 2176,
-          "completed": 1759,
-          "medianMinutes": 39
+          "started": 2148,
+          "completed": 1630,
+          "medianMinutes": 23
         },
         {
           "day": 4,
           "game": "Hilo",
           "requirement": "Play Hilo 5 rounds in a row",
-          "started": 2026,
-          "completed": 1533,
-          "medianMinutes": 43
+          "started": 2042,
+          "completed": 1821,
+          "medianMinutes": 41
         },
         {
           "day": 5,
           "game": "Mines",
           "requirement": "Cash out above ×2 on Mines",
-          "started": 1944,
-          "completed": 1634,
-          "medianMinutes": 37
+          "started": 1930,
+          "completed": 1680,
+          "medianMinutes": 39
         },
         {
           "day": 6,
           "game": "Hilo",
           "requirement": "Hit a ×50 win on Hilo",
-          "started": 1857,
-          "completed": 754,
-          "medianMinutes": 157
+          "started": 1820,
+          "completed": 708,
+          "medianMinutes": 177
         },
         {
           "day": 7,
           "game": "Mines",
           "requirement": "Place 10 bets on Mines",
-          "started": 1448,
-          "completed": 1164,
-          "medianMinutes": 50
+          "started": 1420,
+          "completed": 1184,
+          "medianMinutes": 25
         },
         {
           "day": 8,
           "game": "Hilo",
           "requirement": "Place 3 bets on Hilo",
-          "started": 1372,
-          "completed": 1055,
+          "started": 1363,
+          "completed": 1058,
           "medianMinutes": 52
         },
         {
           "day": 9,
           "game": "Mines",
           "requirement": "Win ×3 on Mines",
-          "started": 1283,
-          "completed": 1144,
-          "medianMinutes": 45
+          "started": 1299,
+          "completed": 1089,
+          "medianMinutes": 46
         },
         {
           "day": 10,
           "game": "Hilo",
           "requirement": "Play Hilo 5 rounds in a row",
-          "started": 1217,
-          "completed": 1052,
-          "medianMinutes": 47
+          "started": 1240,
+          "completed": 1061,
+          "medianMinutes": 41
         }
       ],
       "gameGgr": [
         {
           "game": "Mines",
-          "ggrDuring": 2092203
+          "ggrDuring": 2200739
         },
         {
           "game": "Hilo",
-          "ggrDuring": 903916
+          "ggrDuring": 795380
         }
       ],
       "notes": "",
@@ -610,7 +619,10 @@
       "turnoverBefore": 5187900656,
       "turnoverDuring": 6761550872,
       "turnoverAfter": 5766220702,
-      "eligiblePlayers": 26403,
+      "totalBetsBefore": 1007264,
+      "totalBetsDuring": 1416221,
+      "totalBetsAfter": 1154174,
+      "eligiblePlayers": 23370,
       "notes": "",
       "daily": [
         {
@@ -703,10 +715,13 @@
       "turnoverBefore": 16828999394,
       "turnoverDuring": 19475664550,
       "turnoverAfter": 17859817900,
+      "totalBetsBefore": 1570421,
+      "totalBetsDuring": 1981617,
+      "totalBetsAfter": 1718157,
       "controlGgrBefore": 1980080899,
       "controlGgrDuring": 1973291433,
       "controlLabel": "Same games at comparable Colombia operators without the promo",
-      "eligiblePlayers": 6635,
+      "eligiblePlayers": 7475,
       "leaderboard": [
         {
           "band": "1st",
@@ -935,7 +950,10 @@
       "turnoverBefore": 8584399,
       "turnoverDuring": 11276118,
       "turnoverAfter": 9725388,
-      "eligiblePlayers": 8165,
+      "totalBetsBefore": 1007020,
+      "totalBetsDuring": 1404397,
+      "totalBetsAfter": 1176152,
+      "eligiblePlayers": 8245,
       "missions": [
         {
           "name": "Opted in",
@@ -943,15 +961,15 @@
         },
         {
           "name": "Play Plinko",
-          "reached": 1616
+          "reached": 1416
         },
         {
           "name": "Play Dice",
-          "reached": 705
+          "reached": 632
         },
         {
           "name": "All missions done",
-          "reached": 506
+          "reached": 468
         }
       ],
       "missionDays": [
@@ -960,90 +978,90 @@
           "game": "Plinko",
           "requirement": "Place 10 bets on Plinko",
           "started": 1975,
-          "completed": 1781,
-          "medianMinutes": 40
+          "completed": 1609,
+          "medianMinutes": 47
         },
         {
           "day": 2,
           "game": "Dice",
           "requirement": "Place 3 bets on Dice",
-          "started": 1839,
-          "completed": 1775,
-          "medianMinutes": 5
+          "started": 1882,
+          "completed": 1809,
+          "medianMinutes": 3
         },
         {
           "day": 3,
           "game": "Plinko",
           "requirement": "Win ×3 on Plinko",
-          "started": 1749,
-          "completed": 1435,
-          "medianMinutes": 34
+          "started": 1772,
+          "completed": 1576,
+          "medianMinutes": 33
         },
         {
           "day": 4,
           "game": "Dice",
           "requirement": "Play Dice 5 rounds in a row",
-          "started": 1657,
-          "completed": 1424,
-          "medianMinutes": 41
+          "started": 1681,
+          "completed": 1481,
+          "medianMinutes": 52
         },
         {
           "day": 5,
           "game": "Plinko",
           "requirement": "Cash out above ×2 on Plinko",
-          "started": 1566,
-          "completed": 1486,
+          "started": 1584,
+          "completed": 1463,
           "medianMinutes": 34
         },
         {
           "day": 6,
           "game": "Dice",
           "requirement": "Hit a ×50 win on Dice",
-          "started": 1495,
-          "completed": 588,
-          "medianMinutes": 163
+          "started": 1500,
+          "completed": 550,
+          "medianMinutes": 173
         },
         {
           "day": 7,
           "game": "Plinko",
           "requirement": "Place 10 bets on Plinko",
-          "started": 1166,
-          "completed": 957,
-          "medianMinutes": 47
+          "started": 1170,
+          "completed": 953,
+          "medianMinutes": 28
         },
         {
           "day": 8,
           "game": "Dice",
           "requirement": "Place 3 bets on Dice",
-          "started": 1086,
-          "completed": 908,
-          "medianMinutes": 42
+          "started": 1112,
+          "completed": 1002,
+          "medianMinutes": 37
         },
         {
           "day": 9,
           "game": "Plinko",
           "requirement": "Win ×3 on Plinko",
-          "started": 1031,
-          "completed": 907,
-          "medianMinutes": 22
+          "started": 1035,
+          "completed": 972,
+          "medianMinutes": 45
         },
         {
           "day": 10,
           "game": "Dice",
           "requirement": "Play Dice 5 rounds in a row",
           "started": 988,
-          "completed": 905,
-          "medianMinutes": 47
+          "completed": 801,
+          "medianMinutes": 27
         }
       ],
       "gameGgr": [
         {
           "game": "Plinko",
-          "ggrDuring": 298192
+          "ggrDuring": 301258
         },
         {
           "game": "Dice",
-          "ggrDuring": 154160
+          "ggrDuring": 151094
         }
       ],
       "notes": "",
@@ -1198,10 +1216,13 @@
       "turnoverBefore": 134879509,
       "turnoverDuring": 182629769,
       "turnoverAfter": 148790781,
+      "totalBetsBefore": 7288314,
+      "totalBetsDuring": 10380227,
+      "totalBetsAfter": 8288680,
       "controlGgrBefore": 13596349,
       "controlGgrDuring": 13272060,
       "controlLabel": "Same games at comparable Brazil operators without the promo",
-      "eligiblePlayers": 52669,
+      "eligiblePlayers": 50275,
       "leaderboard": [
         {
           "band": "1st",
@@ -1429,7 +1450,10 @@
       "turnoverBefore": 48000998,
       "turnoverDuring": 53300051,
       "turnoverAfter": 49372541,
-      "eligiblePlayers": 9005,
+      "totalBetsBefore": 1151159,
+      "totalBetsDuring": 1411840,
+      "totalBetsAfter": 1220672,
+      "eligiblePlayers": 11362,
       "notes": "",
       "daily": [
         {
@@ -1547,10 +1571,13 @@
       "turnoverBefore": 13871636,
       "turnoverDuring": 16890701,
       "turnoverAfter": 14564323,
+      "totalBetsBefore": 1162031,
+      "totalBetsDuring": 1476859,
+      "totalBetsAfter": 1257791,
       "controlGgrBefore": 1747280,
       "controlGgrDuring": 1766500,
       "controlLabel": "Same games at comparable Peru operators without the promo",
-      "eligiblePlayers": 9490,
+      "eligiblePlayers": 7976,
       "missions": [
         {
           "name": "Opted in",
@@ -1558,15 +1585,15 @@
         },
         {
           "name": "Play Plinko",
-          "reached": 1455
+          "reached": 1246
         },
         {
           "name": "Play Dice",
-          "reached": 601
+          "reached": 582
         },
         {
           "name": "All missions done",
-          "reached": 391
+          "reached": 427
         }
       ],
       "missionDays": [
@@ -1575,122 +1602,122 @@
           "game": "Plinko",
           "requirement": "Place 10 bets on Plinko",
           "started": 1915,
-          "completed": 1661,
-          "medianMinutes": 39
+          "completed": 1461,
+          "medianMinutes": 25
         },
         {
           "day": 2,
           "game": "Dice",
           "requirement": "Place 3 bets on Dice",
-          "started": 1788,
-          "completed": 1687,
+          "started": 1820,
+          "completed": 1735,
           "medianMinutes": 4
         },
         {
           "day": 3,
           "game": "Plinko",
           "requirement": "Win ×3 on Plinko",
-          "started": 1686,
-          "completed": 1340,
-          "medianMinutes": 27
+          "started": 1702,
+          "completed": 1377,
+          "medianMinutes": 45
         },
         {
           "day": 4,
           "game": "Dice",
           "requirement": "Play Dice 5 rounds in a row",
-          "started": 1591,
-          "completed": 1358,
-          "medianMinutes": 48
+          "started": 1627,
+          "completed": 1410,
+          "medianMinutes": 43
         },
         {
           "day": 5,
           "game": "Plinko",
           "requirement": "Cash out above ×2 on Plinko",
-          "started": 1521,
-          "completed": 1283,
-          "medianMinutes": 49
+          "started": 1556,
+          "completed": 1224,
+          "medianMinutes": 51
         },
         {
           "day": 6,
           "game": "Dice",
           "requirement": "Hit a ×50 win on Dice",
-          "started": 1428,
-          "completed": 623,
-          "medianMinutes": 156
+          "started": 1466,
+          "completed": 605,
+          "medianMinutes": 154
         },
         {
           "day": 7,
           "game": "Plinko",
           "requirement": "Place 10 bets on Plinko",
-          "started": 1114,
-          "completed": 933,
-          "medianMinutes": 32
+          "started": 1143,
+          "completed": 978,
+          "medianMinutes": 49
         },
         {
           "day": 8,
           "game": "Dice",
           "requirement": "Place 3 bets on Dice",
-          "started": 1062,
-          "completed": 928,
-          "medianMinutes": 27
+          "started": 1069,
+          "completed": 801,
+          "medianMinutes": 24
         },
         {
           "day": 9,
           "game": "Plinko",
           "requirement": "Win ×3 on Plinko",
-          "started": 988,
-          "completed": 746,
-          "medianMinutes": 30
+          "started": 1003,
+          "completed": 798,
+          "medianMinutes": 50
         },
         {
           "day": 10,
           "game": "Dice",
           "requirement": "Play Dice 5 rounds in a row",
-          "started": 929,
-          "completed": 814,
-          "medianMinutes": 35
+          "started": 946,
+          "completed": 795,
+          "medianMinutes": 28
         },
         {
           "day": 11,
           "game": "Plinko",
           "requirement": "Cash out above ×2 on Plinko",
-          "started": 883,
-          "completed": 683,
-          "medianMinutes": 41
+          "started": 898,
+          "completed": 726,
+          "medianMinutes": 46
         },
         {
           "day": 12,
           "game": "Dice",
           "requirement": "Collect 5 wins on Dice",
-          "started": 833,
-          "completed": 714,
-          "medianMinutes": 25
+          "started": 837,
+          "completed": 663,
+          "medianMinutes": 41
         },
         {
           "day": 13,
           "game": "Plinko",
           "requirement": "Place 10 bets on Plinko",
-          "started": 783,
-          "completed": 653,
-          "medianMinutes": 45
+          "started": 798,
+          "completed": 620,
+          "medianMinutes": 52
         },
         {
           "day": 14,
           "game": "Dice",
           "requirement": "Place 3 bets on Dice",
-          "started": 733,
-          "completed": 649,
-          "medianMinutes": 51
+          "started": 765,
+          "completed": 660,
+          "medianMinutes": 30
         }
       ],
       "gameGgr": [
         {
           "game": "Plinko",
-          "ggrDuring": 482124
+          "ggrDuring": 400228
         },
         {
           "game": "Dice",
-          "ggrDuring": 156145
+          "ggrDuring": 238041
         }
       ],
       "notes": "",
@@ -1893,7 +1920,10 @@
       "turnoverBefore": 30910685,
       "turnoverDuring": 41938974,
       "turnoverAfter": 31762819,
-      "eligiblePlayers": 41060,
+      "totalBetsBefore": 1636248,
+      "totalBetsDuring": 2464999,
+      "totalBetsAfter": 1733356,
+      "eligiblePlayers": 42428,
       "notes": "",
       "daily": [
         {
@@ -1964,10 +1994,13 @@
       "turnoverBefore": 8607614650,
       "turnoverDuring": 10902632557,
       "turnoverAfter": 9809886499,
+      "totalBetsBefore": 1682593,
+      "totalBetsDuring": 2228013,
+      "totalBetsAfter": 1976917,
       "controlGgrBefore": 834287181,
       "controlGgrDuring": 817573828,
       "controlLabel": "Same games at comparable Nigeria operators without the promo",
-      "eligiblePlayers": 15222,
+      "eligiblePlayers": 12987,
       "missions": [
         {
           "name": "Opted in",
@@ -1975,19 +2008,19 @@
         },
         {
           "name": "Play Mines",
-          "reached": 2015
+          "reached": 2330
         },
         {
           "name": "Play Goal",
-          "reached": 1462
+          "reached": 1448
         },
         {
           "name": "Play Hilo",
-          "reached": 631
+          "reached": 627
         },
         {
           "name": "All missions done",
-          "reached": 392
+          "reached": 442
         }
       ],
       "missionDays": [
@@ -1996,126 +2029,126 @@
           "game": "Mines",
           "requirement": "Place 10 bets on Mines",
           "started": 3224,
-          "completed": 2734,
-          "medianMinutes": 35
+          "completed": 2558,
+          "medianMinutes": 47
         },
         {
           "day": 2,
           "game": "Goal",
           "requirement": "Place 3 bets on Goal",
-          "started": 3012,
-          "completed": 2907,
-          "medianMinutes": 3
+          "started": 3019,
+          "completed": 2872,
+          "medianMinutes": 5
         },
         {
           "day": 3,
           "game": "Hilo",
           "requirement": "Win ×3 on Hilo",
-          "started": 2835,
-          "completed": 2582,
-          "medianMinutes": 25
+          "started": 2817,
+          "completed": 2277,
+          "medianMinutes": 28
         },
         {
           "day": 4,
           "game": "Mines",
           "requirement": "Play Mines 5 rounds in a row",
-          "started": 2657,
-          "completed": 2136,
-          "medianMinutes": 51
+          "started": 2702,
+          "completed": 2391,
+          "medianMinutes": 38
         },
         {
           "day": 5,
           "game": "Goal",
           "requirement": "Cash out above ×2 on Goal",
-          "started": 2534,
-          "completed": 2148,
-          "medianMinutes": 26
+          "started": 2522,
+          "completed": 2119,
+          "medianMinutes": 44
         },
         {
           "day": 6,
           "game": "Hilo",
           "requirement": "Hit a ×50 win on Hilo",
-          "started": 2393,
-          "completed": 1004,
-          "medianMinutes": 155
+          "started": 2374,
+          "completed": 889,
+          "medianMinutes": 148
         },
         {
           "day": 7,
           "game": "Mines",
           "requirement": "Place 10 bets on Mines",
-          "started": 1867,
-          "completed": 1492,
-          "medianMinutes": 28
+          "started": 1852,
+          "completed": 1688,
+          "medianMinutes": 35
         },
         {
           "day": 8,
           "game": "Goal",
           "requirement": "Place 3 bets on Goal",
-          "started": 1791,
-          "completed": 1495,
-          "medianMinutes": 35
+          "started": 1747,
+          "completed": 1558,
+          "medianMinutes": 42
         },
         {
           "day": 9,
           "game": "Hilo",
           "requirement": "Win ×3 on Hilo",
-          "started": 1711,
-          "completed": 1485,
-          "medianMinutes": 29
+          "started": 1637,
+          "completed": 1442,
+          "medianMinutes": 37
         },
         {
           "day": 10,
           "game": "Mines",
           "requirement": "Play Mines 5 rounds in a row",
-          "started": 1630,
-          "completed": 1379,
-          "medianMinutes": 34
+          "started": 1542,
+          "completed": 1322,
+          "medianMinutes": 46
         },
         {
           "day": 11,
           "game": "Goal",
           "requirement": "Cash out above ×2 on Goal",
-          "started": 1545,
-          "completed": 1368,
-          "medianMinutes": 45
+          "started": 1470,
+          "completed": 1322,
+          "medianMinutes": 34
         },
         {
           "day": 12,
           "game": "Hilo",
           "requirement": "Collect 5 wins on Hilo",
-          "started": 1478,
-          "completed": 1224,
+          "started": 1379,
+          "completed": 1199,
           "medianMinutes": 30
         },
         {
           "day": 13,
           "game": "Mines",
           "requirement": "Place 10 bets on Mines",
-          "started": 1405,
-          "completed": 1142,
-          "medianMinutes": 28
+          "started": 1291,
+          "completed": 1162,
+          "medianMinutes": 37
         },
         {
           "day": 14,
           "game": "Goal",
           "requirement": "Place 3 bets on Goal",
-          "started": 1345,
-          "completed": 1137,
-          "medianMinutes": 38
+          "started": 1221,
+          "completed": 1078,
+          "medianMinutes": 51
         }
       ],
       "gameGgr": [
         {
           "game": "Mines",
-          "ggrDuring": 174947044
+          "ggrDuring": 138837242
         },
         {
           "game": "Goal",
-          "ggrDuring": 87769795
+          "ggrDuring": 92581917
         },
         {
           "game": "Hilo",
-          "ggrDuring": 54302229
+          "ggrDuring": 85599909
         }
       ],
       "notes": "",
@@ -2318,7 +2351,10 @@
       "turnoverBefore": 163065327944,
       "turnoverDuring": 228296386989,
       "turnoverAfter": 184234213157,
-      "eligiblePlayers": 37780,
+      "totalBetsBefore": 19635366,
+      "totalBetsDuring": 29628290,
+      "totalBetsAfter": 22870514,
+      "eligiblePlayers": 41944,
       "leaderboard": [
         {
           "band": "1st",
@@ -2846,10 +2882,13 @@
       "turnoverBefore": 53789164,
       "turnoverDuring": 66720836,
       "turnoverAfter": 54694845,
+      "totalBetsBefore": 854248,
+      "totalBetsDuring": 1118461,
+      "totalBetsAfter": 895496,
       "controlGgrBefore": 6341802,
       "controlGgrDuring": 6536876,
       "controlLabel": "Same games at comparable Mexico operators without the promo",
-      "eligiblePlayers": 6184,
+      "eligiblePlayers": 4803,
       "leaderboard": [
         {
           "band": "1st",
@@ -3077,7 +3116,10 @@
       "turnoverBefore": 123178204,
       "turnoverDuring": 127697734,
       "turnoverAfter": 126300020,
-      "eligiblePlayers": 4150,
+      "totalBetsBefore": 440082,
+      "totalBetsDuring": 475990,
+      "totalBetsAfter": 465191,
+      "eligiblePlayers": 4146,
       "notes": "Free bets were mostly redeemed by existing players; no measurable lift.",
       "daily": [
         {
@@ -3194,10 +3236,13 @@
       "turnoverBefore": 103273423,
       "turnoverDuring": 129297121,
       "turnoverAfter": 108233659,
+      "totalBetsBefore": 8485145,
+      "totalBetsDuring": 11148900,
+      "totalBetsAfter": 9167720,
       "controlGgrBefore": 11043734,
       "controlGgrDuring": 11222966,
       "controlLabel": "Same games at comparable Brazil operators without the promo",
-      "eligiblePlayers": 53483,
+      "eligiblePlayers": 51007,
       "notes": "",
       "daily": [
         {
@@ -3350,7 +3395,10 @@
       "turnoverBefore": 1668316,
       "turnoverDuring": 1806893,
       "turnoverAfter": 1701628,
-      "eligiblePlayers": 4787,
+      "totalBetsBefore": 880379,
+      "totalBetsDuring": 1057022,
+      "totalBetsAfter": 925730,
+      "eligiblePlayers": 6322,
       "notes": "",
       "daily": [
         {
@@ -3467,10 +3515,13 @@
       "turnoverBefore": 15254974,
       "turnoverDuring": 19113638,
       "turnoverAfter": 16752303,
+      "totalBetsBefore": 1417888,
+      "totalBetsDuring": 1858526,
+      "totalBetsAfter": 1605215,
       "controlGgrBefore": 1952925,
       "controlGgrDuring": 2059549,
       "controlLabel": "Same games at comparable Peru operators without the promo",
-      "eligiblePlayers": 10673,
+      "eligiblePlayers": 9712,
       "missions": [
         {
           "name": "Opted in",
@@ -3478,19 +3529,19 @@
         },
         {
           "name": "Place 20 bets",
-          "reached": 1776
+          "reached": 1579
         },
         {
           "name": "Hit a ×10 win",
-          "reached": 1294
+          "reached": 1103
         },
         {
           "name": "Play 5 days in a row",
-          "reached": 529
+          "reached": 519
         },
         {
           "name": "All missions done",
-          "reached": 369
+          "reached": 359
         }
       ],
       "missionDays": [
@@ -3499,112 +3550,112 @@
           "game": "Mines",
           "requirement": "Place 10 bets on Mines",
           "started": 2330,
-          "completed": 2132,
-          "medianMinutes": 33
+          "completed": 1939,
+          "medianMinutes": 40
         },
         {
           "day": 2,
           "game": "Mines",
           "requirement": "Place 3 bets on Mines",
-          "started": 2189,
-          "completed": 2098,
-          "medianMinutes": 3
+          "started": 2179,
+          "completed": 2099,
+          "medianMinutes": 4
         },
         {
           "day": 3,
           "game": "Mines",
           "requirement": "Win ×3 on Mines",
-          "started": 2087,
-          "completed": 1741,
-          "medianMinutes": 25
+          "started": 2033,
+          "completed": 1855,
+          "medianMinutes": 51
         },
         {
           "day": 4,
           "game": "Mines",
           "requirement": "Play Mines 5 rounds in a row",
-          "started": 1997,
-          "completed": 1846,
-          "medianMinutes": 41
+          "started": 1929,
+          "completed": 1576,
+          "medianMinutes": 27
         },
         {
           "day": 5,
           "game": "Mines",
           "requirement": "Cash out above ×2 on Mines",
-          "started": 1870,
-          "completed": 1516,
-          "medianMinutes": 22
+          "started": 1795,
+          "completed": 1464,
+          "medianMinutes": 39
         },
         {
           "day": 6,
           "game": "Mines",
           "requirement": "Hit a ×50 win on Mines",
-          "started": 1750,
-          "completed": 709,
-          "medianMinutes": 146
+          "started": 1678,
+          "completed": 675,
+          "medianMinutes": 143
         },
         {
           "day": 7,
           "game": "Mines",
           "requirement": "Place 10 bets on Mines",
-          "started": 1365,
-          "completed": 1177,
-          "medianMinutes": 24
+          "started": 1309,
+          "completed": 1169,
+          "medianMinutes": 45
         },
         {
           "day": 8,
           "game": "Mines",
           "requirement": "Place 3 bets on Mines",
-          "started": 1300,
-          "completed": 1165,
-          "medianMinutes": 41
+          "started": 1243,
+          "completed": 1136,
+          "medianMinutes": 43
         },
         {
           "day": 9,
           "game": "Mines",
           "requirement": "Win ×3 on Mines",
-          "started": 1244,
-          "completed": 1101,
-          "medianMinutes": 52
+          "started": 1193,
+          "completed": 981,
+          "medianMinutes": 26
         },
         {
           "day": 10,
           "game": "Mines",
           "requirement": "Play Mines 5 rounds in a row",
-          "started": 1166,
-          "completed": 940,
-          "medianMinutes": 33
+          "started": 1122,
+          "completed": 889,
+          "medianMinutes": 36
         },
         {
           "day": 11,
           "game": "Mines",
           "requirement": "Cash out above ×2 on Mines",
-          "started": 1085,
-          "completed": 925,
-          "medianMinutes": 46
+          "started": 1070,
+          "completed": 927,
+          "medianMinutes": 42
         },
         {
           "day": 12,
           "game": "Mines",
           "requirement": "Collect 5 wins on Mines",
-          "started": 1027,
-          "completed": 906,
-          "medianMinutes": 51
+          "started": 1026,
+          "completed": 823,
+          "medianMinutes": 40
         },
         {
           "day": 13,
           "game": "Mines",
           "requirement": "Place 10 bets on Mines",
           "started": 958,
-          "completed": 836,
-          "medianMinutes": 26
+          "completed": 796,
+          "medianMinutes": 36
         },
         {
           "day": 14,
           "game": "Mines",
           "requirement": "Place 3 bets on Mines",
           "started": 900,
-          "completed": 769,
-          "medianMinutes": 32
+          "completed": 800,
+          "medianMinutes": 27
         }
       ],
       "notes": "",
@@ -3807,7 +3858,10 @@
       "turnoverBefore": 18649015774,
       "turnoverDuring": 22694622428,
       "turnoverAfter": 19510180084,
-      "eligiblePlayers": 34098,
+      "totalBetsBefore": 4472595,
+      "totalBetsDuring": 5680859,
+      "totalBetsAfter": 4823843,
+      "eligiblePlayers": 27604,
       "leaderboard": [
         {
           "band": "1st",
@@ -4035,10 +4089,13 @@
       "turnoverBefore": 995106,
       "turnoverDuring": 1050216,
       "turnoverAfter": 979522,
+      "totalBetsBefore": 504143,
+      "totalBetsDuring": 570183,
+      "totalBetsAfter": 511596,
       "controlGgrBefore": 111565,
       "controlGgrDuring": 111116,
       "controlLabel": "Same games at comparable Italy operators without the promo",
-      "eligiblePlayers": 3327,
+      "eligiblePlayers": 3763,
       "leaderboard": [
         {
           "band": "1st",
@@ -4185,7 +4242,10 @@
       "turnoverBefore": 28148448610,
       "turnoverDuring": 36069246195,
       "turnoverAfter": 30181457936,
-      "eligiblePlayers": 16224,
+      "totalBetsBefore": 2346776,
+      "totalBetsDuring": 3267102,
+      "totalBetsAfter": 2594094,
+      "eligiblePlayers": 18594,
       "missions": [
         {
           "name": "Opted in",
@@ -4193,19 +4253,19 @@
         },
         {
           "name": "Play Plinko",
-          "reached": 3225
+          "reached": 3077
         },
         {
           "name": "Play Mines",
-          "reached": 2514
+          "reached": 2455
         },
         {
           "name": "Play Dice",
-          "reached": 1125
+          "reached": 1026
         },
         {
           "name": "All missions done",
-          "reached": 897
+          "reached": 663
         }
       ],
       "missionDays": [
@@ -4214,130 +4274,130 @@
           "game": "Plinko",
           "requirement": "Place 10 bets on Plinko",
           "started": 4077,
-          "completed": 3344,
+          "completed": 3564,
           "medianMinutes": 26
         },
         {
           "day": 2,
           "game": "Mines",
           "requirement": "Place 3 bets on Mines",
-          "started": 3885,
-          "completed": 3667,
+          "started": 3870,
+          "completed": 3655,
           "medianMinutes": 4
         },
         {
           "day": 3,
           "game": "Dice",
           "requirement": "Win ×3 on Dice",
-          "started": 3631,
-          "completed": 3152,
-          "medianMinutes": 34
+          "started": 3645,
+          "completed": 2862,
+          "medianMinutes": 40
         },
         {
           "day": 4,
           "game": "Goal",
           "requirement": "Play Goal 5 rounds in a row",
-          "started": 3391,
-          "completed": 2891,
-          "medianMinutes": 27
+          "started": 3407,
+          "completed": 2730,
+          "medianMinutes": 45
         },
         {
           "day": 5,
           "game": "Plinko",
           "requirement": "Cash out above ×2 on Plinko",
-          "started": 3178,
-          "completed": 2784,
-          "medianMinutes": 46
+          "started": 3250,
+          "completed": 2524,
+          "medianMinutes": 39
         },
         {
           "day": 6,
           "game": "Mines",
           "requirement": "Hit a ×50 win on Mines",
-          "started": 2962,
-          "completed": 1200,
-          "medianMinutes": 162
+          "started": 3076,
+          "completed": 1224,
+          "medianMinutes": 165
         },
         {
           "day": 7,
           "game": "Dice",
           "requirement": "Place 10 bets on Dice",
-          "started": 2310,
-          "completed": 1925,
-          "medianMinutes": 41
+          "started": 2399,
+          "completed": 1996,
+          "medianMinutes": 37
         },
         {
           "day": 8,
           "game": "Goal",
           "requirement": "Place 3 bets on Goal",
-          "started": 2180,
-          "completed": 1820,
-          "medianMinutes": 37
+          "started": 2266,
+          "completed": 1879,
+          "medianMinutes": 45
         },
         {
           "day": 9,
           "game": "Plinko",
           "requirement": "Win ×3 on Plinko",
-          "started": 2056,
-          "completed": 1800,
-          "medianMinutes": 43
+          "started": 2154,
+          "completed": 1923,
+          "medianMinutes": 36
         },
         {
           "day": 10,
           "game": "Mines",
           "requirement": "Play Mines 5 rounds in a row",
-          "started": 1967,
-          "completed": 1635,
-          "medianMinutes": 39
+          "started": 2039,
+          "completed": 1588,
+          "medianMinutes": 32
         },
         {
           "day": 11,
           "game": "Dice",
           "requirement": "Cash out above ×2 on Dice",
-          "started": 1834,
-          "completed": 1491,
-          "medianMinutes": 24
+          "started": 1901,
+          "completed": 1631,
+          "medianMinutes": 34
         },
         {
           "day": 12,
           "game": "Goal",
           "requirement": "Collect 5 wins on Goal",
-          "started": 1741,
-          "completed": 1436,
-          "medianMinutes": 31
+          "started": 1784,
+          "completed": 1525,
+          "medianMinutes": 44
         },
         {
           "day": 13,
           "game": "Plinko",
           "requirement": "Place 10 bets on Plinko",
-          "started": 1652,
-          "completed": 1435,
-          "medianMinutes": 28
+          "started": 1669,
+          "completed": 1282,
+          "medianMinutes": 39
         },
         {
           "day": 14,
           "game": "Mines",
           "requirement": "Place 3 bets on Mines",
-          "started": 1537,
-          "completed": 1302,
-          "medianMinutes": 42
+          "started": 1585,
+          "completed": 1424,
+          "medianMinutes": 26
         }
       ],
       "gameGgr": [
         {
           "game": "Plinko",
-          "ggrDuring": 672246836
+          "ggrDuring": 554030524
         },
         {
           "game": "Mines",
-          "ggrDuring": 190018126
+          "ggrDuring": 279136754
         },
         {
           "game": "Dice",
-          "ggrDuring": 230473074
+          "ggrDuring": 189130392
         },
         {
           "game": "Goal",
-          "ggrDuring": 255461941
+          "ggrDuring": 325902307
         }
       ],
       "notes": "",
@@ -4540,10 +4600,13 @@
       "turnoverBefore": 73185404,
       "turnoverDuring": 97375601,
       "turnoverAfter": 77524981,
+      "totalBetsBefore": 1499436,
+      "totalBetsDuring": 2151262,
+      "totalBetsAfter": 1637470,
       "controlGgrBefore": 7471008,
       "controlGgrDuring": 7421538,
       "controlLabel": "Same games at comparable Mexico operators without the promo",
-      "eligiblePlayers": 26182,
+      "eligiblePlayers": 26682,
       "notes": "",
       "daily": [
         {
@@ -4624,7 +4687,10 @@
       "turnoverBefore": 204303899,
       "turnoverDuring": null,
       "turnoverAfter": null,
-      "eligiblePlayers": 3184,
+      "totalBetsBefore": 565631,
+      "totalBetsDuring": null,
+      "totalBetsAfter": null,
+      "eligiblePlayers": 3297,
       "missions": [
         {
           "name": "Opted in",
@@ -4632,19 +4698,19 @@
         },
         {
           "name": "Place 20 bets",
-          "reached": 260
+          "reached": 237
         },
         {
           "name": "Hit a ×10 win",
-          "reached": 196
+          "reached": 169
         },
         {
           "name": "Play 5 days in a row",
-          "reached": 76
+          "reached": 77
         },
         {
           "name": "All missions done",
-          "reached": 54
+          "reached": 56
         }
       ],
       "missionDays": [
@@ -4653,112 +4719,112 @@
           "game": "Balloon",
           "requirement": "Place 10 bets on Balloon",
           "started": 374,
-          "completed": 317,
-          "medianMinutes": 38
+          "completed": 308,
+          "medianMinutes": 44
         },
         {
           "day": 2,
           "game": "Balloon",
           "requirement": "Place 3 bets on Balloon",
-          "started": 355,
-          "completed": 342,
-          "medianMinutes": 4
+          "started": 352,
+          "completed": 336,
+          "medianMinutes": 3
         },
         {
           "day": 3,
           "game": "Balloon",
           "requirement": "Win ×3 on Balloon",
           "started": 335,
-          "completed": 259,
-          "medianMinutes": 43
+          "completed": 289,
+          "medianMinutes": 33
         },
         {
           "day": 4,
           "game": "Balloon",
           "requirement": "Play Balloon 5 rounds in a row",
-          "started": 320,
-          "completed": 253,
-          "medianMinutes": 29
+          "started": 314,
+          "completed": 258,
+          "medianMinutes": 40
         },
         {
           "day": 5,
           "game": "Balloon",
           "requirement": "Cash out above ×2 on Balloon",
-          "started": 303,
-          "completed": 249,
-          "medianMinutes": 44
+          "started": 299,
+          "completed": 240,
+          "medianMinutes": 41
         },
         {
           "day": 6,
           "game": "Balloon",
           "requirement": "Hit a ×50 win on Balloon",
-          "started": 286,
-          "completed": 117,
-          "medianMinutes": 140
+          "started": 278,
+          "completed": 106,
+          "medianMinutes": 150
         },
         {
           "day": 7,
           "game": "Balloon",
           "requirement": "Place 10 bets on Balloon",
-          "started": 223,
-          "completed": 172,
-          "medianMinutes": 30
+          "started": 217,
+          "completed": 183,
+          "medianMinutes": 50
         },
         {
           "day": 8,
           "game": "Balloon",
           "requirement": "Place 3 bets on Balloon",
-          "started": 212,
-          "completed": 185,
-          "medianMinutes": 27
+          "started": 203,
+          "completed": 165,
+          "medianMinutes": 23
         },
         {
           "day": 9,
           "game": "Balloon",
           "requirement": "Win ×3 on Balloon",
-          "started": 201,
-          "completed": 150,
-          "medianMinutes": 40
+          "started": 193,
+          "completed": 146,
+          "medianMinutes": 23
         },
         {
           "day": 10,
           "game": "Balloon",
           "requirement": "Play Balloon 5 rounds in a row",
-          "started": 188,
-          "completed": 140,
-          "medianMinutes": 44
+          "started": 184,
+          "completed": 155,
+          "medianMinutes": 26
         },
         {
           "day": 11,
           "game": "Balloon",
           "requirement": "Cash out above ×2 on Balloon",
-          "started": 179,
-          "completed": 135,
-          "medianMinutes": 36
+          "started": 174,
+          "completed": 148,
+          "medianMinutes": 48
         },
         {
           "day": 12,
           "game": "Balloon",
           "requirement": "Collect 5 wins on Balloon",
-          "started": 171,
-          "completed": 147,
-          "medianMinutes": 51
+          "started": 167,
+          "completed": 129,
+          "medianMinutes": 50
         },
         {
           "day": 13,
           "game": "Balloon",
           "requirement": "Place 10 bets on Balloon",
-          "started": 160,
-          "completed": 139,
-          "medianMinutes": 36
+          "started": 158,
+          "completed": 125,
+          "medianMinutes": 45
         },
         {
           "day": 14,
           "game": "Balloon",
           "requirement": "Place 3 bets on Balloon",
           "started": 151,
-          "completed": 128,
-          "medianMinutes": 47
+          "completed": 120,
+          "medianMinutes": 39
         }
       ],
       "notes": "Still live — after-window numbers arrive once it ends.",
@@ -4983,10 +5049,13 @@
       "turnoverBefore": 117816150,
       "turnoverDuring": 145880358,
       "turnoverAfter": 123694375,
+      "totalBetsBefore": 6051463,
+      "totalBetsDuring": 8182063,
+      "totalBetsAfter": 6549887,
       "controlGgrBefore": 14291069,
       "controlGgrDuring": 14687688,
       "controlLabel": "Same games at comparable Brazil operators without the promo",
-      "eligiblePlayers": 43507,
+      "eligiblePlayers": 42478,
       "leaderboard": [
         {
           "band": "1st",
@@ -5215,7 +5284,10 @@
       "turnoverBefore": 216727997,
       "turnoverDuring": 253995716,
       "turnoverAfter": 226993656,
-      "eligiblePlayers": 22934,
+      "totalBetsBefore": 3605190,
+      "totalBetsDuring": 4654981,
+      "totalBetsAfter": 3892737,
+      "eligiblePlayers": 28021,
       "leaderboard": [
         {
           "band": "1st",
@@ -5450,10 +5522,13 @@
       "turnoverBefore": 66307680,
       "turnoverDuring": 83043091,
       "turnoverAfter": 71141713,
+      "totalBetsBefore": 3350224,
+      "totalBetsDuring": 4660501,
+      "totalBetsAfter": 3705635,
       "controlGgrBefore": 8193894,
       "controlGgrDuring": 8095718,
       "controlLabel": "Same games at comparable Brazil operators without the promo",
-      "eligiblePlayers": 46059,
+      "eligiblePlayers": 46530,
       "missions": [
         {
           "name": "Opted in",
@@ -5461,19 +5536,19 @@
         },
         {
           "name": "Play Aviator",
-          "reached": 7513
+          "reached": 9183
         },
         {
           "name": "Play Mines",
-          "reached": 4948
+          "reached": 7138
         },
         {
           "name": "Play Goal",
-          "reached": 2336
+          "reached": 2734
         },
         {
           "name": "All missions done",
-          "reached": 1816
+          "reached": 1707
         }
       ],
       "missionDays": [
@@ -5482,86 +5557,86 @@
           "game": "Pilot Chicken · Plinko · Mines",
           "requirement": "Aviator: catch a 30x+ multiplier 10 times · Pilot Chicken: collect 100x in total · Plinko: place 100 individual bets · Mines: collect 100x in total",
           "started": 11418,
-          "completed": 8486,
-          "medianMinutes": 23
+          "completed": 9552,
+          "medianMinutes": 45
         },
         {
           "day": 2,
           "game": "Goal · Keno · Trader",
           "requirement": "Aviator: catch a 30x+ multiplier 10 times · Goal: collect 100x in total · Keno: place 100 individual bets · Trader: collect 100x in total",
-          "started": 10857,
-          "completed": 10460,
-          "medianMinutes": 4
+          "started": 10723,
+          "completed": 10304,
+          "medianMinutes": 5
         },
         {
           "day": 3,
           "game": "Pilot Chicken · Mines · Plinko",
           "requirement": "Aviator: catch a 30x+ multiplier 10 times · Pilot Chicken: place 100 individual bets · Mines: collect 100x in total · Plinko: place 100 individual bets",
-          "started": 10325,
-          "completed": 9055,
-          "medianMinutes": 32
+          "started": 10080,
+          "completed": 7708,
+          "medianMinutes": 33
         },
         {
           "day": 4,
           "game": "Trader · Keno · Goal",
           "requirement": "Aviator: catch a 30x+ multiplier 10 times · Trader: collect 100x in total · Keno: place 100 individual bets · Goal: collect 100x in total",
-          "started": 9659,
-          "completed": 7647,
-          "medianMinutes": 43
+          "started": 9586,
+          "completed": 7900,
+          "medianMinutes": 26
         },
         {
           "day": 5,
           "game": "Pilot Chicken · Trader · Mines",
           "requirement": "Aviator: catch a 30x+ multiplier 10 times · Pilot Chicken: collect 100x in total · Trader: place 100 individual bets · Mines: collect 100x in total",
-          "started": 9159,
-          "completed": 6939,
-          "medianMinutes": 40
+          "started": 9084,
+          "completed": 6742,
+          "medianMinutes": 33
         },
         {
           "day": 6,
           "game": "Plinko · Keno · Goal",
           "requirement": "4 tasks across Aviator, Plinko, Keno, Goal",
-          "started": 8524,
-          "completed": 3308,
-          "medianMinutes": 158
+          "started": 8571,
+          "completed": 3270,
+          "medianMinutes": 167
         },
         {
           "day": 7,
           "game": "Pilot Chicken · Plinko · Mines",
           "requirement": "4 tasks across Aviator, Pilot Chicken, Plinko, Mines",
-          "started": 6649,
-          "completed": 5164,
-          "medianMinutes": 42
+          "started": 6685,
+          "completed": 5794,
+          "medianMinutes": 25
         }
       ],
       "gameGgr": [
         {
           "game": "Aviator",
-          "ggrDuring": 1022312
+          "ggrDuring": 760897
         },
         {
           "game": "Mines",
-          "ggrDuring": 284670
+          "ggrDuring": 327288
         },
         {
           "game": "Goal",
-          "ggrDuring": 303982
+          "ggrDuring": 475096
         },
         {
           "game": "Plinko",
-          "ggrDuring": 287657
+          "ggrDuring": 432060
         },
         {
           "game": "Pilot Chicken",
-          "ggrDuring": 417567
+          "ggrDuring": 435376
         },
         {
           "game": "Keno",
-          "ggrDuring": 379742
+          "ggrDuring": 307449
         },
         {
           "game": "Trader",
-          "ggrDuring": 382657
+          "ggrDuring": 340420
         }
       ],
       "calendarId": "spribe-adventure-2026",
@@ -5687,7 +5762,10 @@
       "turnoverBefore": 10436228684,
       "turnoverDuring": 13426336426,
       "turnoverAfter": 11601361693,
-      "eligiblePlayers": 28375,
+      "totalBetsBefore": 3310347,
+      "totalBetsDuring": 4699787,
+      "totalBetsAfter": 3793737,
+      "eligiblePlayers": 32231,
       "missions": [
         {
           "name": "Opted in",
@@ -5695,19 +5773,19 @@
         },
         {
           "name": "Play Aviator",
-          "reached": 5306
+          "reached": 5975
         },
         {
           "name": "Play Mines",
-          "reached": 3804
+          "reached": 4362
         },
         {
           "name": "Play Goal",
-          "reached": 1749
+          "reached": 1958
         },
         {
           "name": "All missions done",
-          "reached": 1277
+          "reached": 1429
         }
       ],
       "missionDays": [
@@ -5716,86 +5794,86 @@
           "game": "Pilot Chicken · Plinko · Mines",
           "requirement": "Aviator: catch a 30x+ multiplier 10 times · Pilot Chicken: collect 100x in total · Plinko: place 100 individual bets · Mines: collect 100x in total",
           "started": 7666,
-          "completed": 6726,
-          "medianMinutes": 38
+          "completed": 6337,
+          "medianMinutes": 36
         },
         {
           "day": 2,
           "game": "Goal · Keno · Trader",
           "requirement": "Aviator: catch a 30x+ multiplier 10 times · Goal: collect 100x in total · Keno: place 100 individual bets · Trader: collect 100x in total",
-          "started": 7204,
-          "completed": 6874,
-          "medianMinutes": 5
+          "started": 7311,
+          "completed": 7082,
+          "medianMinutes": 4
         },
         {
           "day": 3,
           "game": "Pilot Chicken · Mines · Plinko",
           "requirement": "Aviator: catch a 30x+ multiplier 10 times · Pilot Chicken: place 100 individual bets · Mines: collect 100x in total · Plinko: place 100 individual bets",
-          "started": 6906,
-          "completed": 5736,
-          "medianMinutes": 39
+          "started": 6923,
+          "completed": 5449,
+          "medianMinutes": 26
         },
         {
           "day": 4,
           "game": "Trader · Keno · Goal",
           "requirement": "Aviator: catch a 30x+ multiplier 10 times · Trader: collect 100x in total · Keno: place 100 individual bets · Goal: collect 100x in total",
-          "started": 6432,
-          "completed": 5129,
-          "medianMinutes": 30
+          "started": 6495,
+          "completed": 5286,
+          "medianMinutes": 27
         },
         {
           "day": 5,
           "game": "Pilot Chicken · Trader · Mines",
           "requirement": "Aviator: catch a 30x+ multiplier 10 times · Pilot Chicken: collect 100x in total · Trader: place 100 individual bets · Mines: collect 100x in total",
-          "started": 6027,
-          "completed": 4850,
-          "medianMinutes": 42
+          "started": 6167,
+          "completed": 4906,
+          "medianMinutes": 24
         },
         {
           "day": 6,
           "game": "Plinko · Keno · Goal",
           "requirement": "4 tasks across Aviator, Plinko, Keno, Goal",
-          "started": 5624,
-          "completed": 2054,
-          "medianMinutes": 169
+          "started": 5869,
+          "completed": 2222,
+          "medianMinutes": 159
         },
         {
           "day": 7,
           "game": "Pilot Chicken · Plinko · Mines",
           "requirement": "4 tasks across Aviator, Pilot Chicken, Plinko, Mines",
-          "started": 4387,
-          "completed": 3569,
-          "medianMinutes": 36
+          "started": 4578,
+          "completed": 4002,
+          "medianMinutes": 50
         }
       ],
       "gameGgr": [
         {
           "game": "Aviator",
-          "ggrDuring": 122285717
+          "ggrDuring": 110095755
         },
         {
           "game": "Mines",
-          "ggrDuring": 63995823
+          "ggrDuring": 48189723
         },
         {
           "game": "Goal",
-          "ggrDuring": 45469407
+          "ggrDuring": 63313983
         },
         {
           "game": "Plinko",
-          "ggrDuring": 43785047
+          "ggrDuring": 70359320
         },
         {
           "game": "Pilot Chicken",
-          "ggrDuring": 57526907
+          "ggrDuring": 42716778
         },
         {
           "game": "Keno",
-          "ggrDuring": 63928281
+          "ggrDuring": 48282132
         },
         {
           "game": "Trader",
-          "ggrDuring": 38812345
+          "ggrDuring": 52845838
         }
       ],
       "calendarId": "spribe-adventure-2026",
@@ -5921,10 +5999,13 @@
       "turnoverBefore": 8930498,
       "turnoverDuring": 9665841,
       "turnoverAfter": 9323115,
+      "totalBetsBefore": 1230604,
+      "totalBetsDuring": 1427657,
+      "totalBetsAfter": 1324439,
       "controlGgrBefore": 1042682,
       "controlGgrDuring": 1090689,
       "controlLabel": "Same games at comparable Peru operators without the promo",
-      "eligiblePlayers": 8962,
+      "eligiblePlayers": 9717,
       "missions": [
         {
           "name": "Opted in",
@@ -5932,19 +6013,19 @@
         },
         {
           "name": "Play Aviator",
-          "reached": 1070
+          "reached": 1177
         },
         {
           "name": "Play Mines",
-          "reached": 846
+          "reached": 946
         },
         {
           "name": "Play Goal",
-          "reached": 353
+          "reached": 398
         },
         {
           "name": "All missions done",
-          "reached": 284
+          "reached": 320
         }
       ],
       "missionDays": [
@@ -5953,86 +6034,86 @@
           "game": "Pilot Chicken · Plinko · Mines",
           "requirement": "Aviator: catch a 30x+ multiplier 10 times · Pilot Chicken: collect 100x in total · Plinko: place 100 individual bets · Mines: collect 100x in total",
           "started": 1696,
-          "completed": 1219,
-          "medianMinutes": 50
+          "completed": 1173,
+          "medianMinutes": 24
         },
         {
           "day": 2,
           "game": "Goal · Keno · Trader",
           "requirement": "Aviator: catch a 30x+ multiplier 10 times · Goal: collect 100x in total · Keno: place 100 individual bets · Trader: collect 100x in total",
-          "started": 1588,
-          "completed": 1495,
+          "started": 1591,
+          "completed": 1508,
           "medianMinutes": 4
         },
         {
           "day": 3,
           "game": "Pilot Chicken · Mines · Plinko",
           "requirement": "Aviator: catch a 30x+ multiplier 10 times · Pilot Chicken: place 100 individual bets · Mines: collect 100x in total · Plinko: place 100 individual bets",
-          "started": 1489,
-          "completed": 1137,
-          "medianMinutes": 29
+          "started": 1491,
+          "completed": 1046,
+          "medianMinutes": 33
         },
         {
           "day": 4,
           "game": "Trader · Keno · Goal",
           "requirement": "Aviator: catch a 30x+ multiplier 10 times · Trader: collect 100x in total · Keno: place 100 individual bets · Goal: collect 100x in total",
-          "started": 1397,
-          "completed": 996,
-          "medianMinutes": 32
+          "started": 1401,
+          "completed": 1026,
+          "medianMinutes": 24
         },
         {
           "day": 5,
           "game": "Pilot Chicken · Trader · Mines",
           "requirement": "Aviator: catch a 30x+ multiplier 10 times · Pilot Chicken: collect 100x in total · Trader: place 100 individual bets · Mines: collect 100x in total",
-          "started": 1320,
-          "completed": 884,
-          "medianMinutes": 31
+          "started": 1316,
+          "completed": 886,
+          "medianMinutes": 26
         },
         {
           "day": 6,
           "game": "Plinko · Keno · Goal",
           "requirement": "4 tasks across Aviator, Plinko, Keno, Goal",
-          "started": 1231,
-          "completed": 458,
-          "medianMinutes": 167
+          "started": 1250,
+          "completed": 483,
+          "medianMinutes": 174
         },
         {
           "day": 7,
           "game": "Pilot Chicken · Plinko · Mines",
           "requirement": "4 tasks across Aviator, Pilot Chicken, Plinko, Mines",
-          "started": 960,
-          "completed": 680,
-          "medianMinutes": 47
+          "started": 975,
+          "completed": 751,
+          "medianMinutes": 50
         }
       ],
       "gameGgr": [
         {
           "game": "Aviator",
-          "ggrDuring": 97054
+          "ggrDuring": 85555
         },
         {
           "game": "Mines",
-          "ggrDuring": 47473
+          "ggrDuring": 50637
         },
         {
           "game": "Goal",
-          "ggrDuring": 34174
+          "ggrDuring": 41627
         },
         {
           "game": "Plinko",
-          "ggrDuring": 44498
+          "ggrDuring": 39385
         },
         {
           "game": "Pilot Chicken",
-          "ggrDuring": 36580
+          "ggrDuring": 50265
         },
         {
           "game": "Keno",
-          "ggrDuring": 34611
+          "ggrDuring": 33915
         },
         {
           "game": "Trader",
-          "ggrDuring": 44171
+          "ggrDuring": 37177
         }
       ],
       "calendarId": "spribe-adventure-2026",

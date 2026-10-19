@@ -87,7 +87,7 @@ export function ResultsTable({ list, currency, onSelect }: { list: PromoMetrics[
   return (
     <div className="space-y-2">
       <div className="panel overflow-x-auto">
-        <table className="w-full min-w-[1180px] text-[13px]">
+        <table className="w-full min-w-[960px] text-[12.5px]">
           <thead>
             <tr className="border-b border-border bg-surface-raised text-[11px] uppercase tracking-wide text-muted-foreground">
               {RESULT_COLUMNS.map((c, i) => (
@@ -95,12 +95,12 @@ export function ResultsTable({ list, currency, onSelect }: { list: PromoMetrics[
                   key={c.key}
                   title={c.info}
                   className={cn(
-                    "whitespace-nowrap px-2.5 py-2.5 font-medium",
+                    "px-2 py-2 align-bottom font-medium leading-tight",
                     c.kind === "text" ? "text-left" : "text-right",
                     i === 0 && "sticky left-0 z-10 bg-surface-raised",
                   )}
                 >
-                  <button onClick={() => toggle(c.key, c.kind)} className="inline-flex items-center gap-1 hover:text-foreground">
+                  <button onClick={() => toggle(c.key, c.kind)} className={cn("inline-flex items-end gap-1 hover:text-foreground", c.kind !== "text" && "justify-end text-right")}>
                     {c.label}
                     {sort?.key === c.key && (sort.dir === 1 ? <ArrowUp className="size-3" /> : <ArrowDown className="size-3" />)}
                   </button>
@@ -115,7 +115,7 @@ export function ResultsTable({ list, currency, onSelect }: { list: PromoMetrics[
                   const v = c.get(m);
                   if (i === 0)
                     return (
-                      <td key={c.key} className="sticky left-0 z-10 max-w-[210px] bg-surface px-2.5 py-2 group-hover:bg-surface-raised">
+                      <td key={c.key} className="sticky left-0 z-10 max-w-[190px] bg-surface px-2 py-1.5 group-hover:bg-surface-raised">
                         <p className="truncate font-medium">{m.promo.name}</p>
                         <p className="truncate text-[11px] text-muted-foreground">
                           {formatRange(m.promo.startDate, m.promo.endDate)}
@@ -127,7 +127,7 @@ export function ResultsTable({ list, currency, onSelect }: { list: PromoMetrics[
                     <td
                       key={c.key}
                       title={c.kind === "money" && typeof v === "number" ? moneyFull(v, currency) : undefined}
-                      className={cn("whitespace-nowrap px-2.5 py-2", c.kind === "text" ? "text-left text-muted-foreground" : "text-right tabular", tone(c.kind, v))}
+                      className={cn("whitespace-nowrap px-2 py-1.5", c.kind === "text" ? "max-w-[8.5rem] truncate text-left text-muted-foreground" : "text-right tabular", tone(c.kind, v))}
                     >
                       {fmt(c.kind, v, currency)}
                       {c.reported?.(m) && <span title="Reported by the Back Office">*</span>}
@@ -139,7 +139,7 @@ export function ResultsTable({ list, currency, onSelect }: { list: PromoMetrics[
           </tbody>
           <tfoot>
             <tr className="border-t-2 border-border bg-surface-raised font-semibold">
-              <td className="sticky left-0 z-10 bg-surface-raised px-3 py-2.5">
+              <td className="sticky left-0 z-10 bg-surface-raised px-2 py-2">
                 Total <span className="font-normal text-muted-foreground">· {list.length} promos</span>
               </td>
               {RESULT_COLUMNS.slice(1).map((c) => {
@@ -148,7 +148,7 @@ export function ResultsTable({ list, currency, onSelect }: { list: PromoMetrics[
                   <td
                     key={c.key}
                     title={c.kind === "money" && v != null ? moneyFull(v, currency) : undefined}
-                    className={cn("whitespace-nowrap px-3 py-2.5", c.kind === "text" ? "" : "text-right tabular", tone(c.kind, v))}
+                    className={cn("whitespace-nowrap px-2 py-2", c.kind === "text" ? "" : "text-right tabular", tone(c.kind, v))}
                   >
                     {c.kind === "text" ? "" : fmt(c.kind, v, currency)}
                   </td>

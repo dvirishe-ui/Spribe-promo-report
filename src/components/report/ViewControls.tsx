@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { ChevronLeft, ChevronRight, RotateCcw, Search, SlidersHorizontal, X } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { MultiSelect } from "./MultiSelect";
-import { FILTER_KEYS, emptyFilters, filterCount, type FilterKey, type FilterState } from "@/lib/filters";
+import { FILTER_KEYS, emptyFilters, filterCount, regionOf, type FilterKey, type FilterState } from "@/lib/filters";
 import { formatRange, monthLabel, nextMonth, prevMonth, todayIso } from "@/lib/dates";
 import { marketLabel } from "@/lib/markets";
 import type { PromoMetrics } from "@/lib/metrics";
@@ -24,12 +24,16 @@ export function periodName(mode: PeriodMode, month: string, from: string, to: st
   return monthLabel(month, "long");
 }
 
-const LABEL: Record<FilterKey, string> = { market: "Market", operator: "Operator", aggregator: "Aggregator", type: "Type", game: "Game" };
+const LABEL: Record<FilterKey, string> = { region: "Region", market: "Market", aggregator: "Aggregator", operator: "Operator", type: "Type", promo: "Promotion", game: "Game" };
 /** Shown as their own dropdowns on wide screens; inside "More filters" on narrower ones. */
+const PRIMARY: FilterKey[] = ["region", "market", "operator", "promo"];
 const SECONDARY: FilterKey[] = ["aggregator", "type", "game"];
 
 function options(all: PromoMetrics[], key: FilterKey): string[] {
-  const vals = key === "game" ? all.flatMap((m) => m.promo.games) : all.map((m) => (key === "aggregator" ? m.promo.aggregator || "—" : m.promo[key]));
+  const vals =
+    key === "game"
+      ? all.flatMap((m) => m.promo.games)
+      : all.map((m) => (key === "aggregator" ? m.promo.aggregator || "—" : key === "region" ? regionOf(m.promo.market) : key === "promo" ? m.promo.name : m.promo[key]));
   return [...new Set(vals.filter(Boolean))].sort((a, b) => a.localeCompare(b));
 }
 
@@ -140,20 +144,19 @@ export function FilterBar({ metrics, month, count, hidePeriod = false }: { metri
           <Search className="pointer-events-none absolute left-2 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground" />
           <input
             aria-label="Search promos"
-            className="h-8 w-36 rounded-md border border-border bg-surface pl-7 pr-2 text-xs outline-none placeholder:text-muted-foreground/70 focus:ring-2 focus:ring-ring lg:w-44"
+            className="h-8 w-32 rounded-md border border-border bg-surface pl-7 pr-2 text-xs outline-none placeholder:text-muted-foreground/70 focus:ring-2 focus:ring-ring lg:w-40"
             placeholder="Search promos"
             value={f.q}
             onChange={(e) => onChange({ ...f, q: e.target.value })}
           />
         </div>
-        {select("market")}
-        {select("operator")}
-        {SECONDARY.map((k) => select(k, "hidden xl:inline-flex"))}
+        {PRIMARY.map((k) => select(k))}
+        {SECONDARY.map((k) => select(k, "hidden 2xl:inline-flex"))}
         <Popover>
           <PopoverTrigger asChild>
             <button
               className={cn(
-                "inline-flex h-8 items-center gap-1.5 rounded-md border px-2.5 text-xs xl:hidden",
+                "inline-flex h-8 items-center gap-1.5 rounded-md border px-2.5 text-xs 2xl:hidden",
                 secondaryActive ? "border-primary/60 bg-primary/10" : "border-border bg-surface text-muted-foreground hover:text-foreground",
               )}
             >

@@ -106,6 +106,11 @@ export interface PromoRecord {
   /** Bets placed by participants during the promo (engagement) */
   betsDuring?: number | null;
 
+  /** Number of bets placed (all players) in the before / during / after windows — gives Avg Bet with turnover */
+  totalBetsBefore?: number | null;
+  totalBetsDuring?: number | null;
+  totalBetsAfter?: number | null;
+
   /** Amount wagered (turnover) in the same before / during / after windows. turnoverDuring = "Total Wager" */
   turnoverBefore?: number | null;
   turnoverDuring?: number | null;
