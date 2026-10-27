@@ -1,6 +1,6 @@
 import { PHASES } from "@/components/charts/core";
 import { formatPhase, phaseChange } from "./PhaseComparison";
-import { PHASE_METRICS, phaseValues } from "@/lib/phases";
+import { PHASE_METRICS, phaseValues, type PhaseUnit } from "@/lib/phases";
 import type { PromoMetrics } from "@/lib/metrics";
 import { formatDay } from "@/lib/dates";
 import { cn } from "@/lib/utils";
@@ -27,6 +27,13 @@ export function PhaseTable({ m, currency }: { m: PromoMetrics; currency: string 
   const short = (a: string, b: string) => (a.slice(0, 7) === b.slice(0, 7) ? `${Number(a.slice(8))}–${formatDay(b)}` : `${formatDay(a)} – ${formatDay(b)}`);
   const dates = { before: short(m.beforeStart, m.beforeEnd), during: short(p.startDate, p.endDate), after: short(m.afterStart, m.afterEnd) };
   const rows = PHASE_METRICS.map((metric) => ({ metric, v: phaseValues(metric, [m]) }));
+  // Before/after can be longer than the promo: then amounts are compared per day, and unique players not at all.
+  const unequal = m.windowDays !== m.promoDays;
+  const duringChange = (unit: PhaseUnit, b: number | null, d: number | null) => {
+    if (!unequal || unit === "avg" || unit === "pct") return phaseChange(unit, b, d);
+    if (unit === "players") return null;
+    return phaseChange(unit, b == null ? null : b / m.windowDays, d == null ? null : d / m.promoDays);
+  };
   return (
     <div className="overflow-x-auto">
       <table className="w-full min-w-[520px] text-[13px]">
@@ -42,7 +49,9 @@ export function PhaseTable({ m, currency }: { m: PromoMetrics; currency: string 
                 <span className="block whitespace-nowrap font-normal">{dates[ph.key]}</span>
               </th>
             ))}
-            <th className="px-2 pb-2 pt-2.5 text-right align-bottom font-medium">During vs before</th>
+            <th className="px-2 pb-2 pt-2.5 text-right align-bottom font-medium" title={unequal ? `The promo is ${m.promoDays} days and the before window ${m.windowDays}: amounts are compared per day; active players aren't compared.` : undefined}>
+              During vs before{unequal && <span className="block font-normal">per day</span>}
+            </th>
             <th className="px-3 pb-2 pt-2.5 text-right align-bottom font-medium">After vs before</th>
           </tr>
         </thead>
@@ -57,7 +66,7 @@ export function PhaseTable({ m, currency }: { m: PromoMetrics; currency: string 
                 <td className="bg-[color-mix(in_oklch,var(--series-during)_7%,transparent)] px-2 py-2 text-right font-semibold tabular">{cell(v.during)}</td>
                 <td className="px-2 py-2 text-right tabular text-muted-foreground">{cell(v.after)}</td>
                 <td className="px-2 py-1.5 text-right">
-                  <ChangeChip metric={metric.key} text={has ? phaseChange(metric.unit, v.before, v.during) : null} />
+                  <ChangeChip metric={metric.key} text={has ? duringChange(metric.unit, v.before, v.during) : null} />
                 </td>
                 <td className="px-3 py-1.5 text-right">
                   <ChangeChip metric={metric.key} text={has ? phaseChange(metric.unit, v.before, v.after) : null} />

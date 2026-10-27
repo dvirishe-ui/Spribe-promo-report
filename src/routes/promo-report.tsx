@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PromoEditor } from "@/components/report/PromoEditor";
 import { StatusBadge } from "@/components/report/bits";
 import { ResultHero } from "@/components/report/ResultHero";
+import { PromoInsights } from "@/components/report/PromoInsights";
 import {
   FinancialsTab,
   MissionsTab,
@@ -21,10 +22,9 @@ import { NotFoundPage } from "@/routes/not-found";
 import { useData } from "@/lib/store";
 import { useSelection } from "@/components/report/SelectionBar";
 import { formatRange } from "@/lib/dates";
-import { moneyFull, pct, pctPlain } from "@/lib/format";
-import { buildInsights } from "@/lib/insights";
+import { moneyFull, pct } from "@/lib/format";
+import { buildPromoInsights } from "@/lib/promo-insights";
 import { engagementReport } from "@/lib/reports";
-import { InsightCard } from "@/components/report/InsightCard";
 import { marketLabel } from "@/lib/markets";
 import { fxFactor } from "@/lib/fx";
 import { resultsCsv } from "@/lib/export";
@@ -36,7 +36,7 @@ export function PromoReportPage() {
   const { promoId } = useParams({ from: "/promo/$promoId" });
   const search = useSearch({ from: "/promo/$promoId" });
   const navigate = useNavigate();
-  const { metrics, dataset, editable, hasSample, status, error } = useData();
+  const { metrics, dataset, editable, hasSample, marketTrends } = useData();
   const sel = useSelection();
   const [editing, setEditing] = useState(false);
   const tab = (search.tab as TabKey) ?? "overview";
@@ -49,8 +49,6 @@ export function PromoReportPage() {
   const p = m.promo;
   const cur = dataset.currency;
   const tabs = availableTabs(m);
-  const findings = buildInsights(metrics, dataset.promos, { syncError: status === "error" ? error : null, currency: cur }).filter((i) => i.promoId === p.id);
-  const completion = m.missionDays?.overallRate ?? m.missions?.completionRate ?? null;
   const activeTab = tabs.some((t) => t.key === tab) ? tab : "overview";
   const fx = p.currency && p.currency !== cur ? fxFactor(p.currency, cur, dataset.fxRates ?? {}) : null;
   const fxNote = p.fxMissing
@@ -67,6 +65,10 @@ export function PromoReportPage() {
       `GGR before ${moneyFull(m.ggrBefore, cur)} → during ${moneyFull(m.ggrDuring, cur)} → after ${moneyFull(m.ggrAfter, cur)}`,
       `GGR change ${pct(m.primaryChange)} (${m.isAdjusted ? "adjusted for market trend" : "before vs during, not adjusted"})`,
       ...summaryLines(m, cur),
+      ...(() => {
+        const r = buildPromoInsights(m, { currency: cur, marketTrends, peers: metrics });
+        return r.summary.length ? ["", "Automatic summary:", ...r.summary] : [];
+      })(),
     ].join("\n");
     try {
       await navigator.clipboard.writeText(text);
@@ -144,32 +146,7 @@ export function PromoReportPage() {
 
       <ResultHero m={m} currency={cur} />
 
-      {(findings.length > 0 || completion != null || m.quality.missing.length > 0) && (
-        <section className="panel p-4 sm:p-5">
-          <h3 className="font-display text-base font-semibold">Key findings</h3>
-          {completion != null && (
-            <button onClick={() => setTab("missions")} className="mt-2 flex w-full items-center justify-between gap-3 rounded-lg border border-border px-3 py-2 text-left text-sm transition-colors hover:border-primary/60">
-              <span>
-                Mission completion <strong className="font-semibold">{pctPlain(completion)}</strong>
-                {m.missionDays?.biggestDrop && <span className="text-muted-foreground"> · biggest drop on Day {m.missionDays.biggestDrop.day}</span>}
-              </span>
-              <span className="text-xs font-medium text-primary">Investigate →</span>
-            </button>
-          )}
-          {findings.length > 0 && (
-            <div className="divide-y divide-border">
-              {findings.slice(0, 3).map((i) => (
-                <InsightCard key={i.id} insight={i} />
-              ))}
-            </div>
-          )}
-          {m.quality.missing.length > 0 && (
-            <p className="mt-2 text-xs text-muted-foreground">
-              <span className="font-medium text-foreground">Missing data:</span> {m.quality.missing.join(", ")} — those numbers are left out, not estimated.
-            </p>
-          )}
-        </section>
-      )}
+      <PromoInsights m={m} all={metrics} currency={cur} onMissions={m.missions || m.missionDays ? () => setTab("missions") : undefined} />
 
       <div className="flex flex-wrap items-baseline justify-between gap-2 pt-4">
         <h2 className="font-display text-xl font-semibold">Details</h2>

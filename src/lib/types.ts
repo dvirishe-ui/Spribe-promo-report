@@ -37,10 +37,21 @@ export interface MissionDay {
   medianMinutes?: number | null;
 }
 
-/** GGR during the promo per game, for multi-game promos */
+/**
+ * Per-game numbers for multi-game promos. GGR during is the minimum; the
+ * before-window and activity figures are optional and, when present, let the
+ * insights compare games with each other (same windows as the promo).
+ */
 export interface GameShare {
   game: string;
   ggrDuring: number;
+  ggrBefore?: number | null;
+  wagerBefore?: number | null;
+  wagerDuring?: number | null;
+  betsBefore?: number | null;
+  betsDuring?: number | null;
+  playersBefore?: number | null;
+  playersDuring?: number | null;
 }
 
 export interface RankBand {
@@ -105,6 +116,10 @@ export interface PromoRecord {
   retainedParticipants?: number | null;
   /** Bets placed by participants during the promo (engagement) */
   betsDuring?: number | null;
+  /** Amount wagered by participants during the promo — their share of total wager */
+  participantWagerDuring?: number | null;
+  /** GGR from participants during the promo — their share of total GGR */
+  participantGgrDuring?: number | null;
 
   /** Number of bets placed (all players) in the before / during / after windows — gives Avg Bet with turnover */
   totalBetsBefore?: number | null;
@@ -158,6 +173,42 @@ export interface PromoRecord {
   daily?: DailyPoint[];
 }
 
+/** Market metrics a trend source can report. "activity" is an index (e.g. search demand), not money. */
+export type MarketMetricKey = "ggr" | "wager" | "bets" | "players" | "activity";
+
+/**
+ * How a market moved over a promo's dates — the context for "did the promo
+ * beat the market?". Each value is the change of the market over `from`–`to`
+ * against `baselineFrom`–`baselineTo` (per day when the periods differ in
+ * length), as a fraction: 0.084 = +8.4%. Only metrics the provider actually
+ * reports are filled in.
+ */
+export interface MarketTrend {
+  id: string;
+  /** Same market names as promos use (e.g. "Brazil") */
+  market: string;
+  /** YYYY-MM-DD, inclusive — should be the promo's during window */
+  from: string;
+  to: string;
+  /** YYYY-MM-DD, inclusive — should be the promo's before window */
+  baselineFrom: string;
+  baselineTo: string;
+  changes: Partial<Record<MarketMetricKey, number>>;
+  /** Who measured it, e.g. "Blask" */
+  provider: string;
+  /** What the activity figure is, in the provider's words, e.g. "Blask Index (search demand)" */
+  activityLabel?: string;
+  /**
+   * How the numbers reached the report. "manual" = typed in on this site,
+   * "api" = delivered by the data source (Back Office), "sample" = fictional demo.
+   * Manual numbers are never presented as automatically retrieved.
+   */
+  origin: "manual" | "api" | "sample";
+  /** ISO timestamp the entry was made / delivered */
+  enteredAt?: string;
+  note?: string;
+}
+
 export interface MonthlyRecord {
   /** YYYY-MM */
   month: string;
@@ -173,6 +224,8 @@ export interface Dataset {
   currency: string;
   /** Value of 1 unit of each currency in EUR — overrides the built-in example rates */
   fxRates?: Record<string, number>;
+  /** Market trends delivered with the data (e.g. Blask figures the Back Office fetched) */
+  marketTrends?: MarketTrend[];
   /** true while the built-in sample numbers are loaded */
   isSample?: boolean;
   /** When the source produced this data (API / CSV), ISO timestamp */

@@ -1,5 +1,5 @@
 import { isValidIsoDay, toIsoDay } from "./dates";
-import type { Dataset, DailyPoint, GameShare, MissionDay, MissionStep, MonthlyRecord, PromoRecord, RankBand } from "./types";
+import type { Dataset, DailyPoint, GameShare, MarketMetricKey, MarketTrend, MissionDay, MissionStep, MonthlyRecord, PromoRecord, RankBand } from "./types";
 import { marketInfo } from "./markets";
 
 /**
@@ -95,6 +95,11 @@ const PROMO_ALIASES: Record<string, keyof PromoRecord> = {
   returningparticipants: "retainedParticipants",
   betsduring: "betsDuring",
   bets: "betsDuring",
+  participantwager: "participantWagerDuring",
+  participantwagerduring: "participantWagerDuring",
+  participantturnover: "participantWagerDuring",
+  participantggr: "participantGgrDuring",
+  participantggrduring: "participantGgrDuring",
   turnoverbefore: "turnoverBefore",
   turnoverduring: "turnoverDuring",
   totalwager: "turnoverDuring",
@@ -308,7 +313,17 @@ function toGameShares(v: unknown): GameShare[] | undefined {
   const out = v
     .map((x) => (x && typeof x === "object" ? (x as Raw) : null))
     .filter((x): x is Raw => x != null)
-    .map((x) => ({ game: toText(x.game), ggrDuring: toNumber(x.ggrDuring ?? x.ggr) }))
+    .map((x): { game: string; ggrDuring: number | null } & Omit<GameShare, "game" | "ggrDuring"> => ({
+      game: toText(x.game),
+      ggrDuring: toNumber(x.ggrDuring ?? x.ggr),
+      ggrBefore: toNumber(x.ggrBefore),
+      wagerBefore: toNumber(x.wagerBefore ?? x.turnoverBefore),
+      wagerDuring: toNumber(x.wagerDuring ?? x.turnoverDuring),
+      betsBefore: toNumber(x.betsBefore),
+      betsDuring: toNumber(x.betsDuring),
+      playersBefore: toNumber(x.playersBefore),
+      playersDuring: toNumber(x.playersDuring),
+    }))
     .filter((x): x is GameShare => !!x.game && x.ggrDuring != null);
   return out.length ? out : undefined;
 }
@@ -451,6 +466,8 @@ export function normalizePromos(rows: unknown[], fieldMap: Record<string, string
       newParticipants: toNumber(r.newParticipants),
       retainedParticipants: toNumber(r.retainedParticipants),
       betsDuring: toNumber(r.betsDuring),
+      participantWagerDuring: toNumber(r.participantWagerDuring),
+      participantGgrDuring: toNumber(r.participantGgrDuring),
       totalBetsBefore: toNumber(r.totalBetsBefore),
       totalBetsDuring: toNumber(r.totalBetsDuring),
       totalBetsAfter: toNumber(r.totalBetsAfter),
@@ -492,6 +509,69 @@ export function normalizeMonthly(rows: unknown[], fieldMap: Record<string, strin
   return { records: [...byMonth.values()].sort((a, b) => a.month.localeCompare(b.month)), warnings };
 }
 
+const MARKET_KEYS: Record<string, MarketMetricKey> = {
+  ggr: "ggr",
+  ggrchange: "ggr",
+  wager: "wager",
+  wagerchange: "wager",
+  turnover: "wager",
+  bets: "bets",
+  betschange: "bets",
+  players: "players",
+  activeplayers: "players",
+  playerschange: "players",
+  activity: "activity",
+  activityindex: "activity",
+  index: "activity",
+  blaskindex: "activity",
+};
+
+/**
+ * Market trends delivered with the data (`marketTrends: [...]`). Changes are
+ * fractions (0.084) or strings with a percent sign ("8.4%") — a bare number is
+ * always a fraction, so 1.2 means +120%, never +1.2%. Unknown metrics are
+ * dropped rather than guessed. Anything coming through here is labelled as delivered by the
+ * data source — typed-in numbers use the site's own form instead.
+ */
+export function normalizeMarketTrends(v: unknown, origin: MarketTrend["origin"] = "api"): MarketTrend[] {
+  if (!Array.isArray(v)) return [];
+  const out: MarketTrend[] = [];
+  for (const x of v) {
+    if (!x || typeof x !== "object") continue;
+    const r = x as Raw;
+    const from = toIsoDate(r.from ?? r.start ?? r.startDate);
+    const to = toIsoDate(r.to ?? r.end ?? r.endDate);
+    const baselineFrom = toIsoDate(r.baselineFrom ?? r.baselineStart);
+    const baselineTo = toIsoDate(r.baselineTo ?? r.baselineEnd);
+    const market = toText(r.market);
+    if (!market || !from || !to || !baselineFrom || !baselineTo) continue;
+    const changes: MarketTrend["changes"] = {};
+    const raw = (r.changes && typeof r.changes === "object" ? r.changes : r) as Raw;
+    for (const [k, val] of Object.entries(raw)) {
+      const key = MARKET_KEYS[k.toLowerCase().replace(/[^a-z]/g, "")];
+      const n = !key ? null : typeof val === "string" && val.includes("%") ? (toNumber(val.replace("%", "")) ?? NaN) / 100 : toNumber(val);
+      if (n != null && !Number.isFinite(n)) continue;
+      if (key && n != null) changes[key] = n;
+    }
+    if (!Object.keys(changes).length) continue;
+    out.push({
+      id: toText(r.id) || newId(),
+      market,
+      from,
+      to,
+      baselineFrom,
+      baselineTo,
+      changes,
+      provider: toText(r.provider ?? r.source) || "Unnamed source",
+      ...(toText(r.activityLabel) ? { activityLabel: toText(r.activityLabel) } : {}),
+      origin,
+      enteredAt: toText(r.enteredAt ?? r.retrievedAt) || undefined,
+      ...(toText(r.note ?? r.notes) ? { note: toText(r.note ?? r.notes) } : {}),
+    });
+  }
+  return out;
+}
+
 /**
  * Accepts `{ promos, monthly, currency }`, `{ data: { … } }`, or a bare array
  * of promos — the shapes a backoffice endpoint is most likely to return.
@@ -519,6 +599,7 @@ export function normalizeDataset(input: unknown, fieldMap: Record<string, string
       monthly: m.records,
       currency,
       generatedAt: typeof root.generatedAt === "string" ? root.generatedAt : new Date().toISOString(),
+      ...(Array.isArray(root.marketTrends) ? { marketTrends: normalizeMarketTrends(root.marketTrends) } : {}),
     },
     warnings: [...p.warnings, ...m.warnings],
   };

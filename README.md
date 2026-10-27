@@ -13,7 +13,7 @@ what changed and what still depends on Back Office data.
 | --- | --- | --- |
 | **Overview** (`/`) | CCO, everyone | Laid out like the team's promo sheet. **Filters**: month / dates, region, market, operator, promotion (aggregator, type, game under "More"). **Summary** row: promotions, contribution, GGR before / during / after, during vs before, after vs before, GGR vs previous month, GGR impact. **Metrics comparison**: pick metrics as chips (Total Wager, Total Win, GGR, Number of Bets, Avg Bet, Overall Active Players, RTP) and see them Before / During / After — one chart per unit; choose a promotion in the filters to see just that one. **Promotion details**: the full results table with totals. |
 | **Explore** (`/explore`) | AM, EM | One page with tabs. **Promotions**: one report card per promotion in view — contribution, participants and Promo ROI on top, then a table (Total Wager, Total Win, GGR, Number of Bets, Avg Bet, Active Players, RTP — Before / During / After with the change vs before); sort, tick to compare, CSV. Works for one month or all time. **Compare**, **Rankings**, **Missions**, **Library** (reuse a setup) and **Insights**. `/promotions` and `/insights` redirect here. |
-| **Promo report** (`/promo/:id`) | Everyone → EM | Opened from any list, chart or insight. Add to compare. Result first (outcome in words, big numbers, GGR per day, next steps), key findings, then tabs: Overview (every metric Before / During / After) · Players (eligible → took part → completed → came back) · Missions (completion by day → click a day → evidence, possible explanations, next step) or Rankings · Financials (turnover, margin, cost, history vs same type). Engagement report, copy summary, CSV, print. Deep links: `?tab=missions&day=6`. |
+| **Promo report** (`/promo/:id`) | Everyone → EM | Opened from any list, chart or insight. Add to compare. Result first (outcome in words, big numbers, GGR per day, next steps), then **Insights** — automatic, ranked findings with the calculation behind each, market context and data checks (see [`docs/INSIGHTS.md`](docs/INSIGHTS.md)) — then tabs: Overview (every metric Before / During / After) · Players (eligible → took part → completed → came back) · Missions (completion by day → click a day → evidence, possible explanations, next step) or Rankings · Financials (turnover, margin, cost, history vs same type). Engagement report, copy summary, CSV, print. Deep links: `?tab=missions&day=6`. |
 | **Compare** (any page) | Everyone | Tick promos in any list, chart or report — the selection stays while you move around. A bar at the bottom shows them as chips; **Compare** opens a drawer: caveats behind an info icon (material ones shown inline), key differences, indexed daily GGR trend lines (median first for 7+), per-day before/during/after, small bar charts for GGR change, after vs before, part. rate, wager, contribution and ROI, and an expandable table of all numbers. Same view in Explore → Compare. |
 | **Calendar** (`/calendar`) | Everyone | Active, completed and upcoming promos: the Promo Calendar's network campaigns plus every operator promo, in Month / Week / List views coloured by promo type. Past entries show their result; clicking one opens how it went (per operator for campaigns), similar previous promos with the typical result for that mechanic, and the campaign setup. Same-operator overlaps are marked, not flagged as problems. |
 | **Ask** (header, Ctrl/⌘ K) | Everyone | Plain-language questions about the promos — "How much GGR did X make vs Y?", "Which operator grew GGR the most?", "Total contribution in September", "How did SPRIBE Adventure do?". Compares, ranks, totals, counts and looks up any report metric by promo, operator, market, type, game, aggregator or month. Rule-based and runs in the browser (`src/lib/ask.ts`): no AI service, no API cost, never invents numbers. |
@@ -51,12 +51,13 @@ src/lib/sources.ts      sources: manual / Google Sheet / Back Office
 src/lib/fx.ts           currency conversion (one defined method)
 src/lib/metrics.ts      every calculation, statuses and aggregation
 src/lib/definitions.ts  plain-language definitions shown in the app
-src/lib/insights.ts     insight & alert rules (metric, threshold, evidence link, next step)
+src/lib/insights.ts     portfolio insight & alert rules (metric, threshold, evidence link, next step)
+src/lib/promo-insights/ automatic insights for one promo report — config, per-day normalization,
+                        market context, rule engine, ranking, summary (docs/INSIGHTS.md)
 src/lib/explain.ts      mission-day investigation: possible explanations with their evidence
 src/lib/verdict.ts      plain-language outcome per promo
 src/lib/reports.ts      executive summary, engagement report
 src/lib/quality.ts      duplicate detection, freshness
-src/lib/actions.tsx     follow-up action tracker (browser storage)
 src/lib/view.tsx        shared filters and period across pages
 src/lib/export.ts       results export (CSV)
 src/lib/store.tsx       data provider: persistence, sync status, edits
@@ -77,6 +78,7 @@ npm install
 npm run dev      # http://localhost:5173
 npm run build    # type-check + production build into dist/
 npm run lint
+npm test         # insight engine scenarios (vitest)
 ```
 
 ## Deploy

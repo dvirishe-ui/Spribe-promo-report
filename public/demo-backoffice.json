@@ -27,7 +27,7 @@
       "participants": 10241,
       "newParticipants": 1625,
       "retainedParticipants": 5852,
-      "betsDuring": 197483,
+      "betsDuring": 3117925,
       "turnoverBefore": 74810671,
       "turnoverDuring": 94273059,
       "turnoverAfter": 79232029,
@@ -199,7 +199,9 @@
           "date": "2026-01-29",
           "ggr": 276074
         }
-      ]
+      ],
+      "participantWagerDuring": 39437872,
+      "participantGgrDuring": 1550269
     },
     {
       "id": "demo-2",
@@ -225,7 +227,7 @@
       "participants": 924,
       "newParticipants": 261,
       "retainedParticipants": 419,
-      "betsDuring": 20933,
+      "betsDuring": 447426,
       "turnoverBefore": 1643822,
       "turnoverDuring": 1737820,
       "turnoverAfter": 1659433,
@@ -319,7 +321,9 @@
           "date": "2026-02-01",
           "ggr": 7929
         }
-      ]
+      ],
+      "participantWagerDuring": 907880,
+      "participantGgrDuring": 25559
     },
     {
       "id": "demo-3",
@@ -346,7 +350,7 @@
       "participants": 2380,
       "newParticipants": 674,
       "retainedParticipants": 1449,
-      "betsDuring": 49351,
+      "betsDuring": 1500357,
       "turnoverBefore": 71432971,
       "turnoverDuring": 85150891,
       "turnoverAfter": 74800120,
@@ -460,11 +464,25 @@
       "gameGgr": [
         {
           "game": "Mines",
-          "ggrDuring": 2200739
+          "ggrDuring": 2200739,
+          "ggrBefore": 1763596,
+          "wagerBefore": 48117223,
+          "wagerDuring": 62382192,
+          "betsBefore": 14363061,
+          "betsDuring": 18550444,
+          "playersBefore": 4936,
+          "playersDuring": 5499
         },
         {
           "game": "Hilo",
-          "ggrDuring": 795380
+          "ggrDuring": 795380,
+          "ggrBefore": 854571,
+          "wagerBefore": 23315748,
+          "wagerDuring": 22491321,
+          "betsBefore": 10652876,
+          "betsDuring": 12729261,
+          "playersBefore": 1784,
+          "playersDuring": 2176
         }
       ],
       "notes": "",
@@ -589,7 +607,9 @@
           "date": "2026-02-21",
           "ggr": 287054
         }
-      ]
+      ],
+      "participantWagerDuring": 61052410,
+      "participantGgrDuring": 2240200
     },
     {
       "id": "demo-4",
@@ -615,7 +635,7 @@
       "participants": 5794,
       "newParticipants": 726,
       "retainedParticipants": 3034,
-      "betsDuring": 274267,
+      "betsDuring": 1521349,
       "turnoverBefore": 5187900656,
       "turnoverDuring": 6761550872,
       "turnoverAfter": 5766220702,
@@ -685,7 +705,9 @@
           "date": "2026-02-22",
           "ggr": 49418831
         }
-      ]
+      ],
+      "participantWagerDuring": 5747318241,
+      "participantGgrDuring": 219113343
     },
     {
       "id": "demo-5",
@@ -711,7 +733,7 @@
       "participants": 1333,
       "newParticipants": 349,
       "retainedParticipants": 602,
-      "betsDuring": 57262,
+      "betsDuring": 1214247,
       "turnoverBefore": 16828999394,
       "turnoverDuring": 19475664550,
       "turnoverAfter": 17859817900,
@@ -919,7 +941,9 @@
           "date": "2026-03-29",
           "ggr": 52522303
         }
-      ]
+      ],
+      "participantWagerDuring": 12026659303,
+      "participantGgrDuring": 424384175
     },
     {
       "id": "demo-6",
@@ -946,7 +970,7 @@
       "participants": 1975,
       "newParticipants": 292,
       "retainedParticipants": 1381,
-      "betsDuring": 40577,
+      "betsDuring": 1057136,
       "turnoverBefore": 8584399,
       "turnoverDuring": 11276118,
       "turnoverAfter": 9725388,
@@ -1057,11 +1081,25 @@
       "gameGgr": [
         {
           "game": "Plinko",
-          "ggrDuring": 301258
+          "ggrDuring": 301258,
+          "ggrBefore": 224978,
+          "wagerBefore": 5383858,
+          "wagerDuring": 7447834,
+          "betsBefore": 2071556,
+          "betsDuring": 2785285,
+          "playersBefore": 3263,
+          "playersDuring": 3792
         },
         {
           "game": "Dice",
-          "ggrDuring": 151094
+          "ggrDuring": 151094,
+          "ggrBefore": 133742,
+          "wagerBefore": 3200541,
+          "wagerDuring": 3779273,
+          "betsBefore": 1048894,
+          "betsDuring": 1547390,
+          "playersBefore": 1637,
+          "playersDuring": 1997
         }
       ],
       "notes": "",
@@ -1186,7 +1224,9 @@
           "date": "2026-03-28",
           "ggr": 41780
         }
-      ]
+      ],
+      "participantWagerDuring": 9584700,
+      "participantGgrDuring": 343678
     },
     {
       "id": "demo-7",
@@ -1212,7 +1252,7 @@
       "participants": 11756,
       "newParticipants": 3504,
       "retainedParticipants": 7513,
-      "betsDuring": 303212,
+      "betsDuring": 10569609,
       "turnoverBefore": 134879509,
       "turnoverDuring": 182629769,
       "turnoverAfter": 148790781,
@@ -1420,7 +1460,9 @@
           "date": "2026-05-03",
           "ggr": 361898
         }
-      ]
+      ],
+      "participantWagerDuring": 141049056,
+      "participantGgrDuring": 4310422
     },
     {
       "id": "demo-8",
@@ -1446,7 +1488,7 @@
       "participants": 1977,
       "newParticipants": 570,
       "retainedParticipants": 968,
-      "betsDuring": 52265,
+      "betsDuring": 832007,
       "turnoverBefore": 48000998,
       "turnoverDuring": 53300051,
       "turnoverAfter": 49372541,
@@ -1540,7 +1582,9 @@
           "date": "2026-05-03",
           "ggr": 321767
         }
-      ]
+      ],
+      "participantWagerDuring": 35856642,
+      "participantGgrDuring": 1352542
     },
     {
       "id": "demo-9",
@@ -1567,7 +1611,7 @@
       "participants": 1915,
       "newParticipants": 456,
       "retainedParticipants": 1142,
-      "betsDuring": 46706,
+      "betsDuring": 1583503,
       "turnoverBefore": 13871636,
       "turnoverDuring": 16890701,
       "turnoverAfter": 14564323,
@@ -1713,11 +1757,25 @@
       "gameGgr": [
         {
           "game": "Plinko",
-          "ggrDuring": 400228
+          "ggrDuring": 400228,
+          "ggrBefore": 304286,
+          "wagerBefore": 7730306,
+          "wagerDuring": 10558966,
+          "betsBefore": 2744757,
+          "betsDuring": 3734256,
+          "playersBefore": 3424,
+          "playersDuring": 3793
         },
         {
           "game": "Dice",
-          "ggrDuring": 238041
+          "ggrDuring": 238041,
+          "ggrBefore": 241739,
+          "wagerBefore": 6141330,
+          "wagerDuring": 6326156,
+          "betsBefore": 1950218,
+          "betsDuring": 2502949,
+          "playersBefore": 2036,
+          "playersDuring": 2484
         }
       ],
       "notes": "",
@@ -1890,7 +1948,9 @@
           "date": "2026-05-31",
           "ggr": 43536
         }
-      ]
+      ],
+      "participantWagerDuring": 14357096,
+      "participantGgrDuring": 569634
     },
     {
       "id": "demo-10",
@@ -1916,7 +1976,7 @@
       "participants": 9940,
       "newParticipants": 2323,
       "retainedParticipants": 4900,
-      "betsDuring": 424033,
+      "betsDuring": 2504647,
       "turnoverBefore": 30910685,
       "turnoverDuring": 41938974,
       "turnoverAfter": 31762819,
@@ -1962,7 +2022,9 @@
           "date": "2026-05-27",
           "ggr": 326217
         }
-      ]
+      ],
+      "participantWagerDuring": 35170647,
+      "participantGgrDuring": 983326
     },
     {
       "id": "demo-11",
@@ -1990,7 +2052,7 @@
       "participants": 3224,
       "newParticipants": 813,
       "retainedParticipants": 2282,
-      "betsDuring": 165178,
+      "betsDuring": 2453092,
       "turnoverBefore": 8607614650,
       "turnoverDuring": 10902632557,
       "turnoverAfter": 9809886499,
@@ -2140,15 +2202,36 @@
       "gameGgr": [
         {
           "game": "Mines",
-          "ggrDuring": 138837242
+          "ggrDuring": 138837242,
+          "ggrBefore": 96286292,
+          "wagerBefore": 3178935284,
+          "wagerDuring": 4743424393,
+          "betsBefore": 1356653772,
+          "betsDuring": 2064803062,
+          "playersBefore": 3740,
+          "playersDuring": 4234
         },
         {
           "game": "Goal",
-          "ggrDuring": 92581917
+          "ggrDuring": 92581917,
+          "ggrBefore": 72704949,
+          "wagerBefore": 2400386611,
+          "wagerDuring": 3188094857,
+          "betsBefore": 955994832,
+          "betsDuring": 1687339135,
+          "playersBefore": 2494,
+          "playersDuring": 3043
         },
         {
           "game": "Hilo",
-          "ggrDuring": 85599909
+          "ggrDuring": 85599909,
+          "ggrBefore": 91723503,
+          "wagerBefore": 3028292755,
+          "wagerDuring": 2955260574,
+          "betsBefore": 1395789622,
+          "betsDuring": 1427544908,
+          "playersBefore": 2306,
+          "playersDuring": 2610
         }
       ],
       "notes": "",
@@ -2321,7 +2404,9 @@
           "date": "2026-06-28",
           "ggr": 23831442
         }
-      ]
+      ],
+      "participantWagerDuring": 9267237674,
+      "participantGgrDuring": 298439283
     },
     {
       "id": "demo-12",
@@ -2347,7 +2432,7 @@
       "participants": 10778,
       "newParticipants": 3116,
       "retainedParticipants": 6784,
-      "betsDuring": 232704,
+      "betsDuring": 18834452,
       "turnoverBefore": 163065327944,
       "turnoverDuring": 228296386989,
       "turnoverAfter": 184234213157,
@@ -2852,7 +2937,9 @@
           "date": "2026-08-27",
           "ggr": 168704768
         }
-      ]
+      ],
+      "participantWagerDuring": 194051928941,
+      "participantGgrDuring": 7227422198
     },
     {
       "id": "demo-13",
@@ -2878,7 +2965,7 @@
       "participants": 1334,
       "newParticipants": 357,
       "retainedParticipants": 724,
-      "betsDuring": 29732,
+      "betsDuring": 689301,
       "turnoverBefore": 53789164,
       "turnoverDuring": 66720836,
       "turnoverAfter": 54694845,
@@ -3086,7 +3173,9 @@
           "date": "2026-07-12",
           "ggr": 156234
         }
-      ]
+      ],
+      "participantWagerDuring": 30169680,
+      "participantGgrDuring": 1104824
     },
     {
       "id": "demo-14",
@@ -3112,7 +3201,7 @@
       "participants": 544,
       "newParticipants": 147,
       "retainedParticipants": 235,
-      "betsDuring": 27864,
+      "betsDuring": 154556,
       "turnoverBefore": 123178204,
       "turnoverDuring": 127697734,
       "turnoverAfter": 126300020,
@@ -3206,7 +3295,9 @@
           "date": "2026-07-19",
           "ggr": 836651
         }
-      ]
+      ],
+      "participantWagerDuring": 46665845,
+      "participantGgrDuring": 1842491
     },
     {
       "id": "demo-15",
@@ -3232,7 +3323,7 @@
       "participants": 10718,
       "newParticipants": 2608,
       "retainedParticipants": 6183,
-      "betsDuring": 310363,
+      "betsDuring": 7757827,
       "turnoverBefore": 103273423,
       "turnoverDuring": 129297121,
       "turnoverAfter": 108233659,
@@ -3365,7 +3456,9 @@
           "date": "2026-08-05",
           "ggr": 335812
         }
-      ]
+      ],
+      "participantWagerDuring": 109902553,
+      "participantGgrDuring": 4001051
     },
     {
       "id": "demo-16",
@@ -3391,7 +3484,7 @@
       "participants": 1018,
       "newParticipants": 166,
       "retainedParticipants": 490,
-      "betsDuring": 33285,
+      "betsDuring": 507105,
       "turnoverBefore": 1668316,
       "turnoverDuring": 1806893,
       "turnoverAfter": 1701628,
@@ -3485,7 +3578,9 @@
           "date": "2026-08-16",
           "ggr": 7712
         }
-      ]
+      ],
+      "participantWagerDuring": 1037024,
+      "participantGgrDuring": 27943
     },
     {
       "id": "demo-17",
@@ -3511,7 +3606,7 @@
       "participants": 2330,
       "newParticipants": 436,
       "retainedParticipants": 1661,
-      "betsDuring": 59976,
+      "betsDuring": 1490798,
       "turnoverBefore": 15254974,
       "turnoverDuring": 19113638,
       "turnoverAfter": 16752303,
@@ -3828,7 +3923,9 @@
           "date": "2026-09-06",
           "ggr": 49790
         }
-      ]
+      ],
+      "participantWagerDuring": 12188939,
+      "participantGgrDuring": 455653
     },
     {
       "id": "demo-18",
@@ -3854,7 +3951,7 @@
       "participants": 6882,
       "newParticipants": 1294,
       "retainedParticipants": 3953,
-      "betsDuring": 333399,
+      "betsDuring": 5106290,
       "turnoverBefore": 18649015774,
       "turnoverDuring": 22694622428,
       "turnoverAfter": 19510180084,
@@ -4059,7 +4156,9 @@
           "date": "2026-09-20",
           "ggr": 54792569
         }
-      ]
+      ],
+      "participantWagerDuring": 19290429064,
+      "participantGgrDuring": 660626879
     },
     {
       "id": "demo-19",
@@ -4085,7 +4184,7 @@
       "participants": 557,
       "newParticipants": 93,
       "retainedParticipants": 251,
-      "betsDuring": 23519,
+      "betsDuring": 291276,
       "turnoverBefore": 995106,
       "turnoverDuring": 1050216,
       "turnoverAfter": 979522,
@@ -4209,7 +4308,9 @@
           "date": "2026-09-20",
           "ggr": 5301
         }
-      ]
+      ],
+      "participantWagerDuring": 606465,
+      "participantGgrDuring": 20327
     },
     {
       "id": "demo-20",
@@ -4238,7 +4339,7 @@
       "participants": 4077,
       "newParticipants": 1115,
       "retainedParticipants": 2548,
-      "betsDuring": 151623,
+      "betsDuring": 2975713,
       "turnoverBefore": 28148448610,
       "turnoverDuring": 36069246195,
       "turnoverAfter": 30181457936,
@@ -4385,19 +4486,47 @@
       "gameGgr": [
         {
           "game": "Plinko",
-          "ggrDuring": 554030524
+          "ggrDuring": 554030524,
+          "ggrBefore": 410529138,
+          "wagerBefore": 10543819709,
+          "wagerDuring": 14641620888,
+          "betsBefore": 3422632019,
+          "betsDuring": 4859931075,
+          "playersBefore": 4487,
+          "playersDuring": 5053
         },
         {
           "game": "Mines",
-          "ggrDuring": 279136754
+          "ggrDuring": 279136754,
+          "ggrBefore": 221858639,
+          "wagerBefore": 5698103423,
+          "wagerDuring": 7592854002,
+          "betsBefore": 1718192878,
+          "betsDuring": 2863477659,
+          "playersBefore": 2261,
+          "playersDuring": 2758
         },
         {
           "game": "Dice",
-          "ggrDuring": 189130392
+          "ggrDuring": 189130392,
+          "ggrBefore": 145451347,
+          "wagerBefore": 3735697767,
+          "wagerDuring": 4992311257,
+          "betsBefore": 1543851945,
+          "betsDuring": 2142944361,
+          "playersBefore": 1532,
+          "playersDuring": 1725
         },
         {
           "game": "Goal",
-          "ggrDuring": 325902307
+          "ggrDuring": 325902307,
+          "ggrBefore": 318135453,
+          "wagerBefore": 8170827711,
+          "wagerDuring": 8822268523,
+          "betsBefore": 2720540493,
+          "betsDuring": 3033530193,
+          "playersBefore": 2640,
+          "playersDuring": 2972
         }
       ],
       "notes": "",
@@ -4570,7 +4699,9 @@
           "date": "2026-10-11",
           "ggr": 92167105
         }
-      ]
+      ],
+      "participantWagerDuring": 30658859266,
+      "participantGgrDuring": 1202296641
     },
     {
       "id": "demo-21",
@@ -4596,7 +4727,7 @@
       "participants": 5599,
       "newParticipants": 998,
       "retainedParticipants": 2794,
-      "betsDuring": 324039,
+      "betsDuring": 924681,
       "turnoverBefore": 73185404,
       "turnoverDuring": 97375601,
       "turnoverAfter": 77524981,
@@ -4657,7 +4788,9 @@
           "date": "2026-10-02",
           "ggr": 686541
         }
-      ]
+      ],
+      "participantWagerDuring": 39793849,
+      "participantGgrDuring": 1176110
     },
     {
       "id": "demo-22",
@@ -5045,7 +5178,7 @@
       "participants": 10125,
       "newParticipants": 2589,
       "retainedParticipants": 5522,
-      "betsDuring": 507040,
+      "betsDuring": 8752821,
       "turnoverBefore": 117816150,
       "turnoverDuring": 145880358,
       "turnoverAfter": 123694375,
@@ -5254,7 +5387,9 @@
           "date": "2026-07-12",
           "ggr": 371449
         }
-      ]
+      ],
+      "participantWagerDuring": 123998304,
+      "participantGgrDuring": 4054811
     },
     {
       "id": "demo-28",
@@ -5280,7 +5415,7 @@
       "participants": 5076,
       "newParticipants": 1010,
       "retainedParticipants": 2528,
-      "betsDuring": 170470,
+      "betsDuring": 4762420,
       "turnoverBefore": 216727997,
       "turnoverDuring": 253995716,
       "turnoverAfter": 226993656,
@@ -5486,7 +5621,9 @@
           "date": "2026-07-12",
           "ggr": 675147
         }
-      ]
+      ],
+      "participantWagerDuring": 215896358,
+      "participantGgrDuring": 8551707
     },
     {
       "id": "demo-29",
@@ -5518,7 +5655,7 @@
       "participants": 11418,
       "newParticipants": 1816,
       "retainedParticipants": 6853,
-      "betsDuring": 507464,
+      "betsDuring": 4982585,
       "turnoverBefore": 66307680,
       "turnoverDuring": 83043091,
       "turnoverAfter": 71141713,
@@ -5612,31 +5749,80 @@
       "gameGgr": [
         {
           "game": "Aviator",
-          "ggrDuring": 760897
+          "ggrDuring": 760897,
+          "ggrBefore": 577728,
+          "wagerBefore": 14960521,
+          "wagerDuring": 20488953,
+          "betsBefore": 4667484,
+          "betsDuring": 6359990,
+          "playersBefore": 8512,
+          "playersDuring": 9380
         },
         {
           "game": "Mines",
-          "ggrDuring": 327288
+          "ggrDuring": 327288,
+          "ggrBefore": 292483,
+          "wagerBefore": 7573968,
+          "wagerDuring": 8967106,
+          "betsBefore": 2287197,
+          "betsDuring": 3387740,
+          "playersBefore": 3661,
+          "playersDuring": 4467
         },
         {
           "game": "Goal",
-          "ggrDuring": 475096
+          "ggrDuring": 475096,
+          "ggrBefore": 392093,
+          "wagerBefore": 10153433,
+          "wagerDuring": 12785257,
+          "betsBefore": 2915774,
+          "betsDuring": 3815037,
+          "playersBefore": 5315,
+          "playersDuring": 5857
         },
         {
           "game": "Plinko",
-          "ggrDuring": 432060
+          "ggrDuring": 432060,
+          "ggrBefore": 379696,
+          "wagerBefore": 9832403,
+          "wagerDuring": 11698160,
+          "betsBefore": 2856260,
+          "betsDuring": 3570629,
+          "playersBefore": 4833,
+          "playersDuring": 5326
         },
         {
           "game": "Pilot Chicken",
-          "ggrDuring": 435376
+          "ggrDuring": 435376,
+          "ggrBefore": 364919,
+          "wagerBefore": 9449735,
+          "wagerDuring": 11645616,
+          "betsBefore": 2895531,
+          "betsDuring": 3639915,
+          "playersBefore": 4871,
+          "playersDuring": 5367
         },
         {
           "game": "Keno",
-          "ggrDuring": 307449
+          "ggrDuring": 307449,
+          "ggrBefore": 234755,
+          "wagerBefore": 6079083,
+          "wagerDuring": 8432756,
+          "betsBefore": 2755827,
+          "betsDuring": 3844617,
+          "playersBefore": 3439,
+          "playersDuring": 3790
         },
         {
           "game": "Trader",
-          "ggrDuring": 340420
+          "ggrDuring": 340420,
+          "ggrBefore": 318918,
+          "wagerBefore": 8258537,
+          "wagerDuring": 9044857,
+          "betsBefore": 2963571,
+          "betsDuring": 3387440,
+          "playersBefore": 3808,
+          "playersDuring": 4197
         }
       ],
       "calendarId": "spribe-adventure-2026",
@@ -5726,7 +5912,9 @@
           "date": "2026-10-04",
           "ggr": 391002
         }
-      ]
+      ],
+      "participantWagerDuring": 69175622,
+      "participantGgrDuring": 2742722
     },
     {
       "id": "demo-30",
@@ -5758,7 +5946,7 @@
       "participants": 7666,
       "newParticipants": 2048,
       "retainedParticipants": 4925,
-      "betsDuring": 223450,
+      "betsDuring": 2853818,
       "turnoverBefore": 10436228684,
       "turnoverDuring": 13426336426,
       "turnoverAfter": 11601361693,
@@ -5849,31 +6037,80 @@
       "gameGgr": [
         {
           "game": "Aviator",
-          "ggrDuring": 110095755
+          "ggrDuring": 110095755,
+          "ggrBefore": 78048045,
+          "wagerBefore": 2308341428,
+          "wagerDuring": 3455347914,
+          "betsBefore": 937362009,
+          "betsDuring": 1438338159,
+          "playersBefore": 5270,
+          "playersDuring": 5997
         },
         {
           "game": "Mines",
-          "ggrDuring": 48189723
+          "ggrDuring": 48189723,
+          "ggrBefore": 38604986,
+          "wagerBefore": 1141777332,
+          "wagerDuring": 1507466946,
+          "betsBefore": 459147361,
+          "betsDuring": 814304416,
+          "playersBefore": 2307,
+          "playersDuring": 2814
         },
         {
           "game": "Goal",
-          "ggrDuring": 63313983
+          "ggrDuring": 63313983,
+          "ggrBefore": 48772917,
+          "wagerBefore": 1442503067,
+          "wagerDuring": 1973998557,
+          "betsBefore": 434939153,
+          "betsDuring": 580680168,
+          "playersBefore": 3031,
+          "playersDuring": 3449
         },
         {
           "game": "Plinko",
-          "ggrDuring": 70359320
+          "ggrDuring": 70359320,
+          "ggrBefore": 61895576,
+          "wagerBefore": 1830617564,
+          "wagerDuring": 2135186921,
+          "betsBefore": 836679979,
+          "betsDuring": 946308419,
+          "playersBefore": 3368,
+          "playersDuring": 3833
         },
         {
           "game": "Pilot Chicken",
-          "ggrDuring": 42716778
+          "ggrDuring": 42716778,
+          "ggrBefore": 34157388,
+          "wagerBefore": 1010235596,
+          "wagerDuring": 1306457750,
+          "betsBefore": 392685307,
+          "betsDuring": 502462953,
+          "playersBefore": 2045,
+          "playersDuring": 2327
         },
         {
           "game": "Keno",
-          "ggrDuring": 48282132
+          "ggrDuring": 48282132,
+          "ggrBefore": 38393074,
+          "wagerBefore": 1135509836,
+          "wagerDuring": 1498581331,
+          "betsBefore": 561306846,
+          "betsDuring": 738383433,
+          "playersBefore": 2311,
+          "playersDuring": 2630
         },
         {
           "game": "Trader",
-          "ggrDuring": 52845838
+          "ggrDuring": 52845838,
+          "ggrBefore": 52990566,
+          "wagerBefore": 1567243860,
+          "wagerDuring": 1638306862,
+          "betsBefore": 653995955,
+          "betsDuring": 687528710,
+          "playersBefore": 2529,
+          "playersDuring": 2879
         }
       ],
       "calendarId": "spribe-adventure-2026",
@@ -5963,7 +6200,9 @@
           "date": "2026-10-04",
           "ggr": 57989923
         }
-      ]
+      ],
+      "participantWagerDuring": 9764792491,
+      "participantGgrDuring": 351204631
     },
     {
       "id": "demo-31",
@@ -5995,7 +6234,7 @@
       "participants": 1696,
       "newParticipants": 319,
       "retainedParticipants": 844,
-      "betsDuring": 62399,
+      "betsDuring": 701594,
       "turnoverBefore": 8930498,
       "turnoverDuring": 9665841,
       "turnoverAfter": 9323115,
@@ -6089,31 +6328,80 @@
       "gameGgr": [
         {
           "game": "Aviator",
-          "ggrDuring": 85555
+          "ggrDuring": 85555,
+          "ggrBefore": 76760,
+          "wagerBefore": 2103818,
+          "wagerDuring": 2466679,
+          "betsBefore": 914101,
+          "betsDuring": 1034971,
+          "playersBefore": 1663,
+          "playersDuring": 1723
         },
         {
           "game": "Mines",
-          "ggrDuring": 50637
+          "ggrDuring": 50637,
+          "ggrBefore": 47939,
+          "wagerBefore": 1313911,
+          "wagerDuring": 1462379,
+          "betsBefore": 515570,
+          "betsDuring": 735998,
+          "playersBefore": 984,
+          "playersDuring": 1201
         },
         {
           "game": "Goal",
-          "ggrDuring": 41627
+          "ggrDuring": 41627,
+          "ggrBefore": 39808,
+          "wagerBefore": 1091042,
+          "wagerDuring": 1169662,
+          "betsBefore": 476603,
+          "betsDuring": 514400,
+          "playersBefore": 809,
+          "playersDuring": 838
         },
         {
           "game": "Plinko",
-          "ggrDuring": 39385
+          "ggrDuring": 39385,
+          "ggrBefore": 39263,
+          "wagerBefore": 1076102,
+          "wagerDuring": 1122966,
+          "betsBefore": 370493,
+          "betsDuring": 369467,
+          "playersBefore": 765,
+          "playersDuring": 793
         },
         {
           "game": "Pilot Chicken",
-          "ggrDuring": 50265
+          "ggrDuring": 50265,
+          "ggrBefore": 47152,
+          "wagerBefore": 1292343,
+          "wagerDuring": 1441057,
+          "betsBefore": 416895,
+          "betsDuring": 449297,
+          "playersBefore": 977,
+          "playersDuring": 1012
         },
         {
           "game": "Keno",
-          "ggrDuring": 33915
+          "ggrDuring": 33915,
+          "ggrBefore": 30341,
+          "wagerBefore": 831575,
+          "wagerDuring": 959844,
+          "betsBefore": 250188,
+          "betsDuring": 281674,
+          "playersBefore": 659,
+          "playersDuring": 683
         },
         {
           "game": "Trader",
-          "ggrDuring": 37177
+          "ggrDuring": 37177,
+          "ggrBefore": 44575,
+          "wagerBefore": 1221707,
+          "wagerDuring": 1041369,
+          "betsBefore": 413846,
+          "betsDuring": 351231,
+          "playersBefore": 723,
+          "playersDuring": 749
         }
       ],
       "calendarId": "spribe-adventure-2026",
@@ -6203,7 +6491,9 @@
           "date": "2026-10-04",
           "ggr": 55411
         }
-      ]
+      ],
+      "participantWagerDuring": 6306209,
+      "participantGgrDuring": 210620
     }
   ],
   "monthly": [
@@ -6242,6 +6532,276 @@
     {
       "month": "2026-09",
       "ggr": 44600000
+    }
+  ],
+  "marketTrends": [
+    {
+      "id": "demo-market-0",
+      "market": "Brazil",
+      "from": "2026-01-08",
+      "to": "2026-01-18",
+      "baselineFrom": "2025-12-28",
+      "baselineTo": "2026-01-07",
+      "provider": "Demo market data — fictional",
+      "changes": {
+        "ggr": 0.09,
+        "wager": 0.11,
+        "bets": 0.13,
+        "players": 0.006
+      }
+    },
+    {
+      "id": "demo-market-1",
+      "market": "Spain",
+      "from": "2026-01-19",
+      "to": "2026-01-25",
+      "baselineFrom": "2026-01-12",
+      "baselineTo": "2026-01-18",
+      "provider": "Demo activity index — fictional",
+      "activityLabel": "demo search-demand index",
+      "changes": {
+        "activity": 0.155
+      }
+    },
+    {
+      "id": "demo-market-2",
+      "market": "Mexico",
+      "from": "2026-02-09",
+      "to": "2026-02-18",
+      "baselineFrom": "2026-01-30",
+      "baselineTo": "2026-02-08",
+      "provider": "Demo market data — fictional",
+      "changes": {
+        "ggr": 0.05
+      }
+    },
+    {
+      "id": "demo-market-4",
+      "market": "Colombia",
+      "from": "2026-03-02",
+      "to": "2026-03-15",
+      "baselineFrom": "2026-02-16",
+      "baselineTo": "2026-03-01",
+      "provider": "Demo market data — fictional",
+      "changes": {
+        "ggr": -0.069,
+        "wager": -0.049,
+        "bets": -0.029,
+        "players": -0.113
+      }
+    },
+    {
+      "id": "demo-market-5",
+      "market": "Peru",
+      "from": "2026-03-09",
+      "to": "2026-03-18",
+      "baselineFrom": "2026-02-27",
+      "baselineTo": "2026-03-08",
+      "provider": "Demo activity index — fictional",
+      "activityLabel": "demo search-demand index",
+      "changes": {
+        "activity": 0.291
+      }
+    },
+    {
+      "id": "demo-market-6",
+      "market": "Brazil",
+      "from": "2026-04-13",
+      "to": "2026-04-26",
+      "baselineFrom": "2026-03-30",
+      "baselineTo": "2026-04-12",
+      "provider": "Demo market data — fictional",
+      "changes": {
+        "ggr": 0.12
+      }
+    },
+    {
+      "id": "demo-market-8",
+      "market": "Peru",
+      "from": "2026-05-04",
+      "to": "2026-05-17",
+      "baselineFrom": "2026-04-20",
+      "baselineTo": "2026-05-03",
+      "provider": "Demo market data — fictional",
+      "changes": {
+        "ggr": 0.119,
+        "wager": 0.139,
+        "bets": 0.159,
+        "players": 0.051
+      }
+    },
+    {
+      "id": "demo-market-9",
+      "market": "Brazil",
+      "from": "2026-05-22",
+      "to": "2026-05-24",
+      "baselineFrom": "2026-05-19",
+      "baselineTo": "2026-05-21",
+      "provider": "Demo activity index — fictional",
+      "activityLabel": "demo search-demand index",
+      "changes": {
+        "activity": 0.363
+      }
+    },
+    {
+      "id": "demo-market-10",
+      "market": "Nigeria",
+      "from": "2026-06-08",
+      "to": "2026-06-21",
+      "baselineFrom": "2026-05-25",
+      "baselineTo": "2026-06-07",
+      "provider": "Demo market data — fictional",
+      "changes": {
+        "ggr": 0.18
+      }
+    },
+    {
+      "id": "demo-market-12",
+      "market": "Mexico",
+      "from": "2026-06-15",
+      "to": "2026-06-28",
+      "baselineFrom": "2026-06-01",
+      "baselineTo": "2026-06-14",
+      "provider": "Demo market data — fictional",
+      "changes": {
+        "ggr": 0.071,
+        "wager": 0.091,
+        "bets": 0.111,
+        "players": -0.006
+      }
+    },
+    {
+      "id": "demo-market-13",
+      "market": "Kenya",
+      "from": "2026-07-06",
+      "to": "2026-07-12",
+      "baselineFrom": "2026-06-29",
+      "baselineTo": "2026-07-05",
+      "provider": "Demo activity index — fictional",
+      "activityLabel": "demo search-demand index",
+      "changes": {
+        "activity": 0.135
+      }
+    },
+    {
+      "id": "demo-market-14",
+      "market": "Brazil",
+      "from": "2026-07-24",
+      "to": "2026-08-02",
+      "baselineFrom": "2026-07-14",
+      "baselineTo": "2026-07-23",
+      "provider": "Demo market data — fictional",
+      "changes": {
+        "ggr": 0.05
+      }
+    },
+    {
+      "id": "demo-market-16",
+      "market": "Peru",
+      "from": "2026-08-10",
+      "to": "2026-08-23",
+      "baselineFrom": "2026-07-27",
+      "baselineTo": "2026-08-09",
+      "provider": "Demo market data — fictional",
+      "changes": {
+        "ggr": 0.023,
+        "wager": 0.043,
+        "bets": 0.063,
+        "players": -0.058
+      }
+    },
+    {
+      "id": "demo-market-17",
+      "market": "Nigeria",
+      "from": "2026-08-24",
+      "to": "2026-09-06",
+      "baselineFrom": "2026-08-10",
+      "baselineTo": "2026-08-23",
+      "provider": "Demo activity index — fictional",
+      "activityLabel": "demo search-demand index",
+      "changes": {
+        "activity": 0.198
+      }
+    },
+    {
+      "id": "demo-market-18",
+      "market": "Italy",
+      "from": "2026-09-14",
+      "to": "2026-09-20",
+      "baselineFrom": "2026-09-07",
+      "baselineTo": "2026-09-13",
+      "provider": "Demo market data — fictional",
+      "changes": {
+        "ggr": 0.12
+      }
+    },
+    {
+      "id": "demo-market-20",
+      "market": "Mexico",
+      "from": "2026-09-25",
+      "to": "2026-09-28",
+      "baselineFrom": "2026-09-21",
+      "baselineTo": "2026-09-24",
+      "provider": "Demo market data — fictional",
+      "changes": {
+        "ggr": 0.227,
+        "wager": 0.247,
+        "bets": 0.267,
+        "players": 0.116
+      }
+    },
+    {
+      "id": "demo-market-21",
+      "market": "Brazil",
+      "from": "2026-06-15",
+      "to": "2026-06-28",
+      "baselineFrom": "2026-06-01",
+      "baselineTo": "2026-06-14",
+      "provider": "Demo activity index — fictional",
+      "activityLabel": "demo search-demand index",
+      "changes": {
+        "activity": 0.249
+      }
+    },
+    {
+      "id": "demo-market-22",
+      "market": "Mexico",
+      "from": "2026-06-22",
+      "to": "2026-07-05",
+      "baselineFrom": "2026-06-08",
+      "baselineTo": "2026-06-21",
+      "provider": "Demo market data — fictional",
+      "changes": {
+        "ggr": 0.18
+      }
+    },
+    {
+      "id": "demo-market-24",
+      "market": "Nigeria",
+      "from": "2026-09-21",
+      "to": "2026-09-27",
+      "baselineFrom": "2026-09-14",
+      "baselineTo": "2026-09-20",
+      "provider": "Demo market data — fictional",
+      "changes": {
+        "ggr": 0.115,
+        "wager": 0.135,
+        "bets": 0.155,
+        "players": 0.021
+      }
+    },
+    {
+      "id": "demo-market-25",
+      "market": "Peru",
+      "from": "2026-09-21",
+      "to": "2026-09-27",
+      "baselineFrom": "2026-09-14",
+      "baselineTo": "2026-09-20",
+      "provider": "Demo activity index — fictional",
+      "activityLabel": "demo search-demand index",
+      "changes": {
+        "activity": 0.179
+      }
     }
   ]
 }

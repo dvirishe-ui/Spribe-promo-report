@@ -48,6 +48,8 @@ Authorization: Bearer <token>        # optional — see "Auth" below
       "newParticipants": 420,           // of which first-time players
       "retainedParticipants": 1150,     // participants who played again in the after window
       "betsDuring": 61000,              // bets by participants during the promo
+      "participantWagerDuring": 1650000, // amount wagered by participants during the promo (their share of wager)
+      "participantGgrDuring": 52000,     // GGR from participants during the promo
       "turnoverBefore": 3400000,        // amount wagered, same windows as GGR
       "turnoverDuring": 4450000,         // Total Wager; with ggrDuring gives RTP
       "totalBetsBefore": 1410000,         // number of bets per window (all players) — Number of Bets, Avg Bet
@@ -66,8 +68,11 @@ Authorization: Bearer <token>        # optional — see "Auth" below
         { "day": 1, "game": "Mines", "requirement": "Place 10 bets on Mines", "started": 2100, "completed": 1700, "medianMinutes": 31 },
         { "day": 2, "game": "Hilo",  "requirement": "Hit a ×50 win on Hilo",  "started": 1950, "completed": 780,  "medianMinutes": 152 }
       ],
-      "gameGgr": [                      // multi-game promos: GGR during the promo per game
-        { "game": "Mines", "ggrDuring": 98000 }, { "game": "Hilo", "ggrDuring": 53000 }
+      "gameGgr": [                      // multi-game promos: GGR during the promo per game; the rest is optional
+        { "game": "Mines", "ggrDuring": 98000, "ggrBefore": 81000,       // same windows as the promo
+          "wagerBefore": 2300000, "wagerDuring": 2900000, "betsBefore": 960000, "betsDuring": 1310000,
+          "playersBefore": 5100, "playersDuring": 6200 },
+        { "game": "Hilo", "ggrDuring": 53000 }
       ],
       "leaderboard": [                  // leaderboards / tournaments: aggregate per rank band
         { "band": "1st", "winners": 1, "prize": 3000 },
@@ -84,9 +89,38 @@ Authorization: Bearer <token>        # optional — see "Auth" below
   "monthly": [                          // total GGR per month, for month-over-month
     { "month": "2026-08", "ggr": 41200000 },
     { "month": "2026-09", "ggr": 43900000 }
+  ],
+  "marketTrends": [                     // optional market context for the automatic insights — see below
+    {
+      "market": "Brazil",
+      "from": "2026-09-05", "to": "2026-09-07",                 // = the promo's during window
+      "baselineFrom": "2026-09-02", "baselineTo": "2026-09-04", // = the promo's before window
+      "provider": "Blask",
+      "changes": { "activity": 0.084 },                           // fractions; "8.4%" strings also work
+      "activityLabel": "Blask Index (search demand)",
+      "retrievedAt": "2026-09-10T06:00:00Z"
+    }
   ]
 }
 ```
+
+### Market trends (for automatic insights)
+
+The promo report compares each promo with how its market moved over the same dates. The site
+does **not** call Blask (or any market-data provider) itself: no Blask API access is configured,
+and provider credentials must never sit in a browser. If SPRIBE has Blask API access, the Back
+Office (or a small proxy) can fetch the figures server-side and include them as `marketTrends`.
+Until then, people can type figures into the report (Insights → Market context → Add); those are
+saved in that browser and always labelled "entered manually".
+
+- `changes` keys: `ggr`, `wager`, `bets`, `players` (only when the provider measures exactly that)
+  and `activity` (an index such as the Blask Index, which measures search demand, **not** GGR).
+  Activity is never shown as market GGR; it's compared with operator GGR only as an "indicative"
+  direction check.
+- A bare number is a fraction (`0.084` = +8.4%). Use a string with `%` for percentages.
+- Each change is for `from`–`to` vs `baselineFrom`–`baselineTo`, per day if the lengths differ.
+  An entry is only used when both periods match the promo's during and before windows; otherwise
+  the report says the comparison is unavailable and why.
 
 A working example payload is served by the site itself at `/demo-backoffice.json`
 (sample numbers only) — point Settings at it to see API mode working.

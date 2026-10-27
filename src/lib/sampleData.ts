@@ -1,5 +1,5 @@
 import { addDays, daysBetween, parseDay } from "./dates";
-import type { Dataset, DailyPoint, MonthlyRecord, PromoRecord } from "./types";
+import type { Dataset, DailyPoint, GameShare, MarketTrend, MonthlyRecord, PromoRecord } from "./types";
 import { marketInfo } from "./markets";
 import { DEFAULT_RATES_TO_EUR } from "./fx";
 import { campaignById } from "./campaigns";
@@ -161,7 +161,7 @@ function buildPromo(spec: Spec, i: number): PromoRecord {
   const trend = (rand() - 0.3) * 0.08;
   const control = i % 2 === 0 && !spec.live;
   const controlBefore = Math.round(ggrBefore * 3.2);
-  return {
+  const rec: PromoRecord = {
     id: `sample-${i + 1}`,
     name: spec.name,
     type: spec.type,
@@ -212,6 +212,8 @@ function buildPromo(spec: Spec, i: number): PromoRecord {
     notes: spec.notes ?? "",
     daily,
   };
+  // Extra demo-only figures use their own random stream so the numbers above stay the same.
+  return { ...rec, ...extraFigures(i, spec, participants, ggrBefore, ggrDuring, hold, rec.gameGgr) };
 }
 
 const MISSION_TYPES = ["Missions", "Cross-Game Challenge", "Collection Campaign", "New Game Launch"];
@@ -281,6 +283,88 @@ function gameSplit(games: string[], total: number, rand: () => number) {
   return games.map((game, k) => ({ game, ggrDuring: Math.round((total * w[k]) / sum) }));
 }
 
+/**
+ * Participants' share of wager / GGR, and before-vs-during numbers per game, so
+ * the insights have something to compare. Its own random stream keeps the
+ * other demo numbers unchanged.
+ */
+function extraFigures(i: number, spec: Spec, participants: number, ggrBefore: number, ggrDuring: number | null, hold: number, games: GameShare[] | undefined): Partial<PromoRecord> {
+  if (spec.live || ggrDuring == null) return {};
+  const rand = rng(5000 + i * 31);
+  const playersDuring = spec.players * (1 + spec.lift * 0.8);
+  const share = Math.min(0.85, (participants / playersDuring) * (0.9 + rand() * 1.7));
+  const wagerDuring = ggrDuring / (hold * 0.96);
+  const out: Partial<PromoRecord> = {
+    participantWagerDuring: Math.round(wagerDuring * share),
+    participantGgrDuring: Math.round(ggrDuring * share * (0.85 + rand() * 0.3)),
+  };
+  // Participants' bets in line with their wager (a little more, smaller bets).
+  const totalBets = wagerDuring / (2.4 * (1 / (DEFAULT_RATES_TO_EUR[marketInfo(spec.market)?.currency ?? "EUR"] ?? 1)));
+  out.betsDuring = Math.round(totalBets * Math.min(0.9, share * (1.05 + rand() * 0.15)));
+  if (games && games.length > 1) {
+    const g = games;
+    const total = g.reduce((a, x) => a + x.ggrDuring, 0);
+    // Each game moves differently (one surges, one slips); before-shares are normalized so games add up to the totals.
+    const moves = g.map((_, k) => (k === 0 ? 0.12 + rand() * 0.25 : k === g.length - 1 ? -0.15 + rand() * 0.12 : rand() * 0.2));
+    const wts = g.map((x, k) => x.ggrDuring / total / (1 + moves[k]));
+    const wSum = wts.reduce((a, b) => a + b, 0);
+    out.gameGgr = g.map((x, k): GameShare => {
+      const sD = x.ggrDuring / total;
+      const ggrB = (ggrBefore * wts[k]) / wSum;
+      const wB = ggrB / hold;
+      const wD = (x.ggrDuring / (hold * 0.96)) * (1 + (rand() - 0.5) * 0.04);
+      const avgB = 2 + rand() * 1.5;
+      const avgD = avgB * (k === 1 ? 0.72 + rand() * 0.14 : 0.95 + rand() * 0.1);
+      const pB = spec.players * sD * 1.4;
+      return {
+        ...x,
+        ggrBefore: Math.round(ggrB),
+        wagerBefore: Math.round(wB),
+        wagerDuring: Math.round(wD),
+        betsBefore: Math.round(wB / avgB),
+        betsDuring: Math.round(wD / avgD),
+        playersBefore: Math.round(pB),
+        playersDuring: Math.round(pB * (1 + (k === 1 ? 0.22 : spec.lift * 0.6))),
+      };
+    });
+  }
+  return out;
+}
+
+/**
+ * Fictional market trends for some demo promos, so the market comparison can
+ * be seen: like-for-like figures, an activity index, and one entry whose dates
+ * don't match (to show the warning). Labelled as demo data everywhere.
+ */
+function demoMarketTrends(promos: PromoRecord[]): MarketTrend[] {
+  const out: MarketTrend[] = [];
+  const offsets = [0.12, -0.14, 0.05, -0.06, 0.18, -0.03];
+  promos
+    .filter((p) => p.ggrDuring != null && p.ggrAfter != null && p.ggrBefore)
+    .forEach((p, j) => {
+      const days = daysBetween(p.startDate, p.endDate);
+      const promoChange = p.ggrDuring! / p.ggrBefore! - 1;
+      const base = {
+        id: `sample-market-${j}`,
+        market: p.market,
+        from: p.startDate,
+        to: p.endDate,
+        baselineFrom: addDays(p.startDate, -days),
+        baselineTo: addDays(p.startDate, -1),
+        origin: "sample" as const,
+      };
+      const d = offsets[j % offsets.length];
+      const r = (x: number) => Math.round(x * 1000) / 1000;
+      if (j % 4 === 0)
+        out.push({ ...base, provider: "Demo market data — fictional", changes: { ggr: r(promoChange - d), wager: r(promoChange - d + 0.02), bets: r(promoChange - d + 0.04), players: r(promoChange * 0.6 - d) } });
+      else if (j % 4 === 1)
+        out.push({ ...base, provider: "Demo activity index — fictional", activityLabel: "demo search-demand index", changes: { activity: r(promoChange - d) } });
+      else if (j % 4 === 2)
+        out.push({ ...base, from: addDays(base.from, 7), to: addDays(base.to, 7), baselineFrom: addDays(base.baselineFrom, 7), baselineTo: addDays(base.baselineTo, 7), provider: "Demo market data — fictional", changes: { ggr: r(d) } });
+    });
+  return out;
+}
+
 const MONTHLY: Array<[string, number]> = [
   ["2026-01", 36_900_000],
   ["2026-02", 37_600_000],
@@ -296,8 +380,10 @@ const MONTHLY: Array<[string, number]> = [
 export function sampleDataset(): Dataset {
   const monthly: MonthlyRecord[] = MONTHLY.map(([month, ggr]) => ({ month, ggr, notes: "" }));
   monthly.find((m) => m.month === "2026-06")!.notes = "World Cup month";
+  const promos = SPECS.map(buildPromo);
   return {
-    promos: SPECS.map(buildPromo),
+    promos,
+    marketTrends: demoMarketTrends(promos),
     monthly,
     currency: "EUR",
     isSample: true,

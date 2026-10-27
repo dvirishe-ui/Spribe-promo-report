@@ -99,3 +99,15 @@ Goal: more visible, less text, fewer clicks, less scrolling — readable on a 13
   the same Before / During / After table (all metrics, change chips, During column highlighted).
 - Overview metrics comparison: the money chart is titled by what it shows ("Total Wager"),
   not "Wager and win".
+
+### Automatic promo insights (October 2026)
+
+- Every promo report gets an **Insights** section under the result summary: 3–7 ranked findings
+  (positive / mixed / negative / info), an automatic summary, market context and data checks.
+  Each finding shows its calculation. Deterministic rules only — see `docs/INSIGHTS.md`.
+- It replaces the report's "Key findings" box. The mission completion shortcut moved into it.
+- Market context: the promo's comparison group, plus market trends delivered by the Back Office
+  or typed in by hand (Blask isn't connected; its index is treated as activity, not GGR).
+- The Before / During / After table now compares per day when the promo and its windows differ
+  in length (it compared raw totals before).
+- New optional data: participants' wager and GGR, per-game before/during numbers, `marketTrends`.

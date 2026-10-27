@@ -4,12 +4,14 @@ import { toDisplayCurrency } from "./fx";
 import { newId } from "./normalize";
 import { sampleDataset } from "./sampleData";
 import { DEFAULT_CONFIG, fetchRemote, type SourceConfig } from "./sources";
-import type { Dataset, MonthlyRecord, PromoRecord } from "./types";
+import type { Dataset, MarketTrend, MonthlyRecord, PromoRecord } from "./types";
 
 const DATA_KEY = "spribe-report-data-v1";
 const CONFIG_KEY = "spribe-report-source-v1";
 const REMOTE_CACHE_KEY = "spribe-report-remote-cache-v1";
 const ACCESS_KEY = "spribe-report-access-v1";
+/** Market trends typed in on the site — kept apart from the promo data so a Back Office refresh never overwrites them */
+const MARKET_KEY = "spribe-report-market-v1";
 
 function read<T>(key: string): T | null {
   try {
@@ -75,6 +77,10 @@ interface DataContextValue {
   refresh: () => Promise<void>;
   /** Only the manual source can be edited from the site; remote sources are read-only mirrors. */
   editable: boolean;
+  /** Market trends: those delivered with the data plus those typed in on this site (origin "manual") */
+  marketTrends: MarketTrend[];
+  saveMarketTrend: (t: MarketTrend) => void;
+  deleteMarketTrend: (id: string) => void;
 
   savePromo: (p: PromoRecord) => void;
   deletePromo: (id: string) => void;
@@ -161,6 +167,15 @@ export function DataProvider({ children }: { children: ReactNode }) {
       : { promos: [], monthly: [], currency: manual.currency };
   }, [isRemote, manual, remote]);
 
+  const [manualTrends, setManualTrends] = useState<MarketTrend[]>(() => (read<MarketTrend[]>(MARKET_KEY) ?? []).filter((t) => t && t.id && t.market));
+  const updateTrends = (fn: (list: MarketTrend[]) => MarketTrend[]) =>
+    setManualTrends((prev) => {
+      const next = fn(prev);
+      write(MARKET_KEY, next);
+      return next;
+    });
+  const marketTrends = useMemo(() => [...(dataset.marketTrends ?? []), ...manualTrends], [dataset.marketTrends, manualTrends]);
+
   const [accessOperator, setAccess] = useState<string | null>(() => read<string>(ACCESS_KEY));
   const allMetrics = useMemo(() => computeAll(toDisplayCurrency(dataset)), [dataset]);
   const metrics = useMemo(
@@ -188,6 +203,9 @@ export function DataProvider({ children }: { children: ReactNode }) {
     lastSynced,
     refresh,
     editable: !isRemote,
+    marketTrends,
+    saveMarketTrend: (t) => updateTrends((list) => [...list.filter((x) => x.id !== t.id), { ...t, origin: "manual" }]),
+    deleteMarketTrend: (id) => updateTrends((list) => list.filter((x) => x.id !== id)),
 
     savePromo: (p) =>
       updateManual((d) => {
@@ -240,7 +258,13 @@ export function DataProvider({ children }: { children: ReactNode }) {
         // Drop sample months only where the number is still the untouched sample value.
         const sample = new Map(sampleDataset().monthly.map((m) => [m.month, m.ggr]));
         const monthly = d.monthly.filter((m) => sample.get(m.month) !== m.ggr);
-        return { ...d, isSample: false, promos: d.promos.filter((p) => !p.id.startsWith("sample-")), monthly };
+        return {
+          ...d,
+          isSample: false,
+          promos: d.promos.filter((p) => !p.id.startsWith("sample-")),
+          monthly,
+          marketTrends: d.marketTrends?.filter((t) => t.origin !== "sample"),
+        };
       }),
     clearAll: () => updateManual((d) => ({ promos: [], monthly: [], currency: d.currency, isSample: false })),
     copyRemoteToManual: () => {

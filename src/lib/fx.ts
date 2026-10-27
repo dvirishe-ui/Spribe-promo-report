@@ -54,6 +54,8 @@ const MONEY_FIELDS = [
   "turnoverAfter",
   "controlGgrBefore",
   "controlGgrDuring",
+  "participantWagerDuring",
+  "participantGgrDuring",
 ] as const;
 
 /**
@@ -85,7 +87,10 @@ export function toDisplayCurrency(dataset: Dataset): Dataset {
     }
     if (p.daily) out.daily = p.daily.map((d) => ({ ...d, ggr: d.ggr * f }));
     if (p.leaderboard) out.leaderboard = p.leaderboard.map((b) => ({ ...b, prize: b.prize * f }));
-    if (p.gameGgr) out.gameGgr = p.gameGgr.map((g) => ({ ...g, ggrDuring: g.ggrDuring * f }));
+    if (p.gameGgr) {
+      const x = (v: number | null | undefined) => (v == null ? v : v * f);
+      out.gameGgr = p.gameGgr.map((g) => ({ ...g, ggrDuring: g.ggrDuring * f, ggrBefore: x(g.ggrBefore), wagerBefore: x(g.wagerBefore), wagerDuring: x(g.wagerDuring) }));
+    }
     return out;
   });
   return { ...dataset, promos };
