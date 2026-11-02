@@ -59,7 +59,7 @@ export function ExplorePage() {
           {TABS.map((t) => (
             <button
               key={t.v}
-              onClick={() => navigate({ to: "/explore", search: { tab: t.v === "promotions" ? undefined : t.v }, replace: true })}
+              onClick={() => navigate({ to: "/explore", search: { tab: t.v === "promotions" ? undefined : t.v }, replace: true, resetScroll: false })}
               className={cn(
                 "press h-6 whitespace-nowrap rounded px-2.5 text-xs",
                 tab === t.v ? "bg-background font-medium text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground",

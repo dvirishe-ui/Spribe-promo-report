@@ -5,7 +5,7 @@ import { PromoReportPage } from "@/routes/promo-report";
 import { ExplorePage } from "@/routes/explore";
 import { CalendarPage } from "@/routes/calendar";
 import { DataPage } from "@/routes/data";
-import { NotFoundPage } from "@/routes/not-found";
+import { NotFoundPage, RouteErrorPage } from "@/routes/not-found";
 
 const rootRoute = createRootRoute({
   component: RootLayout,
@@ -76,6 +76,7 @@ const routeTree = rootRoute.addChildren([
 export const router = createRouter({
   routeTree,
   defaultNotFoundComponent: NotFoundPage,
+  defaultErrorComponent: RouteErrorPage,
   // Hash history: every route works from a single static file, no server rewrites needed.
   history: createHashHistory(),
   scrollRestoration: true,

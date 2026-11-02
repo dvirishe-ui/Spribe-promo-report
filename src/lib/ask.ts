@@ -34,6 +34,33 @@ export interface Answer {
   /** Promo reports to open */
   links?: Array<{ label: string; id: string }>;
   understood: boolean;
+  /** What this answer was about, so a follow-up ("and the worst?", "what about Mexico?") can build on it */
+  context?: AskContext;
+}
+
+/** The scope, metric and subject of the previous answer. */
+export interface AskContext {
+  operators: Group[];
+  markets: Group[];
+  types: Group[];
+  games: Group[];
+  aggregators: Group[];
+  months: string[];
+  range: MonthRange | null;
+  year: string | null;
+  metric: MetricDef | null;
+  intent: Parsed["intent"];
+  direction: 1 | -1;
+  superWord: string | null;
+  groupBy: Group["kind"] | null;
+  /** Promos the answer was about (rows, links) — "compare them" uses these */
+  promoIds: string[];
+}
+
+/** Inclusive YYYY-MM bounds: "since April" → { from: "2026-04" }. */
+interface MonthRange {
+  from?: string;
+  to?: string;
 }
 
 interface MetricDef {
@@ -109,8 +136,10 @@ interface Parsed {
   months: string[];
   /** A year on its own ("in 2026") when no month is named */
   year: string | null;
+  /** "since April", "from April to June", "before July" */
+  range: MonthRange | null;
   metric: MetricDef | null;
-  intent: "compare" | "rank" | "total" | "count" | "when" | "lookup";
+  intent: "compare" | "rank" | "extremes" | "total" | "count" | "when" | "lookup";
   direction: 1 | -1;
   superWord: string | null;
   groupBy: Group["kind"] | null;
@@ -147,6 +176,68 @@ function pickEntities(names: string[], qt: string[], used: Set<number>, minToken
   return out.sort((a, b) => Math.min(...a.at) - Math.min(...b.at));
 }
 
+const MONTH_RE = `(${[...MONTHS, ...MONTH_SHORT].join("|")})(?:\\s+(20\\d\\d))?`;
+
+/** One month word (+ optional year) → YYYY-MM, using the year the data has for it when none is given. */
+function monthOf(word: string, year: string | undefined, known: string[]): string {
+  const idx = (MONTHS.indexOf(word) + 1 || MONTH_SHORT.indexOf(word) + 1) - 1;
+  const mm = String(idx + 1).padStart(2, "0");
+  if (year) return `${year}-${mm}`;
+  const candidates = known.filter((k) => k.endsWith(`-${mm}`)).sort();
+  return candidates.length ? candidates[candidates.length - 1] : `${todayIso().slice(0, 4)}-${mm}`;
+}
+
+/**
+ * Month ranges: "since April", "from April", "after March", "April onwards",
+ * "until June", "before July", "between April and June", "April to June",
+ * "last 3 months", "this year". Returns the range and the question with the
+ * range words removed, so they aren't read again as single months.
+ */
+function parseRange(q: string, known: string[]): { range: MonthRange | null; rest: string } {
+  const today = todayIso().slice(0, 7);
+  let m = q.match(new RegExp(`\\b(?:between|from)\\s+${MONTH_RE}\\s+(?:and|to|till|until|-|–)\\s+${MONTH_RE}`));
+  if (!m) m = q.match(new RegExp(`\\b${MONTH_RE}\\s*(?:to|till|until|-|–)\\s*${MONTH_RE}`));
+  if (m) {
+    const a = monthOf(m[1], m[2], known);
+    const b = monthOf(m[3], m[4], known);
+    return { range: { from: a < b ? a : b, to: a < b ? b : a }, rest: q.replace(m[0], " ") };
+  }
+  m = q.match(new RegExp(`\\b(?:since|from|after|starting(?: in| from)?|as of)\\s+(?:the start of\\s+|start of\\s+|beginning of\\s+)?${MONTH_RE}`));
+  if (m) {
+    const a = monthOf(m[1], m[2], known);
+    // "after March" starts the month after; "since/from March" includes it.
+    const from = /^after/.test(m[0]) ? nextMonthOf(a) : a;
+    return { range: { from }, rest: q.replace(m[0], " ") };
+  }
+  m = q.match(new RegExp(`\\b${MONTH_RE}\\s+(?:onwards|onward|and later|or later)`));
+  if (m) return { range: { from: monthOf(m[1], m[2], known) }, rest: q.replace(m[0], " ") };
+  m = q.match(new RegExp(`\\b(?:until|till|up to|before|by)\\s+(?:the end of\\s+|end of\\s+)?${MONTH_RE}`));
+  if (m) {
+    const b = monthOf(m[1], m[2], known);
+    return { range: { to: /^before/.test(m[0]) ? prevMonth(b) : b }, rest: q.replace(m[0], " ") };
+  }
+  m = q.match(/\b(?:last|past|previous)\s+(\d{1,2}|two|three|four|five|six|twelve)\s+months?\b/);
+  if (m) {
+    const n = Number(m[1]) || { two: 2, three: 3, four: 4, five: 5, six: 6, twelve: 12 }[m[1]]!;
+    let from = today;
+    for (let i = 1; i < n; i++) from = prevMonth(from);
+    return { range: { from, to: today }, rest: q.replace(m[0], " ") };
+  }
+  if (/\bthis year\b|\byear to date\b|\bytd\b/.test(q)) return { range: { from: `${today.slice(0, 4)}-01`, to: today }, rest: q.replace(/\bthis year\b|\byear to date\b|\bytd\b/, " ") };
+  return { range: null, rest: q };
+}
+
+function nextMonthOf(month: string): string {
+  const [y, mo] = month.split("-").map(Number);
+  return mo === 12 ? `${y + 1}-01` : `${y}-${String(mo + 1).padStart(2, "0")}`;
+}
+
+function rangeLabel(r: MonthRange): string {
+  if (r.from && r.to) return r.from === r.to ? monthLabel(r.from, "long") : `${monthLabel(r.from, "long")} – ${monthLabel(r.to, "long")}`;
+  if (r.from) return `since ${monthLabel(r.from, "long")}`;
+  return `up to ${monthLabel(r.to!, "long")}`;
+}
+
 /** "september", "sep 2026", "2026-09", "last month", "this month" → YYYY-MM list. */
 function parseMonths(q: string, known: string[]): string[] {
   const out = new Set<string>();
@@ -172,7 +263,9 @@ function parseMonths(q: string, known: string[]): string[] {
 }
 
 function parse(question: string, all: PromoMetrics[]): Parsed {
-  const q = question.toLowerCase();
+  const knownMonths = [...new Set(all.map((m) => m.month))];
+  const { range, rest } = parseRange(question.toLowerCase(), knownMonths);
+  const q = rest;
   const qt = tokens(question);
   const used = new Set<number>();
   const uniq = (xs: string[]) => [...new Set(xs.filter(Boolean))];
@@ -225,12 +318,16 @@ function parse(question: string, all: PromoMetrics[]): Parsed {
 
   let intent: Parsed["intent"] = "lookup";
   const sameKindPairs = [promos, opHits, markets, types, games, aggs].some((g) => g.length >= 2) || months.length >= 2;
+  // "best vs worst", "best and worst", "top and bottom", "highest or lowest" — both ends.
+  const bothEnds =
+    /\b(best|top|highest|strongest|most)\b[\s\S]*\b(worst|bottom|lowest|weakest|least)\b|\b(worst|bottom|lowest|weakest|least)\b[\s\S]*\b(best|top|highest|strongest|most)\b/.test(q);
   if (/^\s*when\b|what dates|which dates/.test(q) && promos.length) intent = "when";
+  else if (bothEnds && !sameKindPairs) intent = "extremes";
   else if (compareWord && sameKindPairs) intent = "compare";
   else if (superlative || groupBy) intent = "rank";
   else if (/how many/.test(q) && (!metric || metric.key === "participants") && !/players|participants|people/.test(q)) intent = "count";
   else if (/total|how much|sum|overall|altogether|in total|average|avg|mean|per promo/.test(q) && !promos.length) intent = "total";
-  else if (!promos.length && (entityCount || months.length)) intent = "total";
+  else if (!promos.length && (entityCount || months.length || range)) intent = "total";
 
   return {
     promos,
@@ -240,7 +337,8 @@ function parse(question: string, all: PromoMetrics[]): Parsed {
     games: group("game", games, (m, n) => m.promo.games.includes(n)),
     aggregators: group("aggregator", aggs, (m, n) => m.promo.aggregator === n),
     months,
-    year: !months.length ? (q.match(/\b(20\d\d)\b/)?.[1] ?? null) : null,
+    year: !months.length && !range ? (q.match(/\b(20\d\d)\b/)?.[1] ?? null) : null,
+    range,
     metric,
     intent,
     direction: low ? 1 : -1,
@@ -267,6 +365,7 @@ function scope(p: Parsed, all: PromoMetrics[], skip?: Group["kind"] | "months"):
   apply(p.aggregators, "aggregator");
   if (p.months.length && skip !== "months") list = list.filter((m) => p.months.includes(m.month));
   if (p.year) list = list.filter((m) => m.month.startsWith(p.year!));
+  if (p.range && skip !== "months") list = list.filter((m) => (!p.range!.from || m.month >= p.range!.from) && (!p.range!.to || m.month <= p.range!.to));
   return list;
 }
 
@@ -279,6 +378,7 @@ function scopeName(p: Parsed, skip?: Group["kind"] | "months"): string {
   if (skip !== "aggregator" && p.aggregators.length) parts.push(`via ${p.aggregators.map((g) => g.label).join(" + ")}`);
   if (skip !== "months" && p.months.length) parts.push(`started ${p.months.map((m) => monthLabel(m, "long")).join(" + ")}`);
   if (p.year) parts.push(`started in ${p.year}`);
+  if (p.range && skip !== "months") parts.push(`started ${rangeLabel(p.range)}`);
   return parts.join(" · ");
 }
 
@@ -404,6 +504,7 @@ function rank(p: Parsed, all: PromoMetrics[], cur: string): Answer {
         rows: rows.slice(0, 8).map((r) => [r.k, fmt(metric, r.v, cur), String(r.list.length)]),
       },
       note: rows.some((r) => r.list.length < 3) ? "Groups with fewer than 3 promos are a small sample." : undefined,
+      followUps: [`Best vs worst promo by ${metric.label}${p.range ? ` ${rangeLabel(p.range)}` : ""}`, `How many promos did ${top.k} run?`],
     };
   }
 
@@ -422,7 +523,52 @@ function rank(p: Parsed, all: PromoMetrics[], cur: string): Answer {
       ids: rows.slice(0, 6).map((m) => m.promo.id),
     },
     note: `Out of ${rows.length} completed promo${rows.length === 1 ? "" : "s"} with this number.${metric.format === "change" ? " Observed change, not adjusted for the market trend." : ""}`,
-    followUps: [`How did ${top.promo.name} do?`],
+    followUps: [`How did ${top.promo.name} do?`, dir === -1 ? "And the worst?" : "And the best?"],
+  };
+}
+
+/** Best and worst side by side — "best vs worst promo since April". */
+function extremes(p: Parsed, all: PromoMetrics[], cur: string): Answer {
+  const base = scope(p, all);
+  const where = scopeName(p);
+  const metric = p.metric ?? (/\bmost\b|\bleast\b/.test(p.superWord ?? "") ? METRICS.during : METRICS.dvb);
+  const done = base.filter((m) => metric.per(m) != null && (m.status === "complete" || ["contribution", "before"].includes(metric.key)));
+  if (done.length < 2)
+    return {
+      understood: true,
+      text: [
+        done.length
+          ? `Only one completed promo${where ? ` (${where})` : ""} has ${metric.label}: **${done[0].promo.name}** (${done[0].promo.operator}) with **${fmt(metric, metric.per(done[0]), cur)}** — nothing to compare it with.`
+          : `No completed promos${where ? ` (${where})` : ""} have ${metric.label} yet.`,
+      ],
+    };
+  // Best = highest, unless lower is better for this metric (cost).
+  const sorted = [...done].sort((a, b) => (metric.per(b)! - metric.per(a)!) * (metric.lowerIsBetter ? -1 : 1));
+  const best = sorted[0];
+  const worst = sorted[sorted.length - 1];
+  const bv = metric.per(best)!;
+  const wv = metric.per(worst)!;
+  const label = (m: PromoMetrics) => `**${m.promo.name}** (${m.promo.operator}, ${formatRange(m.promo.startDate, m.promo.endDate)})`;
+  const gap = metric.format === "change" || metric.format === "rate" ? `${Math.abs((bv - wv) * 100).toFixed(1)} pts` : diffText(metric, bv, wv, cur);
+  const head = (m: PromoMetrics, tag: string) => `${tag}: ${m.promo.name} (${m.promo.operator})`;
+  return {
+    understood: true,
+    text: [
+      `Out of ${done.length} completed promos${where ? ` (${where})` : ""}, by ${metric.label}:`,
+      `Best: ${label(best)} — **${fmt(metric, bv, cur)}**.`,
+      `Worst: ${label(worst)} — **${fmt(metric, wv, cur)}**.`,
+      `The gap is ${gap}.`,
+    ],
+    table: {
+      head: ["", head(best, "Best"), head(worst, "Worst")],
+      rows: FULL_SET.map((k) => [cap(METRICS[k].label), fmt(METRICS[k], METRICS[k].per(best), cur), fmt(METRICS[k], METRICS[k].per(worst), cur)]),
+    },
+    links: [
+      { label: `Open ${best.promo.name}`, id: best.promo.id },
+      { label: `Open ${worst.promo.name}`, id: worst.promo.id },
+    ],
+    note: `${metric.format === "change" ? "Observed change (before vs during), not adjusted for the market trend. " : ""}Different promos, markets and lengths — context, not a like-for-like test.`,
+    followUps: [`How did ${worst.promo.name} do?`, `Best vs worst by Promo ROI${p.range ? ` ${rangeLabel(p.range)}` : ""}`],
   };
 }
 
@@ -550,24 +696,129 @@ export function suggestions(all: PromoMetrics[]): string[] {
   return out.filter((x): x is string => !!x);
 }
 
-export function ask(question: string, all: PromoMetrics[], monthly: MonthlyRecord[], cur: string): Answer {
-  const q = question.trim();
-  if (!q) return { understood: false, text: [] };
-  if (!all.length) return { understood: true, text: ["There are no promos in the data yet. Add some in Data & Back Office."] };
-  const p = parse(q, all);
-  const anything = p.promos.length + p.operators.length + p.markets.length + p.types.length + p.games.length + p.aggregators.length + p.months.length + (p.year ? 1 : 0);
-  if (!anything && !p.metric && !p.groupBy && p.intent !== "rank" && p.intent !== "count") {
+/* --------------------------------------------------------- conversation */
+
+const GREETING = /^\s*(?:hi+|hey+|hello+|hiya|yo|howdy|shalom|hola|good\s+(?:morning|afternoon|evening|day)|morning|evening|gm)\b[\s,!.]*/i;
+
+function timeGreeting(q: string): string {
+  const m = q.match(/good\s+(morning|afternoon|evening|day)|^\s*(morning|evening)\b/i);
+  const word = (m?.[1] ?? m?.[2])?.toLowerCase();
+  if (word) return `Good ${word}!`;
+  return "Hi!";
+}
+
+/** Small talk: greetings, thanks, "how are you", "what can you do", goodbyes. */
+function smallTalk(q: string, all: PromoMetrics[]): Answer | null {
+  const t = q.trim().toLowerCase().replace(/[!?.\s]+$/, "");
+  const examples = suggestions(all).slice(0, 4);
+  if (/^(?:thanks?|thank you|thx|ty|cheers|appreciate it|great,? thanks|perfect,? thanks?)\b/.test(t))
+    return { understood: true, text: ["You're welcome! Anything else you'd like to know about the promos?"], followUps: examples.slice(0, 3) };
+  if (/^(?:bye|goodbye|see you|see ya|later|good night|gn)\b/.test(t)) return { understood: true, text: ["Bye! Open Ask any time with Ctrl/⌘ K."] };
+  if (/^(?:how are you|how's it going|how are things|what'?s up|sup)\b/.test(t))
+    return { understood: true, text: ["All good — ready to dig into the numbers. What would you like to know?"], followUps: examples };
+  if (/^(?:who are you|what are you|what can you do|help|what do you know|how does this work|what can i ask)\b/.test(t))
     return {
-      understood: false,
-      text: ["I couldn't match that to your promos. I understand promo names, operators, markets, promotion types, games and months, plus metrics like GGR, contribution, wager, players, part. rate, RTP and Promo ROI."],
-      followUps: suggestions(all).slice(0, 4),
+      understood: true,
+      text: [
+        "I answer questions about the promos on this site, straight from its numbers — no AI service, nothing invented.",
+        "Ask about a promo, operator, market, promotion type, game or month: GGR before / during / after, changes, contribution, wager, players, part. rate, RTP or Promo ROI. I can compare two things, rank them, show best vs worst, add up totals and count promos — and you can follow up with things like “and the worst?” or “what about Mexico?”.",
+      ],
+      followUps: examples,
     };
+  if (/^(?:ok|okay|cool|nice|great|awesome|got it|perfect|sure|yes|no|yep|nope)$/.test(t)) return { understood: true, text: ["Great. What else would you like to know?"], followUps: examples.slice(0, 3) };
+  return null;
+}
+
+function greetingAnswer(q: string, all: PromoMetrics[], cur: string): Answer {
+  const done = all.filter((m) => m.status === "complete" && m.ggrDuring != null).sort((a, b) => b.promo.endDate.localeCompare(a.promo.endDate));
+  const live = all.filter((m) => m.status === "live").length;
+  const latest = done[0];
+  const text = [`${timeGreeting(q)} I can answer questions about your ${all.length} promos.`];
+  if (latest) text.push(`Most recently finished: **${latest.promo.name}** (${latest.promo.operator}) — ${outcomeFor(latest, cur).headline.replace(/^([A-Z])(?=[a-z])/, (c) => c.toLowerCase())}.${live ? ` ${live} promo${live === 1 ? " is" : "s are"} live right now.` : ""}`);
+  text.push("What would you like to know?");
+  return { understood: true, text, followUps: suggestions(all).slice(0, 4), links: latest ? [{ label: `Open ${latest.promo.name}`, id: latest.promo.id }] : undefined };
+}
+
+const hasScope = (p: Parsed) =>
+  p.promos.length + p.operators.length + p.markets.length + p.types.length + p.games.length + p.aggregators.length + p.months.length > 0 || !!p.year || !!p.range;
+
+/**
+ * Follow-ups build on the previous answer: "and the worst?", "what about
+ * Mexico?", "same for August", "compare them", "only Operator Bravo".
+ * Anything the new question doesn't mention is taken from the last one.
+ */
+function withContext(p: Parsed, q: string, ctx: AskContext | undefined, all: PromoMetrics[]): Parsed {
+  if (!ctx) return p;
+  const t = q.toLowerCase();
+  const cue = /^\s*(?:and|what about|how about|same|now|only|just|also|then|ok,? and|and what about)\b/.test(t) || /\b(?:them|those|these|both|that one|this one|that promo|it)\b/.test(t);
+  const bare = !hasScope(p);
+  if (!cue && !(bare && (p.metric || p.superWord || p.intent !== "lookup"))) return p;
+  const out: Parsed = { ...p };
+  if (!p.operators.length) out.operators = ctx.operators;
+  if (!p.markets.length) out.markets = ctx.markets;
+  if (!p.types.length) out.types = ctx.types;
+  if (!p.games.length) out.games = ctx.games;
+  if (!p.aggregators.length) out.aggregators = ctx.aggregators;
+  if (!p.months.length && !p.year && !p.range) {
+    out.months = ctx.months;
+    out.year = ctx.year;
+    out.range = ctx.range;
   }
+  if (!p.metric) out.metric = ctx.metric;
+  // "compare them" / "how did both do": the promos of the last answer.
+  if (!p.promos.length && /\b(?:them|those|these|both)\b/.test(t) && ctx.promoIds.length >= 2) {
+    out.promos = ctx.promoIds.slice(0, 4).flatMap((id) => {
+      const m = all.find((x) => x.promo.id === id);
+      return m ? [{ label: `${m.promo.name} (${m.promo.operator})`, list: [m], kind: "promo" as const, id }] : [];
+    });
+    out.intent = "compare";
+    return out;
+  }
+  if (!p.promos.length && /\b(?:it|that one|this one|that promo)\b/.test(t) && ctx.promoIds.length) {
+    const m = all.find((x) => x.promo.id === ctx.promoIds[0]);
+    if (m) out.promos = [{ label: m.promo.name, list: [m], kind: "promo", id: m.promo.id }];
+    out.intent = "lookup";
+    return out;
+  }
+  // No new question word ("what about Mexico?"): ask the same kind of question again with the new scope.
+  if (!p.superWord && p.intent !== "compare" && p.intent !== "count" && p.intent !== "when" && !p.promos.length) {
+    out.intent = ctx.intent;
+    out.direction = ctx.direction;
+    out.superWord = ctx.superWord;
+    out.groupBy = p.groupBy ?? ctx.groupBy;
+  }
+  return out;
+}
+
+function contextOf(p: Parsed, a: Answer): AskContext {
+  const ids = [...(a.table?.ids ?? []), ...(a.links?.map((l) => l.id) ?? [])].filter((x): x is string => !!x);
+  return {
+    operators: p.operators,
+    markets: p.markets,
+    types: p.types,
+    games: p.games,
+    aggregators: p.aggregators,
+    months: p.months,
+    range: p.range,
+    year: p.year,
+    // Rankings without a named metric use the headline result (or GGR for "most"): keep that for follow-ups.
+    metric: p.metric ?? (p.intent === "rank" || p.intent === "extremes" ? (/most|biggest|largest|greatest|least/.test(p.superWord ?? "") ? METRICS.during : METRICS.dvb) : null),
+    intent: p.intent,
+    direction: p.direction,
+    superWord: p.superWord,
+    groupBy: p.groupBy,
+    promoIds: [...new Set([...ids, ...p.promos.flatMap((g) => g.list.map((m) => m.promo.id))])],
+  };
+}
+
+function answerParsed(p: Parsed, all: PromoMetrics[], monthly: MonthlyRecord[], cur: string): Answer {
   switch (p.intent) {
     case "compare":
       return compare(p, all, cur);
     case "rank":
       return rank(p, all, cur);
+    case "extremes":
+      return extremes(p, all, cur);
     case "count":
       return count(p, all);
     case "when":
@@ -579,5 +830,40 @@ export function ask(question: string, all: PromoMetrics[], monthly: MonthlyRecor
       return total(p, all, monthly, cur);
     default:
       return lookup(p, all, monthly, cur);
+  }
+}
+
+export function ask(question: string, all: PromoMetrics[], monthly: MonthlyRecord[], cur: string, ctx?: AskContext): Answer {
+  const raw = question.trim();
+  if (!raw) return { understood: false, text: [] };
+  try {
+    if (!all.length) return { understood: true, text: ["There are no promos in the data yet. Add some in Data & Back Office."] };
+    // "Good morning" on its own gets a greeting back; "good morning, how did X do?" gets both.
+    const greeted = GREETING.test(raw);
+    const q = raw.replace(GREETING, "").trim();
+    if (!q) return greetingAnswer(raw, all, cur);
+    const talk = smallTalk(q, all);
+    if (talk) return greeted ? { ...talk, text: [timeGreeting(raw), ...talk.text] } : talk;
+
+    const p = withContext(parse(q, all), q, ctx, all);
+    const anything = hasScope(p);
+    if (!anything && !p.metric && !p.groupBy && p.intent !== "rank" && p.intent !== "count" && p.intent !== "extremes") {
+      return {
+        understood: false,
+        text: [
+          "I couldn't match that to your promos. Try naming a promo, operator, market, promotion type, game or month, and a number like GGR, contribution, wager, players, part. rate, RTP or Promo ROI.",
+        ],
+        followUps: suggestions(all).slice(0, 4),
+      };
+    }
+    const a = answerParsed(p, all, monthly, cur);
+    const withGreeting = greeted ? { ...a, text: [timeGreeting(raw), ...a.text] } : a;
+    return { ...withGreeting, text: withGreeting.text.filter((x): x is string => typeof x === "string" && x.length > 0), context: contextOf(p, a) };
+  } catch {
+    return {
+      understood: false,
+      text: ["Something in that question tripped me up, so I didn't answer it rather than guess. Try rephrasing, or pick one of these:"],
+      followUps: suggestions(all).slice(0, 4),
+    };
   }
 }

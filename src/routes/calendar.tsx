@@ -125,7 +125,7 @@ export function CalendarPage() {
   const opened = search.open ? items.find((i) => i.key === search.open) : undefined;
 
   function go(patch: { view?: string; month?: string; week?: string; open?: string }) {
-    navigate({ search: (s) => ({ ...s, ...patch }), replace: true });
+    navigate({ search: (s) => ({ ...s, ...patch }), replace: true, resetScroll: false });
   }
 
   const first = `${month}-01`;

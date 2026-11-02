@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useMemo, useRef, useState } from "react";
+import { Component, Fragment, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { ArrowRight, ArrowUp, Sparkles, Trash2 } from "lucide-react";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 
 /** **bold** → <strong>; everything else as text. */
 function Rich({ text }: { text: string }) {
-  const parts = text.split(/\*\*(.+?)\*\*/g);
+  const parts = String(text ?? "").split(/\*\*(.+?)\*\*/g);
   return (
     <>
       {parts.map((p, i) =>
@@ -22,6 +22,17 @@ function Rich({ text }: { text: string }) {
       )}
     </>
   );
+}
+
+/** One bad answer must never take the page down: show a short message instead. */
+class AnswerBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
+  state = { failed: false };
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+  render() {
+    return this.state.failed ? <p className="text-sm text-muted-foreground">I couldn't show this answer. Try asking it another way.</p> : this.props.children;
+  }
 }
 
 function AnswerView({ a, onOpen, onAsk }: { a: Answer; onOpen: (id: string) => void; onAsk: (q: string) => void }) {
@@ -100,6 +111,7 @@ export function AskPanel() {
   const [thread, setThread] = useState<Array<{ q: string; a: Answer }>>([]);
   const end = useRef<HTMLDivElement>(null);
   const examples = useMemo(() => suggestions(metrics), [metrics]);
+  const asked = useMemo(() => new Set(thread.map((t) => t.q.toLowerCase())), [thread]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -116,7 +128,8 @@ export function AskPanel() {
   const submit = (question: string) => {
     const text = question.trim();
     if (!text) return;
-    setThread((t) => [...t, { q: text, a: ask(text, metrics, dataset.monthly, dataset.currency) }]);
+    // Follow-ups build on the last answer ("and the worst?", "what about Mexico?").
+    setThread((t) => [...t, { q: text, a: ask(text, metrics, dataset.monthly, dataset.currency, t[t.length - 1]?.a.context) }]);
     setQ("");
   };
   const openPromo = (id: string) => {
@@ -142,7 +155,7 @@ export function AskPanel() {
               <SheetTitle className="flex items-center gap-2 font-display text-lg font-semibold">
                 <Sparkles className="size-4 text-primary" /> Ask about your promos
               </SheetTitle>
-              <p className="text-xs text-muted-foreground">Instant answers from the numbers on this site. Works in your browser — no AI service, no credits used.</p>
+              <p className="text-xs text-muted-foreground">Instant answers from the numbers on this site. Works in your browser — no AI service, no credits used. Follow-ups remember the last answer.</p>
             </div>
             {thread.length > 0 && (
               <button onClick={() => setThread([])} aria-label="Clear answers" className="mt-1 text-muted-foreground hover:text-foreground">
@@ -156,7 +169,7 @@ export function AskPanel() {
               <div className="space-y-3">
                 <p className="text-sm text-muted-foreground">
                   Ask about promos, operators, markets, promotion types, games or months — GGR before/during/after, changes, contribution, wager, players, part. rate,
-                  RTP or Promo ROI. Comparisons, rankings, totals and counts all work.
+                  RTP or Promo ROI. Comparisons, rankings, best vs worst, totals, counts and date ranges like “since April” all work.
                 </p>
                 <div className="flex flex-col items-start gap-1.5">
                   {examples.map((e) => (
@@ -171,7 +184,9 @@ export function AskPanel() {
               <div key={i} className="space-y-2">
                 <p className="ml-auto w-fit max-w-[85%] rounded-2xl rounded-br-md bg-primary px-3 py-2 text-sm text-primary-foreground">{t.q}</p>
                 <div className={cn("rounded-2xl rounded-bl-md border px-3.5 py-3", t.a.understood ? "border-border bg-surface" : "border-accent/40 bg-accent/5")}>
-                  <AnswerView a={t.a} onOpen={openPromo} onAsk={submit} />
+                  <AnswerBoundary>
+                    <AnswerView a={{ ...t.a, followUps: t.a.followUps?.filter((f) => !asked.has(f.toLowerCase())) }} onOpen={openPromo} onAsk={submit} />
+                  </AnswerBoundary>
                 </div>
               </div>
             ))}
@@ -189,7 +204,7 @@ export function AskPanel() {
               <input
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
-                placeholder="e.g. How much GGR did Summer Aviator Rain make vs Aviator Rain Weekend?"
+                placeholder={thread.length ? "Ask a follow-up, e.g. “and the worst?”" : `e.g. ${examples[0] ?? "Which promo had the best Promo ROI?"}`}
                 className="min-w-0 flex-1 bg-transparent py-1.5 text-sm outline-none placeholder:text-muted-foreground"
                 autoFocus
               />

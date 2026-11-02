@@ -43,8 +43,8 @@ export function PromoReportPage() {
   const [editing, setEditing] = useState(false);
   const tab = (search.tab as TabKey) ?? "overview";
   const day = search.day ?? null;
-  const setTab = (t: TabKey) => navigate({ to: "/promo/$promoId", params: { promoId }, search: { tab: t === "overview" ? undefined : t }, replace: true });
-  const setDay = (d: number | null) => navigate({ to: "/promo/$promoId", params: { promoId }, search: { tab: "missions", day: d ?? undefined }, replace: true });
+  const setTab = (t: TabKey) => navigate({ to: "/promo/$promoId", params: { promoId }, search: { tab: t === "overview" ? undefined : t }, replace: true, resetScroll: false });
+  const setDay = (d: number | null) => navigate({ to: "/promo/$promoId", params: { promoId }, search: { tab: "missions", day: d ?? undefined }, replace: true, resetScroll: false });
 
   const m = metrics.find((x) => x.promo.id === promoId);
   if (!m) return <NotFoundPage />;
