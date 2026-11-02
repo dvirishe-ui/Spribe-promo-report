@@ -118,7 +118,7 @@ function PromotionsTab({ shown, label, currency }: { shown: PromoMetrics[]; labe
   return (
     <div className="space-y-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 className="text-sm font-semibold uppercase tracking-wide">
+        <h2 className="text-base font-semibold">
           Each promotion · {label} <span className="font-normal normal-case text-muted-foreground">· {list.length}</span>
         </h2>
         <div className="flex items-center gap-1.5">
@@ -592,7 +592,7 @@ function Library({ all, currency }: { all: PromoMetrics[]; currency: string }) {
       <p className="text-xs text-muted-foreground">{results.length} past promotions</p>
       <div className="grid gap-3 md:grid-cols-2">
         {results.map((m) => (
-          <article key={m.promo.id} className="panel flex flex-col p-4 transition-shadow hover:shadow-glow">
+          <article key={m.promo.id} className="panel flex flex-col p-4 transition-colors hover:border-primary/40">
             <div className="flex items-start justify-between gap-2">
               <div className="min-w-0">
                 <Link to="/promo/$promoId" params={{ promoId: m.promo.id }} className="font-display font-semibold hover:text-primary">

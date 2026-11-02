@@ -38,7 +38,15 @@ export const PHASE_METRICS: PhaseMetric[] = [
     color: "var(--cat-5)",
     get: (m) => [sub(m.turnoverBefore, m.ggrBefore), sub(m.turnoverDuring, m.ggrDuring), sub(m.turnoverAfter, m.ggrAfter)],
   },
-  { key: "ggr", label: "GGR", hint: "What SPRIBE's games earned", unit: "ggr", color: "var(--cat-4)", get: (m) => [m.ggrBefore, m.ggrDuring, m.ggrAfter] },
+  {
+    key: "ggr",
+    label: "GGR",
+    hint: "What SPRIBE's games earned",
+    unit: "ggr",
+    color: "var(--cat-4)",
+    // A window summed from an incomplete daily series isn't a full-window total, so it's left out rather than compared.
+    get: (m) => [m.ggrBefore, m.partialDuring ? null : m.ggrDuring, m.partialAfter ? null : m.ggrAfter],
+  },
   {
     key: "bets",
     label: "Number of Bets",

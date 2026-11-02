@@ -109,14 +109,14 @@ export function OverviewPage() {
         ) : (
           <>
             <div>
-              <h2 className="mb-1.5 text-sm font-semibold uppercase tracking-wide">Summary · {label}</h2>
+              <h2 className="mb-2 text-base font-semibold">Summary · {label}</h2>
               <SummaryRow list={shown} currency={cur} momChange={momChange} />
             </div>
 
             <PhaseComparison list={shown} currency={cur} value={view.phaseMetrics} onChange={(k) => set({ phaseMetrics: k })} />
 
             <div>
-              <h2 className="mb-1.5 text-sm font-semibold uppercase tracking-wide">Promotion details</h2>
+              <h2 className="mb-2 text-base font-semibold">Promotion details</h2>
               <ResultsTable list={shown} currency={cur} onSelect={openPromo} />
             </div>
           </>

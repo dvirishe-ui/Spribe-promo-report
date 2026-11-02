@@ -29,7 +29,11 @@ export function PhaseTable({ m, currency }: { m: PromoMetrics; currency: string 
   const rows = PHASE_METRICS.map((metric) => ({ metric, v: phaseValues(metric, [m]) }));
   // Before/after can be longer than the promo: then amounts are compared per day, and unique players not at all.
   const unequal = m.windowDays !== m.promoDays;
+  // GGR can come from a daily series covering only part of a window: use the report's own per-day changes then.
+  const pctText = (v: number | null) => (v == null ? null : `${v > 0.0005 ? "+" : v < -0.0005 ? "−" : ""}${Math.abs(v * 100).toFixed(1)}%`);
+  const ggrPartial = m.partialDuring || m.partialAfter;
   const duringChange = (unit: PhaseUnit, b: number | null, d: number | null) => {
+    if (unit === "ggr" && ggrPartial) return pctText(m.duringVsBefore);
     if (!unequal || unit === "avg" || unit === "pct") return phaseChange(unit, b, d);
     if (unit === "players") return null;
     return phaseChange(unit, b == null ? null : b / m.windowDays, d == null ? null : d / m.promoDays);
@@ -56,20 +60,30 @@ export function PhaseTable({ m, currency }: { m: PromoMetrics; currency: string 
           </tr>
         </thead>
         <tbody>
-          {rows.map(({ metric, v }) => {
+          {rows.map(({ metric, v: totals }) => {
+            // GGR rows always show this promo's own windows, flagged when a window is only partly covered.
+            const v = metric.key === "ggr" ? { before: m.ggrBefore, during: m.ggrDuring, after: m.ggrAfter, n: m.ggrBefore != null ? 1 : 0 } : totals;
             const has = v.n > 0;
-            const cell = (x: number | null) => (has && x != null ? formatPhase(metric.unit, x, currency) : "—");
+            const cell = (x: number | null, partial = false) =>
+              has && x != null ? (
+                <span title={partial ? "Daily data doesn't cover the whole window yet — compared per day" : undefined}>
+                  {formatPhase(metric.unit, x, currency)}
+                  {partial && <span className="text-muted-foreground">*</span>}
+                </span>
+              ) : (
+                "—"
+              );
             return (
               <tr key={metric.key} title={metric.hint} className="border-t border-border/70 transition-colors hover:bg-surface-raised/60">
                 <td className="whitespace-nowrap px-3 py-2 font-medium">{metric.label}</td>
                 <td className="px-2 py-2 text-right tabular text-muted-foreground">{cell(v.before)}</td>
-                <td className="bg-[color-mix(in_oklch,var(--series-during)_7%,transparent)] px-2 py-2 text-right font-semibold tabular">{cell(v.during)}</td>
-                <td className="px-2 py-2 text-right tabular text-muted-foreground">{cell(v.after)}</td>
+                <td className="bg-[color-mix(in_oklch,var(--series-during)_7%,transparent)] px-2 py-2 text-right font-semibold tabular">{cell(v.during, metric.key === "ggr" && m.partialDuring)}</td>
+                <td className="px-2 py-2 text-right tabular text-muted-foreground">{cell(v.after, metric.key === "ggr" && m.partialAfter)}</td>
                 <td className="px-2 py-1.5 text-right">
                   <ChangeChip metric={metric.key} text={has ? duringChange(metric.unit, v.before, v.during) : null} />
                 </td>
                 <td className="px-3 py-1.5 text-right">
-                  <ChangeChip metric={metric.key} text={has ? phaseChange(metric.unit, v.before, v.after) : null} />
+                  <ChangeChip metric={metric.key} text={has ? (metric.unit === "ggr" && ggrPartial ? pctText(m.afterVsBefore) : phaseChange(metric.unit, v.before, v.after)) : null} />
                 </td>
               </tr>
             );

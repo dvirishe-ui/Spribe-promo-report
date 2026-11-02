@@ -63,7 +63,7 @@ export function PhaseComparison({
     <section className="panel min-w-0 p-3 sm:p-4">
       <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
         <div>
-          <h2 className="text-sm font-semibold uppercase tracking-wide">Metrics comparison</h2>
+          <h2 className="text-base font-semibold">Metrics comparison</h2>
           <p className="text-[11px] text-muted-foreground">Before · During · After — {scope}. Pick a promotion in the filters to see just that one.</p>
         </div>
         <MetricChips
@@ -84,7 +84,9 @@ export function PhaseComparison({
             <div key={unit} className="min-w-0">
               <p className="mb-1 text-xs font-semibold">{unit === "money" ? metrics.map((x) => x.label).join(" and ") : UNIT_TITLE[unit]}</p>
               {n === 0 ? (
-                <p className="py-10 text-center text-xs text-muted-foreground">Not reported for these promotions yet.</p>
+                <p className="rounded-lg border border-dashed border-border px-3 py-6 text-center text-xs text-muted-foreground">
+                  Not reported for {list.length === 1 ? "this promotion" : "these promotions"} yet.
+                </p>
               ) : (
                 <>
                   <GroupedColumns
@@ -101,6 +103,7 @@ export function PhaseComparison({
                     format={(v) => formatPhase(unit, v, currency)}
                     formatFull={(v) => formatPhase(unit, v, currency, true)}
                     labelAll
+                    showLegend={metrics.length > 1}
                     maxCol={56}
                     height={210}
                   />

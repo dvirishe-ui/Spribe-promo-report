@@ -12,6 +12,10 @@ import { cn } from "@/lib/utils";
 /** Latest month with finished promos — the default month to open on. */
 export function defaultMonth(metrics: PromoMetrics[]): string {
   return (
+    // The latest month with a finished promo whose before, during and after numbers are all in.
+    [...metrics]
+      .filter((m) => m.status === "complete" && m.ggrBefore != null && m.ggrDuring != null && m.ggrAfter != null && !m.partialDuring && !m.partialAfter)
+      .sort((a, b) => b.month.localeCompare(a.month))[0]?.month ??
     [...metrics].filter((m) => m.status === "complete").sort((a, b) => b.month.localeCompare(a.month))[0]?.month ??
     [...metrics].sort((a, b) => b.month.localeCompare(a.month))[0]?.month ??
     todayIso().slice(0, 7)
@@ -42,9 +46,7 @@ export function PageHeader({ title, children, after }: { title: ReactNode; child
   return (
     <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
       <div className="flex min-w-0 items-center gap-3">
-        <h1 className="font-display text-2xl font-bold leading-tight">
-          <span className="brand-gradient-text">{title}</span>
-        </h1>
+        <h1 className="font-display text-2xl font-bold leading-tight tracking-[-0.02em]">{title}</h1>
         {after}
       </div>
       {children && <div className="flex min-w-0 max-w-full flex-wrap items-center gap-2">{children}</div>}

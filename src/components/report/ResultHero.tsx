@@ -1,4 +1,4 @@
-import { ArrowRight, CheckCircle2, CircleMinus, Clock, Lightbulb, TrendingDown, TriangleAlert } from "lucide-react";
+import { ArrowRight, CheckCircle2, CircleMinus, Clock, ListChecks, TrendingDown, TriangleAlert } from "lucide-react";
 import { PHASES } from "@/components/charts/core";
 import { money, moneySigned, multiple, num, pct, pctPlain } from "@/lib/format";
 import type { PromoMetrics } from "@/lib/metrics";
@@ -87,7 +87,7 @@ export function ResultHero({ m, currency, showNextSteps = true }: { m: PromoMetr
       {showNextSteps && o.nextSteps.length > 0 && (
         <div className="rounded-xl border border-border bg-surface p-4">
           <p className="mb-2 flex items-center gap-1.5 text-sm font-semibold">
-            <Lightbulb className="size-4 text-primary" /> Suggested next steps
+            <ListChecks className="size-4 text-primary" /> Suggested next steps
           </p>
           <ul className="space-y-1.5 text-sm text-muted-foreground">
             {o.nextSteps.map((s) => (

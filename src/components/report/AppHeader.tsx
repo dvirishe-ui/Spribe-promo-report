@@ -99,7 +99,7 @@ export function AppHeader() {
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
       <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-2 px-4 py-3 sm:gap-4 lg:px-8">
         <Link to="/" className="flex shrink-0 items-center gap-3">
-          <LogoMark className="size-9 shadow-glow rounded-[11px]" />
+          <LogoMark className="size-8 rounded-[10px] shadow-sm sm:size-9 sm:rounded-[11px]" />
           <div className="hidden xl:block">
             <Wordmark className="text-sm leading-tight" />
             <p className="text-[11px] text-muted-foreground">Promo Intelligence</p>
@@ -111,7 +111,7 @@ export function AppHeader() {
               key={n.to}
               to={n.to}
               className={cn(
-                "whitespace-nowrap rounded-md px-2.5 py-1.5 transition-colors sm:px-3",
+                "whitespace-nowrap rounded-md px-2 py-1.5 text-[13px] transition-colors sm:px-3 sm:text-sm",
                 active(n.to) ? "bg-surface-raised text-foreground" : "hover:text-foreground",
               )}
             >
@@ -119,7 +119,7 @@ export function AppHeader() {
             </Link>
           ))}
         </nav>
-        <div className="flex shrink-0 items-center gap-2">
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
           <SyncIndicator />
           <AskPanel />
           <button

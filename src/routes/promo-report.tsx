@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Link, useNavigate, useParams, useSearch } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { ArrowLeft, CalendarDays, GitCompareArrows, ClipboardCopy, Download, FileText, Pencil, Printer } from "lucide-react";
+import { ArrowLeft, CalendarDays, GitCompareArrows, ClipboardCopy, Download, FileText, Pencil, Printer, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { MenuItem } from "@/components/report/PromoListing";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PromoEditor } from "@/components/report/PromoEditor";
 import { StatusBadge } from "@/components/report/bits";
@@ -90,18 +92,24 @@ export function PromoReportPage() {
           <Button variant={sel.ids.includes(p.id) ? "default" : "outline"} size="sm" onClick={() => sel.toggle(p.id)}>
             <GitCompareArrows className="size-3.5" /> {sel.ids.includes(p.id) ? "In comparison" : "Add to compare"}
           </Button>
-          <Button variant="outline" size="sm" onClick={copySummary}>
-            <ClipboardCopy className="size-3.5" /> Copy summary
-          </Button>
-          <Button variant="outline" size="sm" onClick={() => downloadText(`${p.name.replace(/[^\w-]+/g, "-")}-results.csv`, resultsCsv([m], cur))}>
-            <Download className="size-3.5" /> CSV
-          </Button>
-          <Button variant="outline" size="sm" onClick={() => downloadText(`${p.name.replace(/[^\w-]+/g, "-")}-engagement-report.txt`, engagementReport(m, cur), "text/plain")}>
-            <FileText className="size-3.5" /> Report
-          </Button>
-          <Button variant="outline" size="sm" onClick={() => window.print()}>
-            <Printer className="size-3.5" /> Print
-          </Button>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" size="sm">
+                <Share2 className="size-3.5" /> Export
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent align="end" className="w-64 p-1.5">
+              <MenuItem icon={ClipboardCopy} label="Copy summary" hint="Result and insights, for email or Slack" onClick={copySummary} />
+              <MenuItem
+                icon={FileText}
+                label="Download report"
+                hint="Engagement report as a text file"
+                onClick={() => downloadText(`${p.name.replace(/[^\w-]+/g, "-")}-engagement-report.txt`, engagementReport(m, cur), "text/plain")}
+              />
+              <MenuItem icon={Download} label="Download results (CSV)" hint="Every number in this report" onClick={() => downloadText(`${p.name.replace(/[^\w-]+/g, "-")}-results.csv`, resultsCsv([m], cur))} />
+              <MenuItem icon={Printer} label="Print or save as PDF" hint="Printed on a light background" onClick={() => window.print()} />
+            </PopoverContent>
+          </Popover>
           {editable && (
             <Button variant="ghost" size="sm" onClick={() => setEditing(true)}>
               <Pencil className="size-3.5" /> Edit

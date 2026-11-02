@@ -8,8 +8,8 @@ import { cn } from "@/lib/utils";
 function Cell({ label, children, title, className }: { label: string; children: ReactNode; title?: string; className?: string }) {
   return (
     <div title={title} className={cn("min-w-0 border-border px-3 py-2", className)}>
-      <p className="truncate text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">{label}</p>
-      <div className="mt-0.5 truncate text-lg font-bold leading-tight tabular">{children}</div>
+      <p className="line-clamp-2 text-[10px] font-semibold uppercase leading-snug tracking-wide text-muted-foreground">{label}</p>
+      <div className="mt-0.5 truncate text-base font-bold leading-tight tabular sm:text-lg">{children}</div>
     </div>
   );
 }
