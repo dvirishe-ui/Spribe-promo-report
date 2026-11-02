@@ -103,7 +103,7 @@ function AnswerView({ a, onOpen, onAsk }: { a: Answer; onOpen: (id: string) => v
  * browser from the site's own numbers (see lib/ask.ts) — no AI service is
  * called, so it's instant, works offline and costs nothing per question.
  */
-export function AskPanel() {
+function AskPanelInner() {
   const { metrics, dataset } = useData();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -123,7 +123,11 @@ export function AskPanel() {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
-  useEffect(() => end.current?.scrollIntoView({ behavior: "smooth", block: "end" }), [thread]);
+  // Block body on purpose: an effect must return nothing or a cleanup function. Some hosts (like the
+  // claude.ai preview) make scrollIntoView return a value, which React would later call as cleanup and crash.
+  useEffect(() => {
+    end.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, [thread]);
 
   const submit = (question: string) => {
     const text = question.trim();
@@ -216,5 +220,33 @@ export function AskPanel() {
         </SheetContent>
       </Sheet>
     </>
+  );
+}
+
+/** Ask can never take the page down: if it fails, only the Ask button goes quiet. */
+class AskBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
+  state = { failed: false };
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+  render() {
+    if (!this.state.failed) return this.props.children;
+    return (
+      <button
+        onClick={() => this.setState({ failed: false })}
+        title="Ask hit a problem — click to reopen"
+        className="grid size-9 place-items-center rounded-md border border-border text-muted-foreground hover:text-foreground"
+      >
+        <Sparkles className="size-4" />
+      </button>
+    );
+  }
+}
+
+export function AskPanel() {
+  return (
+    <AskBoundary>
+      <AskPanelInner />
+    </AskBoundary>
   );
 }

@@ -228,7 +228,9 @@ function RateInput({
 }) {
   const factor = fxFactor(code, display, rates);
   const [v, setV] = useState(factor == null ? "" : String(+factor.toPrecision(4)));
-  useEffect(() => setV(factor == null ? "" : String(+factor.toPrecision(4))), [factor]);
+  useEffect(() => {
+    setV(factor == null ? "" : String(+factor.toPrecision(4)));
+  }, [factor]);
   return (
     <label className="flex items-center gap-1.5 rounded-md border border-border bg-surface-raised px-2 py-1 text-xs">
       <span className="shrink-0 text-muted-foreground">1 {code} =</span>
