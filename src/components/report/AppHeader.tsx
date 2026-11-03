@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { AlertTriangle, BookOpen, Check, Database, Loader2, Menu, Moon, RefreshCw, ShieldCheck, Sun } from "lucide-react";
+import { AlertTriangle, BookOpen, CalendarDays, Check, Database, ExternalLink, Loader2, Menu, Moon, RefreshCw, ShieldCheck, Sun, Wrench } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { LogoMark, Wordmark } from "./Logo";
 import { DefinitionsDialog } from "./DefinitionsDialog";
@@ -8,6 +8,7 @@ import { AskPanel } from "./AskPanel";
 import { useTheme } from "@/lib/theme";
 import { useData } from "@/lib/store";
 import { SOURCE_LABEL } from "@/lib/sources";
+import { CALENDAR_SITE_URL, TOOLKIT_SITE_URL } from "@/lib/campaigns";
 import { cn } from "@/lib/utils";
 
 const NAV = [
@@ -62,6 +63,23 @@ function SecondaryMenu() {
             </span>
           </button>
         </DefinitionsDialog>
+        <div className="mt-1 border-t border-border pt-1">
+          <p className="px-2.5 pb-0.5 pt-1.5 text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Other SPRIBE sites</p>
+          {[
+            { href: CALENDAR_SITE_URL, icon: CalendarDays, label: "Partner Promo Calendar", hint: "What partners see — source of the network campaigns" },
+            { href: TOOLKIT_SITE_URL, icon: Wrench, label: "Promo Toolkit", hint: "Mission calculator, prize split, timeline, T&C" },
+          ].map(({ href, icon: Icon, label, hint }) => (
+            <a key={href} href={href} target="_blank" rel="noopener noreferrer" className="flex items-start gap-2.5 rounded-md px-2.5 py-2 hover:bg-surface-raised">
+              <Icon className="mt-0.5 size-4 text-muted-foreground" />
+              <span className="min-w-0">
+                <span className="flex items-center gap-1 text-sm">
+                  {label} <ExternalLink className="size-3 text-muted-foreground" />
+                </span>
+                <span className="block text-[11px] text-muted-foreground">{hint}</span>
+              </span>
+            </a>
+          ))}
+        </div>
         <div className="mt-1 border-t border-border px-2.5 pb-1 pt-2">
           <p className="flex items-center gap-1.5 text-xs font-medium">
             <ShieldCheck className="size-3.5 text-muted-foreground" /> View as (access preview)
