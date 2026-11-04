@@ -88,6 +88,11 @@ export function useView() {
 }
 
 /** Promos that overlap the date range (any day in common). */
+/** Search text or a picked promotion: results come from all dates. */
+export function searchesAllDates(view: ViewState): boolean {
+  return view.filters.q.trim().length > 0 || view.filters.promo.length > 0;
+}
+
 export function inRange(m: PromoMetrics, from: string, to: string): boolean {
   if (from && m.promo.endDate < from) return false;
   if (to && m.promo.startDate > to) return false;
@@ -97,6 +102,8 @@ export function inRange(m: PromoMetrics, from: string, to: string): boolean {
 /** Filters + period applied, plus the matching "previous period" for comparisons. */
 export function selectPeriod(all: PromoMetrics[], view: ViewState, month: string) {
   const filtered = applyFilters(all, view.filters);
+  // Looking for something specific (search text or a chosen promotion) searches every date, not just the period.
+  if (searchesAllDates(view)) return { filtered, shown: filtered, previous: null as PromoMetrics[] | null };
   if (view.mode === "all") return { filtered, shown: filtered, previous: null as PromoMetrics[] | null };
   if (view.mode === "range") {
     return { filtered, shown: filtered.filter((m) => inRange(m, view.from, view.to)), previous: null };

@@ -1,12 +1,12 @@
 import type { ReactNode } from "react";
-import { ChevronLeft, ChevronRight, RotateCcw, Search, SlidersHorizontal, X } from "lucide-react";
+import { CalendarRange, ChevronDown, ChevronLeft, ChevronRight, RotateCcw, Search, SlidersHorizontal, X } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { MultiSelect } from "./MultiSelect";
 import { FILTER_KEYS, emptyFilters, filterCount, regionOf, type FilterKey, type FilterState } from "@/lib/filters";
 import { formatRange, monthLabel, nextMonth, prevMonth, todayIso } from "@/lib/dates";
 import { marketLabel } from "@/lib/markets";
 import type { PromoMetrics } from "@/lib/metrics";
-import { useView, type PeriodMode } from "@/lib/view";
+import { searchesAllDates, useView, type PeriodMode } from "@/lib/view";
 import { cn } from "@/lib/utils";
 
 /** Latest month with finished promos — the default month to open on. */
@@ -22,8 +22,8 @@ export function defaultMonth(metrics: PromoMetrics[]): string {
   );
 }
 
-export function periodName(mode: PeriodMode, month: string, from: string, to: string): string {
-  if (mode === "all") return "All time";
+export function periodName(mode: PeriodMode, month: string, from: string, to: string, allDates = false): string {
+  if (allDates || mode === "all") return "All dates";
   if (mode === "range") return from || to ? formatRange(from || "…", to || "…").replace("…", "start") : "Pick dates";
   return monthLabel(month, "long");
 }
@@ -54,19 +54,50 @@ export function PageHeader({ title, children, after }: { title: ReactNode; child
   );
 }
 
+const iso = (d: Date) => d.toISOString().slice(0, 10);
+/** Quick ranges for the Dates mode, relative to today. Promos overlapping the range are shown. */
+function datePresets(): Array<{ label: string; from: string; to: string }> {
+  const t = todayIso();
+  const d = new Date(`${t}T00:00:00Z`);
+  const ago = (n: number) => iso(new Date(d.getTime() - n * 86_400_000));
+  const y = d.getUTCFullYear();
+  const mo = d.getUTCMonth();
+  const q0 = Math.floor(mo / 3) * 3;
+  return [
+    { label: "Last 7 days", from: ago(6), to: t },
+    { label: "Last 30 days", from: ago(29), to: t },
+    { label: "Last 90 days", from: ago(89), to: t },
+    { label: "Last month", from: iso(new Date(Date.UTC(y, mo - 1, 1))), to: iso(new Date(Date.UTC(y, mo, 0))) },
+    { label: "This quarter", from: iso(new Date(Date.UTC(y, q0, 1))), to: t },
+    { label: "Last quarter", from: iso(new Date(Date.UTC(y, q0 - 3, 1))), to: iso(new Date(Date.UTC(y, q0, 0))) },
+    { label: "This year", from: `${y}-01-01`, to: t },
+  ];
+}
+
 function PeriodControl({ month, hidePeriod }: { month: string; hidePeriod: boolean }) {
   const { view, set } = useView();
   if (hidePeriod) return null;
+  const allDates = searchesAllDates(view);
   const seg = (m: PeriodMode, label: string) => (
     <button
-      onClick={() => set({ mode: m })}
+      onClick={() => {
+        // Switching to Dates with nothing picked yet starts on the last 90 days.
+        if (m === "range" && !view.from && !view.to) {
+          const p = datePresets()[2];
+          set({ mode: m, from: p.from, to: p.to });
+        } else set({ mode: m });
+      }}
+      aria-pressed={view.mode === m}
       className={cn("press h-6 rounded px-2 text-xs", view.mode === m ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}
     >
       {label}
     </button>
   );
+  const presets = datePresets();
+  const activePreset = presets.find((p) => p.from === view.from && p.to === view.to);
   return (
-    <div className="flex items-center gap-1.5">
+    <div className="flex flex-wrap items-center gap-1.5">
+      <div className={cn("contents", allDates && "[&>*]:opacity-55")} title={allDates ? "Searching all dates — clear the search to use the period again" : undefined}>
       <div className="flex h-8 items-center gap-0.5 rounded-md border border-border bg-surface-raised p-0.5">
         {seg("month", "Month")}
         {seg("range", "Dates")}
@@ -84,12 +115,34 @@ function PeriodControl({ month, hidePeriod }: { month: string; hidePeriod: boole
         </div>
       )}
       {view.mode === "range" && (
-        <div className="flex items-center gap-1 text-xs">
-          <input type="date" aria-label="From" className="h-8 rounded-md border border-border bg-surface px-1.5" value={view.from} onChange={(e) => set({ from: e.target.value })} />
+        <div className="flex flex-wrap items-center gap-1 text-xs">
+          <Popover>
+            <PopoverTrigger asChild>
+              <button className="press inline-flex h-8 items-center gap-1 rounded-md border border-border bg-surface px-2 font-medium hover:border-primary/50">
+                <CalendarRange className="size-3.5 text-muted-foreground" />
+                {activePreset?.label ?? "Custom"}
+                <ChevronDown className="size-3.5 text-muted-foreground" />
+              </button>
+            </PopoverTrigger>
+            <PopoverContent align="start" className="w-44 p-1">
+              {presets.map((p) => (
+                <button
+                  key={p.label}
+                  onClick={() => set({ from: p.from, to: p.to })}
+                  className={cn("flex w-full items-center justify-between rounded px-2 py-1.5 text-left text-xs hover:bg-surface-raised", activePreset?.label === p.label && "font-semibold text-primary")}
+                >
+                  {p.label}
+                </button>
+              ))}
+            </PopoverContent>
+          </Popover>
+          <input type="date" aria-label="From" className="h-8 rounded-md border border-border bg-surface px-1.5" value={view.from} max={view.to || undefined} onChange={(e) => set({ from: e.target.value })} />
           <span className="text-muted-foreground">–</span>
           <input type="date" aria-label="To" className="h-8 rounded-md border border-border bg-surface px-1.5" value={view.to} min={view.from || undefined} onChange={(e) => set({ to: e.target.value })} />
         </div>
       )}
+      </div>
+      {allDates && <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[11px] font-medium text-primary">Searching all dates</span>}
     </div>
   );
 }

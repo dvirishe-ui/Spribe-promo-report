@@ -10,6 +10,7 @@ import { PromoEditor } from "@/components/report/PromoEditor";
 import { StatusBadge } from "@/components/report/bits";
 import { ResultHero } from "@/components/report/ResultHero";
 import { PromoInsights } from "@/components/report/PromoInsights";
+import { MarketVsPromo } from "@/components/report/MarketVsPromo";
 import {
   FinancialsTab,
   MissionsTab,
@@ -153,6 +154,8 @@ export function PromoReportPage() {
       </header>
 
       <ResultHero m={m} currency={cur} />
+
+      <MarketVsPromo m={m} />
 
       <PromoInsights m={m} all={metrics} currency={cur} onMissions={m.missions || m.missionDays ? () => setTab("missions") : undefined} />
 

@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { ClipboardCopy, Download, FileText, Inbox, Share2 } from "lucide-react";
+import { CalendarRange, ClipboardCopy, Download, FileText, Inbox, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { EmptyState } from "@/components/report/bits";
@@ -12,7 +12,7 @@ import { SummaryRow } from "@/components/report/SummaryRow";
 import { PhaseComparison } from "@/components/report/PhaseComparison";
 import { ResultsTable } from "@/components/report/ResultsTable";
 import { useData } from "@/lib/store";
-import { useView, selectPeriod } from "@/lib/view";
+import { useView, selectPeriod, searchesAllDates } from "@/lib/view";
 import { monthRows } from "@/lib/metrics";
 import { monthRange } from "@/lib/dates";
 import { buildInsights } from "@/lib/insights";
@@ -38,7 +38,7 @@ export function OverviewPage() {
   const cur = dataset.currency;
   const month = view.month ?? defaultMonth(metrics);
   const { filtered, shown } = selectPeriod(metrics, view, month);
-  const label = periodName(view.mode, month, view.from, view.to);
+  const label = periodName(view.mode, month, view.from, view.to, searchesAllDates(view));
 
   const allMonths = useMemo(() => {
     const ms = [...dataset.monthly.map((m) => m.month), ...metrics.map((m) => m.month)].sort();
@@ -77,6 +77,11 @@ export function OverviewPage() {
   return (
     <main className="mx-auto max-w-[1600px] space-y-3 px-4 py-4 lg:px-8">
       <PageHeader title="Promotion Overview" after={<DataStatusPill />}>
+        <Button asChild variant="outline" size="sm" className="h-8 text-xs">
+          <Link to="/explore" search={{ tab: "months" }}>
+            <CalendarRange className="size-3.5" /> Compare months
+          </Link>
+        </Button>
         <Popover>
           <PopoverTrigger asChild>
             <Button variant="outline" size="sm" className="h-8 text-xs">

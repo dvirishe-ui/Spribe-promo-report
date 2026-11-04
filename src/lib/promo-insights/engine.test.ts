@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { computePromo } from "../metrics";
 import type { MarketTrend, PromoRecord } from "../types";
-import { buildPromoInsights } from "./index";
+import { buildPromoInsights, DEFAULT_INSIGHT_CONFIG, marketContext, marketVerdict, pickMarketComparison } from "./index";
 
 /*
  * Scenarios for the insight engine. Promos are dated in 2025 so they are
@@ -295,5 +295,35 @@ describe("ranking", () => {
     expect(r.top[0].type).toBe("market_relative");
     expect(r.summary.length).toBeGreaterThanOrEqual(3);
     expect(r.summary.length).toBeLessThanOrEqual(5);
+  });
+});
+
+describe("promo vs market verdict", () => {
+  const v = (promo: number, market: number, same = true) => marketVerdict(promo, market, same, 2, 0.03);
+  it("market −5%, promo +10%: grew while the market fell, +15 pp", () => {
+    const r = v(0.1, -0.05);
+    expect(r.kind).toBe("grew-while-market-fell");
+    expect(r.tone).toBe("good");
+    expect(r.gapPp).toBeCloseTo(15, 5);
+  });
+  it("both down about the same: market-wide drop", () => {
+    expect(v(-0.11, -0.12).kind).toBe("market-wide-drop");
+  });
+  it("market down less than the promo: fell more than the market", () => {
+    expect(v(-0.15, -0.05).kind).toBe("fell-more");
+  });
+  it("market down more than the promo: held up better", () => {
+    expect(v(-0.05, -0.15).kind).toBe("held-up");
+  });
+  it("market up, promo down: promo-specific", () => {
+    expect(v(-0.1, 0.06).kind).toBe("promo-specific-drop");
+  });
+  it("activity index wording says market activity", () => {
+    expect(v(-0.1, 0.06, false).text).toMatch(/market activity/);
+  });
+  it("the panel picks market GGR over an activity index and the comparison group", () => {
+    const m = computePromo(promo({ ggrDuring: 110_000, controlGgrBefore: 300_000, controlGgrDuring: 303_000 }));
+    const ctx = marketContext(m, [trend({ activity: 0.02 }, { id: "a", provider: "Other" }), trend({ ggr: -0.05 })], DEFAULT_INSIGHT_CONFIG);
+    expect(pickMarketComparison(ctx)!.measure).toBe("Market GGR");
   });
 });

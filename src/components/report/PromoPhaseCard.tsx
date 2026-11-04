@@ -7,6 +7,29 @@ import type { PromoMetrics } from "@/lib/metrics";
 import { flagFor } from "@/lib/markets";
 import { money, multiple, num, pctPlain } from "@/lib/format";
 import { cn } from "@/lib/utils";
+import { useData } from "@/lib/store";
+import { DEFAULT_INSIGHT_CONFIG, marketContext, marketVerdict, pickMarketComparison } from "@/lib/promo-insights";
+
+/** "Market −5.0% · +15.0 pp": the promo's change against the market's, when market data covers its dates. */
+function MarketChip({ m }: { m: PromoMetrics }) {
+  const { marketTrends } = useData();
+  const cmp = pickMarketComparison(marketContext(m, marketTrends, DEFAULT_INSIGHT_CONFIG));
+  if (!cmp || m.duringVsBefore == null) return null;
+  const v = marketVerdict(m.duringVsBefore, cmp.market, cmp.sameMeasure, DEFAULT_INSIGHT_CONFIG.marketComparisonTolerancePp, DEFAULT_INSIGHT_CONFIG.meaningfulChangeThreshold);
+  const s = (x: number) => `${x > 0.0005 ? "+" : x < -0.0005 ? "−" : ""}${Math.abs(x * 100).toFixed(1)}%`;
+  return (
+    <span
+      title={`${v.title}. ${v.text} Source: ${cmp.source.provider} (${cmp.source.origin}).`}
+      className={cn(
+        "rounded-full px-2 py-0.5 font-medium",
+        v.tone === "good" ? "bg-good/12 text-good-ink" : v.tone === "bad" ? "bg-bad/12 text-bad-ink" : "bg-muted text-muted-foreground",
+      )}
+    >
+      {cmp.source.kind === "comparison" ? "Comparison group" : cmp.sameMeasure ? "Market" : "Market activity"} {s(cmp.market)} · {v.gapPp >= 0 ? "+" : "−"}
+      {Math.abs(v.gapPp).toFixed(1)} pp
+    </span>
+  );
+}
 
 function Stat({ label, children, sub, tone }: { label: string; children: ReactNode; sub?: ReactNode; tone?: "good" | "bad" }) {
   return (
@@ -55,6 +78,7 @@ export function PromoPhaseCard({
             {notFinal && (
               <span className="rounded-full bg-accent/15 px-2 py-0.5 font-medium text-foreground">{m.status === "upcoming" ? "Not started yet" : "Not final yet"}</span>
             )}
+            <MarketChip m={m} />
           </div>
         </div>
         <div className="flex shrink-0 items-center gap-1">

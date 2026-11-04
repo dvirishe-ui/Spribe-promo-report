@@ -22,7 +22,8 @@ import { RULES, type PromoInsight, type Severity } from "./rules";
  */
 
 export type { PromoInsight, Severity, CalcBlock } from "./rules";
-export type { MarketContext, MarketSource, QualityNote } from "./market";
+export type { MarketContext, MarketSource, QualityNote, MarketComparison, MarketVerdict } from "./market";
+export { marketContext, marketVerdict, pickMarketComparison } from "./market";
 export { DEFAULT_INSIGHT_CONFIG, type InsightConfig } from "./config";
 
 export interface InsightReport {

@@ -139,3 +139,92 @@ export function marketContext(m: PromoMetrics, trends: MarketTrend[], config: In
   }
   return { market: p.market, sources, notes, mismatched };
 }
+
+/* ------------------------------------------------------- promo vs market */
+
+export interface MarketComparison {
+  source: MarketSource;
+  /** The market's change, as a fraction */
+  market: number;
+  /** What the market figure measures, e.g. "Market GGR" or "Blask Index (search demand)" */
+  measure: string;
+  /** True when the market figure measures the same thing as the promo's (GGR) */
+  sameMeasure: boolean;
+}
+
+/**
+ * The single best market figure to set against the promo's GGR change: a
+ * market GGR trend first, then a market activity index, then the promo's own
+ * comparison group.
+ */
+export function pickMarketComparison(ctx: MarketContext): MarketComparison | null {
+  const ggr = ctx.sources.find((s) => s.kind === "market" && s.changes.ggr != null);
+  if (ggr) return { source: ggr, market: ggr.changes.ggr!, measure: "Market GGR", sameMeasure: true };
+  const act = ctx.sources.find((s) => s.kind === "market" && s.activity);
+  if (act) return { source: act, market: act.activity!.change, measure: act.activity!.label, sameMeasure: false };
+  const cg = ctx.sources.find((s) => s.kind === "comparison" && s.changes.ggr != null);
+  if (cg) return { source: cg, market: cg.changes.ggr!, measure: "Comparison group GGR", sameMeasure: true };
+  return null;
+}
+
+export type MarketVerdictKind =
+  | "market-wide-drop"
+  | "held-up"
+  | "fell-more"
+  | "promo-specific-drop"
+  | "grew-while-market-fell"
+  | "held-steady"
+  | "flat-while-market-grew"
+  | "with-market"
+  | "beat-growing"
+  | "behind-growing";
+
+export interface MarketVerdict {
+  kind: MarketVerdictKind;
+  tone: "good" | "bad" | "mixed" | "neutral";
+  title: string;
+  text: string;
+  /** Promo change − market change, in percentage points */
+  gapPp: number;
+}
+
+const pctWord = (v: number) => `${Math.abs(v * 100).toFixed(1)}%`;
+
+/**
+ * Is it the promo or the market? Compares the promo's GGR change with the
+ * market's over the same days. `tolPp` is how close counts as "the same";
+ * `flat` is the smallest promo change treated as a real move. Wording states
+ * what the numbers show, never a cause.
+ */
+export function marketVerdict(promo: number, market: number, sameMeasure: boolean, tolPp: number, flat: number): MarketVerdict {
+  const gapPp = (promo - market) * 100;
+  const close = Math.abs(gapPp) < tolPp;
+  const mk = sameMeasure ? "the market" : "market activity";
+  const v = (kind: MarketVerdictKind, tone: MarketVerdict["tone"], title: string, text: string): MarketVerdict => ({ kind, tone, title, text, gapPp });
+  if (Math.abs(promo) < flat) {
+    if (gapPp >= tolPp) return v("held-steady", "good", `Held steady while ${mk} fell`, `${cap(mk)} fell ${pctWord(market)} over the same days, while this promo's GGR was about flat (${sign(promo)}).`);
+    if (gapPp <= -tolPp) return v("flat-while-market-grew", "bad", `Flat while ${mk} grew`, `${cap(mk)} grew ${pctWord(market)}, but this promo's GGR was about flat (${sign(promo)}) — it didn't keep up.`);
+    return v("with-market", "neutral", `Moved with ${mk}`, `Both were about flat: promo ${sign(promo)}, ${mk} ${sign(market)}.`);
+  }
+  if (promo < 0) {
+    if (market < 0 && close)
+      return v("market-wide-drop", "neutral", "Market-wide drop", `${cap(mk)} fell ${pctWord(market)} and this promo fell ${pctWord(promo)} — about the same, so the drop looks market-wide rather than specific to this promo.`);
+    if (market < 0 && gapPp > 0)
+      return v("held-up", "mixed", "Market drop — the promo held up better", `${cap(mk)} fell ${pctWord(market)}; this promo fell only ${pctWord(promo)}, ${Math.abs(gapPp).toFixed(1)} pp better than ${mk}.`);
+    if (market < 0)
+      return v("fell-more", "bad", `Fell more than ${mk}`, `${cap(mk)} fell ${pctWord(market)}, but this promo fell ${pctWord(promo)} — ${Math.abs(gapPp).toFixed(1)} pp worse, so it isn't only the market.`);
+    return v(
+      "promo-specific-drop",
+      "bad",
+      "Promo-specific drop",
+      `${cap(mk)} ${Math.abs(market) < flat ? `was about flat (${sign(market)})` : `grew ${pctWord(market)}`} while this promo fell ${pctWord(promo)} — the drop isn't explained by ${mk}.`,
+    );
+  }
+  if (market < 0) return v("grew-while-market-fell", "good", `Grew while ${mk} fell`, `${cap(mk)} fell ${pctWord(market)}, but this promo grew ${pctWord(promo)} — ${gapPp.toFixed(1)} pp ahead.`);
+  if (close) return v("with-market", "neutral", `Moved with ${mk}`, `This promo grew ${pctWord(promo)} and ${mk} ${pctWord(market)} — about the same, so the growth may be largely market-wide.`);
+  if (gapPp > 0) return v("beat-growing", "good", `Beat a growing ${sameMeasure ? "market" : "market activity"}`, `This promo grew ${pctWord(promo)} against ${pctWord(market)} for ${mk} — ${gapPp.toFixed(1)} pp ahead.`);
+  return v("behind-growing", "mixed", `Grew, but less than ${mk}`, `This promo grew ${pctWord(promo)}, but ${mk} grew ${pctWord(market)} — ${Math.abs(gapPp).toFixed(1)} pp behind.`);
+}
+
+const cap = (s: string) => s[0].toUpperCase() + s.slice(1);
+const sign = (v: number) => `${v > 0.0005 ? "+" : v < -0.0005 ? "−" : ""}${Math.abs(v * 100).toFixed(1)}%`;

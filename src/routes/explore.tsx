@@ -10,9 +10,10 @@ import { OutcomeChip } from "@/components/report/ResultHero";
 import { FilterLayout, PageHeader, defaultMonth, periodName } from "@/components/report/ViewControls";
 import { ComparisonView, SelectionChips } from "@/components/report/Comparison";
 import { PromoPhaseCard } from "@/components/report/PromoPhaseCard";
+import { MonthCompare } from "@/components/report/MonthCompare";
 import { useSelection } from "@/components/report/SelectionBar";
 import { useData } from "@/lib/store";
-import { useView, selectPeriod } from "@/lib/view";
+import { useView, selectPeriod, searchesAllDates } from "@/lib/view";
 import { buildInsights, type Insight } from "@/lib/insights";
 import { isMissionType, isRankingType, median, type PromoMetrics } from "@/lib/metrics";
 import { formatRange, todayIso, addDays, daysBetween } from "@/lib/dates";
@@ -24,10 +25,11 @@ import { phaseCsv } from "@/lib/export";
 import { downloadText } from "@/lib/csv";
 import { cn } from "@/lib/utils";
 
-export type ExploreTab = "promotions" | "compare" | "rank" | "missions" | "library" | "alerts";
+export type ExploreTab = "promotions" | "compare" | "months" | "rank" | "missions" | "library" | "alerts";
 const TABS: Array<{ v: ExploreTab; label: string }> = [
   { v: "promotions", label: "Promotions" },
   { v: "compare", label: "Compare" },
+  { v: "months", label: "Compare months" },
   { v: "rank", label: "Rankings" },
   { v: "missions", label: "Missions" },
   { v: "library", label: "Library" },
@@ -49,7 +51,7 @@ export function ExplorePage() {
   const month = view.month ?? defaultMonth(metrics);
   const { filtered, shown } = selectPeriod(metrics, view, month);
   const insights = buildInsights(filtered, dataset.promos, { syncError: status === "error" ? error : null, currency: dataset.currency });
-  const label = periodName(view.mode, month, view.from, view.to);
+  const label = periodName(view.mode, month, view.from, view.to, searchesAllDates(view));
   const periodTab = tab === "promotions";
 
   return (
@@ -76,6 +78,7 @@ export function ExplorePage() {
       ) : (
         <FilterLayout metrics={metrics} month={month} count={periodTab ? shown.length : filtered.length} hidePeriod={!periodTab}>
           {tab === "promotions" && <PromotionsTab shown={shown} label={label} currency={dataset.currency} />}
+          {tab === "months" && <MonthCompare all={filtered} monthly={dataset.monthly} currency={dataset.currency} initial={month} />}
           {tab === "rank" && <Rank all={filtered} currency={dataset.currency} />}
           {tab === "missions" && <MissionAnalysis all={filtered} />}
           {tab === "library" && <Library all={filtered} currency={dataset.currency} />}

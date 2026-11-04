@@ -111,3 +111,13 @@ Goal: more visible, less text, fewer clicks, less scrolling — readable on a 13
 - The Before / During / After table now compares per day when the promo and its windows differ
   in length (it compared raw totals before).
 - New optional data: participants' wager and GGR, per-game before/during numbers, `marketTrends`.
+
+### Months, dates and market context (November 2026)
+
+- Explore → **Compare months**: 2–4 months side by side, with the change between the first and last.
+- **Dates** mode gets presets; searching (or picking a promotion) always looks across all dates.
+- **Promo vs market** on every promo report: the promo's GGR change against the market's for the
+  same days, with a verdict (market-wide drop / held up better / fell more / promo-specific drop /
+  grew while the market fell / moved with / beat / behind). Market figures come from Blask or
+  another source entered by hand or delivered with the data; Blask itself isn't connected.
+  Explore cards show the same comparison as a chip.
