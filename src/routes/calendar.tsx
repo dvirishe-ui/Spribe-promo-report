@@ -13,7 +13,7 @@ import { useView } from "@/lib/view";
 import { applyFilters, type FilterState } from "@/lib/filters";
 import { addDays, formatDay, formatRange, monthLabel, nextMonth, parseDay, prevMonth, todayIso } from "@/lib/dates";
 import { STATUS_LABEL, median, type PromoMetrics, type PromoStatus } from "@/lib/metrics";
-import { CALENDAR_CAMPAIGNS, CALENDAR_SITE_URL, type CalendarCampaign } from "@/lib/campaigns";
+import { CALENDAR_CAMPAIGNS, CALENDAR_FEED_INFO, CALENDAR_SITE_URL, type CalendarCampaign } from "@/lib/campaigns";
 import { campaignRollup } from "@/lib/history";
 import { flagFor } from "@/lib/markets";
 import { num, pct } from "@/lib/format";
@@ -168,6 +168,11 @@ export function CalendarPage() {
   return (
     <main className="mx-auto max-w-[1600px] space-y-3 px-4 py-4 lg:px-8">
       <PageHeader title="Calendar">
+        {CALENDAR_FEED_INFO.generatedAt && (
+          <span className="text-[11px] text-muted-foreground" title="Network campaigns come straight from the Promo Calendar's published feed">
+            Campaigns synced from the Promo Calendar · {formatDay(CALENDAR_FEED_INFO.generatedAt.slice(0, 10), true)}
+          </span>
+        )}
         <Button asChild variant="outline" size="sm" className="h-8 text-xs">
           <a href={CALENDAR_SITE_URL} target="_blank" rel="noopener noreferrer">
             Full calendar site <ExternalLink className="ml-1 size-3.5" />
