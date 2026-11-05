@@ -211,7 +211,7 @@ export function ImportDialog() {
 
 export function Seg({ value, onChange, options }: { value: string; onChange: (v: string) => void; options: Array<[string, string]> }) {
   return (
-    <div className="flex rounded-md border border-border p-0.5 text-xs">
+    <div className="flex rounded-lg border border-border p-0.5 text-xs">
       {options.map(([v, l]) => (
         <button
           key={v}

@@ -82,7 +82,7 @@ function NotFinal({ m }: { m: PromoMetrics }) {
       : m.status === "live"
         ? "This promo is still running — numbers are so far, not final."
         : `The promo has ended, but the after period runs until ${formatDay(m.afterEnd, true)}. Results aren't final yet.`;
-  return <p className="rounded-lg border border-accent/40 bg-accent/10 px-3 py-2 text-xs">{text}</p>;
+  return <p className="rounded-xl border border-accent/40 bg-accent/10 px-3 py-2 text-xs">{text}</p>;
 }
 
 /* ---------------------------------------------------------------- overview */
@@ -130,7 +130,7 @@ function ImpactNote({ m }: { m: PromoMetrics }) {
   if (m.primaryChange == null) return null;
   if (m.isAdjusted)
     return (
-      <div className="flex gap-2.5 rounded-lg border border-good/30 bg-good/5 px-3.5 py-2.5 text-sm">
+      <div className="flex gap-2.5 rounded-xl border border-good/30 bg-good/5 px-3.5 py-2.5 text-sm">
         <ShieldCheck className="mt-0.5 size-4 shrink-0 text-good-ink" />
         <p>
           <strong className="font-semibold">Adjusted for the market trend.</strong> The comparison group ({m.promo.controlLabel || "no description"}) moved{" "}
@@ -140,7 +140,7 @@ function ImpactNote({ m }: { m: PromoMetrics }) {
       </div>
     );
   return (
-    <div className="flex gap-2.5 rounded-lg border border-border bg-surface-raised/60 px-3.5 py-2.5 text-sm">
+    <div className="flex gap-2.5 rounded-xl border border-border bg-surface-raised/60 px-3.5 py-2.5 text-sm">
       <CircleAlert className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
       <p className="text-muted-foreground">
         <strong className="font-semibold text-foreground">Not adjusted for the market trend.</strong> This compares GGR before and during the
@@ -175,7 +175,7 @@ function PastPromos({ m, all }: { m: PromoMetrics; all: PromoMetrics[] }) {
             <Link
               to="/promo/$promoId"
               params={{ promoId: x.promo.id }}
-              className="-mx-2 flex items-center justify-between gap-3 rounded-md px-2 py-2 text-sm hover:bg-surface-raised"
+              className="-mx-2 flex items-center justify-between gap-3 rounded-lg px-2 py-2 text-sm hover:bg-surface-raised"
             >
               <span className="min-w-0">
                 <span className="block truncate font-medium">{x.promo.name}</span>

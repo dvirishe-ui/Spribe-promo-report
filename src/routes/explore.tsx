@@ -57,14 +57,14 @@ export function ExplorePage() {
   return (
     <main className="mx-auto max-w-[1600px] space-y-3 px-4 py-4 lg:px-8">
       <PageHeader title="Explore">
-        <div className="flex h-8 max-w-full items-center gap-0.5 overflow-x-auto rounded-md border border-border bg-surface-raised p-0.5">
+        <div className="flex h-8 max-w-full items-center gap-0.5 overflow-x-auto rounded-full bg-(--segment-track) p-0.5">
           {TABS.map((t) => (
             <button
               key={t.v}
               onClick={() => navigate({ to: "/explore", search: { tab: t.v === "promotions" ? undefined : t.v }, replace: true, resetScroll: false })}
               className={cn(
-                "press h-6 whitespace-nowrap rounded px-2.5 text-xs",
-                tab === t.v ? "bg-background font-medium text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground",
+                "press h-7 whitespace-nowrap rounded-full px-3 text-xs",
+                tab === t.v ? "bg-(--segment-thumb) font-medium text-foreground shadow-[0_1px_3px_oklch(0_0_0/0.2)]" : "text-muted-foreground hover:text-foreground",
               )}
             >
               {t.label}
@@ -129,7 +129,7 @@ function PromotionsTab({ shown, label, currency }: { shown: PromoMetrics[]; labe
             aria-label="Sort promotions"
             value={sort}
             onChange={(e) => setSort(e.target.value as PromoSort)}
-            className="h-7 rounded-md border border-border bg-surface px-1.5 text-xs text-muted-foreground"
+            className="h-7 rounded-full border border-border bg-surface px-1.5 text-xs text-muted-foreground"
           >
             <option value="newest">Newest first</option>
             <option value="change">Biggest GGR change</option>
@@ -174,7 +174,7 @@ function CompareTab({ all, currency }: { all: PromoMetrics[]; currency: string }
         <div className="relative w-full sm:w-80">
           <Search className="pointer-events-none absolute left-2 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground" />
           <input
-            className="h-8 w-full rounded-md border border-border bg-surface pl-7 pr-2 text-xs outline-none focus:ring-2 focus:ring-ring"
+            className="h-8 w-full rounded-full border border-border bg-surface pl-7 pr-2 text-xs outline-none focus:ring-2 focus:ring-ring"
             placeholder="Add a promotion — search name, operator, market"
             value={q}
             onChange={(e) => setQ(e.target.value)}
@@ -182,7 +182,7 @@ function CompareTab({ all, currency }: { all: PromoMetrics[]; currency: string }
             onBlur={() => setTimeout(() => setFocus(false), 150)}
           />
           {focus && matches.length > 0 && (
-            <div className="absolute left-0 right-0 top-9 z-20 rounded-md border border-border bg-popover p-1 shadow-lg">
+            <div className="absolute left-0 right-0 top-9 z-20 rounded-lg border border-border bg-popover p-1 shadow-lg">
               {matches.map((m) => (
                 <button
                   key={m.promo.id}
@@ -576,7 +576,7 @@ function Library({ all, currency }: { all: PromoMetrics[]; currency: string }) {
         <div className="relative">
           <Search className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
           <input
-            className="h-9 w-full rounded-md border border-border bg-surface-raised pl-8 pr-2 text-sm outline-none focus:ring-2 focus:ring-ring"
+            className="h-9 w-full rounded-full border border-border bg-surface-raised pl-8 pr-2 text-sm outline-none focus:ring-2 focus:ring-ring"
             placeholder="Search names, notes and mission requirements — e.g. “×50”, “cashback”"
             value={q}
             onChange={(e) => setQ(e.target.value)}

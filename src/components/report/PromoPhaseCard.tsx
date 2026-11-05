@@ -33,7 +33,7 @@ function MarketChip({ m }: { m: PromoMetrics }) {
 
 function Stat({ label, children, sub, tone }: { label: string; children: ReactNode; sub?: ReactNode; tone?: "good" | "bad" }) {
   return (
-    <div className="min-w-0 rounded-lg bg-surface-raised/70 px-3 py-2">
+    <div className="min-w-0 rounded-xl bg-surface-raised/70 px-3 py-2">
       <p className="text-[11px] text-muted-foreground">{label}</p>
       <p className={cn("font-display text-base font-bold tabular", tone === "good" && "text-good-ink", tone === "bad" && "text-bad-ink")}>{children}</p>
       {sub && <p className="truncate text-[11px] text-muted-foreground">{sub}</p>}
@@ -86,14 +86,14 @@ export function PromoPhaseCard({
             onClick={onToggle}
             aria-pressed={selected}
             title={selected ? "Remove from comparison" : "Add to comparison"}
-            className={cn("press inline-flex h-7 items-center gap-1 rounded-md border px-2 text-[11px]", selected ? "border-primary bg-primary/10" : "border-border text-muted-foreground hover:text-foreground")}
+            className={cn("press inline-flex h-7 items-center gap-1 rounded-full border px-2 text-[11px]", selected ? "border-primary bg-primary/10" : "border-border text-muted-foreground hover:text-foreground")}
           >
             <span className={cn("grid size-3.5 place-items-center rounded-sm border", selected ? "border-primary bg-primary text-primary-foreground" : "border-border")}>
               {selected && <Check className="size-2.5" />}
             </span>
             Compare
           </button>
-          <Link to="/promo/$promoId" params={{ promoId: p.id }} className="press inline-flex h-7 items-center gap-1 rounded-md px-2 text-[11px] font-medium text-primary hover:bg-primary/10">
+          <Link to="/promo/$promoId" params={{ promoId: p.id }} className="press inline-flex h-7 items-center gap-1 rounded-full px-2 text-[11px] font-medium text-primary hover:bg-primary/10">
             Full report <ArrowRight className="size-3" />
           </Link>
         </div>

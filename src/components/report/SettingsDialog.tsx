@@ -102,7 +102,7 @@ export function SettingsDialog() {
                   key={o.kind}
                   onClick={() => set("kind", o.kind)}
                   className={cn(
-                    "flex w-full items-start gap-3 rounded-lg border p-3 text-left transition-colors",
+                    "flex w-full items-start gap-3 rounded-xl border p-3 text-left transition-colors",
                     draft.kind === o.kind ? "border-primary bg-primary/5" : "border-border hover:bg-surface-raised",
                   )}
                 >
@@ -135,7 +135,7 @@ export function SettingsDialog() {
               >
                 <input className={inputCls} value={draft.apiUrl} onChange={(e) => set("apiUrl", e.target.value)} placeholder="https://backoffice…/api/promo-report" />
               </Field>
-              <details className="rounded-lg border border-border p-3 text-xs">
+              <details className="rounded-xl border border-border p-3 text-xs">
                 <summary className="cursor-pointer font-medium">For developers</summary>
                 <p className="mt-2 text-muted-foreground">
                   One GET request returning this JSON. Full spec: <code>docs/BACKOFFICE_API.md</code> in the repo.
@@ -147,7 +147,7 @@ export function SettingsDialog() {
                   >
                     <Copy className="size-3" /> Copy
                   </button>
-                  <pre className="overflow-auto rounded-md bg-surface-raised p-2.5 font-mono text-[11px] leading-relaxed">{EXAMPLE_JSON}</pre>
+                  <pre className="overflow-auto rounded-lg bg-surface-raised p-2.5 font-mono text-[11px] leading-relaxed">{EXAMPLE_JSON}</pre>
                 </div>
                 <div className="mt-3 grid gap-2 sm:grid-cols-2">
                   <Field label="Auth header">
@@ -232,7 +232,7 @@ function RateInput({
     setV(factor == null ? "" : String(+factor.toPrecision(4)));
   }, [factor]);
   return (
-    <label className="flex items-center gap-1.5 rounded-md border border-border bg-surface-raised px-2 py-1 text-xs">
+    <label className="flex items-center gap-1.5 rounded-lg border border-border bg-surface-raised px-2 py-1 text-xs">
       <span className="shrink-0 text-muted-foreground">1 {code} =</span>
       <input
         inputMode="decimal"

@@ -44,7 +44,7 @@ export function MetricChips({
     <Popover onOpenChange={(o) => !o && setQ("")}>
       <div
         className={cn(
-          "flex min-h-8 min-w-0 max-w-full items-center gap-1 rounded-md border border-border bg-surface py-0.5 pl-1 pr-0.5 transition-colors focus-within:border-primary/60",
+          "flex min-h-8 min-w-0 max-w-full items-center gap-1 rounded-full border border-border bg-surface py-0.5 pl-1 pr-0.5 transition-colors focus-within:border-primary/60",
           className,
         )}
       >
@@ -87,7 +87,7 @@ export function MetricChips({
                 onClick={() => toggle(o.key)}
                 disabled={!on && full}
                 title={on && value.length === 1 ? "Keep at least one" : undefined}
-                className={cn("flex w-full items-center gap-2 rounded-md px-1.5 py-1 text-left transition-colors hover:bg-surface-raised disabled:opacity-40", disabled && "cursor-default")}
+                className={cn("flex w-full items-center gap-2 rounded-lg px-1.5 py-1 text-left transition-colors hover:bg-surface-raised disabled:opacity-40", disabled && "cursor-default")}
               >
                 <span className="min-w-0 flex-1">
                   <span className={cn("inline-block max-w-full truncate rounded-full px-2.5 py-0.5 text-xs font-medium", on ? "bg-primary/15 text-foreground" : "bg-surface-raised")}>{o.label}</span>

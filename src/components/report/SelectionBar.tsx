@@ -40,11 +40,11 @@ export function SelectionBar() {
             disabled={list.length < 2}
             onClick={() => setOpen(true)}
             title={list.length < 2 ? "Select at least two promos" : undefined}
-            className="press inline-flex shrink-0 items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground disabled:opacity-40"
+            className="press inline-flex shrink-0 items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground disabled:opacity-40"
           >
             <GitCompareArrows className="size-3.5" /> Compare
           </button>
-          <button onClick={clear} aria-label="Clear selection" className="grid size-7 shrink-0 place-items-center rounded-md text-muted-foreground hover:bg-surface-raised hover:text-foreground">
+          <button onClick={clear} aria-label="Clear selection" className="grid size-7 shrink-0 place-items-center rounded-full text-muted-foreground hover:bg-surface-raised hover:text-foreground">
             <X className="size-4" />
           </button>
         </div>

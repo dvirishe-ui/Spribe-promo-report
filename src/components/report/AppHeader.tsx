@@ -42,12 +42,12 @@ function SecondaryMenu() {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <button aria-label="More" className="grid size-9 place-items-center rounded-md border border-border text-muted-foreground transition-colors hover:text-foreground">
+        <button aria-label="More" className="grid size-9 place-items-center rounded-full border border-border text-muted-foreground transition-colors hover:text-foreground">
           <Menu className="size-4" />
         </button>
       </PopoverTrigger>
       <PopoverContent align="end" className="w-72 p-1.5">
-        <Link to="/data" onClick={() => setOpen(false)} className="flex items-start gap-2.5 rounded-md px-2.5 py-2 hover:bg-surface-raised">
+        <Link to="/data" onClick={() => setOpen(false)} className="flex items-start gap-2.5 rounded-lg px-2.5 py-2 hover:bg-surface-raised">
           <Database className="mt-0.5 size-4 text-muted-foreground" />
           <span>
             <span className="block text-sm">Data & Back Office</span>
@@ -55,7 +55,7 @@ function SecondaryMenu() {
           </span>
         </Link>
         <DefinitionsDialog>
-          <button className="flex w-full items-start gap-2.5 rounded-md px-2.5 py-2 text-left hover:bg-surface-raised">
+          <button className="flex w-full items-start gap-2.5 rounded-lg px-2.5 py-2 text-left hover:bg-surface-raised">
             <BookOpen className="mt-0.5 size-4 text-muted-foreground" />
             <span>
               <span className="block text-sm">How numbers are calculated</span>
@@ -69,7 +69,7 @@ function SecondaryMenu() {
             { href: CALENDAR_SITE_URL, icon: CalendarDays, label: "Partner Promo Calendar", hint: "What partners see — source of the network campaigns" },
             { href: TOOLKIT_SITE_URL, icon: Wrench, label: "Promo Toolkit", hint: "Mission calculator, prize split, timeline, T&C" },
           ].map(({ href, icon: Icon, label, hint }) => (
-            <a key={href} href={href} target="_blank" rel="noopener noreferrer" className="flex items-start gap-2.5 rounded-md px-2.5 py-2 hover:bg-surface-raised">
+            <a key={href} href={href} target="_blank" rel="noopener noreferrer" className="flex items-start gap-2.5 rounded-lg px-2.5 py-2 hover:bg-surface-raised">
               <Icon className="mt-0.5 size-4 text-muted-foreground" />
               <span className="min-w-0">
                 <span className="flex items-center gap-1 text-sm">
@@ -93,7 +93,7 @@ function SecondaryMenu() {
                   setAccessOperator(op);
                   setOpen(false);
                 }}
-                className="flex w-full items-center justify-between rounded-md px-2 py-1 text-left text-xs hover:bg-surface-raised"
+                className="flex w-full items-center justify-between rounded-lg px-2 py-1 text-left text-xs hover:bg-surface-raised"
               >
                 {op ?? "SPRIBE internal — all operators"}
                 {accessOperator === op && <Check className="size-3.5 text-primary" />}
@@ -113,8 +113,7 @@ export function AppHeader() {
     to === "/" ? pathname === "/" : to === "/explore" ? pathname.startsWith("/explore") || pathname.startsWith("/promo/") : pathname.startsWith(to);
 
   return (
-    <header className="no-print sticky top-0 z-20 border-b border-border bg-background/85 backdrop-blur-xl">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
+    <header className="no-print glass sticky top-0 z-20 border-b border-border">
       <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-2 px-4 py-3 sm:gap-4 lg:px-8">
         <Link to="/" className="flex shrink-0 items-center gap-3">
           <LogoMark className="size-8 rounded-[10px] shadow-sm sm:size-9 sm:rounded-[11px]" />
@@ -129,8 +128,8 @@ export function AppHeader() {
               key={n.to}
               to={n.to}
               className={cn(
-                "whitespace-nowrap rounded-md px-2 py-1.5 text-[13px] transition-colors sm:px-3 sm:text-sm",
-                active(n.to) ? "bg-surface-raised text-foreground" : "hover:text-foreground",
+                "press whitespace-nowrap rounded-full px-2.5 py-1.5 text-[13px] font-medium transition-colors sm:px-3.5 sm:text-sm",
+                active(n.to) ? "bg-foreground/[0.08] text-foreground" : "hover:text-foreground",
               )}
             >
               {n.label}
@@ -143,7 +142,7 @@ export function AppHeader() {
           <button
             onClick={toggleTheme}
             aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-            className="hidden size-9 place-items-center rounded-md border border-border text-muted-foreground transition-colors hover:text-foreground sm:grid"
+            className="hidden size-9 place-items-center rounded-full border border-border text-muted-foreground transition-colors hover:text-foreground sm:grid"
           >
             {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
           </button>

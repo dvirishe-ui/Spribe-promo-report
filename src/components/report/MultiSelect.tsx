@@ -30,7 +30,7 @@ export function MultiSelect({
       <PopoverTrigger asChild>
         <button
           className={cn(
-            "press inline-flex h-8 max-w-[11rem] items-center gap-1.5 rounded-md border px-2.5 text-xs",
+            "press inline-flex h-8 max-w-[11rem] items-center gap-1.5 rounded-full border px-2.5 text-xs",
             active ? "border-primary/60 bg-primary/10 text-foreground" : "border-border bg-surface text-muted-foreground hover:text-foreground",
             className,
           )}
@@ -48,7 +48,7 @@ export function MultiSelect({
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder={`Search ${label.toLowerCase()}`}
-              className="h-8 w-full rounded-md border border-border bg-surface-raised pl-7 pr-2 text-xs outline-none focus:ring-2 focus:ring-ring"
+              className="h-8 w-full rounded-full border border-border bg-surface-raised pl-7 pr-2 text-xs outline-none focus:ring-2 focus:ring-ring"
             />
           </div>
         )}

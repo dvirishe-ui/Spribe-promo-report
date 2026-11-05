@@ -49,7 +49,7 @@ function InsightRow({ i }: { i: PromoInsight }) {
           <ChevronDown className={cn("size-3.5 transition-transform duration-200", open && "rotate-180")} />
         </button>
         {open && (
-          <div className="mt-2 space-y-3 rounded-lg border border-border bg-surface-raised/50 p-3 text-xs">
+          <div className="mt-2 space-y-3 rounded-xl border border-border bg-surface-raised/50 p-3 text-xs">
             <p>
               <span className="font-semibold">Why am I seeing this? </span>
               {i.why}
@@ -138,7 +138,7 @@ export function PromoInsights({ m, all, currency, onMissions }: { m: PromoMetric
       </header>
 
       {report.summary.length > 0 && (
-        <div className="mx-4 mt-3 rounded-lg border border-border bg-surface-raised/60 px-3.5 py-2.5 sm:mx-5">
+        <div className="mx-4 mt-3 rounded-xl border border-border bg-surface-raised/60 px-3.5 py-2.5 sm:mx-5">
           <p className="text-eyebrow">Automatic summary</p>
           <p className="mt-1 text-sm leading-relaxed">{report.summary.join(" ")}</p>
           <p className="mt-1 text-[11px] text-muted-foreground">Assembled from the calculated insights below. No AI, no estimates.</p>
@@ -162,7 +162,7 @@ export function PromoInsights({ m, all, currency, onMissions }: { m: PromoMetric
             </button>
           )}
           {completion != null && onMissions && (
-            <button onClick={onMissions} className="mt-3 flex w-full items-center justify-between gap-3 rounded-lg border border-border px-3 py-2 text-left text-sm transition-colors hover:border-primary/60">
+            <button onClick={onMissions} className="mt-3 flex w-full items-center justify-between gap-3 rounded-xl border border-border px-3 py-2 text-left text-sm transition-colors hover:border-primary/60">
               <span>
                 Mission completion <strong className="font-semibold">{(completion * 100).toFixed(0)}%</strong>
                 {m.missionDays?.biggestDrop && <span className="text-muted-foreground"> · biggest drop on Day {m.missionDays.biggestDrop.day}</span>}
@@ -173,7 +173,7 @@ export function PromoInsights({ m, all, currency, onMissions }: { m: PromoMetric
         </div>
 
         <aside className="min-w-0 space-y-3">
-          <div className="rounded-lg border border-border p-3">
+          <div className="rounded-xl border border-border p-3">
             <div className="flex items-center justify-between gap-2">
               <p className="flex items-center gap-1.5 text-sm font-semibold">
                 <Globe2 className="size-4 text-muted-foreground" /> Market context
@@ -246,7 +246,7 @@ export function PromoInsights({ m, all, currency, onMissions }: { m: PromoMetric
           </div>
 
           {report.quality.length > 0 && (
-            <div className="rounded-lg border border-border p-3">
+            <div className="rounded-xl border border-border p-3">
               <p className="text-sm font-semibold">Data checks</p>
               <ul className="mt-1.5 space-y-1.5">
                 {report.quality.map((q) => (

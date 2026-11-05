@@ -29,7 +29,7 @@ export function CompletionByDay({ m, selected, onSelect }: { m: PromoMetrics; se
               role="listitem"
               onClick={() => onSelect(isSel ? null : d.day)}
               title={`Day ${d.day}: ${d.requirement} — ${pctPlain(d.rate)} completed (${num(d.completed)} of ${num(d.started)})`}
-              className={cn("group flex min-w-0 flex-1 flex-col items-center gap-1 rounded-md p-1 transition-colors hover:bg-surface-raised", isSel && "bg-primary/10 ring-1 ring-primary/50")}
+              className={cn("group flex min-w-0 flex-1 flex-col items-center gap-1 rounded-lg p-1 transition-colors hover:bg-surface-raised", isSel && "bg-primary/10 ring-1 ring-primary/50")}
             >
               <span className={cn("text-[11px] font-semibold tabular", isDrop ? "text-bad-ink" : "text-muted-foreground")}>{pctPlain(d.rate)}</span>
               <span className="flex h-28 w-full max-w-10 items-end rounded-t-md bg-surface-raised">
@@ -66,7 +66,7 @@ export function DayDetail({ m, day, all, onClose }: { m: PromoMetrics; day: numb
           <p className="mt-0.5 font-display text-lg font-semibold">“{d.requirement}”</p>
           <p className="text-xs text-muted-foreground">Game: {d.game}</p>
         </div>
-        <button aria-label="Close" onClick={onClose} className="rounded-md p-1 text-muted-foreground hover:bg-surface-raised hover:text-foreground">
+        <button aria-label="Close" onClick={onClose} className="rounded-full p-1 text-muted-foreground hover:bg-surface-raised hover:text-foreground">
           <X className="size-4" />
         </button>
       </div>

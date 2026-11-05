@@ -26,7 +26,7 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
 
 function Fact({ label, value }: { label: string; value: ReactNode }) {
   return (
-    <div className="rounded-lg border border-border px-3 py-2">
+    <div className="rounded-xl border border-border px-3 py-2">
       <p className="text-[11px] text-muted-foreground">{label}</p>
       <p className="mt-0.5 text-sm font-medium">{value}</p>
     </div>
@@ -89,7 +89,7 @@ export function CalendarDetail({ item, all }: { item: CalItem; all: PromoMetrics
           )}
         </p>
         {past.length > 0 && (
-          <div className="divide-y divide-border rounded-lg border border-border">
+          <div className="divide-y divide-border rounded-xl border border-border">
             {past.map(({ m: p, reason }) => (
               <Link
                 key={p.promo.id}
@@ -134,7 +134,7 @@ export function CalendarDetail({ item, all }: { item: CalItem; all: PromoMetrics
             </p>
           </div>
           {c.prizes.length > 0 && (
-            <details className="rounded-lg border border-border px-3 py-2 text-sm">
+            <details className="rounded-xl border border-border px-3 py-2 text-sm">
               <summary className="cursor-pointer font-medium">Prizes</summary>
               <ul className="mt-2 space-y-1">
                 {c.prizes.map((p) => (
@@ -147,7 +147,7 @@ export function CalendarDetail({ item, all }: { item: CalItem; all: PromoMetrics
             </details>
           )}
           {c.dailyMissions && (
-            <details className="rounded-lg border border-border px-3 py-2 text-sm">
+            <details className="rounded-xl border border-border px-3 py-2 text-sm">
               <summary className="cursor-pointer font-medium">Daily missions ({c.dailyMissions.length} days)</summary>
               <ol className="mt-2 space-y-2">
                 {c.dailyMissions.map((d) => (
@@ -230,7 +230,7 @@ function CampaignResult({ item, cur }: { item: CalItem; cur: string }) {
           </>
         )}
       </p>
-      <div className="divide-y divide-border rounded-lg border border-border">
+      <div className="divide-y divide-border rounded-xl border border-border">
         {rows.map((x) => (
           <Link
             key={x.promo.id}

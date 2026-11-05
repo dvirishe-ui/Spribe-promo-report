@@ -105,7 +105,7 @@ export function MonthCompare({ all, monthly, currency, initial }: { all: PromoMe
       <div className="panel flex flex-wrap items-center gap-2 p-3">
         <p className="mr-1 text-sm font-semibold">Compare months</p>
         {picked.map((mo, i) => (
-          <div key={`${mo}-${i}`} className="inline-flex h-8 items-center rounded-md border border-border bg-surface pl-2">
+          <div key={`${mo}-${i}`} className="inline-flex h-8 items-center rounded-full border border-border bg-surface pl-2">
             <select aria-label={`Month ${i + 1}`} value={mo} onChange={(e) => setAt(i, e.target.value)} className="h-full bg-transparent pr-1 text-xs font-semibold outline-none">
               {months.map((m) => (
                 <option key={m} value={m} disabled={m !== mo && picked.includes(m)}>
@@ -121,7 +121,7 @@ export function MonthCompare({ all, monthly, currency, initial }: { all: PromoMe
           </div>
         ))}
         {picked.length < 4 && months.length > picked.length && (
-          <button onClick={add} className="press inline-flex h-8 items-center gap-1 rounded-md border border-dashed border-border px-2 text-xs text-muted-foreground hover:text-foreground">
+          <button onClick={add} className="press inline-flex h-8 items-center gap-1 rounded-full border border-dashed border-border px-2 text-xs text-muted-foreground hover:text-foreground">
             <CalendarPlus className="size-3.5" /> Add month
           </button>
         )}

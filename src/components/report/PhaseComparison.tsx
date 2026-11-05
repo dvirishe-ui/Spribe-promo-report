@@ -84,7 +84,7 @@ export function PhaseComparison({
             <div key={unit} className="min-w-0">
               <p className="mb-1 text-xs font-semibold">{unit === "money" ? metrics.map((x) => x.label).join(" and ") : UNIT_TITLE[unit]}</p>
               {n === 0 ? (
-                <p className="rounded-lg border border-dashed border-border px-3 py-6 text-center text-xs text-muted-foreground">
+                <p className="rounded-xl border border-dashed border-border px-3 py-6 text-center text-xs text-muted-foreground">
                   Not reported for {list.length === 1 ? "this promotion" : "these promotions"} yet.
                 </p>
               ) : (

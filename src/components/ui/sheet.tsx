@@ -9,7 +9,7 @@ function SheetOverlay({ className, ...props }: React.ComponentProps<typeof Dialo
   return (
     <DialogPrimitive.Overlay
       className={cn(
-        "fixed inset-0 z-50 bg-black/60 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+        "fixed inset-0 z-50 bg-black/45 backdrop-blur-[2px] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=open]:duration-500 data-[state=closed]:duration-300",
         className,
       )}
       {...props}
@@ -27,13 +27,13 @@ function SheetContent({
       <SheetOverlay />
       <DialogPrimitive.Content
         className={cn(
-          "fixed inset-y-0 right-0 z-50 h-full border-l shadow-panel outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right data-[state=closed]:duration-200 data-[state=open]:duration-[260ms] ease-(--ease-drawer)",
+          "fixed inset-y-0 right-0 z-50 h-full border-l shadow-panel outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right data-[state=closed]:duration-300 data-[state=open]:duration-500 ease-(--ease-ios)",
           className,
         )}
         {...props}
       >
         {children}
-        <DialogPrimitive.Close className="absolute right-4 top-4 rounded-md p-1 opacity-70 transition-opacity hover:bg-surface-raised hover:opacity-100 focus-visible:outline-none">
+        <DialogPrimitive.Close className="press absolute right-4 top-4 grid size-8 place-items-center rounded-full bg-surface-raised/70 text-muted-foreground hover:bg-surface-raised hover:text-foreground focus-visible:outline-none">
           <X className="size-4" />
           <span className="sr-only">Close</span>
         </DialogPrimitive.Close>

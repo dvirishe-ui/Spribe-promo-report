@@ -81,7 +81,7 @@ export function Tooltip({ tip, width }: { tip: TipState | null; width: number })
   return (
     <div
       role="status"
-      className="pointer-events-none absolute z-10 min-w-40 max-w-72 rounded-lg border border-border bg-popover/95 px-3 py-2 text-xs shadow-panel backdrop-blur"
+      className="pointer-events-none absolute z-10 min-w-40 max-w-72 rounded-xl border border-border bg-popover/95 px-3 py-2 text-xs shadow-panel backdrop-blur"
       style={{
         left: flip ? undefined : tip.x + 14,
         right: flip ? width - tip.x + 14 : undefined,

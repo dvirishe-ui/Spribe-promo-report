@@ -88,7 +88,7 @@ function PeriodControl({ month, hidePeriod }: { month: string; hidePeriod: boole
         } else set({ mode: m });
       }}
       aria-pressed={view.mode === m}
-      className={cn("press h-6 rounded px-2 text-xs", view.mode === m ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}
+      className={cn("press h-7 rounded-full px-3 text-xs font-medium", view.mode === m ? "bg-(--segment-thumb) text-foreground shadow-[0_1px_3px_oklch(0_0_0/0.2)]" : "text-muted-foreground hover:text-foreground")}
     >
       {label}
     </button>
@@ -98,13 +98,13 @@ function PeriodControl({ month, hidePeriod }: { month: string; hidePeriod: boole
   return (
     <div className="flex flex-wrap items-center gap-1.5">
       <div className={cn("contents", allDates && "[&>*]:opacity-55")} title={allDates ? "Searching all dates — clear the search to use the period again" : undefined}>
-      <div className="flex h-8 items-center gap-0.5 rounded-md border border-border bg-surface-raised p-0.5">
+      <div className="flex h-8 items-center gap-0.5 rounded-full bg-(--segment-track) p-0.5">
         {seg("month", "Month")}
         {seg("range", "Dates")}
         {seg("all", "All")}
       </div>
       {view.mode === "month" && (
-        <div className="flex h-8 items-center rounded-md border border-border bg-surface">
+        <div className="flex h-8 items-center rounded-full border border-border bg-surface">
           <button aria-label="Previous month" onClick={() => set({ month: prevMonth(month) })} className="grid h-full w-7 place-items-center text-muted-foreground hover:text-foreground">
             <ChevronLeft className="size-4" />
           </button>
@@ -118,7 +118,7 @@ function PeriodControl({ month, hidePeriod }: { month: string; hidePeriod: boole
         <div className="flex flex-wrap items-center gap-1 text-xs">
           <Popover>
             <PopoverTrigger asChild>
-              <button className="press inline-flex h-8 items-center gap-1 rounded-md border border-border bg-surface px-2 font-medium hover:border-primary/50">
+              <button className="press inline-flex h-8 items-center gap-1 rounded-full border border-border bg-surface px-2 font-medium hover:border-primary/50">
                 <CalendarRange className="size-3.5 text-muted-foreground" />
                 {activePreset?.label ?? "Custom"}
                 <ChevronDown className="size-3.5 text-muted-foreground" />
@@ -136,9 +136,9 @@ function PeriodControl({ month, hidePeriod }: { month: string; hidePeriod: boole
               ))}
             </PopoverContent>
           </Popover>
-          <input type="date" aria-label="From" className="h-8 rounded-md border border-border bg-surface px-1.5" value={view.from} max={view.to || undefined} onChange={(e) => set({ from: e.target.value })} />
+          <input type="date" aria-label="From" className="h-8 rounded-full border border-border bg-surface px-1.5" value={view.from} max={view.to || undefined} onChange={(e) => set({ from: e.target.value })} />
           <span className="text-muted-foreground">–</span>
-          <input type="date" aria-label="To" className="h-8 rounded-md border border-border bg-surface px-1.5" value={view.to} min={view.from || undefined} onChange={(e) => set({ to: e.target.value })} />
+          <input type="date" aria-label="To" className="h-8 rounded-full border border-border bg-surface px-1.5" value={view.to} min={view.from || undefined} onChange={(e) => set({ to: e.target.value })} />
         </div>
       )}
       </div>
@@ -199,7 +199,7 @@ export function FilterBar({ metrics, month, count, hidePeriod = false }: { metri
           <Search className="pointer-events-none absolute left-2 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground" />
           <input
             aria-label="Search promos"
-            className="h-8 w-32 rounded-md border border-border bg-surface pl-7 pr-2 text-xs outline-none placeholder:text-muted-foreground/70 focus:ring-2 focus:ring-ring lg:w-40"
+            className="h-8 w-32 rounded-full border border-border bg-surface pl-7 pr-2 text-xs outline-none placeholder:text-muted-foreground/70 focus:ring-2 focus:ring-ring lg:w-40"
             placeholder="Search promos"
             value={f.q}
             onChange={(e) => onChange({ ...f, q: e.target.value })}
@@ -211,7 +211,7 @@ export function FilterBar({ metrics, month, count, hidePeriod = false }: { metri
           <PopoverTrigger asChild>
             <button
               className={cn(
-                "inline-flex h-8 items-center gap-1.5 rounded-md border px-2.5 text-xs 2xl:hidden",
+                "inline-flex h-8 items-center gap-1.5 rounded-full border px-2.5 text-xs 2xl:hidden",
                 secondaryActive ? "border-primary/60 bg-primary/10" : "border-border bg-surface text-muted-foreground hover:text-foreground",
               )}
             >

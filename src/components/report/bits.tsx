@@ -155,4 +155,4 @@ export function Field({ label, hint, children, className }: { label: string; hin
 }
 
 export const inputCls =
-  "h-9 w-full rounded-md border border-border bg-surface-raised px-3 text-sm outline-none placeholder:text-muted-foreground/60 focus:ring-2 focus:ring-ring disabled:opacity-60";
+  "h-9 w-full rounded-full border border-border bg-surface-raised px-3 text-sm outline-none placeholder:text-muted-foreground/60 focus:ring-2 focus:ring-ring disabled:opacity-60";

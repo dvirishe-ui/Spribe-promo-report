@@ -45,7 +45,7 @@ export function InsightCard({ insight: i, compact = false }: { insight: Insight;
   const Icon = i.tone === "bad" && i.category === "Performance" ? TrendingDown : (ICON[i.category] ?? Lightbulb);
   return (
     <div className="group flex items-start gap-3 py-3">
-      <span className={cn("mt-0.5 grid size-8 shrink-0 place-items-center rounded-lg", TONE[i.tone])}>
+      <span className={cn("mt-0.5 grid size-8 shrink-0 place-items-center rounded-xl", TONE[i.tone])}>
         <Icon className="size-4" />
       </span>
       <div className="min-w-0 flex-1">
@@ -58,7 +58,7 @@ export function InsightCard({ insight: i, compact = false }: { insight: Insight;
         <div className="mt-2 flex flex-wrap items-center gap-1">
           <button
             onClick={() => open(i.link)}
-            className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-primary transition-colors hover:bg-primary/10"
+            className="inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium text-primary transition-colors hover:bg-primary/10"
           >
             {i.linkLabel} <ArrowRight className="size-3 transition-transform group-hover:translate-x-0.5" />
           </button>

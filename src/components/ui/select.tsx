@@ -13,7 +13,7 @@ function SelectTrigger({
   return (
     <SelectPrimitive.Trigger
       className={cn(
-        "flex h-9 w-full items-center justify-between gap-2 rounded-md border border-border bg-surface-raised px-3 py-2 text-sm shadow-sm outline-none focus:ring-2 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
+        "press flex h-9 w-full items-center justify-between gap-2 rounded-xl border border-border bg-surface-raised px-3 py-2 text-sm shadow-sm hover:border-foreground/20 outline-none focus:ring-2 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
         className,
       )}
       {...props}
@@ -37,7 +37,7 @@ function SelectContent({
       <SelectPrimitive.Content
         position={position}
         className={cn(
-          "relative z-50 max-h-96 min-w-[8rem] origin-(--radix-select-content-transform-origin) overflow-hidden rounded-md border border-border bg-popover text-popover-foreground shadow-panel data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:duration-150 ease-(--ease-out-strong)",
+          "relative z-50 max-h-96 min-w-[8rem] origin-(--radix-select-content-transform-origin) overflow-hidden rounded-xl border border-border bg-popover text-popover-foreground shadow-panel backdrop-blur-2xl backdrop-saturate-150 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:duration-200 ease-(--ease-ios)",
           position === "popper" &&
             "data-[side=bottom]:translate-y-1 data-[side=top]:-translate-y-1",
           className,

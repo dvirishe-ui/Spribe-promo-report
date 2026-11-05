@@ -134,7 +134,7 @@ function PerDayStrip({ m, currency }: { m: PromoMetrics; currency: string }) {
             )}
             <div className="flex min-w-0 flex-col items-center">
               <span className="mb-1 text-sm font-semibold tabular sm:text-base">{vals[i] == null ? "—" : money(vals[i], currency)}</span>
-              <div className="flex h-24 w-full max-w-28 items-end rounded-md bg-surface-raised">
+              <div className="flex h-24 w-full max-w-28 items-end rounded-lg bg-surface-raised">
                 <div className="w-full rounded-t-md transition-[height] duration-700" style={{ height: `${vals[i] == null ? 0 : (vals[i]! / max) * 100}%`, background: ph.color }} />
               </div>
               <span className="mt-1.5 text-xs font-medium">{ph.label}</span>

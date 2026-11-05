@@ -80,7 +80,7 @@ function MetricBars({ card, list, labels }: { card: MetricCard; list: PromoMetri
   const at = (v: number) => ((v - lo) / span) * 100;
   const best = nums.length ? Math.max(...nums) : null;
   return (
-    <div className="rounded-lg border border-border p-2.5">
+    <div className="rounded-xl border border-border p-2.5">
       <p className="mb-1.5 text-xs font-semibold">{card.title}</p>
       <div className="space-y-1">
         {list.map((m, i) => {
@@ -127,7 +127,7 @@ function PhaseBars({ list, labels, currency }: { list: PromoMetrics[]; labels: M
   const max = Math.max(1, ...rows.flatMap((r) => r.v.filter((x): x is number => x != null)));
   const keys = ["before", "during", "after"] as const;
   return (
-    <div className="rounded-lg border border-border p-2.5">
+    <div className="rounded-xl border border-border p-2.5">
       <div className="mb-1.5 flex flex-wrap items-center justify-between gap-2">
         <p className="text-xs font-semibold">GGR per day · before / during / after</p>
         <span className="text-[10px] text-muted-foreground">B before · D during · A after</span>
@@ -246,7 +246,7 @@ function TrendLines({ list, labels }: { list: PromoMetrics[]; labels: Map<string
         </svg>
         {hoverDay != null && (
           <div
-            className="pointer-events-none absolute top-1 z-10 w-52 rounded-md border border-border bg-popover p-2 text-[11px] shadow-lg"
+            className="pointer-events-none absolute top-1 z-10 w-52 rounded-lg border border-border bg-popover p-2 text-[11px] shadow-lg"
             style={{ left: Math.min(Math.max(0, x(hoverDay) + 10), width - 215) }}
           >
             <p className="mb-1 font-semibold">{hoverDay === 0 ? "First day" : hoverDay > 0 ? `Day +${hoverDay}` : `${-hoverDay} days before`}</p>
@@ -318,7 +318,7 @@ export function ComparisonView({ list, currency, onOpen }: { list: PromoMetrics[
         </ul>
       )}
       <div className="grid gap-2.5 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
-        <div className="rounded-lg border border-border p-2.5">
+        <div className="rounded-xl border border-border p-2.5">
           <p className="mb-1 text-xs font-semibold">Daily GGR trend · indexed (avg day before = 100)</p>
           <TrendLines list={list} labels={labels} />
         </div>
@@ -329,7 +329,7 @@ export function ComparisonView({ list, currency, onOpen }: { list: PromoMetrics[
           <MetricBars key={c.title} card={c} list={list} labels={labels} />
         ))}
       </div>
-      <details className="group rounded-lg border border-border">
+      <details className="group rounded-xl border border-border">
         <summary className="cursor-pointer px-3 py-2 text-xs font-semibold">All numbers</summary>
         <div className="overflow-x-auto border-t border-border">
           <table className="w-full text-xs">

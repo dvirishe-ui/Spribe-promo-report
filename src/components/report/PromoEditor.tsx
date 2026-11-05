@@ -243,7 +243,7 @@ export function PromoEditor({
               {moneyInput("ggrAfter", "After", windowHint("ggrAfter"))}
             </div>
             {preview && (preview.duringVsBefore != null || preview.afterVsBefore != null) && (
-              <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1 rounded-lg bg-surface-raised px-3 py-2 text-sm">
+              <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1 rounded-xl bg-surface-raised px-3 py-2 text-sm">
                 <span>
                   During vs before <Delta value={preview.duringVsBefore} />
                 </span>

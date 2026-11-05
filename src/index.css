@@ -16,8 +16,9 @@
   --radius-xl: calc(var(--radius) + 4px);
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
-  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  /* SF Pro on Apple devices; Inter (closest open match, with optical sizing) everywhere else */
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -58,41 +59,49 @@
   --color-viz-grid: var(--viz-grid);
   --color-viz-axis: var(--viz-axis);
 
-  --shadow-panel: 0 24px 60px -24px oklch(0 0 0 / 0.7);
+  --shadow-panel: 0 24px 60px -24px oklch(0 0 0 / 0.55), 0 0 0 1px var(--border);
+  --shadow-card: var(--card-shadow);
   --shadow-glow: 0 0 0 1px oklch(0.74 0.19 45 / 0.4), 0 12px 40px -16px oklch(0.74 0.19 45 / 0.4);
 }
 
 :root {
-  --radius: 0.625rem;
+  --radius: 0.875rem;
 
-  /* Warm charcoal neutrals (hue ~55, low chroma) — no navy/blue anywhere in the neutral scale */
-  --background: oklch(0.155 0.008 55);
-  --foreground: oklch(0.92 0.016 75);
-  --surface: oklch(0.2 0.01 55);
-  --surface-raised: oklch(0.25 0.012 55);
+  /*
+   * Apple-style neutrals: true grays, no tint, so SPRIBE orange is the one
+   * color carrying emphasis. Surfaces step up the way iOS grouped backgrounds do.
+   */
+  --background: oklch(0.13 0 0);
+  --foreground: oklch(0.97 0.002 286);
+  --surface: oklch(0.185 0.002 286);
+  --surface-raised: oklch(0.235 0.003 286);
 
-  --card: oklch(0.215 0.011 55);
-  --card-foreground: oklch(0.92 0.016 75);
-  --popover: oklch(0.195 0.01 55);
-  --popover-foreground: oklch(0.92 0.016 75);
+  --card: oklch(0.185 0.002 286);
+  --card-foreground: oklch(0.97 0.002 286);
+  --popover: oklch(0.2 0.003 286 / 0.92);
+  --popover-foreground: oklch(0.97 0.002 286);
 
   /* SPRIBE brand identity: signature vibrant orange over warm charcoal, echoing Aviator's flame trail */
   --brand: oklch(0.74 0.19 45);
   --brand-2: oklch(0.62 0.24 20);
 
   --primary: oklch(0.74 0.19 45);
-  --primary-foreground: oklch(0.18 0.03 40);
-  --secondary: oklch(0.27 0.012 55);
-  --secondary-foreground: oklch(0.93 0.014 75);
-  --muted: oklch(0.245 0.01 55);
-  --muted-foreground: oklch(0.68 0.016 60);
+  --primary-foreground: oklch(0.16 0.03 40);
+  --secondary: oklch(0.255 0.003 286);
+  --secondary-foreground: oklch(0.97 0.002 286);
+  --muted: oklch(0.225 0.003 286);
+  --muted-foreground: oklch(0.67 0.006 286);
   --accent: oklch(0.82 0.15 85);
   --accent-foreground: oklch(0.19 0.03 60);
   --destructive: oklch(0.63 0.22 22);
-  --destructive-foreground: oklch(0.98 0.008 75);
+  --destructive-foreground: oklch(0.98 0 0);
 
-  --border: oklch(0.33 0.014 55);
-  --input: oklch(0.3 0.014 55);
+  /* Hairlines, not borders: translucent white reads as a soft edge on any surface */
+  --border: oklch(1 0 0 / 0.09);
+  --input: oklch(1 0 0 / 0.12);
+  --card-shadow: 0 1px 0 oklch(1 0 0 / 0.04) inset, 0 8px 24px -12px oklch(0 0 0 / 0.6);
+  --segment-track: oklch(0.55 0.006 286 / 0.22);
+  --segment-thumb: oklch(0.42 0.005 286);
   --ring: oklch(0.74 0.19 45);
 
   /* Before / During / After — reference palette slots 1–3, dark steps */
@@ -104,8 +113,8 @@
   --bad: #d03b3b;
   --good-ink: #3ccf55;
   --bad-ink: #f07272;
-  --viz-grid: oklch(0.27 0.01 55);
-  --viz-axis: oklch(0.38 0.012 55);
+  --viz-grid: oklch(0.26 0.002 286);
+  --viz-axis: oklch(0.4 0.004 286);
   --viz-surface: var(--card);
 
   /* Promotion types — same as the Promo Calendar */
@@ -129,35 +138,38 @@
   --cat-8: #e66767;
 }
 
-/* Light mode: same SPRIBE orange identity, warm off-white surfaces instead of charcoal. */
+/* Light mode: apple.com light — #f5f5f7 page, white cards, #1d1d1f text. */
 :root.light {
-  --background: oklch(0.985 0.006 75);
-  --foreground: oklch(0.22 0.02 55);
-  --surface: oklch(0.998 0.003 75);
-  --surface-raised: oklch(0.955 0.009 70);
+  --background: oklch(0.975 0.002 286);
+  --foreground: oklch(0.21 0.004 286);
+  --surface: oklch(1 0 0);
+  --surface-raised: oklch(0.965 0.002 286);
 
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.22 0.02 55);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.22 0.02 55);
+  --card-foreground: oklch(0.21 0.004 286);
+  --popover: oklch(1 0 0 / 0.94);
+  --popover-foreground: oklch(0.21 0.004 286);
 
-  --brand: oklch(0.6 0.2 40);
-  --brand-2: oklch(0.52 0.22 20);
+  --brand: oklch(0.62 0.2 42);
+  --brand-2: oklch(0.54 0.22 25);
 
-  --primary: oklch(0.58 0.2 40);
-  --primary-foreground: oklch(0.99 0.004 75);
-  --secondary: oklch(0.94 0.008 70);
-  --secondary-foreground: oklch(0.26 0.02 55);
-  --muted: oklch(0.95 0.007 70);
-  --muted-foreground: oklch(0.47 0.02 60);
+  --primary: oklch(0.6 0.2 42);
+  --primary-foreground: oklch(0.995 0 0);
+  --secondary: oklch(0.945 0.003 286);
+  --secondary-foreground: oklch(0.24 0.004 286);
+  --muted: oklch(0.955 0.002 286);
+  --muted-foreground: oklch(0.5 0.008 286);
   --accent: oklch(0.52 0.15 85);
   --accent-foreground: oklch(0.99 0.006 80);
-  --destructive: oklch(0.53 0.22 25);
-  --destructive-foreground: oklch(0.99 0.006 75);
+  --destructive: oklch(0.55 0.22 25);
+  --destructive-foreground: oklch(0.99 0 0);
 
-  --border: oklch(0.89 0.012 60);
-  --input: oklch(0.92 0.01 60);
-  --ring: oklch(0.58 0.2 40);
+  --border: oklch(0 0 0 / 0.08);
+  --input: oklch(0 0 0 / 0.12);
+  --ring: oklch(0.6 0.2 42);
+  --card-shadow: 0 1px 2px oklch(0 0 0 / 0.04), 0 8px 24px -14px oklch(0 0 0 / 0.18);
+  --segment-track: oklch(0.47 0.01 286 / 0.12);
+  --segment-thumb: oklch(1 0 0);
 
   --series-before: #2a78d6;
   --series-during: #eb6834;
@@ -167,8 +179,8 @@
   --bad: #d03b3b;
   --good-ink: #006300;
   --bad-ink: #b42323;
-  --viz-grid: oklch(0.93 0.006 60);
-  --viz-axis: oklch(0.8 0.01 60);
+  --viz-grid: oklch(0.93 0.002 286);
+  --viz-axis: oklch(0.8 0.004 286);
   --viz-surface: var(--card);
 
   /* Promotion types — same as the Promo Calendar */
@@ -221,17 +233,20 @@
 
   body {
     font-family: var(--font-sans);
-    background-image:
-      radial-gradient(1100px 600px at 8% -12%, oklch(0.74 0.19 45 / 0.18), transparent 65%),
-      radial-gradient(900px 520px at 96% -6%, oklch(0.62 0.24 20 / 0.14), transparent 65%),
-      radial-gradient(800px 500px at 50% 110%, oklch(0.82 0.15 85 / 0.07), transparent 70%);
-    background-attachment: fixed;
+    font-optical-sizing: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    line-height: 1.5;
+    /* One soft brand spotlight from the top, like a product-page hero light */
+    background-image: radial-gradient(1200px 520px at 50% -220px, color-mix(in oklch, var(--color-brand) 16%, transparent), transparent 72%);
+    background-repeat: no-repeat;
     min-height: 100vh;
   }
 
   /* Browser surfaces carry the palette too: selection, caret, form accents, focus and scrollbars. */
   ::selection {
-    background-color: color-mix(in oklch, var(--color-primary) 24%, transparent);
+    background-color: color-mix(in oklch, var(--color-primary) 32%, transparent);
     color: var(--color-foreground);
   }
   html {
@@ -259,13 +274,34 @@
   h4 {
     font-family: var(--font-display);
     font-weight: 700;
-    letter-spacing: -0.015em;
+    /* Size-specific tracking, as Apple sets type: display sizes tighten */
+    letter-spacing: -0.012em;
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+
+  h1 {
+    letter-spacing: -0.03em;
+    line-height: 1.08;
+  }
+
+  h2 {
+    letter-spacing: -0.022em;
+    line-height: 1.15;
+  }
+
+  .font-display {
+    letter-spacing: -0.018em;
+  }
+
+  p {
+    text-wrap: pretty;
   }
 }
 
 /* Quieter page glow on the light theme */
 :root.light body {
-  background-image: radial-gradient(1000px 520px at 10% -14%, oklch(0.74 0.19 45 / 0.09), transparent 65%);
+  background-image: radial-gradient(1200px 520px at 50% -220px, color-mix(in oklch, var(--color-brand) 8%, transparent), transparent 72%);
 }
 
 /* Motion: crisp and fast — this is a working dashboard. Strong ease-out for
@@ -273,15 +309,31 @@
 @theme {
   --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-ios: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-out-soft: cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
 /* Press feedback for buttons, chips and toggles: a subtle scale on :active. */
+/* Feedback on press, not release: an instant small dip, a soft return. */
 @utility press {
-  transition-property: color, background-color, border-color, opacity, transform;
-  transition-duration: 140ms;
-  transition-timing-function: var(--ease-out-strong);
+  transition-property: color, background-color, border-color, box-shadow, opacity, scale, filter;
+  transition-duration: 180ms;
+  transition-timing-function: var(--ease-out-soft);
   &:active:not(:disabled) {
-    transform: scale(0.97);
+    scale: 0.97;
+    transition-duration: 70ms;
+  }
+}
+
+/* Translucent material: content scrolls underneath, the layer stays legible */
+@utility glass {
+  background-color: color-mix(in oklch, var(--color-background) 72%, transparent);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  @media (prefers-reduced-transparency: reduce) {
+    background-color: var(--color-background);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 }
 
@@ -289,12 +341,14 @@
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
+  box-shadow: var(--card-shadow);
 }
 
 @utility text-eyebrow {
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 0.6875rem;
-  letter-spacing: 0.16em;
+  font-weight: 600;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--color-muted-foreground);
 }
@@ -302,10 +356,11 @@
 @utility brand-surface {
   position: relative;
   background:
-    linear-gradient(150deg, oklch(0.74 0.19 45 / 0.16), transparent 55%),
-    linear-gradient(330deg, oklch(0.62 0.24 20 / 0.12), transparent 55%),
+    radial-gradient(120% 140% at 0% 0%, color-mix(in oklch, var(--color-brand) 14%, transparent), transparent 55%),
+    radial-gradient(120% 140% at 100% 100%, color-mix(in oklch, var(--color-brand-2) 9%, transparent), transparent 60%),
     var(--color-surface);
   border: 1px solid var(--color-border);
+  box-shadow: var(--card-shadow);
 }
 
 /* Faint rising flight-trail motif echoing Aviator's climbing multiplier curve, used as a background accent */
@@ -352,7 +407,7 @@
 }
 
 @utility animate-rise {
-  animation: rise-in 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation: rise-in 0.5s cubic-bezier(0.32, 0.72, 0, 1) both;
 }
 
 @keyframes draw-line {
@@ -375,6 +430,19 @@
   *::after {
     animation-duration: 0.001ms !important;
     transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .press:active {
+    scale: 1;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --border: oklch(1 0 0 / 0.3);
+  }
+  :root.light {
+    --border: oklch(0 0 0 / 0.35);
   }
 }
 

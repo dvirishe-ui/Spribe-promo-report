@@ -211,7 +211,7 @@ function PromosTable({ onAdd }: { onAdd: () => void }) {
           <Search className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
           <input
             aria-label="Search promos"
-            className="h-9 w-full rounded-md border border-border bg-surface-raised pl-8 pr-2 text-sm outline-none placeholder:text-muted-foreground/70 focus:ring-2 focus:ring-ring"
+            className="h-9 w-full rounded-full border border-border bg-surface-raised pl-8 pr-2 text-sm outline-none placeholder:text-muted-foreground/70 focus:ring-2 focus:ring-ring"
             placeholder="Search name, market, operator, aggregator…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -308,7 +308,7 @@ function IconBtn({ label, onClick, children }: { label: string; onClick: () => v
       title={label}
       aria-label={label}
       onClick={onClick}
-      className="grid size-8 place-items-center rounded-md text-muted-foreground transition-colors hover:bg-surface-raised hover:text-foreground"
+      className="grid size-8 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-surface-raised hover:text-foreground"
     >
       {children}
     </button>
@@ -343,7 +343,7 @@ function MonthlyTable() {
           <input
             type="month"
             aria-label="Month to add"
-            className="h-9 rounded-md border border-border bg-surface-raised px-2 text-sm"
+            className="h-9 rounded-full border border-border bg-surface-raised px-2 text-sm"
             value={newMonth}
             onChange={(e) => setNewMonth(e.target.value)}
             disabled={!editable}

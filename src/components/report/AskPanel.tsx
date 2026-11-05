@@ -44,7 +44,7 @@ function AnswerView({ a, onOpen, onAsk }: { a: Answer; onOpen: (id: string) => v
         </p>
       ))}
       {a.table && (
-        <div className="overflow-x-auto rounded-lg border border-border">
+        <div className="overflow-x-auto rounded-xl border border-border">
           <table className="w-full text-xs">
             <thead>
               <tr className="border-b border-border bg-surface-raised text-left text-muted-foreground">
@@ -147,7 +147,7 @@ function AskPanelInner() {
         onClick={() => setOpen(true)}
         title="Ask about your promos (Ctrl/⌘ K)"
         aria-label="Ask about your promos"
-        className="grid size-9 place-items-center rounded-md border border-border text-muted-foreground transition-colors hover:text-foreground md:flex md:w-auto md:gap-1.5 md:px-2.5"
+        className="grid size-9 place-items-center rounded-full border border-border text-muted-foreground transition-colors hover:text-foreground md:flex md:w-auto md:gap-1.5 md:px-2.5"
       >
         <Sparkles className="size-4 text-primary" />
         <span className="hidden text-sm md:inline">Ask</span>
@@ -177,7 +177,7 @@ function AskPanelInner() {
                 </p>
                 <div className="flex flex-col items-start gap-1.5">
                   {examples.map((e) => (
-                    <button key={e} onClick={() => submit(e)} className="rounded-lg border border-border px-3 py-1.5 text-left text-sm hover:border-primary/50 hover:bg-surface-raised">
+                    <button key={e} onClick={() => submit(e)} className="press rounded-full border border-border px-3.5 py-1.5 text-left text-sm hover:border-primary/50 hover:bg-surface-raised">
                       {e}
                     </button>
                   ))}
@@ -212,7 +212,7 @@ function AskPanelInner() {
                 className="min-w-0 flex-1 bg-transparent py-1.5 text-sm outline-none placeholder:text-muted-foreground"
                 autoFocus
               />
-              <button type="submit" disabled={!q.trim()} aria-label="Ask" className="grid size-8 shrink-0 place-items-center rounded-lg bg-primary text-primary-foreground disabled:opacity-40">
+              <button type="submit" disabled={!q.trim()} aria-label="Ask" className="press grid size-8 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground disabled:opacity-40">
                 <ArrowUp className="size-4" />
               </button>
             </div>
@@ -235,7 +235,7 @@ class AskBoundary extends Component<{ children: ReactNode }, { failed: boolean }
       <button
         onClick={() => this.setState({ failed: false })}
         title="Ask hit a problem — click to reopen"
-        className="grid size-9 place-items-center rounded-md border border-border text-muted-foreground hover:text-foreground"
+        className="grid size-9 place-items-center rounded-full border border-border text-muted-foreground hover:text-foreground"
       >
         <Sparkles className="size-4" />
       </button>
